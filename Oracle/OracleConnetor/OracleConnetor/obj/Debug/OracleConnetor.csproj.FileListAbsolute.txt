@@ -1,0 +1,5 @@
+C:\Users\80576\Documents\보령제약_솔루션\Oracle\OracleConnetor\OracleConnetor\bin\Debug\OracleConnetor.dll
+C:\Users\80576\Documents\보령제약_솔루션\Oracle\OracleConnetor\OracleConnetor\bin\Debug\OracleConnetor.pdb
+C:\Users\80576\Documents\보령제약_솔루션\Oracle\OracleConnetor\OracleConnetor\obj\Debug\OracleConnetor.csprojResolveAssemblyReference.cache
+C:\Users\80576\Documents\보령제약_솔루션\Oracle\OracleConnetor\OracleConnetor\obj\Debug\OracleConnetor.dll
+C:\Users\80576\Documents\보령제약_솔루션\Oracle\OracleConnetor\OracleConnetor\obj\Debug\OracleConnetor.pdb

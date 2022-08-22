@@ -1,0 +1,6 @@
+E:\WMSTEST\WMSTEST\bin\Debug\WMSTEST.exe
+E:\WMSTEST\WMSTEST\bin\Debug\WMSTEST.pdb
+E:\WMSTEST\WMSTEST\bin\Debug\ServerAgentMulti.dll
+E:\WMSTEST\WMSTEST\obj\Debug\WMSTEST.csprojResolveAssemblyReference.cache
+E:\WMSTEST\WMSTEST\obj\Debug\WMSTEST.exe
+E:\WMSTEST\WMSTEST\obj\Debug\WMSTEST.pdb

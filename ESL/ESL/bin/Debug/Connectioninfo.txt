@@ -1,0 +1,9 @@
+<NewDataSet>
+   <CONINFO>
+       <SVRNAME>172.18.1.13</SVRNAME>
+       <PROTOCOL>TCP_BUFFERED</PROTOCOL>
+       <PORT>4510</PORT>
+       <BIZRULE>BR_BRS_SEL_EquipmentStatus_ESL</BIZRULE>
+       <LOCATION>C:\iPharmMES\ESL_CSV\ESL\ESL\bin\</LOCATION>
+   </CONINFO>
+</NewDataSet>

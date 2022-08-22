@@ -1,0 +1,51 @@
+D:\2.업무\201804_보령제약\04.운영\1.MES\20220815_커스텀소스\보령제약_솔루션\Customize_Solution(BRS)\Binaries\WMS.dll
+D:\2.업무\201804_보령제약\04.운영\1.MES\20220815_커스텀소스\보령제약_솔루션\Customize_Solution(BRS)\Binaries\WMS.pdb
+D:\2.업무\201804_보령제약\04.운영\1.MES\20220815_커스텀소스\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\LGCNS.IPharmMES.ShopFloorUI.WMS.csprojResolveAssemblyReference.cache
+D:\2.업무\201804_보령제약\04.운영\1.MES\20220815_커스텀소스\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\Part Washisng\PartWashing.g.cs
+D:\2.업무\201804_보령제약\04.운영\1.MES\20220815_커스텀소스\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\Part Washisng\Popup\TooidInputAdd.g.cs
+D:\2.업무\201804_보령제약\04.운영\1.MES\20220815_커스텀소스\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\Part Washisng\Popup\WashingMessageBox.g.cs
+D:\2.업무\201804_보령제약\04.운영\1.MES\20220815_커스텀소스\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\Popup\StorageInWeighing.g.cs
+D:\2.업무\201804_보령제약\04.운영\1.MES\20220815_커스텀소스\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\Popup\StorageOutWheinging.g.cs
+D:\2.업무\201804_보령제약\04.운영\1.MES\20220815_커스텀소스\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\StorageInOutWms.g.cs
+D:\2.업무\201804_보령제약\04.운영\1.MES\20220815_커스텀소스\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\Popup\BinPalletPopup.g.cs
+D:\2.업무\201804_보령제약\04.운영\1.MES\20220815_커스텀소스\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\Popup\MaterialPopup.g.cs
+D:\2.업무\201804_보령제약\04.운영\1.MES\20220815_커스텀소스\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\Popup\OrderBatchnoPopup.g.cs
+D:\2.업무\201804_보령제약\04.운영\1.MES\20220815_커스텀소스\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\Popup\OutStnInfo.g.cs
+D:\2.업무\201804_보령제약\04.운영\1.MES\20220815_커스텀소스\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\WMSInOut.g.cs
+D:\2.업무\201804_보령제약\04.운영\1.MES\20220815_커스텀소스\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMS.g.resources
+D:\2.업무\201804_보령제약\04.운영\1.MES\20220815_커스텀소스\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMS.dll
+D:\2.업무\201804_보령제약\04.운영\1.MES\20220815_커스텀소스\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMS.pdb
+C:\Users\80576\Documents\보령제약_솔루션\Customize_Solution(BRS)\Binaries\WMS.dll
+C:\Users\80576\Documents\보령제약_솔루션\Customize_Solution(BRS)\Binaries\WMS.pdb
+C:\Users\80576\Documents\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\LGCNS.IPharmMES.ShopFloorUI.WMS.csprojResolveAssemblyReference.cache
+C:\Users\80576\Documents\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\Part Washisng\PartWashing.g.cs
+C:\Users\80576\Documents\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\Part Washisng\Popup\TooidInputAdd.g.cs
+C:\Users\80576\Documents\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\Part Washisng\Popup\WashingMessageBox.g.cs
+C:\Users\80576\Documents\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\Popup\StorageInWeighing.g.cs
+C:\Users\80576\Documents\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\Popup\StorageOutWheinging.g.cs
+C:\Users\80576\Documents\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\StorageInOutWms.g.cs
+C:\Users\80576\Documents\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\Popup\BinPalletPopup.g.cs
+C:\Users\80576\Documents\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\Popup\MaterialPopup.g.cs
+C:\Users\80576\Documents\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\Popup\OrderBatchnoPopup.g.cs
+C:\Users\80576\Documents\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\Popup\OutStnInfo.g.cs
+C:\Users\80576\Documents\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\WMSInOut.g.cs
+C:\Users\80576\Documents\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMS.g.resources
+C:\Users\80576\Documents\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMS.dll
+C:\Users\80576\Documents\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMS.pdb
+D:\000.MES_Projcet\보령제약_솔루션\Customize_Solution(BRS)\Binaries\WMS.dll
+D:\000.MES_Projcet\보령제약_솔루션\Customize_Solution(BRS)\Binaries\WMS.pdb
+D:\000.MES_Projcet\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\LGCNS.IPharmMES.ShopFloorUI.WMS.csprojResolveAssemblyReference.cache
+D:\000.MES_Projcet\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\Part Washisng\PartWashing.g.cs
+D:\000.MES_Projcet\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\Part Washisng\Popup\TooidInputAdd.g.cs
+D:\000.MES_Projcet\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\Part Washisng\Popup\WashingMessageBox.g.cs
+D:\000.MES_Projcet\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\Popup\StorageInWeighing.g.cs
+D:\000.MES_Projcet\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\Popup\StorageOutWheinging.g.cs
+D:\000.MES_Projcet\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\StorageInOutWms.g.cs
+D:\000.MES_Projcet\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\Popup\BinPalletPopup.g.cs
+D:\000.MES_Projcet\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\Popup\MaterialPopup.g.cs
+D:\000.MES_Projcet\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\Popup\OrderBatchnoPopup.g.cs
+D:\000.MES_Projcet\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\Popup\OutStnInfo.g.cs
+D:\000.MES_Projcet\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMSInOut\WMSInOut.g.cs
+D:\000.MES_Projcet\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMS.g.resources
+D:\000.MES_Projcet\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMS.dll
+D:\000.MES_Projcet\보령제약_솔루션\Customize_Solution(BRS)\PJ_201804_보령제약_예산공장\LGCNS.IPharmMES.ShopFloorUI.WMS\obj\Debug\WMS.pdb

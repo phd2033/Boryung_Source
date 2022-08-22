@@ -1,0 +1,6 @@
+C:\Users\80576\Documents\Customize_Solution\Binaries\SiteWeighing.dll
+C:\Users\80576\Documents\Customize_Solution\Binaries\SiteWeighing.pdb
+C:\Users\80576\Documents\Customize_Solution\PJ_YYYYMM_(회사명)_(사이트명)\(사이트명)칭량\obj\Debug\Default\CustomUIDemo.g.cs
+C:\Users\80576\Documents\Customize_Solution\PJ_YYYYMM_(회사명)_(사이트명)\(사이트명)칭량\obj\Debug\SiteWeighing.g.resources
+C:\Users\80576\Documents\Customize_Solution\PJ_YYYYMM_(회사명)_(사이트명)\(사이트명)칭량\obj\Debug\SiteWeighing.dll
+C:\Users\80576\Documents\Customize_Solution\PJ_YYYYMM_(회사명)_(사이트명)\(사이트명)칭량\obj\Debug\SiteWeighing.pdb

@@ -1,0 +1,7 @@
+E:\ESL\ESL\bin\Debug\ESL.exe
+E:\ESL\ESL\bin\Debug\ESL.pdb
+E:\ESL\ESL\bin\Debug\ServerAgentMulti.dll
+E:\ESL\ESL\obj\Debug\ESL.exe
+E:\ESL\ESL\obj\Debug\ESL.pdb
+D:\2.연습\1.C#\ESL_CSV\ESL\ESL\obj\Debug\ESL.exe
+D:\2.연습\1.C#\ESL_CSV\ESL\ESL\obj\Debug\ESL.pdb

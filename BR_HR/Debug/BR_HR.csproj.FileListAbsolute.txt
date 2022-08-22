@@ -1,0 +1,12 @@
+E:\WMSTEST\WMSTEST\bin\Debug\BR_HR.exe
+E:\WMSTEST\WMSTEST\bin\Debug\BR_HR.pdb
+E:\WMSTEST\WMSTEST\bin\Debug\ServerAgentMulti.dll
+E:\WMSTEST\WMSTEST\obj\Debug\BR_HR.exe
+E:\WMSTEST\WMSTEST\obj\Debug\BR_HR.pdb
+C:\Users\uuser\Desktop\SOURCE\obj\Debug\BR_HR.exe
+C:\Users\uuser\Desktop\SOURCE\obj\Debug\BR_HR.pdb
+D:\000.HR_SOURCE\obj\Debug\BR_HR.exe
+D:\000.HR_SOURCE\obj\Debug\BR_HR.pdb
+D:\000.HR_SOURCE\bin\Debug\BR_HR.exe
+D:\000.HR_SOURCE\bin\Debug\BR_HR.pdb
+D:\000.HR_SOURCE\obj\Debug\BR_HR.csprojResolveAssemblyReference.cache

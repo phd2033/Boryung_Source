@@ -1,0 +1,80 @@
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="OUTDATA" msdata:Locale="ko-KR">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="ESLNO" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="EVENTSEQ" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ESLTAGBCDNO" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ESLTYPE" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR1" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR2" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR3" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR4" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR5" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR6" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR7" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR8" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR9" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR10" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR11" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR12" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR13" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR14" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR15" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR16" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR17" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR18" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR19" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR20" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR21" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR22" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR23" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR24" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR25" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR26" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR27" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR28" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR29" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR30" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR31" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR32" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR33" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR34" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR35" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR36" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR37" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR38" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR39" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR40" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR41" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR42" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR43" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR44" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR45" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR46" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR47" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR48" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR49" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR50" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR51" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR52" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR53" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR54" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR55" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR56" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR57" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR58" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR59" msdata:Caption="" type="xs:string" minOccurs="0" />
+                <xs:element name="ATTR60" msdata:Caption="" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+</NewDataSet>

@@ -669,8 +669,8 @@ namespace 보령
 
                                     _MinWeight = _TargetWeight.Copy();
                                     _MaxWeight = _TargetWeight.Copy();
-                                    _MinWeight.Value = _MinWeight.Value * 0.999m;
-                                    _MaxWeight.Value = _MaxWeight.Value * 1.001m;
+                                    _MinWeight.Value = _MinWeight.Value * 0.995m;
+                                    _MaxWeight.Value = _MaxWeight.Value * 1.005m;
                                     
                                     _curstate = state.add;
                                     _DispatcherTimer.Start();

@@ -36,6 +36,8 @@ namespace 보령
 
             _BR_PHR_SEL_PRINT_LabelImage = new BR_PHR_SEL_PRINT_LabelImage();
 
+            _BR_BRS_SEND_WMS_WEIGHINGRESULT = new BR_BRS_SEND_WMS_WEIGHINGRESULT();
+
             int interval = 2000;
             string interval_str = ShopFloorUI.App.Current.Resources["GetWeightInterval"].ToString();
             if (int.TryParse(interval_str, out interval) == false)
@@ -381,6 +383,20 @@ namespace 보령
             {
                 _BR_BRS_SEL_Charging_Solvent_History = value;
                 OnPropertyChanged("BR_BRS_SEL_Charging_Solvent_History");
+            }
+        }
+
+        /// <summary>
+        /// WMS 칭량실적 전송
+        /// </summary>
+        private BR_BRS_SEND_WMS_WEIGHINGRESULT _BR_BRS_SEND_WMS_WEIGHINGRESULT;
+        public BR_BRS_SEND_WMS_WEIGHINGRESULT BR_BRS_SEND_WMS_WEIGHINGRESULT
+        {
+            get { return _BR_BRS_SEND_WMS_WEIGHINGRESULT; }
+            set
+            {
+                _BR_BRS_SEND_WMS_WEIGHINGRESULT = value;
+                NotifyPropertyChanged();
             }
         }
         /// <summary>
@@ -1143,7 +1159,25 @@ namespace 보령
                                     item.CHECKINUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Charging");
                                 }
 
-                                await _BR_RHR_REG_MaterialSubLot_Dispense_Charging_NEW.Execute();
+                                if (await _BR_RHR_REG_MaterialSubLot_Dispense_Charging_NEW.Execute())
+                                {
+                                    _BR_BRS_SEND_WMS_WEIGHINGRESULT.INDATAs.Clear();
+
+                                    _BR_BRS_SEND_WMS_WEIGHINGRESULT.INDATAs.Add(new BR_BRS_SEND_WMS_WEIGHINGRESULT.INDATA
+                                    {
+                                        POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                        WEIGHINGMETHOD = "WH007"
+                                    });
+                                    
+                                    if (!await _BR_BRS_SEND_WMS_WEIGHINGRESULT.Execute())
+                                    {
+                                        OnMessage("칭량실적 전송을 실패했습니다.");
+                                    }
+                                }
+                                else
+                                {
+                                    throw new Exception(string.Format("투입처리 중 오류가 발생했습니다."));
+                                }
 
                                 await GetDispenseHistory();
 
@@ -1238,7 +1272,7 @@ namespace 보령
 
                             foreach (var item in BR_BRS_SEL_Charging_Solvent_History.OUTDATAs)
                             {
-                                if(item.CHGQTY.GetValueOrDefault() > 0)
+                                if (item.CHGQTY.GetValueOrDefault() > 0)
                                 {
                                     var row = dt.NewRow();
                                     row["자재ID"] = item.MTRLID ?? "";
@@ -1271,7 +1305,6 @@ namespace 보령
                             }
                             else
                                 OnMessage("투입된 소분백이 없습니다.");
-
                             ///
 
                             CommandResults["ConfirmCommandAsync"] = true;

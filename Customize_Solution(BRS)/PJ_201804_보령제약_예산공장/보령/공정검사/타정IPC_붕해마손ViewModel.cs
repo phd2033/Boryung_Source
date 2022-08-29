@@ -16,10 +16,10 @@ using System.Linq;
 
 namespace 보령
 {
-    public class 타정공정검사2ViewModel : ViewModelBase
+    public class 타정IPC_붕해마손ViewModel : ViewModelBase
     {
         #region Property
-        public 타정공정검사2ViewModel()
+        public 타정IPC_붕해마손ViewModel()
         {
             _BR_BRS_SEL_ProductionOrderIPCResult = new BR_BRS_SEL_ProductionOrderIPCResult();
             _BR_BRS_SEL_ProductionOrderIPCStandard = new BR_BRS_SEL_ProductionOrderIPCStandard();
@@ -27,19 +27,9 @@ namespace 보령
             _BR_BRS_REG_ProductionOrderTestResult = new BR_BRS_REG_ProductionOrderTestResult();
         }
 
-        private 타정공정검사2 _mainWnd;
-        private string IPC_TSID = "타정공정검사2";
+        private 타정IPC_붕해마손 _mainWnd;
+        private string IPC_TSID = "타정IPC_붕해마손";
 
-        private IPCControlData _ShapeIPCData;
-        public IPCControlData ShapeIPCData
-        {
-            get { return _ShapeIPCData; }
-            set
-            {
-                _ShapeIPCData = value;
-                OnPropertyChanged("ShapeIPCData");
-            }
-        }
         private IPCControlData _CrumblingIPCData;
         public IPCControlData CrumblingIPCData
         {
@@ -96,9 +86,9 @@ namespace 보령
                             CommandCanExecutes["LoadedCommandAsync"] = false;
 
                             ///
-                            if(arg != null && arg is 타정공정검사2)
+                            if(arg != null && arg is 타정IPC_붕해마손)
                             {
-                                _mainWnd = arg as 타정공정검사2;
+                                _mainWnd = arg as 타정IPC_붕해마손;
 
                                 // IPC 기준정보 조회
                                 _BR_BRS_SEL_ProductionOrderIPCStandard.INDATAs.Clear();
@@ -110,11 +100,10 @@ namespace 보령
                                     TSID = IPC_TSID
                                 });
 
-                                if(await _BR_BRS_SEL_ProductionOrderIPCStandard.Execute() && _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs.Count == 3)
+                                if(await _BR_BRS_SEL_ProductionOrderIPCStandard.Execute() && _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs.Count == 2)
                                 {
-                                    ShapeIPCData = IPCControlData.SetIPCControlData(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0]);
-                                    CrumblingIPCData = IPCControlData.SetIPCControlData(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[1]);
-                                    FriabilityIPCData = IPCControlData.SetIPCControlData(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2]);
+                                    CrumblingIPCData = IPCControlData.SetIPCControlData(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0]);
+                                    FriabilityIPCData = IPCControlData.SetIPCControlData(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[1]);
 
                                     await GetIPCResult();
                                 }
@@ -161,7 +150,7 @@ namespace 보령
                             CommandCanExecutes["RegisterIPCCommandAsync"] = false;
 
                             ///
-                            if (_ShapeIPCData.DEVIATIONFLAG.HasValue && _CrumblingIPCData.DEVIATIONFLAG.HasValue && _FriabilityIPCData.DEVIATIONFLAG.HasValue)
+                            if (_CrumblingIPCData.DEVIATIONFLAG.HasValue || _FriabilityIPCData.DEVIATIONFLAG.HasValue)
                             {
                                 _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs.Clear();
                                 _BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEMs.Clear();
@@ -191,7 +180,7 @@ namespace 보령
                                 {
                                     POTSRGUID = Guid.NewGuid(),
                                     POID = _mainWnd.CurrentOrder.ProductionOrderID,
-                                    OPTSGUID = new Guid(_ShapeIPCData.OPTSGUID),
+                                    OPTSGUID = new Guid(_CrumblingIPCData.OPTSGUID),
                                     OPSGGUID = new Guid(_mainWnd.CurrentOrder.OrderProcessSegmentID),
                                     TESTSEQ = null,
                                     STRDTTM = curDttm,
@@ -205,8 +194,8 @@ namespace 보령
                                     REASON = null,
                                     ISUSE = "Y",
                                     ACTIVEYN = "Y",
-                                    SMPQTY = _ShapeIPCData.SMPQTY,
-                                    SMPQTYUOMID = _ShapeIPCData.SMPQTYUOMID,
+                                    SMPQTY = _CrumblingIPCData.SMPQTY,
+                                    SMPQTYUOMID = _CrumblingIPCData.SMPQTYUOMID,
                                 });
 
                                 // 전자서명 코멘트
@@ -214,28 +203,10 @@ namespace 보령
                                 {
                                     COMMENTTYPE = "CM001",
                                     COMMENT = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_IPC"),
-                                    TSTYPE = _ShapeIPCData.TSTYPE,
+                                    TSTYPE = _CrumblingIPCData.TSTYPE,
                                     LOCATIONID = AuthRepositoryViewModel.Instance.RoomID
                                 });
 
-                                // 시험상세결과 기록
-                                _BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEMs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEM
-                                {
-                                    POTSRGUID = _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs[0].POTSRGUID,
-                                    OPTSIGUID = new Guid(_ShapeIPCData.OPTSIGUID),
-                                    POTSIRGUID = Guid.NewGuid(),
-                                    //2022.07.26 김호연 성상 등록할때 등록 데이터 변경
-                                    //ACTVAL = _ShapeIPCData.ACTVAL.ToString(),
-                                    ACTVAL = _ShapeIPCData.GetACTVAL.ToString(),
-                                    INSUSER = user,
-                                    INSDTTM = curDttm,
-                                    EFCTTIMEIN = curDttm,
-                                    EFCTTIMEOUT = curDttm,
-                                    COMMENTGUID = !string.IsNullOrWhiteSpace(confirmguid) ? new Guid(confirmguid) : (Guid?)null,
-                                    REASON = null,
-                                    ISUSE = "Y",
-                                    ACTIVEYN = "Y"
-                                });
 
                                 _BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEMs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEM
                                 {
@@ -292,9 +263,8 @@ namespace 보령
 
                                 if (await _BR_BRS_REG_ProductionOrderTestResult.Execute())
                                 {
-                                    ShapeIPCData = IPCControlData.SetIPCControlData(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0]);
-                                    CrumblingIPCData = IPCControlData.SetIPCControlData(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[1]);
-                                    FriabilityIPCData = IPCControlData.SetIPCControlData(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2]);
+                                    CrumblingIPCData = IPCControlData.SetIPCControlData(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0]);
+                                    FriabilityIPCData = IPCControlData.SetIPCControlData(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[1]);
 
                                     await GetIPCResult();
                                 }
@@ -366,17 +336,19 @@ namespace 보령
                             var dt = new DataTable("DATA");
                             ds.Tables.Add(dt);
                             dt.Columns.Add(new DataColumn("구분"));
-                            dt.Columns.Add(new DataColumn("성상"));
                             dt.Columns.Add(new DataColumn("붕해"));
+                            dt.Columns.Add(new DataColumn("붕해적합여부"));
                             dt.Columns.Add(new DataColumn("마손도"));
-                            
+                            dt.Columns.Add(new DataColumn("마손도적합여부"));
+
                             foreach (var item in _IPCResults)
                             {
                                 var row = dt.NewRow();
                                 row["구분"] = item.GUBUN ?? "";
-                                row["성상"] = item.RSLT1 ?? "";
-                                row["붕해"] = item.RSLT2 ?? "";
-                                row["마손도"] = item.RSLT3 ?? "";
+                                row["붕해"] = item.RSLT1 ?? "";
+                                row["붕해적합여부"] = item.RSLT3 ?? "";
+                                row["마손도"] = item.RSLT2 ?? "";
+                                row["마손도적합여부"] = item.RSLT4 ?? "";
                                 dt.Rows.Add(row);
                             }
 
@@ -444,26 +416,66 @@ namespace 보령
                     _IPCResults.Add(new BR_BRS_SEL_ProductionOrderIPCResult.OUTDATA
                     {
                         GUBUN = "기준",
-                        RSLT1 = _ShapeIPCData.Standard,
-                        RSLT2 = _CrumblingIPCData.Standard,
-                        RSLT3 = _FriabilityIPCData.Standard
+                        RSLT1 = _CrumblingIPCData.Standard,
+                        RSLT2 = _FriabilityIPCData.Standard
                     });
 
                     foreach (BR_BRS_SEL_ProductionOrderIPCResult.OUTDATA item in _BR_BRS_SEL_ProductionOrderIPCResult.OUTDATAs)
                     {
-                        //2022.07.26 김호연 성상 등록할때 등록 데이터 변경으로 인해 주석
                         var rawData = _BR_BRS_SEL_ProductionOrderIPCResult.OUTDATA_RAWs.FirstOrDefault(
-                            o => o.COLLECTID == "결과값설명" && (o.POTSIRGUID == item.RSLTID1 || o.POTSIRGUID == item.RSLTID2 || o.POTSIRGUID == item.RSLTID3));
+                            o => o.COLLECTID == "결과값설명" && (o.POTSIRGUID == item.RSLTID1 || o.POTSIRGUID == item.RSLTID2));
 
-                        if (rawData != null)
+                        //적합여부 판단
+                        if (CrumblingIPCData.LSL.HasValue && CrumblingIPCData.USL.HasValue)
                         {
-                            string actValue = string.IsNullOrEmpty(rawData.ACTVAL) ? item.RSLT1 : rawData.ACTVAL;
-
-                            if (rawData.POTSIRGUID == item.RSLTID1) item.RSLT1 = string.IsNullOrEmpty(rawData.ACTVAL) ? item.RSLT1 : rawData.ACTVAL;
-                            if (rawData.POTSIRGUID == item.RSLTID2) item.RSLT2 = string.IsNullOrEmpty(rawData.ACTVAL) ? item.RSLT2 : rawData.ACTVAL;
-                            if (rawData.POTSIRGUID == item.RSLTID3) item.RSLT3 = string.IsNullOrEmpty(rawData.ACTVAL) ? item.RSLT3 : rawData.ACTVAL;
+                            if (CrumblingIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT1) && Convert.ToDecimal(item.RSLT1) <= CrumblingIPCData.USL.Value)
+                                item.RSLT3 = "적합";
+                            else
+                                item.RSLT3 = "부적합";
+                        }
+                        else if (CrumblingIPCData.LSL.HasValue)
+                        {
+                            if (CrumblingIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT1))
+                                item.RSLT3 = "적합";
+                            else
+                                item.RSLT3 = "부적합";
+                        }
+                        else if (CrumblingIPCData.USL.HasValue)
+                        {
+                            if (Convert.ToDecimal(item.RSLT1) <= CrumblingIPCData.USL.Value)
+                                item.RSLT3 = "적합";
+                            else
+                                item.RSLT3 = "부적합";
                         }
 
+                        if (FriabilityIPCData.LSL.HasValue && FriabilityIPCData.USL.HasValue)
+                        {
+                            if (FriabilityIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT2) && Convert.ToDecimal(item.RSLT2) <= FriabilityIPCData.USL.Value)
+                                item.RSLT4 = "적합";
+                            else
+                                item.RSLT4 = "부적합";
+                        }
+                        else if (FriabilityIPCData.LSL.HasValue)
+                        {
+                            if (FriabilityIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT2))
+                                item.RSLT4 = "적합";
+                            else
+                                item.RSLT4 = "부적합";
+                        }
+                        else if (FriabilityIPCData.USL.HasValue)
+                        {
+                            if (Convert.ToDecimal(item.RSLT2) <= FriabilityIPCData.USL.Value)
+                                item.RSLT4 = "적합";
+                            else
+                                item.RSLT4 = "부적합";
+                        }
+
+                        if (rawData != null)
+                        {                            
+                            if (rawData.POTSIRGUID == item.RSLTID1) item.RSLT1 = string.IsNullOrEmpty(rawData.ACTVAL) ? item.RSLT1 : rawData.ACTVAL;
+                            if (rawData.POTSIRGUID == item.RSLTID2) item.RSLT2 = string.IsNullOrEmpty(rawData.ACTVAL) ? item.RSLT2 : rawData.ACTVAL;
+                        }
+                      
                         //item.RSLT1 = item.RSLT1 == "1" ? "적합" : "부적합";
                         _IPCResults.Add(item);
                     }

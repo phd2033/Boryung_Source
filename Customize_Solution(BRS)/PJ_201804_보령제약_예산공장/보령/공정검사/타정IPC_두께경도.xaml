@@ -1,5 +1,5 @@
 ﻿<ShopFloorUI:ShopFloorCustomWindow
-    x:Class="보령.타정공정검사1"
+    x:Class="보령.타정IPC_두께경도"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,9 +11,9 @@
     xmlns:brs="clr-namespace:보령.UserControls"
     xmlns:local="clr-namespace:보령"
     Width="Auto" Height="Auto"
-    x:Name="Main" Title="타정공정검사1">
+    x:Name="Main" Title="타정IPC_두께경도">
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
-        <local:타정공정검사1ViewModel x:Key="VM"/>
+        <local:타정IPC_두께경도ViewModel x:Key="VM"/>
         <Style x:Key="dgScroll" TargetType="ScrollBar">
             <Setter Property="MinWidth" Value="30"/>
             <Setter Property="MinHeight" Value="30"/>
@@ -53,7 +53,9 @@
                     <c1:C1DataGrid.Columns>
                         <c1:DataGridTextColumn Header="구분" MinWidth="50" Binding="{Binding GUBUN}"/>
                         <c1:DataGridTextColumn Header="두께" MinWidth="100" Binding="{Binding RSLT1}"/>
+                        <c1:DataGridTextColumn Header="두께적합여부" MinWidth="100" Binding="{Binding RSLT3}"/>
                         <c1:DataGridTextColumn Header="경도" MinWidth="100" Binding="{Binding RSLT2}"/>
+                        <c1:DataGridTextColumn Header="경도적합여부" MinWidth="100" Binding="{Binding RSLT4}"/>
                     </c1:C1DataGrid.Columns>
                 </c1:C1DataGrid>
             </Grid>

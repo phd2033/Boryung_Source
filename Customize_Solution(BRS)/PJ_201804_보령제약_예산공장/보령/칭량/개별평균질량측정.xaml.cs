@@ -14,9 +14,9 @@ using System.ComponentModel;
 namespace 보령
 {
     [Description("공정검사(개별질량) 측정")]
-    public partial class 개별질량측정_2 : ShopFloorCustomWindow
+    public partial class 개별평균질량측정 : ShopFloorCustomWindow
     {
-        public 개별질량측정_2()
+        public 개별평균질량측정()
         {
             InitializeComponent();
         }

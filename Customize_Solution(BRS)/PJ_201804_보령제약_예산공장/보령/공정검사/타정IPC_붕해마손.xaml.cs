@@ -15,16 +15,16 @@ using System.ComponentModel;
 
 namespace 보령
 {
-    [Description("비정량적시험")]
-    public partial class 비정량적시험 : ShopFloorCustomWindow
+    [Description("타정공정검사(붕해, 마손도")]
+    public partial class 타정IPC_붕해마손 : ShopFloorCustomWindow
     {
-        public 비정량적시험()
+        public 타정IPC_붕해마손()
         {
             InitializeComponent();
         }
         public override string TableTypeName
         {
-            get { return "TABLE,비정량적시험"; }
+            get { return "TABLE,타정IPC_붕해마손"; }
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)

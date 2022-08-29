@@ -15,16 +15,16 @@ using System.ComponentModel;
 
 namespace 보령
 {
-    [Description("타정공정검사(성상, 분해, 마손도")]
-    public partial class 타정공정검사2 : ShopFloorCustomWindow
+    [Description("LOD측정")]
+    public partial class LOD측정 : ShopFloorCustomWindow
     {
-        public 타정공정검사2()
+        public LOD측정()
         {
             InitializeComponent();
         }
         public override string TableTypeName
         {
-            get { return "TABLE,타정공정검사2"; }
+            get { return "TABLE,LOD측정"; }
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)

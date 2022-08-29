@@ -9,13 +9,14 @@ using C1.Silverlight.Data;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
+using System.Windows;
 
 namespace 보령
 {
-    public class 개별질량측정_2ViewModel : ViewModelBase
+    public class 개별평균질량측정ViewModel : ViewModelBase
     {
         #region Property
-        public 개별질량측정_2ViewModel()
+        public 개별평균질량측정ViewModel()
         {
             _ScaleInfo = new BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID();
             _BR_PHR_REG_ScaleSetTare = new BR_PHR_REG_ScaleSetTare();
@@ -32,11 +33,11 @@ namespace 보령
             _repeater.Tick += _repeater_Tick;
         }
 
-        private 개별질량측정_2 _mainWnd;
+        private 개별평균질량측정 _mainWnd;
         private DispatcherTimer _repeater = new DispatcherTimer();
         private int _repeaterInterval = 2000;
         private ScaleWebAPIHelper _restScaleService = new ScaleWebAPIHelper();
-        private string IPC_TSID = "타정개별질량측정";
+        private string IPC_TSID = "개별질량측정";
         private bool Standard = true;
         /// <summary>
         /// 기록 회차
@@ -101,6 +102,30 @@ namespace 보령
         public string AVGWEIGHT
         {
             get { return _AVGWEIGHT.WeightUOMString; }
+        }
+
+        private string _INDIVIDUALMINWEIGHT;
+        public string INDIVIDUALMINWEIGHT
+        {
+            get { return _INDIVIDUALMINWEIGHT; }
+        }
+
+        private string _INDIVIDUALMAXWEIGHT;
+        public string INDIVIDUALMAXWEIGHT
+        {
+            get { return _INDIVIDUALMAXWEIGHT; }
+        }
+
+        private string _AVGMINWEIGHT;
+        public string AVGMINWEIGHT
+        {
+            get { return _AVGMINWEIGHT; }
+        }
+
+        private string _AVGMAXWEIGHT;
+        public string AVGMAXWEIGHT
+        {
+            get { return _AVGMAXWEIGHT; }
         }
 
         // 화면 컨트롤
@@ -177,9 +202,9 @@ namespace 보령
 
                             ///
 
-                            if (arg != null && arg is 개별질량측정_2)
+                            if (arg != null && arg is 개별평균질량측정)
                             {
-                                _mainWnd = arg as 개별질량측정_2;
+                                _mainWnd = arg as 개별평균질량측정;
                                 _mainWnd.Closed += (s, e) =>
                                 {
                                     if (_repeater != null)
@@ -199,6 +224,15 @@ namespace 보령
                                 });
 
                                 await _BR_BRS_SEL_ProductionOrderIPCStandard.Execute();
+
+                                _INDIVIDUALMINWEIGHT = _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0].LSL.ToString();
+                                _INDIVIDUALMAXWEIGHT = _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0].USL.ToString();
+                                _AVGMINWEIGHT = _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[1].LSL.ToString();
+                                _AVGMAXWEIGHT = _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[1].USL.ToString();
+                                OnPropertyChanged("INDIVIDUALMINWEIGHT");
+                                OnPropertyChanged("INDIVIDUALMAXWEIGHT");
+                                OnPropertyChanged("AVGMINWEIGHT");
+                                OnPropertyChanged("AVGMAXWEIGHT");
 
                                 inx = 1;
                                 IsBtnEnable = false;
@@ -412,11 +446,11 @@ namespace 보령
 
                             if (_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0].LSL > _CURWEIGHT.Value)
                             {
-                                OnMessage("하한값 보다 낮습니다.");
+                                OnMessage("개별질량 하한값 보다 낮습니다.");                                
                             }
                             else if (_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0].USL < _CURWEIGHT.Value)
                             {
-                                OnMessage("상한값 보다 높습니다");
+                                OnMessage("개별질량 상한값 보다 높습니다");                                
                             }
 
 
@@ -562,14 +596,17 @@ namespace 보령
                                         throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                     }
                                 }
-                               
-                                foreach (var item in IPC_RESULTS)
+
+                                // 개별질량 평균값
+                                
+                                decimal avg = _IPC_RESULTS.Average(x => x.RESULT);
+                                foreach (var item in _IPC_RESULTS)
                                 {
-                                    if (_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0].LSL > item.RESULT)
+                                    if (_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0].LSL > _CURWEIGHT.Value)
                                     {
                                         Standard = false;
                                     }
-                                    else if (_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0].USL < item.RESULT)
+                                    else if (_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0].USL < _CURWEIGHT.Value)
                                     {
                                         Standard = false;
                                     }
@@ -590,86 +627,364 @@ namespace 보령
                                     {
                                         throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                     }
-                                }
 
-                                authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
-                                if (await authHelper.ClickAsync(
-                                    Common.enumCertificationType.Role,
-                                    Common.enumAccessType.Create,
-                                    "개별질량측정_2",
-                                    "개별질량측정_2",
-                                    false,
-                                    "OM_ProductionOrder_SUI",
-                                    "",
-                                    null, null) == false)
-                                {
-                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
-                                }
-
-                                _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATAs.Clear();
-
-                                //XML 형식으로 저장
-                                DataSet ds = new DataSet();
-
-                                // DATA : 측정내용
-                                DataTable dt = new DataTable("DATA");
-                                ds.Tables.Add(dt);
-                                dt.Columns.Add(new DataColumn("순번"));
-                                dt.Columns.Add(new DataColumn("장비번호"));
-                                dt.Columns.Add(new DataColumn("현재무게"));
-
-                                // DATA2 : 요약 (최대값, 최소값, 평균값)
-                                DataTable dt2 = new DataTable("DATA2");
-                                ds.Tables.Add(dt2);
-                                dt2.Columns.Add(new DataColumn("최소값"));
-                                dt2.Columns.Add(new DataColumn("최대값"));
-                                dt2.Columns.Add(new DataColumn("평균값"));
-
-                                // 측정내용 XML, BR indata
-                                foreach (var rowdata in _IPC_RESULTS)
-                                {
-                                    var row = dt.NewRow();
-                                    row["순번"] = rowdata.INX.ToString();
-                                    row["장비번호"] = rowdata.SCALEID != null ? rowdata.SCALEID : "";
-                                    row["현재무게"] = rowdata.RESULTSTR != null ? rowdata.RESULTSTR : "";
-                                    dt.Rows.Add(row);
-
-                                    _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATAs.Add(new BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATA()
+                                    authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+                                    if (await authHelper.ClickAsync(
+                                        Common.enumCertificationType.Role,
+                                        Common.enumAccessType.Create,
+                                        "개별평균질량측정",
+                                        "개별평균질량측정",
+                                        false,
+                                        "OM_ProductionOrder_SUI",
+                                        "",
+                                        null, null) == false)
                                     {
-                                        SCALEID = rowdata.SCALEID,
-                                        POID = ProductionOrderInfo.OrderID,
-                                        OPSGGUID = ProductionOrderInfo.OrderProcessSegmentID,
-                                        SMPQTY = 1,
-                                        AVG_WEIGHT = rowdata.RESULT.ToString("0.0"),
-                                        SMPQTYUOMID = "",
-                                        USERID = ProductionOrderInfo.UserID,
-                                        LOCATIONID = "",
-                                        STRTDTTM = rowdata.RECORDDTTM
-                                    });
-                                }
-                                // 요약 XML
-                                dt2.Rows.Add(MINWEIGHT, MAXWEIGHT, AVGWEIGHT);
-
-                                if (await _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.Execute() == true)
-                                {
-                                    var xml = BizActorRuleBase.CreateXMLStream(ds);
-                                    var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
-
-                                    _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
-                                    _mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
-
-                                    var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction);
-
-                                    if (result != enumInstructionRegistErrorType.Ok)
-                                    {
-                                        throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
+                                        throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                     }
 
-                                    if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
-                                    else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
+                                    _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATAs.Clear();
 
-                                    _mainWnd.Close();
+                                    //XML 형식으로 저장
+                                    DataSet ds = new DataSet();
+
+                                    // DATA : 측정내용
+                                    DataTable dt = new DataTable("DATA");
+                                    ds.Tables.Add(dt);
+                                    dt.Columns.Add(new DataColumn("순번"));
+                                    dt.Columns.Add(new DataColumn("장비번호"));
+                                    dt.Columns.Add(new DataColumn("현재무게"));
+
+                                    // DATA2 : 요약 (최대값, 최소값, 평균값)
+                                    DataTable dt2 = new DataTable("DATA2");
+                                    ds.Tables.Add(dt2);
+                                    dt2.Columns.Add(new DataColumn("최소값"));
+                                    dt2.Columns.Add(new DataColumn("최대값"));
+                                    dt2.Columns.Add(new DataColumn("평균값"));
+
+                                    // 측정내용 XML, BR indata
+                                    foreach (var rowdata in _IPC_RESULTS)
+                                    {
+                                        var row = dt.NewRow();
+                                        row["순번"] = rowdata.INX.ToString();
+                                        row["장비번호"] = rowdata.SCALEID != null ? rowdata.SCALEID : "";
+                                        row["현재무게"] = rowdata.RESULTSTR != null ? rowdata.RESULTSTR : "";
+                                        dt.Rows.Add(row);
+
+                                        _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATAs.Add(new BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATA()
+                                        {
+                                            SCALEID = rowdata.SCALEID,
+                                            POID = ProductionOrderInfo.OrderID,
+                                            OPSGGUID = ProductionOrderInfo.OrderProcessSegmentID,
+                                            SMPQTY = 1,
+                                            AVG_WEIGHT = rowdata.RESULT.ToString("0.0"),
+                                            SMPQTYUOMID = "",
+                                            USERID = ProductionOrderInfo.UserID,
+                                            LOCATIONID = "",
+                                            STRTDTTM = rowdata.RECORDDTTM
+                                        });
+                                    }
+                                    // 요약 XML
+                                    dt2.Rows.Add(MINWEIGHT, MAXWEIGHT, AVGWEIGHT);
+
+                                    if (await _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.Execute() == true)
+                                    {
+                                        var xml = BizActorRuleBase.CreateXMLStream(ds);
+                                        var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
+
+                                        _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
+                                        _mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
+
+                                        var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction);
+
+                                        if (result != enumInstructionRegistErrorType.Ok)
+                                        {
+                                            throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
+                                        }
+
+                                        if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
+                                        else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
+
+                                        _mainWnd.Close();
+                                    }
                                 }
+                                else
+                                {
+                                    if (_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[1].LSL > avg)
+                                    {
+                                        MessageBox.Show("평균질량 하한값 보다 낮습니다.");
+
+                                        authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_Deviation");
+                                        if (await authHelper.ClickAsync(
+                                            Common.enumCertificationType.Role,
+                                            Common.enumAccessType.Create,
+                                            "기록값 일탈에 대해 서명후 기록을 진행합니다.",
+                                            "Deviation Sign",
+                                            false,
+                                            "OM_ProductionOrder_Deviation",
+                                            "",
+                                            null, null) == false)
+                                        {
+                                            throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                        }
+
+                                        authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+                                        if (await authHelper.ClickAsync(
+                                            Common.enumCertificationType.Role,
+                                            Common.enumAccessType.Create,
+                                            "개별평균질량측정",
+                                            "개별평균질량측정",
+                                            false,
+                                            "OM_ProductionOrder_SUI",
+                                            "",
+                                            null, null) == false)
+                                        {
+                                            throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                        }
+
+                                        _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATAs.Clear();
+
+                                        //XML 형식으로 저장
+                                        DataSet ds = new DataSet();
+
+                                        // DATA : 측정내용
+                                        DataTable dt = new DataTable("DATA");
+                                        ds.Tables.Add(dt);
+                                        dt.Columns.Add(new DataColumn("순번"));
+                                        dt.Columns.Add(new DataColumn("장비번호"));
+                                        dt.Columns.Add(new DataColumn("현재무게"));
+
+                                        // DATA2 : 요약 (최대값, 최소값, 평균값)
+                                        DataTable dt2 = new DataTable("DATA2");
+                                        ds.Tables.Add(dt2);
+                                        dt2.Columns.Add(new DataColumn("최소값"));
+                                        dt2.Columns.Add(new DataColumn("최대값"));
+                                        dt2.Columns.Add(new DataColumn("평균값"));
+
+                                        // 측정내용 XML, BR indata
+                                        foreach (var rowdata in _IPC_RESULTS)
+                                        {
+                                            var row = dt.NewRow();
+                                            row["순번"] = rowdata.INX.ToString();
+                                            row["장비번호"] = rowdata.SCALEID != null ? rowdata.SCALEID : "";
+                                            row["현재무게"] = rowdata.RESULTSTR != null ? rowdata.RESULTSTR : "";
+                                            dt.Rows.Add(row);
+
+                                            _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATAs.Add(new BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATA()
+                                            {
+                                                SCALEID = rowdata.SCALEID,
+                                                POID = ProductionOrderInfo.OrderID,
+                                                OPSGGUID = ProductionOrderInfo.OrderProcessSegmentID,
+                                                SMPQTY = 1,
+                                                AVG_WEIGHT = rowdata.RESULT.ToString("0.0"),
+                                                SMPQTYUOMID = "",
+                                                USERID = ProductionOrderInfo.UserID,
+                                                LOCATIONID = "",
+                                                STRTDTTM = rowdata.RECORDDTTM
+                                            });
+                                        }
+                                        // 요약 XML
+                                        dt2.Rows.Add(MINWEIGHT, MAXWEIGHT, AVGWEIGHT);
+
+                                        if (await _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.Execute() == true)
+                                        {
+                                            var xml = BizActorRuleBase.CreateXMLStream(ds);
+                                            var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
+
+                                            _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
+                                            _mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
+
+                                            var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction);
+
+                                            if (result != enumInstructionRegistErrorType.Ok)
+                                            {
+                                                throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
+                                            }
+
+                                            if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
+                                            else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
+
+                                            _mainWnd.Close();
+                                        }                                        
+                                    }
+                                    else if (_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[1].USL < avg)
+                                    {
+                                        MessageBox.Show("평균질량 상한값 보다 높습니다.");
+
+                                        authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_Deviation");
+                                        if (await authHelper.ClickAsync(
+                                            Common.enumCertificationType.Role,
+                                            Common.enumAccessType.Create,
+                                            "기록값 일탈에 대해 서명후 기록을 진행합니다.",
+                                            "Deviation Sign",
+                                            false,
+                                            "OM_ProductionOrder_Deviation",
+                                            "",
+                                            null, null) == false)
+                                        {
+                                            throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                        }
+
+                                        authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+                                        if (await authHelper.ClickAsync(
+                                            Common.enumCertificationType.Role,
+                                            Common.enumAccessType.Create,
+                                            "개별평균질량측정",
+                                            "개별평균질량측정",
+                                            false,
+                                            "OM_ProductionOrder_SUI",
+                                            "",
+                                            null, null) == false)
+                                        {
+                                            throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                        }
+
+                                        _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATAs.Clear();
+
+                                        //XML 형식으로 저장
+                                        DataSet ds = new DataSet();
+
+                                        // DATA : 측정내용
+                                        DataTable dt = new DataTable("DATA");
+                                        ds.Tables.Add(dt);
+                                        dt.Columns.Add(new DataColumn("순번"));
+                                        dt.Columns.Add(new DataColumn("장비번호"));
+                                        dt.Columns.Add(new DataColumn("현재무게"));
+
+                                        // DATA2 : 요약 (최대값, 최소값, 평균값)
+                                        DataTable dt2 = new DataTable("DATA2");
+                                        ds.Tables.Add(dt2);
+                                        dt2.Columns.Add(new DataColumn("최소값"));
+                                        dt2.Columns.Add(new DataColumn("최대값"));
+                                        dt2.Columns.Add(new DataColumn("평균값"));
+
+                                        // 측정내용 XML, BR indata
+                                        foreach (var rowdata in _IPC_RESULTS)
+                                        {
+                                            var row = dt.NewRow();
+                                            row["순번"] = rowdata.INX.ToString();
+                                            row["장비번호"] = rowdata.SCALEID != null ? rowdata.SCALEID : "";
+                                            row["현재무게"] = rowdata.RESULTSTR != null ? rowdata.RESULTSTR : "";
+                                            dt.Rows.Add(row);
+
+                                            _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATAs.Add(new BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATA()
+                                            {
+                                                SCALEID = rowdata.SCALEID,
+                                                POID = ProductionOrderInfo.OrderID,
+                                                OPSGGUID = ProductionOrderInfo.OrderProcessSegmentID,
+                                                SMPQTY = 1,
+                                                AVG_WEIGHT = rowdata.RESULT.ToString("0.0"),
+                                                SMPQTYUOMID = "",
+                                                USERID = ProductionOrderInfo.UserID,
+                                                LOCATIONID = "",
+                                                STRTDTTM = rowdata.RECORDDTTM
+                                            });
+                                        }
+                                        // 요약 XML
+                                        dt2.Rows.Add(MINWEIGHT, MAXWEIGHT, AVGWEIGHT);
+
+                                        if (await _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.Execute() == true)
+                                        {
+                                            var xml = BizActorRuleBase.CreateXMLStream(ds);
+                                            var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
+
+                                            _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
+                                            _mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
+
+                                            var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction);
+
+                                            if (result != enumInstructionRegistErrorType.Ok)
+                                            {
+                                                throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
+                                            }
+
+                                            if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
+                                            else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
+
+                                            _mainWnd.Close();
+                                        }                                        
+                                    }
+                                    else
+                                    {
+                                        authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+                                        if (await authHelper.ClickAsync(
+                                            Common.enumCertificationType.Role,
+                                            Common.enumAccessType.Create,
+                                            "개별평균질량측정",
+                                            "개별평균질량측정",
+                                            false,
+                                            "OM_ProductionOrder_SUI",
+                                            "",
+                                            null, null) == false)
+                                        {
+                                            throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                        }
+
+                                        _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATAs.Clear();
+
+                                        //XML 형식으로 저장
+                                        DataSet ds = new DataSet();
+
+                                        // DATA : 측정내용
+                                        DataTable dt = new DataTable("DATA");
+                                        ds.Tables.Add(dt);
+                                        dt.Columns.Add(new DataColumn("순번"));
+                                        dt.Columns.Add(new DataColumn("장비번호"));
+                                        dt.Columns.Add(new DataColumn("현재무게"));
+
+                                        // DATA2 : 요약 (최대값, 최소값, 평균값)
+                                        DataTable dt2 = new DataTable("DATA2");
+                                        ds.Tables.Add(dt2);
+                                        dt2.Columns.Add(new DataColumn("최소값"));
+                                        dt2.Columns.Add(new DataColumn("최대값"));
+                                        dt2.Columns.Add(new DataColumn("평균값"));
+
+                                        // 측정내용 XML, BR indata
+                                        foreach (var rowdata in _IPC_RESULTS)
+                                        {
+                                            var row = dt.NewRow();
+                                            row["순번"] = rowdata.INX.ToString();
+                                            row["장비번호"] = rowdata.SCALEID != null ? rowdata.SCALEID : "";
+                                            row["현재무게"] = rowdata.RESULTSTR != null ? rowdata.RESULTSTR : "";
+                                            dt.Rows.Add(row);
+
+                                            _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATAs.Add(new BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATA()
+                                            {
+                                                SCALEID = rowdata.SCALEID,
+                                                POID = ProductionOrderInfo.OrderID,
+                                                OPSGGUID = ProductionOrderInfo.OrderProcessSegmentID,
+                                                SMPQTY = 1,
+                                                AVG_WEIGHT = rowdata.RESULT.ToString("0.0"),
+                                                SMPQTYUOMID = "",
+                                                USERID = ProductionOrderInfo.UserID,
+                                                LOCATIONID = "",
+                                                STRTDTTM = rowdata.RECORDDTTM
+                                            });
+                                        }
+                                        // 요약 XML
+                                        dt2.Rows.Add(MINWEIGHT, MAXWEIGHT, AVGWEIGHT);
+
+                                        if (await _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.Execute() == true)
+                                        {
+                                            var xml = BizActorRuleBase.CreateXMLStream(ds);
+                                            var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
+
+                                            _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
+                                            _mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
+
+                                            var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction);
+
+                                            if (result != enumInstructionRegistErrorType.Ok)
+                                            {
+                                                throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
+                                            }
+
+                                            if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
+                                            else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
+
+                                            _mainWnd.Close();
+                                        }
+                                    }
+                                }                                                                            
                             }
                             else
                             {
@@ -741,8 +1056,8 @@ namespace 보령
                             if (await authHelper.ClickAsync(
                                 Common.enumCertificationType.Role,
                                 Common.enumAccessType.Create,
-                                "개별질량측정_2",
-                                "개별질량측정_2",
+                                "개별평균질량측정",
+                                "개별평균질량측정",
                                 false,
                                 "OM_ProductionOrder_SUI",
                                 "",

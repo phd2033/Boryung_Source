@@ -16,15 +16,15 @@ using System.ComponentModel;
 namespace 보령
 {
     [Description("타정공정검사(두께, 직경, 경도")]
-    public partial class 타정공정검사1 : ShopFloorCustomWindow
+    public partial class 타정IPC_두께경도 : ShopFloorCustomWindow
     {
-        public 타정공정검사1()
+        public 타정IPC_두께경도()
         {
             InitializeComponent();
         }
         public override string TableTypeName
         {
-            get { return "TABLE,타정공정검사1"; }
+            get { return "TABLE,타정IPC_두께경도"; }
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)

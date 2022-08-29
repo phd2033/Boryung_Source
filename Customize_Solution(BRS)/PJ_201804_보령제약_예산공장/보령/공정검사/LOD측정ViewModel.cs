@@ -12,13 +12,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Linq;
 
 namespace 보령
 {
-    public class 타정공정검사1ViewModel : ViewModelBase
+    public class LOD측정ViewModel : ViewModelBase
     {
         #region Property
-        public 타정공정검사1ViewModel()
+        public LOD측정ViewModel()
         {
             _BR_BRS_SEL_ProductionOrderIPCResult = new BR_BRS_SEL_ProductionOrderIPCResult();
             _BR_BRS_SEL_ProductionOrderIPCStandard = new BR_BRS_SEL_ProductionOrderIPCStandard();
@@ -26,27 +27,17 @@ namespace 보령
             _BR_BRS_REG_ProductionOrderTestResult = new BR_BRS_REG_ProductionOrderTestResult();
         }
 
-        private 타정공정검사1 _mainWnd;
-        private string IPC_TSID = "타정공정검사1";
+        private LOD측정 _mainWnd;
+        private string IPC_TSID = "LOD측정";
 
-        private IPCControlData _ThicknessIPCData;
-        public IPCControlData ThicknessIPCData
+        private IPCControlData _LODIPCData;
+        public IPCControlData LODIPCData
         {
-            get { return _ThicknessIPCData; }
+            get { return _LODIPCData; }
             set
             {
-                _ThicknessIPCData = value;
-                OnPropertyChanged("ThicknessIPCData");
-            }
-        }
-        private IPCControlData _LongitudeIPCData;
-        public IPCControlData LongitudeIPCData
-        {
-            get { return _LongitudeIPCData; }
-            set
-            {
-                _LongitudeIPCData = value;
-                OnPropertyChanged("LongitudeIPCData");
+                _LODIPCData = value;
+                OnPropertyChanged("LODIPCData");
             }
         }
 
@@ -59,8 +50,8 @@ namespace 보령
                 _IPCResults = value;
                 OnPropertyChanged("IPCResults");
             }
-        } 
-
+        }
+        
         #endregion
         #region BizRule
         private BR_BRS_SEL_ProductionOrderIPCResult _BR_BRS_SEL_ProductionOrderIPCResult;
@@ -85,9 +76,9 @@ namespace 보령
                             CommandCanExecutes["LoadedCommandAsync"] = false;
 
                             ///
-                            if(arg != null && arg is 타정공정검사1)
+                            if(arg != null && arg is LOD측정)
                             {
-                                _mainWnd = arg as 타정공정검사1;
+                                _mainWnd = arg as LOD측정;
 
                                 // IPC 기준정보 조회
                                 _BR_BRS_SEL_ProductionOrderIPCStandard.INDATAs.Clear();
@@ -99,12 +90,13 @@ namespace 보령
                                     TSID = IPC_TSID
                                 });
 
-                                if (await _BR_BRS_SEL_ProductionOrderIPCStandard.Execute())
+                                if(await _BR_BRS_SEL_ProductionOrderIPCStandard.Execute() && _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs.Count == 1)
                                 {
-                                    ThicknessIPCData = IPCControlData.SetIPCControlData(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0]);
-                                    LongitudeIPCData = IPCControlData.SetIPCControlData(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[1]);
+                                    LODIPCData = IPCControlData.SetIPCControlData(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0]);
+
                                     await GetIPCResult();
-                                }                                                                                             
+                                }
+                                
                             } 
                             ///
 
@@ -147,102 +139,91 @@ namespace 보령
                             CommandCanExecutes["RegisterIPCCommandAsync"] = false;
 
                             ///
+                            if (_LODIPCData.DEVIATIONFLAG.HasValue)
+                            {
+                                _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs.Clear();
+                                _BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEMs.Clear();
+                                _BR_BRS_REG_ProductionOrderTestResult.INDATA_ETCs.Clear();
+
+                                var authHelper = new iPharmAuthCommandHelper();
+                                authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_IPC");
+
+                                if (await authHelper.ClickAsync(
+                                    Common.enumCertificationType.Function,
+                                    Common.enumAccessType.Create,
+                                    string.Format("IPC 결과를 기록합니다."),
+                                    string.Format("IPC 결과를 기록합니다."),
+                                    false,
+                                    "OM_ProductionOrder_IPC",
+                                    "", null, null) == false)
+                                {
+                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                }
+
+                                string confirmguid = AuthRepositoryViewModel.Instance.ConfirmedGuid;
+                                DateTime curDttm = await AuthRepositoryViewModel.GetDBDateTimeNow();
+                                string user = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_IPC");
+
+                                // 시험명세 기록
+                                _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_SPEC
+                                {
+                                    POTSRGUID = Guid.NewGuid(),
+                                    POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                    OPTSGUID = new Guid(_LODIPCData.OPTSGUID),
+                                    OPSGGUID = new Guid(_mainWnd.CurrentOrder.OrderProcessSegmentID),
+                                    TESTSEQ = null,
+                                    STRDTTM = curDttm,
+                                    ENDDTTM = curDttm,
+                                    EQPTID = null,
+                                    INSUSER = user,
+                                    INSDTTM = curDttm,
+                                    EFCTTIMEIN = curDttm,
+                                    EFCTTIMEOUT = curDttm,
+                                    MSUBLOTID = null,
+                                    REASON = null,
+                                    ISUSE = "Y",
+                                    ACTIVEYN = "Y",
+                                    SMPQTY = _LODIPCData.SMPQTY,
+                                    SMPQTYUOMID = _LODIPCData.SMPQTYUOMID,
+                                });
+
+                                // 전자서명 코멘트
+                                _BR_BRS_REG_ProductionOrderTestResult.INDATA_ETCs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_ETC
+                                {
+                                    COMMENTTYPE = "CM001",
+                                    COMMENT = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_IPC"),
+                                    TSTYPE = _LODIPCData.TSTYPE,
+                                    LOCATIONID = AuthRepositoryViewModel.Instance.RoomID
+                                });
+
+                                // 시험상세결과 기록
+                                _BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEMs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEM
+                                {
+                                    POTSRGUID = _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs[0].POTSRGUID,
+                                    OPTSIGUID = new Guid(_LODIPCData.OPTSIGUID),
+                                    POTSIRGUID = Guid.NewGuid(),
+                                    ACTVAL = _LODIPCData.GetACTVAL.ToString(),
+                                    INSUSER = user,
+                                    INSDTTM = curDttm,
+                                    EFCTTIMEIN = curDttm,
+                                    EFCTTIMEOUT = curDttm,
+                                    COMMENTGUID = !string.IsNullOrWhiteSpace(confirmguid) ? new Guid(confirmguid) : (Guid?)null,
+                                    REASON = null,
+                                    ISUSE = "Y",
+                                    ACTIVEYN = "Y"
+                                });                              
+
+                                if (await _BR_BRS_REG_ProductionOrderTestResult.Execute())
+                                {
+                                    LODIPCData = IPCControlData.SetIPCControlData(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0]);
+
+                                    await GetIPCResult();
+                                }
+                                    
+                            }
+                            else
+                                OnMessage("시험결과를 확인해주세요.");
                             
-                            _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs.Clear();
-                            _BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEMs.Clear();
-                            _BR_BRS_REG_ProductionOrderTestResult.INDATA_ETCs.Clear();
-
-                            var authHelper = new iPharmAuthCommandHelper();
-                            authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_IPC");
-
-                            if (await authHelper.ClickAsync(
-                                Common.enumCertificationType.Function,
-                                Common.enumAccessType.Create,
-                                string.Format("IPC 결과를 기록합니다."),
-                                string.Format("IPC 결과를 기록합니다."),
-                                false,
-                                "OM_ProductionOrder_IPC",
-                                "", null, null) == false)
-                            {
-                                throw new Exception(string.Format("서명이 완료되지 않았습니다."));
-                            }
-
-                            string confirmguid = AuthRepositoryViewModel.Instance.ConfirmedGuid;
-                            DateTime curDttm = await AuthRepositoryViewModel.GetDBDateTimeNow();
-                            string user = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_IPC");
-
-                            // 시험명세 기록
-                            _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_SPEC
-                            {
-                                POTSRGUID = Guid.NewGuid(),
-                                POID = _mainWnd.CurrentOrder.ProductionOrderID,
-                                OPTSGUID = new Guid(_ThicknessIPCData.OPTSGUID),
-                                OPSGGUID = new Guid(_mainWnd.CurrentOrder.OrderProcessSegmentID),
-                                TESTSEQ = null,
-                                STRDTTM = curDttm,
-                                ENDDTTM = curDttm,
-                                EQPTID = null,
-                                INSUSER = user,
-                                INSDTTM = curDttm,
-                                EFCTTIMEIN = curDttm,
-                                EFCTTIMEOUT = curDttm,
-                                MSUBLOTID = null,
-                                REASON = null,
-                                ISUSE = "Y",
-                                ACTIVEYN = "Y",
-                                SMPQTY = _ThicknessIPCData.SMPQTY,
-                                SMPQTYUOMID = _ThicknessIPCData.SMPQTYUOMID,
-                            });
-
-                            // 전자서명 코멘트
-                            _BR_BRS_REG_ProductionOrderTestResult.INDATA_ETCs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_ETC
-                            {
-                                COMMENTTYPE = "CM001",
-                                COMMENT = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_IPC"),
-                                TSTYPE = _ThicknessIPCData.TSTYPE,
-                                LOCATIONID = AuthRepositoryViewModel.Instance.RoomID
-                            });
-
-                            // 시험상세결과 기록
-                            _BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEMs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEM
-                            {
-                                POTSRGUID = _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs[0].POTSRGUID,
-                                OPTSIGUID = new Guid(_ThicknessIPCData.OPTSIGUID),
-                                POTSIRGUID = Guid.NewGuid(),
-                                ACTVAL = _ThicknessIPCData.GetACTVAL,
-                                INSUSER = user,
-                                INSDTTM = curDttm,
-                                EFCTTIMEIN = curDttm,
-                                EFCTTIMEOUT = curDttm,
-                                COMMENTGUID = !string.IsNullOrWhiteSpace(confirmguid) ? new Guid(confirmguid) : (Guid?)null,
-                                REASON = null,
-                                ISUSE = "Y",
-                                ACTIVEYN = "Y"
-                            });
-                            _BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEMs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEM
-                            {
-                                POTSRGUID = _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs[0].POTSRGUID,
-                                OPTSIGUID = new Guid(_LongitudeIPCData.OPTSIGUID),
-                                POTSIRGUID = Guid.NewGuid(),
-                                ACTVAL = _LongitudeIPCData.GetACTVAL,
-                                INSUSER = user,
-                                INSDTTM = curDttm,
-                                EFCTTIMEIN = curDttm,
-                                EFCTTIMEOUT = curDttm,
-                                COMMENTGUID = new Guid(confirmguid),
-                                REASON = null,
-                                ISUSE = "Y",
-                                ACTIVEYN = "Y"
-                            });
-
-                            if (await _BR_BRS_REG_ProductionOrderTestResult.Execute())
-                            {
-                                ThicknessIPCData = IPCControlData.SetIPCControlData(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0]);
-                                LongitudeIPCData = IPCControlData.SetIPCControlData(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[1]);
-
-                                await GetIPCResult();
-                            }
-                                                                                
                             ///
 
                             CommandResults["RegisterIPCCommandAsync"] = true;
@@ -306,15 +287,15 @@ namespace 보령
                             var dt = new DataTable("DATA");
                             ds.Tables.Add(dt);
                             dt.Columns.Add(new DataColumn("구분"));
-                            dt.Columns.Add(new DataColumn("두께"));
-                            dt.Columns.Add(new DataColumn("경도"));
+                            dt.Columns.Add(new DataColumn("LOD측정"));
+                            dt.Columns.Add(new DataColumn("적합여부"));
 
                             foreach (var item in _IPCResults)
                             {
                                 var row = dt.NewRow();
                                 row["구분"] = item.GUBUN ?? "";
-                                row["두께"] = item.RSLT1 ?? "";
-                                row["경도"] = item.RSLT2 ?? "";
+                                row["LOD측정"] = item.RSLT1 ?? "";
+                                row["적합여부"] = item.RSLT2 ?? "";
                                 dt.Rows.Add(row);
                             }
 
@@ -334,7 +315,8 @@ namespace 보령
 
                                 if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
                                 else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
-                            }                                                        
+                            }
+                            
                             ///
 
                             CommandResults["ConfirmCommandAsync"] = true;
@@ -368,7 +350,7 @@ namespace 보령
                 _IPCResults.Clear();
                 _BR_BRS_SEL_ProductionOrderIPCResult.INDATAs.Clear();
                 _BR_BRS_SEL_ProductionOrderIPCResult.OUTDATAs.Clear();
-                               
+
                 _BR_BRS_SEL_ProductionOrderIPCResult.INDATAs.Add(new BR_BRS_SEL_ProductionOrderIPCResult.INDATA
                 {
                     POID = _mainWnd.CurrentOrder.ProductionOrderID,
@@ -376,20 +358,44 @@ namespace 보령
                     TSID = IPC_TSID
                 });
 
-                if (await _BR_BRS_SEL_ProductionOrderIPCResult.Execute() && _BR_BRS_SEL_ProductionOrderIPCResult.OUTDATAs.Count > 0)
+                if(await _BR_BRS_SEL_ProductionOrderIPCResult.Execute() && _BR_BRS_SEL_ProductionOrderIPCResult.OUTDATAs.Count > 0 )
                 {
                     _IPCResults.Add(new BR_BRS_SEL_ProductionOrderIPCResult.OUTDATA
                     {
                         GUBUN = "기준",
-                        RSLT1 = _ThicknessIPCData.Standard,
-                        RSLT2 = _LongitudeIPCData.Standard
+                        RSLT1 = _LODIPCData.Standard
                     });
+
                     foreach (BR_BRS_SEL_ProductionOrderIPCResult.OUTDATA item in _BR_BRS_SEL_ProductionOrderIPCResult.OUTDATAs)
+                    {
+                        //적합여부 판단
+                        if (LODIPCData.LSL.HasValue && LODIPCData.USL.HasValue)
+                        {
+                            if (LODIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT1) && Convert.ToDecimal(item.RSLT1) <= LODIPCData.USL.Value)
+                                item.RSLT2 = "적합";
+                            else
+                                item.RSLT2 = "부적합";
+                        }
+                        else if (LODIPCData.LSL.HasValue)
+                        {
+                            if (LODIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT1))
+                                item.RSLT2 = "적합";
+                            else
+                                item.RSLT2 = "부적합";
+                        }
+                        else if (LODIPCData.USL.HasValue)
+                        {
+                            if (Convert.ToDecimal(item.RSLT1) <= LODIPCData.USL.Value)
+                                item.RSLT2 = "적합";
+                            else
+                                item.RSLT2 = "부적합";
+                        }
+
                         _IPCResults.Add(item);
-                        
-                    OnPropertyChanged("IPCResults");                        
-                }                
-               
+                    }
+
+                    OnPropertyChanged("IPCResults");
+                }
             }
             catch (Exception ex)
             {

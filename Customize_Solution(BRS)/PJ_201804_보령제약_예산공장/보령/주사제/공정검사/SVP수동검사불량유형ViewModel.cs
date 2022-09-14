@@ -1342,7 +1342,7 @@ namespace 보령
         {
             try
             {
-                C1Bitmap bitmap = new C1Bitmap(new WriteableBitmap(_mainWnd.PrintArea, null));
+                C1Bitmap bitmap = new C1Bitmap(new WriteableBitmap(_mainWnd.PrintMain, null));
                 System.IO.Stream stream = bitmap.GetStream(C1.Silverlight.Imaging.ImageFormat.Png, true);
 
                 int len = (int)stream.Seek(0, SeekOrigin.End);

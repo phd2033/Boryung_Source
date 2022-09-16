@@ -665,12 +665,14 @@ namespace 보령
                                     _InitialWeight = _ScaleWeight.Copy();
 
                                     // 보충량 범위 지정
-                                    _TargetWeight = _StandardWeight.Subtract(_InitialWeight);
+                                    //_TargetWeight = _StandardWeight.Subtract(_InitialWeight);
+                                    // 2022.09.16 박희돈 보충량 범위는 타겟에서 +- 0.5프로를 한다. 위 로직은 타겟 - 조재량임.
+                                    _TargetWeight = _StandardWeight;
 
                                     _MinWeight = _TargetWeight.Copy();
                                     _MaxWeight = _TargetWeight.Copy();
-                                    _MinWeight.Value = Convert.ToDecimal(Math.Ceiling(Convert.ToDouble(_MinWeight.Value * 0.995m)));
-                                    _MaxWeight.Value = Convert.ToDecimal(Math.Floor(Convert.ToDouble(_MaxWeight.Value * 1.005m)));
+                                    _MinWeight.Value = Convert.ToDecimal(Math.Ceiling(Convert.ToDouble(_MinWeight.Value * 0.995m) - Convert.ToDouble(-_InitialWeight.Value)));
+                                    _MaxWeight.Value = Convert.ToDecimal(Math.Floor(Convert.ToDouble(_MaxWeight.Value * 1.005m) - Convert.ToDouble(-_InitialWeight.Value)));
                                     
                                     _curstate = state.add;
                                     _DispatcherTimer.Start();

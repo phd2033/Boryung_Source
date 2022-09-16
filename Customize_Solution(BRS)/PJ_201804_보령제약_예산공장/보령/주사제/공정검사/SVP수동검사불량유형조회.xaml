@@ -1,4 +1,4 @@
-﻿<ShopFloorUI:ShopFloorCustomWindow x:Class="보령.SVP수동검사불량유형"
+﻿<ShopFloorUI:ShopFloorCustomWindow x:Class="보령.SVP수동검사불량유형조회"
            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,9 +9,9 @@
            xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
            xmlns:local="clr-namespace:보령"
            x:Name="Main" Width="1200" Height="800"
-           Title="SVP수동검사불량유형">
+           Title="SVP수동검사불량유형조회">
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
-        <local:SVP수동검사불량유형ViewModel x:Key="ViewModel"/>
+        <local:SVP수동검사불량유형조회ViewModel x:Key="ViewModel"/>
     </ShopFloorUI:ShopFloorCustomWindow.Resources>
     <toolkit:BusyIndicator IsBusy="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged}" DataContext="{Binding Source={StaticResource ViewModel}}">
         <i:Interaction.Triggers>

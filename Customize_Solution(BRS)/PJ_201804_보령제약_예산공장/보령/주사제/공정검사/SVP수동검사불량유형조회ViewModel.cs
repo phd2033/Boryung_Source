@@ -19,16 +19,16 @@ using System.Threading.Tasks;
 
 namespace 보령
 {
-    public class SVP수동검사불량유형ViewModel : ViewModelBase
+    public class SVP수동검사불량유형조회ViewModel : ViewModelBase
     {
         #region Properties
-        public SVP수동검사불량유형ViewModel()
+        public SVP수동검사불량유형조회ViewModel()
         {
             _RejectionDetails = new RejectionDetail.OUTDATACollection();
             _RejectionDetails2 = new RejectionDetail2.OUTDATACollection();
         }
 
-        SVP수동검사불량유형 _mainWnd;
+        SVP수동검사불량유형조회 _mainWnd;
 
         private RejectionDetail.OUTDATACollection _RejectionDetails;
         public RejectionDetail.OUTDATACollection RejectionDetails
@@ -70,9 +70,9 @@ namespace 보령
                             CommandResults["LoadedCommandAsync"] = false;
                             CommandCanExecutes["LoadedCommandAsync"] = false;
 
-                            if (arg != null && arg is SVP수동검사불량유형)
+                            if (arg != null && arg is SVP수동검사불량유형조회)
                             {
-                                _mainWnd = arg as SVP수동검사불량유형;
+                                _mainWnd = arg as SVP수동검사불량유형조회;
 
                                 IsBusy = true;
 

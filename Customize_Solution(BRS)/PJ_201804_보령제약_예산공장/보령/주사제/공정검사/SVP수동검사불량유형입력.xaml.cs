@@ -13,22 +13,20 @@ using System.ComponentModel;
 
 namespace 보령
 {
-    [Description("SVP 수동검사 불량유형 기록")]
-    public partial class SVP수동검사불량유형 : ShopFloorCustomWindow
+    public partial class SVP수동검사불량유형입력 : ShopFloorCustomWindow
     {
-        public SVP수동검사불량유형()
+        [Description("SVP 수동검사 불량유형 입력")]
+        public SVP수동검사불량유형입력()
         {
             InitializeComponent();
         }
-
         public override string TableTypeName
         {
-            get { return "TABLE,SVP수동검사불량유형"; }
+            get { return "TABLE,SVP수동검사불량유형조회"; }
         }
         private void btnCancel_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            DialogResult = false;
+            //DialogResult = false;
         }
-
     }
 }

@@ -811,10 +811,14 @@
       <DependentUpon>SVP불량검사결과.xaml</DependentUpon>
     </Compile>
     <Compile Include="주사제\공정검사\SVP불량검사결과ViewModel.cs" />
-    <Compile Include="주사제\공정검사\SVP수동검사불량유형.xaml.cs">
-      <DependentUpon>SVP수동검사불량유형.xaml</DependentUpon>
+    <Compile Include="주사제\공정검사\SVP수동검사불량유형조회.xaml.cs">
+      <DependentUpon>SVP수동검사불량유형조회.xaml</DependentUpon>
     </Compile>
-    <Compile Include="주사제\공정검사\SVP수동검사불량유형ViewModel.cs" />
+    <Compile Include="주사제\공정검사\SVP수동검사불량유형조회ViewModel.cs" />
+    <Compile Include="주사제\공정검사\SVP수동검사불량유형입력ViewModel.cs" />
+    <Compile Include="주사제\공정검사\SVP수동검사불량유형입력.xaml.cs">
+      <DependentUpon>SVP수동검사불량유형입력.xaml</DependentUpon>
+    </Compile>
     <Compile Include="주사제\공정검사\SVP캡핑IPC.xaml.cs">
       <DependentUpon>SVP캡핑IPC.xaml</DependentUpon>
     </Compile>
@@ -1419,9 +1423,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="주사제\공정검사\SVP수동검사불량유형.xaml">
+    <Page Include="주사제\공정검사\SVP수동검사불량유형조회.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="주사제\공정검사\SVP수동검사불량유형입력.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="주사제\공정검사\SVP캡핑IPC.xaml">
       <SubType>Designer</SubType>

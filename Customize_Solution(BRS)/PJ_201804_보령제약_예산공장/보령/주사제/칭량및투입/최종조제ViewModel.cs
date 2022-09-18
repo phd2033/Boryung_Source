@@ -669,11 +669,17 @@ namespace 보령
                                     // 2022.09.16 박희돈 보충량 범위는 타겟에서 +- 0.5프로를 한다. 위 로직은 타겟 - 조재량임.
                                     _TargetWeight = _StandardWeight;
 
-                                    _MinWeight = _TargetWeight.Copy();
-                                    _MaxWeight = _TargetWeight.Copy();
-                                    _MinWeight.Value = Convert.ToDecimal(Math.Ceiling(Convert.ToDouble(_MinWeight.Value * 0.995m) - Convert.ToDouble(-_InitialWeight.Value)));
-                                    _MaxWeight.Value = Convert.ToDecimal(Math.Floor(Convert.ToDouble(_MaxWeight.Value * 1.005m) - Convert.ToDouble(-_InitialWeight.Value)));
-                                    
+                                    //_MinWeight = _TargetWeight.Copy();
+                                    //_MaxWeight = _TargetWeight.Copy();
+                                    //_MinWeight.Value = Convert.ToDecimal(Math.Ceiling(Convert.ToDouble(_MinWeight.Value * 0.995m) - Convert.ToDouble(_InitialWeight.Value)));
+                                    //_MaxWeight.Value = Convert.ToDecimal(Math.Floor(Convert.ToDouble(_MaxWeight.Value * 1.005m) - Convert.ToDouble(_InitialWeight.Value)));
+
+                                    _TargetWeight = _StandardWeight.Subtract(_InitialWeight);
+                                    _MinWeight = _StandardWeight.Copy();
+                                    _MaxWeight = _StandardWeight.Copy();
+                                    _MinWeight.Value = Convert.ToDecimal(Math.Ceiling(Convert.ToDouble(_StandardWeight.Value * 0.995m) - Convert.ToDouble(_InitialWeight.Value)));
+                                    _MaxWeight.Value = Convert.ToDecimal(Math.Floor(Convert.ToDouble(_StandardWeight.Value * 1.005m) - Convert.ToDouble(_InitialWeight.Value)));
+
                                     _curstate = state.add;
                                     _DispatcherTimer.Start();
                                     break;                               

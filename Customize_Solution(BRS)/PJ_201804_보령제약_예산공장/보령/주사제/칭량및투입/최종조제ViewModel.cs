@@ -670,8 +670,8 @@ namespace 보령
                                     _TargetWeight = _StandardWeight;
                                     _MinWeight = _StandardWeight.Copy();
                                     _MaxWeight = _StandardWeight.Copy();
-                                    _MinWeight.Value = Convert.ToDecimal(Math.Ceiling(Convert.ToDouble(_StandardWeight.Value * 0.995m) / 100));
-                                    _MaxWeight.Value = Convert.ToDecimal(Math.Floor(Convert.ToDouble(_StandardWeight.Value * 1.005m)) / 100);
+                                    _MinWeight.Value = Convert.ToDecimal(Math.Ceiling(Convert.ToDouble(_StandardWeight.Value * 0.995m) * 10) / 10);
+                                    _MaxWeight.Value = Convert.ToDecimal(Math.Floor(Convert.ToDouble(_StandardWeight.Value * 1.005m) * 10) / 10);
 
                                     _curstate = state.add;
                                     _DispatcherTimer.Start();

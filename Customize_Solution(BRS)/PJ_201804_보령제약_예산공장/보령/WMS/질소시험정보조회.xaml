@@ -54,7 +54,6 @@
                 <c1:DataGridTextColumn  Header="원료명" Width="*" Binding="{Binding Path=MTRLNAME}" IsReadOnly="True" HorizontalAlignment="Center"  HeaderStyle="{StaticResource HeaderStyle}"/>
                 <c1:DataGridTextColumn  Header="원료배치번호" Width="*" Binding="{Binding Path=MLOTID}" IsReadOnly="True" HorizontalAlignment="Center"  HeaderStyle="{StaticResource HeaderStyle}"/>
                 <c1:DataGridTextColumn  Header="시험번호" Width="*" Binding="{Binding Path=MSUBLOTID}"  IsReadOnly="True" HorizontalAlignment="Center"  HeaderStyle="{StaticResource HeaderStyle}"/>
-                <c1:DataGridTextColumn  Header="재고상태" Width="*" Binding="{Binding Path=MSTATE}"  IsReadOnly="True" HorizontalAlignment="Center"  HeaderStyle="{StaticResource HeaderStyle}"/>
             </c1:C1DataGrid.Columns>
         </c1:C1DataGrid>
 

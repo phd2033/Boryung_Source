@@ -143,7 +143,6 @@ namespace 보령
                             dt.Columns.Add(new DataColumn("원료명"));
                             dt.Columns.Add(new DataColumn("원료배치번호"));
                             dt.Columns.Add(new DataColumn("시험번호"));
-                            dt.Columns.Add(new DataColumn("재고상태"));
 
                             if (_BR_BRS_SEL_IFS_SEL_TSTNO.OUTDATAs.Count > 0)
                             {
@@ -154,7 +153,6 @@ namespace 보령
                                     row["원료명"] = item.MTRLNAME != null ? item.MTRLNAME.ToString() : "";
                                     row["원료배치번호"] = item.MLOTID != null ? item.MLOTID.ToString() : "";
                                     row["시험번호"] = item.MSUBLOTID != null ? item.MSUBLOTID.ToString() : "";
-                                    row["재고상태"] = item.MSTATE != null ? item.MSTATE.ToString() : "";
                                     dt.Rows.Add(row);
                                 }
                                 ds.Tables.Add(dt);
@@ -180,7 +178,6 @@ namespace 보령
                                 row["원료명"] = "N/A";
                                 row["원료배치번호"] = "N/A";
                                 row["시험번호"] = "N/A";
-                                row["재고상태"] = "N/A";
                                 dt.Rows.Add(row);
                                 ds.Tables.Add(dt);
                             }

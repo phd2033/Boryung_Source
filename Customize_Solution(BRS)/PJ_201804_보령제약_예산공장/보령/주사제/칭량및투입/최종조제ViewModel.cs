@@ -678,7 +678,10 @@ namespace 보령
                                     break;                               
                                 case state.add:
 
-                                    var curAddweight = _ScaleWeight.Subtract(_InitialWeight);
+                                    // 보충량 기준 범위 상하한 0.5%의 값을 보여주도록 로직 변경
+                                    //var curAddweight = _ScaleWeight.Subtract(_InitialWeight);
+                                    var curAddweight = _ScaleWeight;
+
                                     _FinalWeight = _ScaleWeight.Copy();
 
                                     if (curAddweight.Subtract(_MinWeight).Value >= 0 && curAddweight.Subtract(_MaxWeight).Value <= 0)
@@ -705,7 +708,9 @@ namespace 보령
                                             DSPENDDTTM = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
                                         };
 
-                                        _AddWeight = curAddweight;
+                                        // 보충량 기준 범위 상하한 0.5%의 값을 보여주도록 로직 변경
+                                        //_AddWeight = _ScaleWeight;
+                                        _AddWeight = _ScaleWeight.Subtract(_InitialWeight);
                                         _curstate = state.end;
                                     }
                                     else

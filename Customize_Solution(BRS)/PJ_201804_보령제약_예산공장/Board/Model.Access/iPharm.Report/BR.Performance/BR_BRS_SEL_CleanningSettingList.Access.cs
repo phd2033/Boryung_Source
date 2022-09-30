@@ -513,6 +513,38 @@ namespace LGCNS.iPharmMES.Common
                     }
                 }
             }
+            private System.Nullable<decimal> _EQPTREADYVAL;
+            [BizActorOutputItemAttribute()]
+            public System.Nullable<decimal> EQPTREADYVAL
+            {
+                get
+                {
+                    return this._EQPTREADYVAL;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._EQPTREADYVAL = value;
+                        this.CheckIsOriginal("EQPTREADYVAL", value);
+                        this.OnPropertyChanged("EQPTREADYVAL");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
             private string _INSUSER;
             [BizActorOutputItemAttribute()]
             public string INSUSER

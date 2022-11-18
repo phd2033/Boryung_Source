@@ -170,16 +170,50 @@ namespace 보령
                                 {
                                     foreach (InstructionModel Inst in refInst)
                                     {
-                                        _BR_BRS_SEL_EquipmentStatus_PROCEQPT.INDATAs.Add(new BR_BRS_SEL_EquipmentStatus_PROCEQPT.INDATA
+                                        // 2022.01.05 김호연 N/A는 조회되지 않도록 로직 수정
+                                        // 기존 로직
+                                        //-------------------------------------------------------------------------------------------------------
+                                        //_BR_BRS_SEL_EquipmentStatus_PROCEQPT.INDATAs.Add(new BR_BRS_SEL_EquipmentStatus_PROCEQPT.INDATA
+                                        //{
+                                        //    LANGID = "ko-KR",
+                                        //    ROOMNO = AuthRepositoryViewModel.Instance.RoomID,
+                                        //    POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                        //    BATCHNO = _mainWnd.CurrentOrder.BatchNo,
+                                        //    EQPTID = Inst.Raw.EQPTID,
+                                        //    OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                        //    ACTVAL = Inst.Raw.ACTVAL
+                                        //});
+                                        //-------------------------------------------------------------------------------------------------------
+
+                                        if (Inst.Raw.ACTVAL == null)
                                         {
-                                            LANGID = "ko-KR",
-                                            ROOMNO = AuthRepositoryViewModel.Instance.RoomID,
-                                            POID = _mainWnd.CurrentOrder.ProductionOrderID,
-                                            BATCHNO = _mainWnd.CurrentOrder.BatchNo,
-                                            EQPTID = Inst.Raw.EQPTID,
-                                            OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
-                                            ACTVAL = Inst.Raw.ACTVAL
-                                        });
+                                            _BR_BRS_SEL_EquipmentStatus_PROCEQPT.INDATAs.Add(new BR_BRS_SEL_EquipmentStatus_PROCEQPT.INDATA
+                                            {
+                                                LANGID = "ko-KR",
+                                                ROOMNO = AuthRepositoryViewModel.Instance.RoomID,
+                                                POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                                BATCHNO = _mainWnd.CurrentOrder.BatchNo,
+                                                EQPTID = Inst.Raw.EQPTID,
+                                                OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                                ACTVAL = Inst.Raw.ACTVAL
+                                            });
+                                        }
+                                        else
+                                        {
+                                            if (Inst.Raw.ACTVAL.ToUpper() != "N/A")
+                                            {
+                                                _BR_BRS_SEL_EquipmentStatus_PROCEQPT.INDATAs.Add(new BR_BRS_SEL_EquipmentStatus_PROCEQPT.INDATA
+                                                {
+                                                    LANGID = "ko-KR",
+                                                    ROOMNO = AuthRepositoryViewModel.Instance.RoomID,
+                                                    POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                                    BATCHNO = _mainWnd.CurrentOrder.BatchNo,
+                                                    EQPTID = Inst.Raw.EQPTID,
+                                                    OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                                    ACTVAL = Inst.Raw.ACTVAL
+                                                });
+                                            }
+                                        }
                                     }
 
                                     await BR_BRS_SEL_EquipmentStatus_PROCEQPT.Execute();

@@ -338,8 +338,8 @@ namespace 보령
                                         if (temp.SetWeight(item.STDQTY, item.UOMID))
                                             _StandardWeight = _StandardWeight.Add(temp);
                                         else
-                                            throw new Exception(string.Format("기준 조회 실패 : [{0}]", item.MTRLID));                                                                                                                  
-                                    }                                                                     
+                                            throw new Exception(string.Format("기준 조회 실패 : [{0}]", item.MTRLID));
+                                    }
                                 }
 
                                 // 보충원료 피킹정보 조회
@@ -550,19 +550,11 @@ namespace 보령
                                                 _FrozenWeight = _ScaleWeight.Copy();
 
                                                 // 보충 기준 설정
-                                                // 2022.09.20 김호연 (조재액 무게 + (조재액 무게 * 상하한1%)) - 비커 
-                                                //_MinWeight = _LossWeight.Copy();
-                                                //_MaxWeight = _LossWeight.Copy();
-                                                //_MinWeight.Value = _MinWeight.Value * 0.99m;
-                                                //_MaxWeight.Value = _MaxWeight.Value * 1.01m;
-                                                _LossWeight = _StandardWeight.Subtract(_FrozenWeight);                                                
-                                                _MinWeight = _StandardWeight.Copy();
-                                                _MaxWeight = _StandardWeight.Copy();
-                                                //2022.09.22 김호연 상한 버림, 하한 올림은 저울의 자리수에 맞는 소수점에서 올림, 버림을 해야한다.                                
-                                                //_MinWeight.Value = _MinWeight.Value * 0.99m - _FrozenWeight.Value;
-                                                //_MaxWeight.Value = _MaxWeight.Value * 1.01m - _FrozenWeight.Value;
-                                                _MinWeight.Value = Convert.ToDecimal(Math.Ceiling((Convert.ToDouble(_StandardWeight.Value * 0.99m) - Convert.ToDouble(_FrozenWeight.Value)) * Math.Pow(10, _ScaleWeight.Precision)) / Math.Pow(10, _ScaleWeight.Precision));
-                                                _MaxWeight.Value = Convert.ToDecimal(Math.Floor((Convert.ToDouble(_StandardWeight.Value * 1.01m) - Convert.ToDouble(_FrozenWeight.Value)) * Math.Pow(10, _ScaleWeight.Precision)) / Math.Pow(10, _ScaleWeight.Precision));
+                                                _LossWeight = _StandardWeight.Subtract(_FrozenWeight);
+                                                _MinWeight = _LossWeight.Copy();
+                                                _MaxWeight = _LossWeight.Copy();
+                                                _MinWeight.Value = _MinWeight.Value * 0.99m;
+                                                _MaxWeight.Value = _MaxWeight.Value * 1.01m;
 
                                                 _curstate = state.add;
                                                 WeightRefresh();

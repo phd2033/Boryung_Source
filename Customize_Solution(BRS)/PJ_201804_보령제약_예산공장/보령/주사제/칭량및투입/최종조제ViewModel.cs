@@ -372,7 +372,7 @@ namespace 보령
                                     OnPropertyChanged("curPrintName");
                                 }                                    
                                 else
-                                   OnMessage("연결된 프린트가 없습니다.");
+                                    OnMessage("연결된 프린트가 없습니다.");
 
                                 IsBusy = true;
                             }
@@ -665,22 +665,22 @@ namespace 보령
                                     _InitialWeight = _ScaleWeight.Copy();
 
                                     // 보충량 범위 지정
-                                    _TargetWeight = _StandardWeight.Subtract(_InitialWeight);
+                                    //_TargetWeight = _StandardWeight.Subtract(_InitialWeight);
                                     // 2022.09.16 박희돈 보충량 범위는 타겟에서 +- 0.5프로를 한다. 위 로직은 타겟 - 조재량임.                                    
+                                    _TargetWeight = _StandardWeight;
                                     _MinWeight = _StandardWeight.Copy();
                                     _MaxWeight = _StandardWeight.Copy();
-                                    //2022.09.22 김호연 상한 버림, 하한 올림은 저울의 자리수에 맞는 소수점에서 올림, 버림을 해야한다.
-                                    //_MinWeight.Value = Convert.ToDecimal(Math.Ceiling((Convert.ToDouble(_StandardWeight.Value * 0.995m) - Convert.ToDouble(_InitialWeight.Value)) * 10) / 10);
-                                    //_MaxWeight.Value = Convert.ToDecimal(Math.Floor((Convert.ToDouble(_StandardWeight.Value * 1.005m) - Convert.ToDouble(_InitialWeight.Value)) * 10) / 10);
-                                    _MinWeight.Value = Convert.ToDecimal(Math.Ceiling((Convert.ToDouble(_StandardWeight.Value * 0.995m) - Convert.ToDouble(_InitialWeight.Value)) * Math.Pow(10, _ScaleWeight.Precision)) / Math.Pow(10, _ScaleWeight.Precision));
-                                    _MaxWeight.Value = Convert.ToDecimal(Math.Floor((Convert.ToDouble(_StandardWeight.Value * 1.005m) - Convert.ToDouble(_InitialWeight.Value)) * Math.Pow(10, _ScaleWeight.Precision)) / Math.Pow(10, _ScaleWeight.Precision));
-                                    
+                                    _MinWeight.Value = Convert.ToDecimal(Math.Ceiling(Convert.ToDouble(_StandardWeight.Value * 0.995m) * 10) / 10);
+                                    _MaxWeight.Value = Convert.ToDecimal(Math.Floor(Convert.ToDouble(_StandardWeight.Value * 1.005m) * 10) / 10);
+
                                     _curstate = state.add;
                                     _DispatcherTimer.Start();
-                                    break;                               
+                                    break;
                                 case state.add:
-                                    
-                                    var curAddweight = _ScaleWeight.Subtract(_InitialWeight);
+
+                                    // 보충량 기준 범위 상하한 0.5%의 값을 보여주도록 로직 변경
+                                    //var curAddweight = _ScaleWeight.Subtract(_InitialWeight);
+                                    var curAddweight = _ScaleWeight;
 
                                     _FinalWeight = _ScaleWeight.Copy();
 
@@ -708,14 +708,15 @@ namespace 보령
                                             DSPENDDTTM = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
                                         };
 
-                                        // 보충량
+                                        // 보충량 기준 범위 상하한 0.5%의 값을 보여주도록 로직 변경
+                                        //_AddWeight = _ScaleWeight;
                                         _AddWeight = _ScaleWeight.Subtract(_InitialWeight);
                                         _curstate = state.end;
                                     }
                                     else
                                         OnMessage("보충량이 기준값을 벗어났습니다.");
 
-                                    if(_curstate != state.end)
+                                    if (_curstate != state.end)
                                         _DispatcherTimer.Start();
                                     break;
                                 default:

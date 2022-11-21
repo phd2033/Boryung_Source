@@ -24,9 +24,9 @@ namespace 보령
         {
             get { return "TABLE,SVP수동검사불량유형조회"; }
         }
-        private void btnCancel_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            //DialogResult = false;
+            DialogResult = false;
         }
     }
 }

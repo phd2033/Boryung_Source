@@ -372,7 +372,7 @@ namespace 보령
                                     OnPropertyChanged("curPrintName");
                                 }                                    
                                 else
-                                   OnMessage("연결된 프린트가 없습니다.");
+                                    OnMessage("연결된 프린트가 없습니다.");
 
                                 IsBusy = true;
                             }
@@ -665,19 +665,23 @@ namespace 보령
                                     _InitialWeight = _ScaleWeight.Copy();
 
                                     // 보충량 범위 지정
-                                    _TargetWeight = _StandardWeight.Subtract(_InitialWeight);
+                                    //_TargetWeight = _StandardWeight.Subtract(_InitialWeight);
+                                    // 2022.09.16 박희돈 보충량 범위는 타겟에서 +- 0.5프로를 한다. 위 로직은 타겟 - 조재량임.                                    
+                                    _TargetWeight = _StandardWeight;
+                                    _MinWeight = _StandardWeight.Copy();
+                                    _MaxWeight = _StandardWeight.Copy();
+                                    _MinWeight.Value = Convert.ToDecimal(Math.Ceiling(Convert.ToDouble(_StandardWeight.Value * 0.995m) * 10) / 10);
+                                    _MaxWeight.Value = Convert.ToDecimal(Math.Floor(Convert.ToDouble(_StandardWeight.Value * 1.005m) * 10) / 10);
 
-                                    _MinWeight = _TargetWeight.Copy();
-                                    _MaxWeight = _TargetWeight.Copy();
-                                    _MinWeight.Value = Convert.ToDecimal(Math.Ceiling(Convert.ToDouble(_MinWeight.Value * 0.995m)));
-                                    _MaxWeight.Value = Convert.ToDecimal(Math.Floor(Convert.ToDouble(_MaxWeight.Value * 1.005m)));
-                                    
                                     _curstate = state.add;
                                     _DispatcherTimer.Start();
-                                    break;                               
+                                    break;
                                 case state.add:
 
-                                    var curAddweight = _ScaleWeight.Subtract(_InitialWeight);
+                                    // 보충량 기준 범위 상하한 0.5%의 값을 보여주도록 로직 변경
+                                    //var curAddweight = _ScaleWeight.Subtract(_InitialWeight);
+                                    var curAddweight = _ScaleWeight;
+
                                     _FinalWeight = _ScaleWeight.Copy();
 
                                     if (curAddweight.Subtract(_MinWeight).Value >= 0 && curAddweight.Subtract(_MaxWeight).Value <= 0)
@@ -704,13 +708,15 @@ namespace 보령
                                             DSPENDDTTM = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
                                         };
 
-                                        _AddWeight = curAddweight;
+                                        // 보충량 기준 범위 상하한 0.5%의 값을 보여주도록 로직 변경
+                                        //_AddWeight = _ScaleWeight;
+                                        _AddWeight = _ScaleWeight.Subtract(_InitialWeight);
                                         _curstate = state.end;
                                     }
                                     else
                                         OnMessage("보충량이 기준값을 벗어났습니다.");
 
-                                    if(_curstate != state.end)
+                                    if (_curstate != state.end)
                                         _DispatcherTimer.Start();
                                     break;
                                 default:

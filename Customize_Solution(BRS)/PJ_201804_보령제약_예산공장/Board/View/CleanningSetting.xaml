@@ -137,10 +137,12 @@
                                                         ItemsSource="{Binding OPSGNAME, Mode=TwoWay}"/>
                         <ControlsLib:DataColumn HeadName="공정GUID" DataField="OPSGGUID" ColumnType="TextBox" ColumnVisibility="Collapsed" HorizontalAlignment="Center" HeaderWidth="150" ReadOnly="False"
                                                         ItemsSource="{Binding OPSGGUID, Mode=TwoWay}"/>
-                        <ControlsLib:DataColumn HeadName="준비시간" DataField="READYVAL" ColumnType="Decimal"  ColumnVisibility="Visible" HorizontalAlignment="Center" HeaderWidth="150" ReadOnly="False"
+                        <ControlsLib:DataColumn HeadName="인원공수" DataField="READYVAL" ColumnType="Int32"  ColumnVisibility="Visible" HorizontalAlignment="Center" HeaderWidth="150" ReadOnly="False"
                                                         ItemsSource="{Binding READYVAL, Mode=TwoWay}"/>
-                        <ControlsLib:DataColumn HeadName="준비시간버젼" DataField="READYVER" ColumnType="TextBox"  ColumnVisibility="Collapsed" HorizontalAlignment="Center" HeaderWidth="150" ReadOnly="False"
+                        <ControlsLib:DataColumn HeadName="인원공수버젼" DataField="READYVER" ColumnType="TextBox"  ColumnVisibility="Collapsed" HorizontalAlignment="Center" HeaderWidth="150" ReadOnly="False"
                                                         ItemsSource="{Binding READYVER, Mode=TwoWay}"/>
+                        <ControlsLib:DataColumn HeadName="설비공수" DataField="EQPTREADYVAL" ColumnType="Int32"  ColumnVisibility="Visible" HorizontalAlignment="Center" HeaderWidth="150" ReadOnly="False"
+                                                        ItemsSource="{Binding EQPTREADYVAL, Mode=TwoWay}"/>
                         <ControlsLib:DataColumn HeadName="사용자" DataField="INSUSERID" ColumnType="TextBox"  ColumnVisibility="Collapsed" HorizontalAlignment="Center" HeaderWidth="150" ReadOnly="False"
                                                         ItemsSource="{Binding INSUSERID, Mode=TwoWay}"/>
                         <ControlsLib:DataColumn HeadName="생성시간" DataField="INSDTTM" ColumnType="TextBox"  ColumnVisibility="Collapsed" HorizontalAlignment="Center" HeaderWidth="150" ReadOnly="False"

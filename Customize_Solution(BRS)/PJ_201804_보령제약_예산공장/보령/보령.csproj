@@ -189,6 +189,7 @@
     <Compile Include="Model.Access\WMS\BR_BRS_REG_VESSEL_WEIGHT.Access.cs" />
     <Compile Include="Model.Access\WMS\BR_BRS_REG_WMS_S_MATERIALRETURN_MULTI.Access.cs" />
     <Compile Include="Model.Access\WMS\BR_BRS_SEL_CurrentWeight.Access.cs" />
+    <Compile Include="Model.Access\WMS\BR_BRS_SEL_IFS_SEL_TSTNO.Access.cs" />
     <Compile Include="Model.Access\공정검사\BR_BRS_GET_AutoInspection_Reject_Ratio.Access.cs" />
     <Compile Include="Model.Access\공정검사\BR_BRS_GET_ProductionOrderTestSpecificationResult.Access.cs" />
     <Compile Include="Model.Access\공정검사\BR_BRS_REG_ProductionOrderTestResult.Access.cs" />
@@ -402,6 +403,10 @@
     </Compile>
     <Compile Include="WMS\빈용기출고ViewModel.cs" />
     <Compile Include="EM모니터링\EM모니터링.cs" />
+    <Compile Include="WMS\질소시험정보조회.xaml.cs">
+      <DependentUpon>질소시험정보조회.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WMS\질소시험정보조회ViewModel.cs" />
     <Compile Include="WMS\칭량IBC반제품무게측정.xaml.cs">
       <DependentUpon>칭량IBC반제품무게측정.xaml</DependentUpon>
     </Compile>
@@ -806,6 +811,14 @@
       <DependentUpon>SVP불량검사결과.xaml</DependentUpon>
     </Compile>
     <Compile Include="주사제\공정검사\SVP불량검사결과ViewModel.cs" />
+    <Compile Include="주사제\공정검사\SVP수동검사불량유형조회.xaml.cs">
+      <DependentUpon>SVP수동검사불량유형조회.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="주사제\공정검사\SVP수동검사불량유형조회ViewModel.cs" />
+    <Compile Include="주사제\공정검사\SVP수동검사불량유형입력ViewModel.cs" />
+    <Compile Include="주사제\공정검사\SVP수동검사불량유형입력.xaml.cs">
+      <DependentUpon>SVP수동검사불량유형입력.xaml</DependentUpon>
+    </Compile>
     <Compile Include="주사제\공정검사\SVP캡핑IPC.xaml.cs">
       <DependentUpon>SVP캡핑IPC.xaml</DependentUpon>
     </Compile>
@@ -1013,6 +1026,10 @@
     <Page Include="WMS\빈용기출고.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WMS\질소시험정보조회.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="WMS\칭량IBC반제품무게측정.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1405,6 +1422,14 @@
     <Page Include="주사제\공정검사\SVP불량검사결과.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="주사제\공정검사\SVP수동검사불량유형조회.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="주사제\공정검사\SVP수동검사불량유형입력.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="주사제\공정검사\SVP캡핑IPC.xaml">
       <SubType>Designer</SubType>

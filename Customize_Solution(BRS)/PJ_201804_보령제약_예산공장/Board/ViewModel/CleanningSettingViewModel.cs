@@ -206,6 +206,7 @@ namespace Board
                                         OPSGGUID = item.OPSGGUID,
                                         READYVAL = item.READYVAL,
                                         READYVER = item.READYVER,
+                                        EQPTREADYVAL = item.EQPTREADYVAL,
                                         INSUSER = AuthRepositoryViewModel.Instance.LoginedUserID
                                     });
                                 }

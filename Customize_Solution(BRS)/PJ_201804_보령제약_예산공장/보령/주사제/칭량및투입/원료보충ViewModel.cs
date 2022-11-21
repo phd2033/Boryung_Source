@@ -338,8 +338,8 @@ namespace 보령
                                         if (temp.SetWeight(item.STDQTY, item.UOMID))
                                             _StandardWeight = _StandardWeight.Add(temp);
                                         else
-                                            throw new Exception(string.Format("기준 조회 실패 : [{0}]", item.MTRLID));                                                                                                                  
-                                    }                                                                     
+                                            throw new Exception(string.Format("기준 조회 실패 : [{0}]", item.MTRLID));
+                                    }
                                 }
 
                                 // 보충원료 피킹정보 조회

@@ -36,7 +36,7 @@ namespace 보령
                 OnPropertyChanged("curLotNo");
             }
         }
-
+        
         private decimal _curUnderVal;
         public decimal curUnderVal
         {
@@ -48,6 +48,7 @@ namespace 보령
             }
         }
         private decimal _curFitCount;
+
         public decimal curFitCount
         {
             get { return _curFitCount; }
@@ -57,8 +58,12 @@ namespace 보령
                 OnPropertyChanged("curFitCount");
             }
         }
-        private decimal _curUpperVal;
-        public decimal curUpperVal
+
+        /// <summary>
+        /// 2022.09.26 박희돈 상한값은 없을 수 있음. 없으면 NA로 표시되도록 요청하여 변수 포멧을 Decimal에서 string으로 변경.
+        /// </summary>
+        private string _curUpperVal;
+        public string curUpperVal
         {
             get { return _curUpperVal; }
             set
@@ -67,6 +72,7 @@ namespace 보령
                 OnPropertyChanged("curUpperVal");
             }
         }
+
         private string _curResult;
         public string curResult
         {
@@ -191,7 +197,7 @@ namespace 보령
                                         curLotNo = outData.POCDVAL1;
                                         curUnderVal = Convert.ToInt32(outData.POCDVAL2);
                                         curFitCount = Convert.ToInt32(outData.POCDVAL3);
-                                        curUpperVal = Convert.ToInt32(outData.POCDVAL4);
+                                        curUpperVal = outData.POCDVAL4;
                                         curResult = outData.POCDVAL5;
 
                                     }
@@ -208,11 +214,11 @@ namespace 보령
 
                                         if (string.IsNullOrEmpty(_mainWnd.CurrentInstruction.Raw.MAXVAL))
                                         {
-                                            curUpperVal = 0;
+                                            curUpperVal = "NA";
                                         }
                                         else
                                         {
-                                            curUpperVal = Convert.ToDecimal(_mainWnd.CurrentInstruction.Raw.MAXVAL);
+                                            curUpperVal = _mainWnd.CurrentInstruction.Raw.MAXVAL;
                                         }
                                     }
                                 }
@@ -277,15 +283,30 @@ namespace 보령
                                 throw new Exception(string.Format("FIT Lot No를 입력해 주세요."));
                             }
 
-                            if (curUnderVal <= curFitCount && curUpperVal >= curFitCount)
+                            //if (curUnderVal <= curFitCount && curUpperVal >= curFitCount)
+                            if(curUpperVal == "NA")
                             {
-                                curResult = "적합";
+                                if (curUnderVal <= curFitCount)
+                                {
+                                    curResult = "적합";
+                                }
+                                else
+                                {
+                                    curResult = "부적합";
+                                }
                             }
                             else
                             {
-                                curResult = "부적합";
+                                if (curUnderVal <= curFitCount && Convert.ToDecimal(curUpperVal) >= curFitCount)
+                                {
+                                    curResult = "적합";
+                                }
+                                else
+                                {
+                                    curResult = "부적합";
+                                }
                             }
-
+                            
                             IsBusy = false;
                             ///
 
@@ -377,7 +398,7 @@ namespace 보령
                                     POCDVAL1 = curLotNo,
                                     POCDVAL2 = curUnderVal.ToString(),
                                     POCDVAL3 = curFitCount.ToString(),
-                                    POCDVAL4 = curUpperVal.ToString(),
+                                    POCDVAL4 = curUpperVal,
                                     POCDVAL5 = curResult,
                                     USERID = AuthRepositoryViewModel.Instance.LoginedUserID
                                 });

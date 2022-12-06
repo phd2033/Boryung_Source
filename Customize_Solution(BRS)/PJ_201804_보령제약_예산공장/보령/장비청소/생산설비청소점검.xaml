@@ -71,6 +71,7 @@
                 <!--<Button x:Name="btnEqptScan" Grid.Column="1" Margin="5"/>-->
                 <Button x:Name="btnConfirm" Content="기록" IsEnabled="{Binding CANRECORDFLAG}" Grid.Column="1" Margin="5" Command="{Binding ConfirmCommandAsync}"/>
                 <Button x:Name="btnCacel" Content="취소" Grid.Column="2" Margin="5" Click="btnCacel_Click"/>
+                
             </Grid>
         </Grid>
     </toolkit:BusyIndicator>

@@ -150,30 +150,30 @@ namespace 보령
                             CommandCanExecutes["RegisterIPCCommandAsync"] = false;
 
                             ///
-                            if (_CrumblingIPCData.DEVIATIONFLAG.HasValue || _FriabilityIPCData.DEVIATIONFLAG.HasValue)
+                            if (_CrumblingIPCData.DEVIATIONFLAG.HasValue && _FriabilityIPCData.DEVIATIONFLAG.HasValue)
                             {
                                 _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs.Clear();
                                 _BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEMs.Clear();
                                 _BR_BRS_REG_ProductionOrderTestResult.INDATA_ETCs.Clear();
 
                                 var authHelper = new iPharmAuthCommandHelper();
-                                authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_IPC");
 
+                                authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_IPC");
                                 if (await authHelper.ClickAsync(
-                                    Common.enumCertificationType.Function,
-                                    Common.enumAccessType.Create,
-                                    string.Format("IPC 결과를 기록합니다."),
-                                    string.Format("IPC 결과를 기록합니다."),
-                                    false,
-                                    "OM_ProductionOrder_IPC",
-                                    "", null, null) == false)
+                                   Common.enumCertificationType.Function,
+                                   Common.enumAccessType.Create,
+                                   string.Format("IPC 결과를 기록합니다."),
+                                   string.Format("IPC 결과를 기록합니다."),
+                                   false,
+                                   "OM_ProductionOrder_IPC",
+                                   "", null, null) == false)
                                 {
                                     throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                 }
 
                                 string confirmguid = AuthRepositoryViewModel.Instance.ConfirmedGuid;
                                 DateTime curDttm = await AuthRepositoryViewModel.GetDBDateTimeNow();
-                                string user = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_IPC");
+                                string user = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI");
 
                                 // 시험명세 기록
                                 _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_SPEC
@@ -202,7 +202,7 @@ namespace 보령
                                 _BR_BRS_REG_ProductionOrderTestResult.INDATA_ETCs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_ETC
                                 {
                                     COMMENTTYPE = "CM001",
-                                    COMMENT = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_IPC"),
+                                    COMMENT = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_SUI"),
                                     TSTYPE = _CrumblingIPCData.TSTYPE,
                                     LOCATIONID = AuthRepositoryViewModel.Instance.RoomID
                                 });

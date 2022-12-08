@@ -472,16 +472,33 @@ namespace 보령
                                 foreach (var item in BR_BRS_GET_Selector_Check_Master.OUTDATAs)
                                 {
                                     decimal chk;
-                                    decimal avgWeight = 0, avgThick = 0, avgHardness = 0, avgDiameter = 0;
+                                    decimal avgWeight = 0, minWeight = 0, maxWeight = 0, sdWeight = 0
+                                            , avgThick = 0, minThick = 0, maxThick = 0
+                                            , avgHardness = 0, minHardness = 0, maxHardness = 0;
 
                                     if (decimal.TryParse(item.AVG_WEIGHT.Replace(item.WEIGHTUOM, ""), out chk))
                                         avgWeight = chk;
+                                    if (decimal.TryParse(item.MIN_WEIGHT.Replace(item.WEIGHTUOM, ""), out chk))
+                                        minWeight = chk;
+                                    if (decimal.TryParse(item.MAX_WEIGHT.Replace(item.WEIGHTUOM, ""), out chk))
+                                        maxWeight = chk;
+                                    if (decimal.TryParse(item.SD_WEIGHT.Replace(item.SD_WEIGHTUOM, ""), out chk))
+                                        sdWeight = chk;
                                     if (decimal.TryParse(item.AVG_THICK.Replace(item.THICKUOM, ""), out chk))
                                         avgThick = chk;
+                                    if (decimal.TryParse(item.MIN_THICK.Replace(item.THICKUOM, ""), out chk))
+                                        minThick = chk;
+                                    if (decimal.TryParse(item.MAX_THICK.Replace(item.THICKUOM, ""), out chk))
+                                        maxThick = chk;
                                     if (decimal.TryParse(item.AVG_HARDNESS.Replace(item.HARDNESSUOM, ""), out chk))
                                         avgHardness = chk;
-                                    if (decimal.TryParse(item.AVG_DIAMETER.Replace(item.DIAMETERUOM, ""), out chk))
-                                        avgDiameter = chk;
+                                    if (decimal.TryParse(item.MIN_HARDNESS.Replace(item.HARDNESSUOM, ""), out chk))
+                                        minHardness = chk;
+                                    if (decimal.TryParse(item.MAX_HARDNESS.Replace(item.HARDNESSUOM, ""), out chk))
+                                        maxHardness = chk;
+                                    //2022.12.07 박희돈 직경 항목 삭제. QA팀 요청
+                                    //if (decimal.TryParse(item.AVG_DIAMETER.Replace(item.DIAMETERUOM, ""), out chk))
+                                    //    avgDiameter = chk;
 
                                     _BR_BRS_REG_IPC_CHECKMASTER_MULTI.INDATAs.Add(new BR_BRS_REG_IPC_CHECKMASTER_MULTI.INDATA
                                     {
@@ -493,9 +510,17 @@ namespace 보령
                                         STRTDTTM = item.STDTTM,
                                         LOCATIONID = AuthRepositoryViewModel.Instance.RoomID,
                                         AVG_WEIGHT = avgWeight.ToString(),
+                                        MIN_WEIGHT = minWeight.ToString(),
+                                        MAX_WEIGHT = maxWeight.ToString(),
+                                        SD_WEIGHT = sdWeight.ToString(),
                                         AVG_THICKNESS = avgThick.ToString(),
+                                        MIN_THICKNESS = minThick.ToString(),
+                                        MAX_THICKNESS = maxThick.ToString(),
                                         AVG_HARDNESS = avgHardness.ToString(),
-                                        AVG_DIAMETER = avgDiameter.ToString()
+                                        MIN_HARDNESS = minHardness.ToString(),
+                                        MAX_HARDNESS = maxHardness.ToString()
+                                        //2022.12.07 박희돈 직경 항목 삭제. QA팀 요청
+                                        //AVG_DIAMETER = avgDiameter.ToString()
                                     });
 
                                 }
@@ -512,15 +537,18 @@ namespace 보령
                                     dt.Columns.Add(new DataColumn("평균질량"));
                                     dt.Columns.Add(new DataColumn("개별최소질량"));
                                     dt.Columns.Add(new DataColumn("개별최대질량"));
+                                    dt.Columns.Add(new DataColumn("개별질량RSD"));
                                     dt.Columns.Add(new DataColumn("평균두께"));
                                     dt.Columns.Add(new DataColumn("최소두께"));
                                     dt.Columns.Add(new DataColumn("최대두께"));
                                     dt.Columns.Add(new DataColumn("평균경도"));
                                     dt.Columns.Add(new DataColumn("최소경도"));
                                     dt.Columns.Add(new DataColumn("최대경도"));
-                                    dt.Columns.Add(new DataColumn("평균직경"));
-                                    dt.Columns.Add(new DataColumn("최소직경"));
-                                    dt.Columns.Add(new DataColumn("최대직경"));
+
+                                    //2022.12.07 박희돈 직경 항목 삭제. QA팀 요청
+                                    //dt.Columns.Add(new DataColumn("평균직경"));
+                                    //dt.Columns.Add(new DataColumn("최소직경"));
+                                    //dt.Columns.Add(new DataColumn("최대직경"));
 
                                     foreach (var rowdata in BR_BRS_GET_Selector_Check_Master.OUTDATAs)
                                     {
@@ -530,15 +558,17 @@ namespace 보령
                                         row["평균질량"] = rowdata.AVG_WEIGHT != null ? rowdata.AVG_WEIGHT : "";
                                         row["개별최소질량"] = rowdata.MIN_WEIGHT != null ? rowdata.MIN_WEIGHT : "";
                                         row["개별최대질량"] = rowdata.MAX_WEIGHT != null ? rowdata.MAX_WEIGHT : "";
+                                        row["개별질량RSD"] = rowdata.SD_WEIGHT != null ? rowdata.SD_WEIGHT : "";
                                         row["평균두께"] = rowdata.AVG_THICK != null ? rowdata.AVG_THICK : "";
                                         row["최소두께"] = rowdata.MIN_THICK != null ? rowdata.MIN_THICK : "";
                                         row["최대두께"] = rowdata.MAX_THICK != null ? rowdata.MAX_THICK : "";
                                         row["평균경도"] = rowdata.AVG_HARDNESS != null ? rowdata.AVG_HARDNESS : "";
                                         row["최소경도"] = rowdata.MIN_HARDNESS != null ? rowdata.MIN_HARDNESS : "";
                                         row["최대경도"] = rowdata.MAX_HARDNESS != null ? rowdata.MAX_HARDNESS : "";
-                                        row["평균직경"] = rowdata.AVG_DIAMETER != null ? rowdata.AVG_DIAMETER : "";
-                                        row["최소직경"] = rowdata.MIN_DIAMETER != null ? rowdata.MIN_DIAMETER : "";
-                                        row["최대직경"] = rowdata.MAX_DIAMETER != null ? rowdata.MAX_DIAMETER : "";
+                                        //2022.12.07 박희돈 직경 항목 삭제. QA팀 요청
+                                        //row["평균직경"] = rowdata.AVG_DIAMETER != null ? rowdata.AVG_DIAMETER : "";
+                                        //row["최소직경"] = rowdata.MIN_DIAMETER != null ? rowdata.MIN_DIAMETER : "";
+                                        //row["최대직경"] = rowdata.MAX_DIAMETER != null ? rowdata.MAX_DIAMETER : "";
 
                                         dt.Rows.Add(row);
                                     }

@@ -157,7 +157,10 @@ namespace 보령
 
             if (await bizRule.Execute() == false) throw bizRule.Exception;
 
-            this.CurrentInstruction.Raw.ACTVAL = string.Format("[{0}] 작업장 사용시작 로그북 자동생성", roomId);
+            //2022.12.02 QA요청사항으로 룸 번호 제거
+            //this.CurrentInstruction.Raw.ACTVAL = string.Format("[{0}] 작업장 사용시작 로그북 자동생성", roomId);
+            this.CurrentInstruction.Raw.ACTVAL = string.Format(" 작업장 사용시작 로그북 자동생성", roomId);
+
 
             return outputValues;
         }

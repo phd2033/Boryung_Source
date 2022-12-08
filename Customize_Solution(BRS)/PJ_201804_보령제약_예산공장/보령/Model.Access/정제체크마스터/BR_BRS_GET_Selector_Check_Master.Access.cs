@@ -609,6 +609,70 @@ namespace 보령
                     }
                 }
             }
+            private string _SD_WEIGHT;
+            [BizActorOutputItemAttribute()]
+            public string SD_WEIGHT
+            {
+                get
+                {
+                    return this._SD_WEIGHT;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._SD_WEIGHT = value;
+                        this.CheckIsOriginal("SD_WEIGHT", value);
+                        this.OnPropertyChanged("SD_WEIGHT");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _SD_WEIGHTUOM;
+            [BizActorOutputItemAttribute()]
+            public string SD_WEIGHTUOM
+            {
+                get
+                {
+                    return this._SD_WEIGHTUOM;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._SD_WEIGHTUOM = value;
+                        this.CheckIsOriginal("SD_WEIGHTUOM", value);
+                        this.OnPropertyChanged("SD_WEIGHTUOM");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
             private string _THICKUOM;
             [BizActorOutputItemAttribute()]
             public string THICKUOM
@@ -997,6 +1061,7 @@ namespace 보령
         public BR_BRS_GET_Selector_Check_Master()
         {
             RuleName = "BR_BRS_GET_Selector_Check_Master";
+            BizName = "BR_BRS_GET_Selector_Check_Master";
             _INDATAs = new INDATACollection();
             _OUTDATAs = new OUTDATACollection();
         }

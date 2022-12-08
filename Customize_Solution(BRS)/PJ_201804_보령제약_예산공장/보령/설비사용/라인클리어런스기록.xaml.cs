@@ -16,14 +16,14 @@ namespace 보령
 {
     public partial class 라인클리어런스기록 : ShopFloorCustomWindow
     {
-        [Description("LineClearance 조회")]
+        [Description("LineClearance 기록")]
         public 라인클리어런스기록()
         {
             InitializeComponent();
         }
         public override string TableTypeName
         {
-            get { return "TABLE,라인클리어런스조회"; }
+            get { return "TABLE,라인클리어런스기록"; }
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)

@@ -26,6 +26,12 @@ namespace 보령
         {
             _BR_BRS_SEL_EquipmentStatus_PROCEQPT = new BR_BRS_SEL_EquipmentStatus_PROCEQPT();
             _BR_BRS_SEL_EquipmentStatus_CheckCleaned_Multi = new BR_BRS_SEL_EquipmentStatus_CheckCleaned_Multi();
+            _ListContainer = new ObservableCollection<보령.생산설비청소점검ViewModel.ComboList>()
+            {
+                new ComboList () {ID="Yes", VALUE="Yes" },
+                new ComboList () {ID="No", VALUE="No" },
+                new ComboList () {ID="N/A", VALUE="N/A" }
+            };
         }
         private 생산설비청소점검 _mainWnd;
         private List<InstructionModel> refInst;
@@ -40,6 +46,18 @@ namespace 보령
                 OnPropertyChanged("CANRECORDFLAG");
             }
         }
+
+        private ObservableCollection<ComboList> _ListContainer;
+        public ObservableCollection<ComboList> ListContainer
+        {
+            get { return _ListContainer; }
+            set
+            {
+                _ListContainer = value;
+                OnPropertyChanged("ListContainer");
+            }
+        }
+
         #endregion
         #region [BizRule]
         private BR_BRS_SEL_EquipmentStatus_PROCEQPT _BR_BRS_SEL_EquipmentStatus_PROCEQPT;
@@ -52,6 +70,7 @@ namespace 보령
                 OnPropertyChanged("BR_BRS_SEL_EquipmentStatus_PROCEQPT");
             }
         }
+
         private BR_BRS_SEL_EquipmentStatus_CheckCleaned_Multi _BR_BRS_SEL_EquipmentStatus_CheckCleaned_Multi;
         public BR_BRS_SEL_EquipmentStatus_CheckCleaned_Multi BR_BRS_SEL_EquipmentStatus_CheckCleaned_Multi
         {
@@ -128,7 +147,7 @@ namespace 보령
                                                 });
                                             }
                                         }
-                                            
+
                                     }
 
                                     await BR_BRS_SEL_EquipmentStatus_PROCEQPT.Execute();
@@ -187,7 +206,7 @@ namespace 보령
                                     ActionPerformPopup.DataContext = new EM_EquipmentManagementPerformActionViewModel();
                                     ActionPerformPopup.Closed += (s, e) =>
                                     {
-                                        RefreshData(selectedEqptId, selectedEqptId);                                        
+                                        RefreshData(selectedEqptId, selectedEqptId);
                                     };
                                     ActionPerformPopup.Show();
                                 }
@@ -241,7 +260,7 @@ namespace 보령
 
                                     if (await bizRule.Execute() == true)
                                         RefreshData(selectedEqptId, selectedEqptId);
-                                }                                
+                                }
                             }
 
                             IsBusy = false;
@@ -337,7 +356,7 @@ namespace 보령
                                 foreach (var item in BR_BRS_SEL_EquipmentStatus_PROCEQPT.OUTDATAs)
                                 {
                                     // item.WEEKLYCHKSTATUS, item.MONTHCHKSTATUS의 값이 null일수 있음. null인 이유는 주간점검 혹은 월간점검 액션이 없기 때문.2020.11.20 phd
-                                    if ((item.WEEKLYCHKSTATUS != null && item.WEEKLYCHKSTATUS.ToString() == "부적합" ) 
+                                    if ((item.WEEKLYCHKSTATUS != null && item.WEEKLYCHKSTATUS.ToString() == "부적합")
                                     || (item.MONTHCHKSTATUS != null && item.MONTHCHKSTATUS.ToString() == "부적합"))
                                     {
                                         if (item.WEEKLYCHKSTATUS != null && item.WEEKLYCHKSTATUS.ToString() == "부적합")
@@ -350,7 +369,7 @@ namespace 보령
                                         }
                                     }
                                 }
-                                    var authHelper = new iPharmAuthCommandHelper();
+                                var authHelper = new iPharmAuthCommandHelper();
 
                                 // Phase 종료후 값 수정 시 전자서명
                                 if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y") && _mainWnd.Phase.CurrentPhase.STATE.Equals("COMP"))
@@ -425,12 +444,12 @@ namespace 보령
                                     {
                                         if (item.EQPTID != null && Inst.Raw.ACTVAL != null)
                                         {
-                                            if(item.EQPTID.ToString().ToUpper().Equals(Inst.Raw.ACTVAL.ToString().ToUpper()))
+                                            if (item.EQPTID.ToString().ToUpper().Equals(Inst.Raw.ACTVAL.ToString().ToUpper()))
                                             {
-                                                    row["룸장비여부"] = "N";
-                                                    break;
+                                                row["룸장비여부"] = "N";
+                                                break;
                                             }
-                                        }                                            
+                                        }
                                         else
                                         {
                                             row["룸장비여부"] = "Y";
@@ -487,7 +506,7 @@ namespace 보령
             {
                 CANRECORDFLAG = true;
 
-                var failEQPTS = BR_BRS_SEL_EquipmentStatus_PROCEQPT.OUTDATAs.FirstOrDefault(o => o.AVAILFLAG == "N" || o.VALIDFLAG == "N" || o.PERIODCHKSTATUS.Contains( "부적합")|| o.QUALIFICATIONSTATUS.Contains("부적합"));
+                var failEQPTS = BR_BRS_SEL_EquipmentStatus_PROCEQPT.OUTDATAs.FirstOrDefault(o => o.AVAILFLAG == "N" || o.VALIDFLAG == "N" || o.PERIODCHKSTATUS.Contains("부적합") || o.QUALIFICATIONSTATUS.Contains("부적합"));
 
                 if (null != failEQPTS) CANRECORDFLAG = false;
             }
@@ -543,6 +562,29 @@ namespace 보령
                 }
             }
             CheckRecordFlag();
+        }
+        public class ComboList : ViewModelBase
+        {
+            private string _ID;
+            public string ID
+            {
+                get { return _ID; }
+                set
+                {
+                    _ID = value;
+                    OnPropertyChanged("ID");
+                }
+            }
+            private string _VALUE;
+            public string VALUE
+            {
+                get { return _VALUE; }
+                set
+                {
+                    _VALUE = value;
+                    OnPropertyChanged("VALUE");
+                }
+            }
         }
         #endregion
     }

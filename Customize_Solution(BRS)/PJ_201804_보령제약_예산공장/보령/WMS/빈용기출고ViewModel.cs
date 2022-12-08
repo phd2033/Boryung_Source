@@ -668,7 +668,9 @@ namespace 보령
                                     OPSGNAME = _mainWnd.CurrentOrder.OrderProcessSegmentName,
                                     OUTPUTID = output.OUTPUTID,
                                     OUTPUTGUID = output.OUTPUTGUID.HasValue ? output.OUTPUTGUID.ToString() : null,
-                                    WASHINGDTTM = item.WASHINGDTTM,
+                                    // 2022.12.05 김호연 QA요청사항으로 세척일시 분까지만 표시
+                                    //WASHINGDTTM = item.WASHINGDTTM,
+                                    WASHINGDTTM = Convert.ToDateTime(item.WASHINGDTTM).ToString("yyyy.MM.dd. HH:mm"),
                                     CLEANEXPIREDTTM = item.CLEANEXPIREDTTM,
                                     CVSTATUS = item.MTRLNAME,
                                     STATUS = "대기"
@@ -689,7 +691,9 @@ namespace 보령
                                 OPSGNAME = _mainWnd.CurrentOrder.OrderProcessSegmentName,
                                 OUTPUTID = _OutputId,
                                 OUTPUTGUID = _OutputguId,
-                                WASHINGDTTM = item.WASHINGDTTM,
+                                // 2022.12.05 김호연 QA요청사항으로 세척일시 분까지만 표시
+                                //WASHINGDTTM = item.WASHINGDTTM,
+                                WASHINGDTTM = Convert.ToDateTime(item.WASHINGDTTM).ToString("yyyy.MM.dd. HH:mm"),
                                 CLEANEXPIREDTTM = item.CLEANEXPIREDTTM,
                                 CVSTATUS = item.MTRLNAME,
                                 STATUS = "대기"

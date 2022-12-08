@@ -284,7 +284,8 @@ namespace 보령
                             dt.Columns.Add(new DataColumn("반제품명"));
                             dt.Columns.Add(new DataColumn("용기번호"));
                             dt.Columns.Add(new DataColumn("원료배치번호"));
-                            dt.Columns.Add(new DataColumn("무게"));
+                            //2022.12.02 김호연 QA 요청사항으로 과립 반제품 무게 제거
+                            //dt.Columns.Add(new DataColumn("무게"));
 
 
                             string outputID = _mainWnd.CurrentInstruction.Raw.BOMID;
@@ -370,7 +371,8 @@ namespace 보령
                                 row["반제품명"] = item.OUTPUTID != null ? item.OUTPUTID : "";
                                 row["용기번호"] = item.VESSELID != null ? item.VESSELID : "";
                                 row["원료배치번호"] = item.MLOTID != null ? item.MLOTID.ToString() : "";
-                                row["무게"] = item.MSUBLOTQTY != null ? decimal.Parse(item.MSUBLOTQTY.ToString()).ToString("0.##0") : "";
+                                //2022.12.02 김호연 QA 요청사항으로 과립 반제품 무게 제거
+                                //row["무게"] = item.MSUBLOTQTY != null ? decimal.Parse(item.MSUBLOTQTY.ToString()).ToString("0.##0") : "";
                                 dt.Rows.Add(row);
 
                             }

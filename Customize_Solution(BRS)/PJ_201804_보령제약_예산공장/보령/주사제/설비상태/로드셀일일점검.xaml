@@ -56,8 +56,9 @@
                 </i:Interaction.Triggers>
                 <c1:C1DataGrid.Columns>
                     <c1:DataGridTextColumn Header="Load Cell 번호" Binding="{Binding Path=LOADCELLNO}"/>
-                    <!--<c1:DataGridTextColumn Header="청소상태" Binding="{Binding Path=CLEANSTATUS}"/>
-                    <c1:DataGridTextColumn Header="영점조정" Binding="{Binding Path=ZEROSTATUS}"/>-->
+                    <c1:DataGridTextColumn Header="하한값" Binding="{Binding Path=MinVelue}"/>
+                    <c1:DataGridTextColumn Header="Target" Binding="{Binding Path=AverVelue}"/>
+                    <c1:DataGridTextColumn Header="상한값" Binding="{Binding Path=MaxVelue}"/>
                     <c1:DataGridTextColumn Header="정확도측정값" Binding="{Binding Path=TAGVALUE}"/>
                     <c1:DataGridTextColumn Header="적합여부" Binding="{Binding Path=DAILYCHKSTATUS}"/>
                 </c1:C1DataGrid.Columns>

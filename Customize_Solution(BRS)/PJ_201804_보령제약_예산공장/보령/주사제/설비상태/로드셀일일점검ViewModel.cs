@@ -39,6 +39,40 @@ namespace 보령
                 OnPropertyChanged("EqptId");
             }
         }
+
+        private string _MinVelue;
+        public string MinVelue
+        {
+            get { return _MinVelue; }
+            set
+            {
+                _MinVelue = value;
+                OnPropertyChanged("MinVelue");
+            }
+        }
+
+        private string _MaxVelue;
+        public string MaxVelue
+        {
+            get { return _MaxVelue; }
+            set
+            {
+                _MaxVelue = value;
+                OnPropertyChanged("MaxVelue");
+            }
+        }
+
+        private string _AverVelue;
+        public string AverVelue
+        {
+            get { return _AverVelue; }
+            set
+            {
+                _AverVelue = value;
+                OnPropertyChanged("AverVelue");
+            }
+        }
+
         private ObservableCollection<LoadCellTagDailyCheck> _DailyCheckDatas;
         public ObservableCollection<LoadCellTagDailyCheck> DailyCheckDatas
         {
@@ -84,9 +118,16 @@ namespace 보령
                                 _mainWnd = arg as 로드셀일일점검;
 
                                 if (!string.IsNullOrWhiteSpace(_mainWnd.CurrentInstruction.Raw.EQPTID))
+                                {
                                     EqptId = _mainWnd.CurrentInstruction.Raw.EQPTID;
+                                }
                                 else
                                     _mainWnd.txtEqptId.Focus();
+
+                                //2022.12.09 박희돈 기준정보 설정 추가
+                                MinVelue = _mainWnd.CurrentInstruction.Raw.MINVAL;
+                                MaxVelue = _mainWnd.CurrentInstruction.Raw.MAXVAL;
+                                AverVelue = _mainWnd.CurrentInstruction.Raw.MAXVAL;
                             }
                             ///
 
@@ -153,7 +194,10 @@ namespace 보령
                                             CLEANSTATUS = "",
                                             ZEROSTATUS = "",
                                             TAGVALUE = "",
-                                            DAILYCHKSTATUS = ""
+                                            DAILYCHKSTATUS = "",
+                                            MinVelue = MinVelue,
+                                            AverVelue = AverVelue,
+                                            MaxVelue = MaxVelue
                                         });
                                     }
                                     _mainWnd.gdDailyCheck.Refresh();
@@ -221,8 +265,30 @@ namespace 보령
                                     curLoadCell.TAGVALUE = popup.txtTagValue.Content.ToString();
                                     curLoadCell.CLEANSTATUS = "양호";
                                     curLoadCell.ZEROSTATUS = "적합";
-                                    curLoadCell.DAILYCHKSTATUS = "적합";
 
+                                    if (curLoadCell.TAGVALUE.Equals("N/A"))
+                                    {
+                                        OnMessage("로드셀 값을 확인해주세요.");
+                                        return;
+                                    }
+
+                                    if (string.IsNullOrEmpty(MinVelue) || string.IsNullOrEmpty(AverVelue) || string.IsNullOrEmpty(MaxVelue))
+                                    {
+                                        OnMessage("기준정보 설정이 되어있지 않습니다.");
+                                        curLoadCell.DAILYCHKSTATUS = "부적합";
+                                    }
+                                    else
+                                    {
+                                        //2022.12.09 박희돈 레시피 디자이너의 기준값을 사용하여 적부 판단.
+                                        if (Convert.ToDecimal(MinVelue) <= Convert.ToDecimal(curLoadCell.TAGVALUE) && Convert.ToDecimal(MaxVelue) >= Convert.ToDecimal(curLoadCell.TAGVALUE))
+                                        {
+                                            curLoadCell.DAILYCHKSTATUS = "적합";
+                                        }
+                                        else
+                                        {
+                                            curLoadCell.DAILYCHKSTATUS = "부적합";
+                                        }
+                                    }
                                     _mainWnd.gdDailyCheck.Refresh();
                                     popup.Close();
                                 };
@@ -316,6 +382,9 @@ namespace 보령
                             dt.Columns.Add(new DataColumn("로드셀번호"));
                             //dt.Columns.Add(new DataColumn("청소상태"));
                             //dt.Columns.Add(new DataColumn("영점조정"));
+                            dt.Columns.Add(new DataColumn("최소값"));
+                            dt.Columns.Add(new DataColumn("TARGET"));
+                            dt.Columns.Add(new DataColumn("최대값"));
                             dt.Columns.Add(new DataColumn("정확도측정값"));
                             dt.Columns.Add(new DataColumn("적합여부"));
 
@@ -326,6 +395,10 @@ namespace 보령
                                 row["로드셀번호"] = item.LOADCELLNO;
                                 //row["청소상태"] = item.CLEANSTATUS ?? "";
                                 //row["영점조정"] = item.ZEROSTATUS ?? "";
+                                //2022.12.09 박희돈 상한,하한,평균값 추가
+                                row["최소값"] = MinVelue ?? "";
+                                row["TARGET"] = AverVelue ?? "";
+                                row["최대값"] = MaxVelue ?? "";
                                 row["정확도측정값"] = item.TAGVALUE ?? "";
                                 row["적합여부"] = item.DAILYCHKSTATUS ?? "";
 
@@ -432,6 +505,40 @@ namespace 보령
                 {
                     _TAGID = value;
                     OnPropertyChanged("TAGID");
+                }
+            }
+
+
+            private string _MinVelue;
+            public string MinVelue
+            {
+                get { return _MinVelue; }
+                set
+                {
+                    _MinVelue = value;
+                    OnPropertyChanged("MinVelue");
+                }
+            }
+
+            private string _MaxVelue;
+            public string MaxVelue
+            {
+                get { return _MaxVelue; }
+                set
+                {
+                    _MaxVelue = value;
+                    OnPropertyChanged("MaxVelue");
+                }
+            }
+
+            private string _AverVelue;
+            public string AverVelue
+            {
+                get { return _AverVelue; }
+                set
+                {
+                    _AverVelue = value;
+                    OnPropertyChanged("AverVelue");
                 }
             }
         }

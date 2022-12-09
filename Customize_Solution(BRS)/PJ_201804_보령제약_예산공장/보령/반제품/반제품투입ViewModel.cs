@@ -579,6 +579,12 @@ namespace 보령
                                 throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                             }
 
+                            // 2022.12.06 김호연 반제품 하나라도 투입을 해야 기록할수 있도록 로직 수정.
+                            if (OutputSubLotInfo.Where(o => (o.STATUS == "투입완료")).Count() == 0)
+                            {
+                                throw new Exception(string.Format("반제품 투입을 해주세요"));
+                            }
+
                             var ds = new DataSet();
                             var dt = new DataTable("DATA");
                             ds.Tables.Add(dt);

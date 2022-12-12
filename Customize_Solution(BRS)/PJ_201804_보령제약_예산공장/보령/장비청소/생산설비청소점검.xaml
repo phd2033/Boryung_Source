@@ -50,7 +50,7 @@
                         <c1:DataGridTextColumn Header="이전제품명" IsReadOnly="True" HorizontalAlignment="Center" Binding="{Binding MTRLNAME}"/>
                         <c1:DataGridTextColumn Header="이전제조번호" IsReadOnly="True" HorizontalAlignment="Center" Binding="{Binding BATCHNO}"/>
                         <!--<c1:DataGridTextColumn Header="점검상태" IsReadOnly="True" HorizontalAlignment="Center" Binding="{Binding PERIODCHKSTATUS}"/>-->
-                        <c1:DataGridTemplateColumn Header="점검상태" >
+                        <c1:DataGridTemplateColumn Header="일일점검기록" >
                             <c1:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Path=PERIODCHKSTATUS, UpdateSourceTrigger=PropertyChanged}" />

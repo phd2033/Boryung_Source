@@ -163,7 +163,7 @@ namespace 보령
                             if (await bizrule.Execute() == true)
                             {
                                 txtEQPTID = bizrule.OUTDATAs[0].EQPTID;                                
-                                FromDt = Convert.ToDateTime(bizrule.OUTDATAs[0].STARTTIME);
+                                FromDt = Convert.ToDateTime(bizrule.OUTDATAs[0].STARTTIME).AddMinutes(-5);
                                 // 2022.12.05 김호연 QA요청사항으로 종료시간 + 5분 더해서 조회
                                 //ToDt = Convert.ToDateTime(bizrule.OUTDATAs[0].ENDTIME)
                                 ToDt = Convert.ToDateTime(bizrule.OUTDATAs[0].ENDTIME).AddMinutes(5);

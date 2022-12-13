@@ -15,17 +15,17 @@ using System.Collections.Generic;
 
 namespace 보령
 {
-    public class 정제체크마스터조회ViewModel : ViewModelBase
+    public class 정제체크마스터조회_수정ViewModel : ViewModelBase
     {
         #region [Property]
-        public 정제체크마스터조회ViewModel()
+        public 정제체크마스터조회_수정ViewModel()
         {
             _BR_PHR_SEL_CODE = new BR_PHR_SEL_CODE();
-            _BR_BRS_GET_Selector_Check_Master = new BR_BRS_GET_Selector_Check_Master();
-            _BR_BRS_REG_IPC_CHECKMASTER_MULTI = new BR_BRS_REG_IPC_CHECKMASTER_MULTI();
+            _BR_BRS_GET_Selector_Check_Master_Edit = new BR_BRS_GET_Selector_Check_Master_Edit();
+            _BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit = new BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit();
         }
 
-        정제체크마스터조회 _mainWnd;
+        정제체크마스터조회_수정 _mainWnd;
 
         private string _EQPTID;
         public string EQPTID
@@ -136,18 +136,18 @@ namespace 보령
         #region [Bizrule]
         private BR_PHR_SEL_CODE _BR_PHR_SEL_CODE;
 
-        private BR_BRS_GET_Selector_Check_Master _BR_BRS_GET_Selector_Check_Master;
-        public BR_BRS_GET_Selector_Check_Master BR_BRS_GET_Selector_Check_Master
+        private BR_BRS_GET_Selector_Check_Master_Edit _BR_BRS_GET_Selector_Check_Master_Edit;
+        public BR_BRS_GET_Selector_Check_Master_Edit BR_BRS_GET_Selector_Check_Master_Edit
         {
-            get { return _BR_BRS_GET_Selector_Check_Master; }
+            get { return _BR_BRS_GET_Selector_Check_Master_Edit; }
             set
             {
-                _BR_BRS_GET_Selector_Check_Master = value;
-                OnPropertyChanged("BR_BRS_GET_Selector_Check_Master");
+                _BR_BRS_GET_Selector_Check_Master_Edit = value;
+                OnPropertyChanged("BR_BRS_GET_Selector_Check_Master_Edit");
             }
         }
 
-        private BR_BRS_REG_IPC_CHECKMASTER_MULTI _BR_BRS_REG_IPC_CHECKMASTER_MULTI;
+        private BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit _BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit;
         #endregion
 
         #region [Command]
@@ -168,9 +168,9 @@ namespace 보령
                             CommandCanExecutes["LoadedCommandAsync"] = false;
 
                             ///
-                            if (arg != null && arg is 정제체크마스터조회)
+                            if (arg != null && arg is 정제체크마스터조회_수정)
                             {
-                                _mainWnd = arg as 정제체크마스터조회;
+                                _mainWnd = arg as 정제체크마스터조회_수정;
 
                                 EQPTID = "";
 
@@ -372,9 +372,9 @@ namespace 보령
                             CommandCanExecutes["GetIPCResultCommandAsync"] = false;
 
                             ///
-                            BR_BRS_GET_Selector_Check_Master.INDATAs.Clear();
-                            BR_BRS_GET_Selector_Check_Master.OUTDATAs.Clear();
-                            BR_BRS_GET_Selector_Check_Master.INDATAs.Add(new BR_BRS_GET_Selector_Check_Master.INDATA
+                            BR_BRS_GET_Selector_Check_Master_Edit.INDATAs.Clear();
+                            BR_BRS_GET_Selector_Check_Master_Edit.OUTDATAs.Clear();
+                            BR_BRS_GET_Selector_Check_Master_Edit.INDATAs.Add(new BR_BRS_GET_Selector_Check_Master_Edit.INDATA
                             {
                                 EQPTID = EQPTID,
                                 FROMDATETIME = string.Format("{0} {1}:{2}", _FROMDATE.ToString("yyyy-MM-dd"), _FROMHOUR, _FROMMINUTE),
@@ -383,7 +383,7 @@ namespace 보령
                                 OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID
                             });
 
-                            if (await BR_BRS_GET_Selector_Check_Master.Execute())
+                            if (await BR_BRS_GET_Selector_Check_Master_Edit.Execute())
                             {
                                 RECORD_ENABLE = true;
                             }
@@ -432,7 +432,7 @@ namespace 보령
                             CommandCanExecutes["ConfirmCommandAsync"] = false;
 
                             ///
-                            if (BR_BRS_GET_Selector_Check_Master.OUTDATAs.Count > 0)
+                            if (BR_BRS_GET_Selector_Check_Master_Edit.OUTDATAs.Count > 0)
                             {
                                 var authHelper = new iPharmAuthCommandHelper();
                                 // 재기록
@@ -467,23 +467,40 @@ namespace 보령
                                     throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                 }
 
-                                // BR_BRS_REG_IPC_CHECKMASTER_MULTI IPC 결과 테이블에 저장
-                                _BR_BRS_REG_IPC_CHECKMASTER_MULTI.INDATAs.Clear();
-                                foreach (var item in BR_BRS_GET_Selector_Check_Master.OUTDATAs)
+                                // BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit IPC 결과 테이블에 저장
+                                _BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit.INDATAs.Clear();
+                                foreach (var item in BR_BRS_GET_Selector_Check_Master_Edit.OUTDATAs)
                                 {
                                     decimal chk;
-                                    decimal avgWeight = 0, avgThick = 0, avgHardness = 0, avgDiameter = 0;
+                                    decimal avgWeight = 0, minWeight = 0, maxWeight = 0, sdWeight = 0
+                                            , avgThick = 0, minThick = 0, maxThick = 0
+                                            , avgHardness = 0, minHardness = 0, maxHardness = 0;
 
                                     if (decimal.TryParse(item.AVG_WEIGHT.Replace(item.WEIGHTUOM, ""), out chk))
                                         avgWeight = chk;
+                                    if (decimal.TryParse(item.MIN_WEIGHT.Replace(item.WEIGHTUOM, ""), out chk))
+                                        minWeight = chk;
+                                    if (decimal.TryParse(item.MAX_WEIGHT.Replace(item.WEIGHTUOM, ""), out chk))
+                                        maxWeight = chk;
+                                    if (decimal.TryParse(item.SD_WEIGHT.Replace(item.SD_WEIGHTUOM, ""), out chk))
+                                        sdWeight = chk;
                                     if (decimal.TryParse(item.AVG_THICK.Replace(item.THICKUOM, ""), out chk))
                                         avgThick = chk;
+                                    if (decimal.TryParse(item.MIN_THICK.Replace(item.THICKUOM, ""), out chk))
+                                        minThick = chk;
+                                    if (decimal.TryParse(item.MAX_THICK.Replace(item.THICKUOM, ""), out chk))
+                                        maxThick = chk;
                                     if (decimal.TryParse(item.AVG_HARDNESS.Replace(item.HARDNESSUOM, ""), out chk))
                                         avgHardness = chk;
-                                    if (decimal.TryParse(item.AVG_DIAMETER.Replace(item.DIAMETERUOM, ""), out chk))
-                                        avgDiameter = chk;
+                                    if (decimal.TryParse(item.MIN_HARDNESS.Replace(item.HARDNESSUOM, ""), out chk))
+                                        minHardness = chk;
+                                    if (decimal.TryParse(item.MAX_HARDNESS.Replace(item.HARDNESSUOM, ""), out chk))
+                                        maxHardness = chk;
+                                    //2022.12.07 박희돈 직경 항목 삭제. QA팀 요청
+                                    //if (decimal.TryParse(item.AVG_DIAMETER.Replace(item.DIAMETERUOM, ""), out chk))
+                                    //    avgDiameter = chk;
 
-                                    _BR_BRS_REG_IPC_CHECKMASTER_MULTI.INDATAs.Add(new BR_BRS_REG_IPC_CHECKMASTER_MULTI.INDATA
+                                    _BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit.INDATAs.Add(new BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit.INDATA
                                     {
                                         EQPTID = item.EQPTID != null ? item.EQPTID : "",
                                         POID = _mainWnd.CurrentOrder.ProductionOrderID,
@@ -493,14 +510,22 @@ namespace 보령
                                         STRTDTTM = item.STDTTM,
                                         LOCATIONID = AuthRepositoryViewModel.Instance.RoomID,
                                         AVG_WEIGHT = avgWeight.ToString(),
+                                        MIN_WEIGHT = minWeight.ToString(),
+                                        MAX_WEIGHT = maxWeight.ToString(),
+                                        SD_WEIGHT = sdWeight.ToString(),
                                         AVG_THICKNESS = avgThick.ToString(),
+                                        MIN_THICKNESS = minThick.ToString(),
+                                        MAX_THICKNESS = maxThick.ToString(),
                                         AVG_HARDNESS = avgHardness.ToString(),
-                                        AVG_DIAMETER = avgDiameter.ToString()
+                                        MIN_HARDNESS = minHardness.ToString(),
+                                        MAX_HARDNESS = maxHardness.ToString()
+                                        //2022.12.07 박희돈 직경 항목 삭제. QA팀 요청
+                                        //AVG_DIAMETER = avgDiameter.ToString()
                                     });
 
                                 }
 
-                                if (await _BR_BRS_REG_IPC_CHECKMASTER_MULTI.Execute())
+                                if (await _BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit.Execute())
                                 {
 
                                     DataSet ds = new DataSet();
@@ -512,17 +537,20 @@ namespace 보령
                                     dt.Columns.Add(new DataColumn("평균질량"));
                                     dt.Columns.Add(new DataColumn("개별최소질량"));
                                     dt.Columns.Add(new DataColumn("개별최대질량"));
+                                    dt.Columns.Add(new DataColumn("개별질량RSD"));
                                     dt.Columns.Add(new DataColumn("평균두께"));
                                     dt.Columns.Add(new DataColumn("최소두께"));
                                     dt.Columns.Add(new DataColumn("최대두께"));
                                     dt.Columns.Add(new DataColumn("평균경도"));
                                     dt.Columns.Add(new DataColumn("최소경도"));
                                     dt.Columns.Add(new DataColumn("최대경도"));
-                                    dt.Columns.Add(new DataColumn("평균직경"));
-                                    dt.Columns.Add(new DataColumn("최소직경"));
-                                    dt.Columns.Add(new DataColumn("최대직경"));
 
-                                    foreach (var rowdata in BR_BRS_GET_Selector_Check_Master.OUTDATAs)
+                                    //2022.12.07 박희돈 직경 항목 삭제. QA팀 요청
+                                    //dt.Columns.Add(new DataColumn("평균직경"));
+                                    //dt.Columns.Add(new DataColumn("최소직경"));
+                                    //dt.Columns.Add(new DataColumn("최대직경"));
+
+                                    foreach (var rowdata in BR_BRS_GET_Selector_Check_Master_Edit.OUTDATAs)
                                     {
                                         var row = dt.NewRow();
                                         row["장비번호"] = rowdata.EQPTID;
@@ -530,15 +558,17 @@ namespace 보령
                                         row["평균질량"] = rowdata.AVG_WEIGHT != null ? rowdata.AVG_WEIGHT : "";
                                         row["개별최소질량"] = rowdata.MIN_WEIGHT != null ? rowdata.MIN_WEIGHT : "";
                                         row["개별최대질량"] = rowdata.MAX_WEIGHT != null ? rowdata.MAX_WEIGHT : "";
+                                        row["개별질량RSD"] = rowdata.SD_WEIGHT != null ? rowdata.SD_WEIGHT : "";
                                         row["평균두께"] = rowdata.AVG_THICK != null ? rowdata.AVG_THICK : "";
                                         row["최소두께"] = rowdata.MIN_THICK != null ? rowdata.MIN_THICK : "";
                                         row["최대두께"] = rowdata.MAX_THICK != null ? rowdata.MAX_THICK : "";
                                         row["평균경도"] = rowdata.AVG_HARDNESS != null ? rowdata.AVG_HARDNESS : "";
                                         row["최소경도"] = rowdata.MIN_HARDNESS != null ? rowdata.MIN_HARDNESS : "";
                                         row["최대경도"] = rowdata.MAX_HARDNESS != null ? rowdata.MAX_HARDNESS : "";
-                                        row["평균직경"] = rowdata.AVG_DIAMETER != null ? rowdata.AVG_DIAMETER : "";
-                                        row["최소직경"] = rowdata.MIN_DIAMETER != null ? rowdata.MIN_DIAMETER : "";
-                                        row["최대직경"] = rowdata.MAX_DIAMETER != null ? rowdata.MAX_DIAMETER : "";
+                                        //2022.12.07 박희돈 직경 항목 삭제. QA팀 요청
+                                        //row["평균직경"] = rowdata.AVG_DIAMETER != null ? rowdata.AVG_DIAMETER : "";
+                                        //row["최소직경"] = rowdata.MIN_DIAMETER != null ? rowdata.MIN_DIAMETER : "";
+                                        //row["최대직경"] = rowdata.MAX_DIAMETER != null ? rowdata.MAX_DIAMETER : "";
 
                                         dt.Rows.Add(row);
                                     }

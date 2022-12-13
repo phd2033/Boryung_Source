@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace 보령
 {
-
+    
     /// <summary>
-    /// summary of BR_BRS_GET_Selector_Check_Master
+    /// summary of BR_BRS_GET_Selector_Check_Master_Edit
     /// </summary>
-    public partial class BR_BRS_GET_Selector_Check_Master : BizActorRuleBase
+    public partial class BR_BRS_GET_Selector_Check_Master_Edit : BizActorRuleBase
     {
         public sealed partial class INDATACollection : BufferedObservableCollection<INDATA>
         {
@@ -22,7 +22,7 @@ namespace 보령
                 return this._INDATAs;
             }
         }
-        [BizActorInputSetDefineAttribute(Order = "0")]
+        [BizActorInputSetDefineAttribute(Order="0")]
         [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
         public partial class INDATA : BizActorDataSetBase
         {
@@ -242,7 +242,7 @@ namespace 보령
                 return this._OUTDATAs;
             }
         }
-        [BizActorOutputSetDefineAttribute(Order = "0")]
+        [BizActorOutputSetDefineAttribute(Order="0")]
         [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
         public partial class OUTDATA : BizActorDataSetBase
         {
@@ -595,6 +595,70 @@ namespace 보령
                         this._MAX_WEIGHT = value;
                         this.CheckIsOriginal("MAX_WEIGHT", value);
                         this.OnPropertyChanged("MAX_WEIGHT");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _SD_WEIGHT;
+            [BizActorOutputItemAttribute()]
+            public string SD_WEIGHT
+            {
+                get
+                {
+                    return this._SD_WEIGHT;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._SD_WEIGHT = value;
+                        this.CheckIsOriginal("SD_WEIGHT", value);
+                        this.OnPropertyChanged("SD_WEIGHT");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _SD_WEIGHTUOM;
+            [BizActorOutputItemAttribute()]
+            public string SD_WEIGHTUOM
+            {
+                get
+                {
+                    return this._SD_WEIGHTUOM;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._SD_WEIGHTUOM = value;
+                        this.CheckIsOriginal("SD_WEIGHTUOM", value);
+                        this.OnPropertyChanged("SD_WEIGHTUOM");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -994,10 +1058,10 @@ namespace 보령
                 }
             }
         }
-        public BR_BRS_GET_Selector_Check_Master()
+        public BR_BRS_GET_Selector_Check_Master_Edit()
         {
-            RuleName = "BR_BRS_GET_Selector_Check_Master";
-            BizName = "BR_BRS_GET_Selector_Check_Master";
+            RuleName = "BR_BRS_GET_Selector_Check_Master_Edit";
+            BizName = "BR_BRS_GET_Selector_Check_Master_Edit";
             _INDATAs = new INDATACollection();
             _OUTDATAs = new OUTDATACollection();
         }

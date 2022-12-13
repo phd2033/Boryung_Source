@@ -25,7 +25,7 @@ namespace 보령
 
         public override string TableTypeName
         {
-            get { return "TABLE,정제체크마스터조회"; }
+            get { return "TABLE,정제체크마스터조회_수정"; }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

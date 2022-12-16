@@ -127,7 +127,7 @@ namespace 보령
                                 //2022.12.09 박희돈 기준정보 설정 추가
                                 MinVelue = _mainWnd.CurrentInstruction.Raw.MINVAL;
                                 MaxVelue = _mainWnd.CurrentInstruction.Raw.MAXVAL;
-                                AverVelue = _mainWnd.CurrentInstruction.Raw.MAXVAL;
+                                AverVelue = _mainWnd.CurrentInstruction.Raw.TARGETVAL;
                             }
                             ///
 

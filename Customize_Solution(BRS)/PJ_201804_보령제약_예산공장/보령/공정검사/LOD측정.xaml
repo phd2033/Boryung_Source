@@ -58,6 +58,7 @@
             <Grid x:Name="Footer" Grid.Row="2">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Button x:Name="btnRecord" Content="기록" Width="100" Height="40" Margin="5,0" Command="{Binding ConfirmCommandAsync}"/>
+                    <Button x:Name="NoRecord" Content="기록없음" Width="100" Height="40" Margin="5,0" Command="{Binding NoRecordConfirmCommand}"/>
                     <Button x:Name="btnCancel" Content="취소" Width="100" Height="40" Margin="5,0" Click="btnCancel_Click"/>
                 </StackPanel>
             </Grid>

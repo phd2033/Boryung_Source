@@ -133,6 +133,134 @@ namespace LGCNS.iPharmMES.Common
                     }
                 }
             }
+            private string _OPSGNAME;
+            [BizActorInputItemAttribute()]
+            public string OPSGNAME
+            {
+                get
+                {
+                    return this._OPSGNAME;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._OPSGNAME = value;
+                        this.CheckIsOriginal("OPSGNAME", value);
+                        this.OnPropertyChanged("OPSGNAME");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _MTRLID;
+            [BizActorInputItemAttribute()]
+            public string MTRLID
+            {
+                get
+                {
+                    return this._MTRLID;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._MTRLID = value;
+                        this.CheckIsOriginal("MTRLID", value);
+                        this.OnPropertyChanged("MTRLID");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _MTRLNAME;
+            [BizActorInputItemAttribute()]
+            public string MTRLNAME
+            {
+                get
+                {
+                    return this._MTRLNAME;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._MTRLNAME = value;
+                        this.CheckIsOriginal("MTRLNAME", value);
+                        this.OnPropertyChanged("MTRLNAME");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _BATCHNO;
+            [BizActorInputItemAttribute()]
+            public string BATCHNO
+            {
+                get
+                {
+                    return this._BATCHNO;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._BATCHNO = value;
+                        this.CheckIsOriginal("BATCHNO", value);
+                        this.OnPropertyChanged("BATCHNO");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
         }
         public sealed partial class OUTDATACollection : BufferedObservableCollection<OUTDATA>
         {

@@ -42,6 +42,49 @@ namespace Board
             }
         }
 
+        private string _PcsgName;
+        public string PcsgName
+        {
+            get { return _PcsgName; }
+            set
+            {
+                _PcsgName = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _BatchNo;
+        public string BatchNo
+        {
+            get { return _BatchNo; }
+            set
+            {
+                _BatchNo = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _MtrlId;
+        public string MtrlId
+        {
+            get { return _MtrlId; }
+            set
+            {
+                _MtrlId = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _MtrlName;
+        public string MtrlName
+        {
+            get { return _MtrlName; }
+            set
+            {
+                _MtrlName = value;
+                NotifyPropertyChanged();
+            }
+        }
         #endregion ##### property #####
 
         #region [BizRule]
@@ -68,12 +111,26 @@ namespace Board
                 OnPropertyChanged("BR_BRS_INS_TST_APPROVAL_CANCELL");
             }
         }
+
+        private BR_PHR_SEL_ProcessSegment _BR_PHR_SEL_ProcessSegment;
+        public BR_PHR_SEL_ProcessSegment BR_PHR_SEL_ProcessSegment
+        {
+            get { return _BR_PHR_SEL_ProcessSegment; }
+            set
+            {
+                _BR_PHR_SEL_ProcessSegment = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        
         #endregion
 
         public TstRequestConfirmViewModel()
         {
             _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM = new BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM();
             _BR_BRS_INS_TST_APPROVAL_CANCELL = new BR_BRS_INS_TST_APPROVAL_CANCELL();
+            _BR_PHR_SEL_ProcessSegment = new BR_PHR_SEL_ProcessSegment();
         }
 
         public ICommand LoadedCommandAsync
@@ -96,7 +153,16 @@ namespace Board
 
                             PeriodEDDTTM = await AuthRepositoryViewModel.GetDBDateTimeNow();
                             PeriodSTDTTM = PeriodEDDTTM.AddDays(-1);
-                            
+
+                            _BR_PHR_SEL_ProcessSegment.INDATAs.Clear();
+                            _BR_PHR_SEL_ProcessSegment.OUTDATAs.Clear();
+
+                            _BR_PHR_SEL_ProcessSegment.INDATAs.Add(new BR_PHR_SEL_ProcessSegment.INDATA()
+                            {
+                                ISUSE = "Y"
+                            });
+                            if (!await _BR_PHR_SEL_ProcessSegment.Execute()) throw new Exception();
+
                             CommandResults["LoadedCommand"] = true;
                         }
                         catch (Exception ex)
@@ -140,7 +206,11 @@ namespace Board
                             _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM.INDATAs.Add(new BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM.INDATA()
                             {
                                 FROMDATE = PeriodSTDTTM,
-                                TODATE = PeriodEDDTTM
+                                TODATE = PeriodEDDTTM,
+                                OPSGNAME = PcsgName,
+                                MTRLID = MtrlId,
+                                MTRLNAME = MtrlName,
+                                BATCHNO = BatchNo
                             });
 
                             await _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM.Execute();

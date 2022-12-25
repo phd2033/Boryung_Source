@@ -78,11 +78,17 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="5" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="5" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <!--<ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="5" />-->
                     </Grid.ColumnDefinitions>
 
                     <sdk:Label Grid.Column="1" Content="날짜" Style="{StaticResource lblStyle}"/>
@@ -90,14 +96,27 @@
                         <Ctrl:iPharmMESFromToCalendar SelectedDateFrom="{Binding Path=PeriodSTDTTM, Mode=TwoWay}"
                                                        SelectedDateTo="{Binding Path=PeriodEDDTTM, Mode=TwoWay}" />
                     </StackPanel>
-                    <Button Grid.Column="15" Content="의뢰취소" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,0,0,0" Width="80" Height="24" Visibility="Collapsed" >
+
+                    <sdk:Label Grid.Column="5" Content="공정" Style="{StaticResource lblStyle}"/>
+                    <ComboBox Grid.Column="7" x:Name="cmbProcessSegment" Width="140"
+                              ItemsSource="{Binding Path=BR_PHR_SEL_ProcessSegment.OUTDATAs}" 
+                              DisplayMemberPath="PCSGNAME" SelectedValuePath="PCSGNAME"
+                              SelectedValue="{Binding PcsgName, Mode=TwoWay}" />
+                    <sdk:Label Grid.Column="9" Content="제품코드" Style="{StaticResource lblStyle}"/>
+                    <TextBox Grid.Column="11"  Text="{Binding MtrlId, Mode=TwoWay}" Style="{StaticResource txtStyle}"/>
+                    <sdk:Label Grid.Column="13" Content="제품명" Style="{StaticResource lblStyle}"/>
+                    <TextBox Grid.Column="15"  Text="{Binding MtrlName, Mode=TwoWay}" Style="{StaticResource txtStyle}"/>
+                    <sdk:Label Grid.Column="17" Content="배치번호" Style="{StaticResource lblStyle}"/>
+                    <TextBox Grid.Column="19" Text="{Binding BatchNo, Mode=TwoWay}" Style="{StaticResource txtStyle}"/>
+                    
+                    <Button Grid.Column="21" Content="의뢰취소" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,0,0,0" Width="80" Height="24" Visibility="Collapsed" >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding Path=BtnApprovalCancelCommand}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button Grid.Column="16" Content="검색" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,0,0" Width="80" >
+                    <Button Grid.Column="22" Content="검색" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,0,0" Width="80" >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding Path=BtnSearchCommand}"/>

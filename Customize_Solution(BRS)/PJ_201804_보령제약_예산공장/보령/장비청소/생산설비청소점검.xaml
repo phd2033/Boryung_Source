@@ -53,7 +53,7 @@
                         <c1:DataGridTemplateColumn Header="일일점검기록" >
                             <c1:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Path=PERIODCHKSTATUS, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBlock Text="{Binding Path=PERIODCHKSTATUS, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </DataTemplate>
                             </c1:DataGridTemplateColumn.CellTemplate>
                             <c1:DataGridTemplateColumn.CellEditingTemplate>

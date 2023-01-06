@@ -9,10 +9,10 @@
            xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
            xmlns:local="clr-namespace:보령"
            mc:Ignorable="d"
-           Width="600" Height="300" x:Name="Main"
+           Width="800" Height="300" x:Name="Main"
            Title="포장반제품분할수량확인">
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
-        <local:포장반제품조회ViewModel x:Key="ViewModel"/>
+        <local:포장반제품분할수량확인ViewModel x:Key="ViewModel"/>
         <Style x:Key="HeaderStyle" TargetType="c1:DataGridColumnHeaderPresenter">
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
         </Style>
@@ -31,12 +31,16 @@
             <Grid x:Name="MainSection" Grid.Row="0">
                 <c1:C1DataGrid x:Name="MainDataGrid" HeadersVisibility="Column"
                                AutoGenerateColumns="False" CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False" CanUserResizeRows="False"
-                               ItemsSource="{Binding BR_BRS_SEL_ProductionOrder_HALB.OUTDATAs}">
+                               ItemsSource="{Binding BR_BRS_SEL_PACKING_SPLIT_QTY.OUTDATAs}">
                     <c1:C1DataGrid.Columns>
-                        <c1:DataGridTextColumn Header="오더수량" Binding="{Binding Path=POID}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center"/>
-                        <c1:DataGridTextColumn Header="이론량" Binding="{Binding Path=MTRLID}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center"/>
-                        <c1:DataGridTextColumn Header="반제품무게" Binding="{Binding Path=MTRLNAME}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center"/>
-                        <c1:DataGridTextColumn Header="분할수량" Binding="{Binding Path=VALIDDATE}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn Header="오더번호" Binding="{Binding Path=POID}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn Header="오더수량" Binding="{Binding Path=PLANQTY}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn Header="포장단위" Binding="{Binding Path=PACK_QTY}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn Header="이론량" Binding="{Binding Path=STDPRODQTY}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn Header="반제품무게" Binding="{Binding Path=NET_SUM_WEIGHT}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn Header="분할무게하한" Binding="{Binding Path=MIN_CALCULATE}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn Header="분할무게기준" Binding="{Binding Path=CALCULATE}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn Header="분할무게상한" Binding="{Binding Path=MAX_CALCULATE}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center"/>
                     </c1:C1DataGrid.Columns>
                 </c1:C1DataGrid>
             </Grid>

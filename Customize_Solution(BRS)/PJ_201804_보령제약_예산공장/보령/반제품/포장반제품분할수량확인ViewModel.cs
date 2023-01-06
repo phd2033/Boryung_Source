@@ -22,14 +22,14 @@ namespace 보령
 
         #region [BizRule]
         // 포장반제품 조회
-        private BR_BRS_SEL_ProductionOrder_HALB _BR_BRS_SEL_ProductionOrder_HALB;
-        public BR_BRS_SEL_ProductionOrder_HALB BR_BRS_SEL_ProductionOrder_HALB
+        private BR_BRS_SEL_PACKING_SPLIT_QTY _BR_BRS_SEL_PACKING_SPLIT_QTY;
+        public BR_BRS_SEL_PACKING_SPLIT_QTY BR_BRS_SEL_PACKING_SPLIT_QTY
         {
-            get { return _BR_BRS_SEL_ProductionOrder_HALB; }
+            get { return _BR_BRS_SEL_PACKING_SPLIT_QTY; }
             set
             {
-                _BR_BRS_SEL_ProductionOrder_HALB = value;
-                OnPropertyChanged("BR_BRS_SEL_ProductionOrder_HALB");
+                _BR_BRS_SEL_PACKING_SPLIT_QTY = value;
+                OnPropertyChanged("BR_BRS_SEL_PACKING_SPLIT_QTY");
             }
         }
         #endregion
@@ -57,15 +57,15 @@ namespace 보령
 
                                 _mainWnd.BusyIn.IsBusy = true;
 
-                                _BR_BRS_SEL_ProductionOrder_HALB.INDATAs.Clear();
-                                _BR_BRS_SEL_ProductionOrder_HALB.OUTDATAs.Clear();
+                                _BR_BRS_SEL_PACKING_SPLIT_QTY.INDATAs.Clear();
+                                _BR_BRS_SEL_PACKING_SPLIT_QTY.OUTDATAs.Clear();
 
-                                _BR_BRS_SEL_ProductionOrder_HALB.INDATAs.Add(new BR_BRS_SEL_ProductionOrder_HALB.INDATA
+                                _BR_BRS_SEL_PACKING_SPLIT_QTY.INDATAs.Add(new BR_BRS_SEL_PACKING_SPLIT_QTY.INDATA
                                 {
                                     POID = _mainWnd.CurrentOrder.ProductionOrderID
                                 });
 
-                                if (await _BR_BRS_SEL_ProductionOrder_HALB.Execute() == true)
+                                if (await _BR_BRS_SEL_PACKING_SPLIT_QTY.Execute() == true)
                                     _mainWnd.MainDataGrid.Refresh();
 
                                 _mainWnd.BusyIn.IsBusy = false;
@@ -109,7 +109,7 @@ namespace 보령
                             ///
                             _mainWnd.BusyIn.IsBusy = true;
 
-                            if (_BR_BRS_SEL_ProductionOrder_HALB.OUTDATAs.Count > 0)
+                            if (_BR_BRS_SEL_PACKING_SPLIT_QTY.OUTDATAs.Count > 0)
                             {
                                 // 전자서명(기록값 변경)
                                 var authHelper = new iPharmAuthCommandHelper();
@@ -136,19 +136,27 @@ namespace 보령
                                 var dt = new DataTable("DATA");
                                 ds.Tables.Add(dt);
                                 
+                                dt.Columns.Add(new DataColumn("오더번호"));
                                 dt.Columns.Add(new DataColumn("오더수량"));
-                                dt.Columns.Add(new DataColumn("이론수량"));
+                                dt.Columns.Add(new DataColumn("포장단위"));
+                                dt.Columns.Add(new DataColumn("이론량"));
                                 dt.Columns.Add(new DataColumn("반제품무게"));
-                                dt.Columns.Add(new DataColumn("분할수량"));
+                                dt.Columns.Add(new DataColumn("분할무게하한"));
+                                dt.Columns.Add(new DataColumn("분할무게"));
+                                dt.Columns.Add(new DataColumn("분할무게상한"));
 
-                                foreach (var item in _BR_BRS_SEL_ProductionOrder_HALB.OUTDATAs)
+                                foreach (var item in _BR_BRS_SEL_PACKING_SPLIT_QTY.OUTDATAs)
                                 {
                                     var row = dt.NewRow();
                                     
-                                    row["오더수량"] = item.MTRLID != null ? item.MTRLID : "";
-                                    row["이론수량"] = item.MTRLNAME != null ? item.MTRLNAME : "";
-                                    row["반제품무게"] = item.VALIDDATE != null ? item.VALIDDATE : "";
-                                    row["분할수량"] = item.PRODDATE != null ? item.PRODDATE : "";
+                                    row["오더번호"] = item.POID != null ? item.POID : "";
+                                    row["오더수량"] = item.PLANQTY != null ? item.PLANQTY : "";
+                                    row["포장단위"] = item.PACK_QTY != null ? item.PACK_QTY : "";
+                                    row["이론량"] = item.STDPRODQTY != null ? item.STDPRODQTY : "";
+                                    row["반제품무게"] = item.NET_SUM_WEIGHT != null ? item.NET_SUM_WEIGHT : "";
+                                    row["분할무게하한"] = item.MIN_CALCULATE != null ? item.MIN_CALCULATE : "";
+                                    row["분할무게"] = item.CALCULATE != null ? item.CALCULATE : "";
+                                    row["분할무게상한"] = item.MAX_CALCULATE != null ? item.MAX_CALCULATE : "";
 
                                     dt.Rows.Add(row);
                                 }
@@ -198,7 +206,7 @@ namespace 보령
         #region [Constructor]
         public 포장반제품분할수량확인ViewModel()
         {
-            _BR_BRS_SEL_ProductionOrder_HALB = new BR_BRS_SEL_ProductionOrder_HALB();
+            _BR_BRS_SEL_PACKING_SPLIT_QTY = new BR_BRS_SEL_PACKING_SPLIT_QTY();
         }
         #endregion
     }

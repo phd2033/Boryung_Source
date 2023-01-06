@@ -30,7 +30,7 @@ namespace 보령
         // 취소 버튼 클릭
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = true;
+            this.DialogResult = false;
         }
     }
 }

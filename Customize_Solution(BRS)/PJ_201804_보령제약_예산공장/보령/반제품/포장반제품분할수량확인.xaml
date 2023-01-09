@@ -49,10 +49,12 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="100"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="1" x:Name="btnConfirm" Content="기록" Margin="5" Command="{Binding ConfirmCommandAsync}"/>
-                <Button Grid.Column="2" x:Name="btnCancel" Content="취소" Margin="5" Click="btnCancel_Click"/>
+                <Button Grid.Column="1" x:Name="NoRecord" Content="기록없음" Margin="5" Command="{Binding NoRecordConfirmCommand}"/>
+                <Button Grid.Column="2" x:Name="btnConfirm" Content="기록" Margin="5" Command="{Binding ConfirmCommandAsync}"/>
+                <Button Grid.Column="3" x:Name="btnCancel" Content="취소" Margin="5" Click="btnCancel_Click"/>
             </Grid>
         </Grid>
     </toolkit:BusyIndicator>

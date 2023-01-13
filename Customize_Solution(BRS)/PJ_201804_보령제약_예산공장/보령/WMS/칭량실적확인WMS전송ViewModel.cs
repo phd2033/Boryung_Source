@@ -355,6 +355,8 @@ namespace 보령
                             else
                                 OnMessage("모든 오더정보가 조회되지 않았습니다.");
                         }
+                        else
+                            OnMessage("모든 오더정보가 조회되지 않았습니다.");
                         ///
 
                         CommandResults["ConfirmCommandAsync"] = true;

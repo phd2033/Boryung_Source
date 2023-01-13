@@ -231,6 +231,9 @@ namespace 보령
 
                                 DataSet ds = new DataSet();
                                 DataTable dt = new DataTable("DATA");
+                                //2023.01.03 김호연 원료별 칭량을 하면 2개 이상의 배치가 동시에 기록되므로 EBR 확인할때 오더로 구분해야함
+                                dt.Columns.Add(new DataColumn("오더번호"));
+                                //-------------------------------------------------------------------------------------------------------
                                 dt.Columns.Add(new DataColumn("원료코드"));
                                 dt.Columns.Add(new DataColumn("원료명"));
                                 dt.Columns.Add(new DataColumn("규격"));
@@ -301,7 +304,10 @@ namespace 보령
             try
             {
                 var dt = new DataTable("DATA");
-                
+
+                //2023.01.03 김호연 원료별 칭량을 하면 2개 이상의 배치가 동시에 기록되므로 EBR 확인할때 오더로 구분해야함
+                dt.Columns.Add(new DataColumn("오더번호"));
+                //-------------------------------------------------------------------------------------------------------
                 dt.Columns.Add(new DataColumn("원료코드"));
                 dt.Columns.Add(new DataColumn("원료명"));
                 dt.Columns.Add(new DataColumn("규격"));
@@ -319,7 +325,10 @@ namespace 보령
                 foreach (var item in _BR_BRS_SEL_ProductionOrderDispense_Result.OUTDATAs)
                 {
                     var row = dt.NewRow();
-                    
+
+                    //2023.01.03 김호연 원료별 칭량을 하면 2개 이상의 배치가 동시에 기록되므로 EBR 확인할때 오더로 구분해야함
+                    row["오더번호"] = item.POID != null ? item.POID : "";
+                    //-------------------------------------------------------------------------------------------------------
                     row["원료코드"] = item.MTRLID != null ? item.MTRLID.ToString() : "";
                     row["원료명"] = item.MTRLNAME != null ? item.MTRLNAME.ToString() : "";
                     row["규격"] = item.STANDARD != null ? item.STANDARD.ToString() : "";

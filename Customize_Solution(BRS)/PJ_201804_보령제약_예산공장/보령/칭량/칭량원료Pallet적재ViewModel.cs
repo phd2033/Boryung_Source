@@ -720,6 +720,9 @@ namespace 보령
                                 DataTable dt = new DataTable("DATA");
                                 ds.Tables.Add(dt);
 
+                                //2023.01.03 김호연 원료별 칭량을 하면 2개 이상의 배치가 동시에 기록되므로 EBR 확인할때 오더로 구분해야함
+                                dt.Columns.Add(new DataColumn("오더번호"));
+                                //-------------------------------------------------------------------------------------------------------
                                 dt.Columns.Add(new DataColumn("용기번호"));
                                 dt.Columns.Add(new DataColumn("원료코드"));
                                 dt.Columns.Add(new DataColumn("원료명"));
@@ -729,6 +732,9 @@ namespace 보령
                                 foreach (var item in ListContainer)
                                 {
                                     var row = dt.NewRow();
+                                    //2023.01.03 김호연 원료별 칭량을 하면 2개 이상의 배치가 동시에 기록되므로 EBR 확인할때 오더로 구분해야함
+                                    row["오더번호"] = item.POID != null ? item.POID : "";
+                                    //-------------------------------------------------------------------------------------------------------
                                     row["용기번호"] = item.VESSELID ?? "";
                                     row["원료코드"] = item.MTRLID ?? "";
                                     row["원료명"] = item.MTRLNAME ?? "";

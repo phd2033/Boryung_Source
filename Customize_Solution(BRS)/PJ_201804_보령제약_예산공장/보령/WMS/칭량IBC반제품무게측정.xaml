@@ -77,16 +77,18 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="71*"/>
+                        <ColumnDefinition Width="125*"/>
                         <ColumnDefinition Width="300"/>
                     </Grid.ColumnDefinitions>
 
                     <c1:C1DataGrid x:Name="LayerChargingContainerDataGrid" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Margin="2"
                                    HeadersVisibility="Column" AutoGenerateColumns="False" ScrollBarStyle="{Binding Source={StaticResource dgScroll}}"
                                    CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False"
-                                   ItemsSource="{Binding BR_BRS_GET_MaterialSubLot_ContainerInfo_LayerCharging.OUTDATAs}">
+                                   ItemsSource="{Binding BR_BRS_GET_MaterialSubLot_ContainerInfo_LayerCharging.OUTDATAs}" Grid.ColumnSpan="2">
                         <c1:C1DataGrid.Columns>
                             <c1:DataGridTextColumn Header="제조번호" Binding="{Binding BATCHNO}"/>
+                            <c1:DataGridTextColumn Header="오더번호" Binding="{Binding POID}"/>
                             <c1:DataGridTextColumn Header="공정" Binding="{Binding OPSGNAME}"/>
                             <c1:DataGridTextColumn Header="자재 ID" Binding="{Binding MTRLID}"/>
                             <c1:DataGridTextColumn Header="자재명" Binding="{Binding MTRLNAME}"/>
@@ -96,7 +98,7 @@
                         </c1:C1DataGrid.Columns>
                     </c1:C1DataGrid>
 
-                    <Border Grid.Row="0" Grid.Column="1" BorderBrush="Black" BorderThickness="1" Margin="2">
+                    <Border Grid.Row="0" Grid.Column="2" BorderBrush="Black" BorderThickness="1" Margin="2">
                         <Grid x:Name="WeighingCtrl">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
@@ -113,7 +115,7 @@
                     </Border>
 
 
-                    <Button Grid.Row="1" Grid.Column="1" Name="btnSaveWeight" Content="중량 확인" Height="30" Margin="5"
+                    <Button Grid.Row="1" Grid.Column="2" Name="btnSaveWeight" Content="중량 확인" Height="30" Margin="5"
                             IsEnabled="{Binding btnSaveWeightEnable}" Command="{Binding SaveWeightCommandAsync}"/>
                 </Grid>
                 <Grid Grid.Row="2">
@@ -127,6 +129,7 @@
                                    CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False"
                                    ItemsSource="{Binding IBCList}" Grid.ColumnSpan="3">
                         <c1:C1DataGrid.Columns>
+                            <c1:DataGridTextColumn Header="{Binding W[CUIVesselId], Source={StaticResource VM}, FallbackValue='오더 번호'}" Binding="{Binding PoId}"/>
                             <c1:DataGridTextColumn Header="{Binding W[CUIVesselId], Source={StaticResource VM}, FallbackValue='용기 번호'}" Binding="{Binding VesselId}"/>
                             <c1:DataGridTextColumn Header="{Binding W[CUIScaleID], Source={StaticResource VM}, FallbackValue='저울 번호'}" Binding="{Binding ScaleId}"/>
                             <c1:DataGridTextColumn Header="{Binding W[CUITareWeight], Source={StaticResource VM}, FallbackValue='용기 중량'}" Binding="{Binding TareWeight, StringFormat='#0.00# g'}"/>

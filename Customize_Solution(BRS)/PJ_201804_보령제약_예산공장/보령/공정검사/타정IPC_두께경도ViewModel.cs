@@ -391,48 +391,62 @@ namespace 보령
                     foreach (BR_BRS_SEL_ProductionOrderIPCResult.OUTDATA item in _BR_BRS_SEL_ProductionOrderIPCResult.OUTDATAs)
                     {
                         //적합여부 판단
-                        if (ThicknessIPCData.LSL.HasValue && ThicknessIPCData.USL.HasValue)
+                        if (item.RSLT1 != "N/A")
                         {
-                            if (ThicknessIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT1) && Convert.ToDecimal(item.RSLT1) <= ThicknessIPCData.USL.Value)
-                                item.RSLT3 = "적합";
-                            else
-                                item.RSLT3 = "부적합";
+                            if (ThicknessIPCData.LSL.HasValue && ThicknessIPCData.USL.HasValue)
+                            {
+                                if (ThicknessIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT1) && Convert.ToDecimal(item.RSLT1) <= ThicknessIPCData.USL.Value)
+                                    item.RSLT3 = "적합";
+                                else
+                                    item.RSLT3 = "부적합";
+                            }
+                            else if (ThicknessIPCData.LSL.HasValue)
+                            {
+                                if (ThicknessIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT1))
+                                    item.RSLT3 = "적합";
+                                else
+                                    item.RSLT3 = "부적합";
+                            }
+                            else if (ThicknessIPCData.USL.HasValue)
+                            {
+                                if (Convert.ToDecimal(item.RSLT1) <= ThicknessIPCData.USL.Value)
+                                    item.RSLT3 = "적합";
+                                else
+                                    item.RSLT3 = "부적합";
+                            }
                         }
-                        else if (ThicknessIPCData.LSL.HasValue)
+                        else
                         {
-                            if (ThicknessIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT1))
-                                item.RSLT3 = "적합";
-                            else
-                                item.RSLT3 = "부적합";
-                        }
-                        else if (ThicknessIPCData.USL.HasValue)
-                        {
-                            if (Convert.ToDecimal(item.RSLT1) <= ThicknessIPCData.USL.Value)
-                                item.RSLT3 = "적합";
-                            else
-                                item.RSLT3 = "부적합";
+                            item.RSLT3 = item.RSLT1;
                         }
 
-                        if (LongitudeIPCData.LSL.HasValue && LongitudeIPCData.USL.HasValue)
+                        if (item.RSLT2 != "N/A")
                         {
-                            if (LongitudeIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT2) && Convert.ToDecimal(item.RSLT2) <= LongitudeIPCData.USL.Value)
-                                item.RSLT4 = "적합";
-                            else
-                                item.RSLT4 = "부적합";
+                            if (LongitudeIPCData.LSL.HasValue && LongitudeIPCData.USL.HasValue)
+                            {
+                                if (LongitudeIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT2) && Convert.ToDecimal(item.RSLT2) <= LongitudeIPCData.USL.Value)
+                                    item.RSLT4 = "적합";
+                                else
+                                    item.RSLT4 = "부적합";
+                            }
+                            else if (LongitudeIPCData.LSL.HasValue)
+                            {
+                                if (LongitudeIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT2))
+                                    item.RSLT4 = "적합";
+                                else
+                                    item.RSLT4 = "부적합";
+                            }
+                            else if (LongitudeIPCData.USL.HasValue)
+                            {
+                                if (Convert.ToDecimal(item.RSLT2) <= LongitudeIPCData.USL.Value)
+                                    item.RSLT4 = "적합";
+                                else
+                                    item.RSLT4 = "부적합";
+                            }
                         }
-                        else if (LongitudeIPCData.LSL.HasValue)
+                        else
                         {
-                            if (LongitudeIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT2))
-                                item.RSLT4 = "적합";
-                            else
-                                item.RSLT4 = "부적합";
-                        }
-                        else if (LongitudeIPCData.USL.HasValue)
-                        {
-                            if (Convert.ToDecimal(item.RSLT2) <= LongitudeIPCData.USL.Value)
-                                item.RSLT4 = "적합";
-                            else
-                                item.RSLT4 = "부적합";
+                            item.RSLT4 = item.RSLT2;
                         }
 
                         _IPCResults.Add(item);

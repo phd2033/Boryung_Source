@@ -22,7 +22,7 @@ namespace 보령
         }
         public override string TableTypeName
         {
-            get { return "TABLE,SVP수동검사불량유형조회"; }
+            get { return "TABLE,SVP수동검사불량유형입력"; }
         }
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {

@@ -35,246 +35,258 @@ namespace 보령
             }
         }
 
-        private string _curUserName;
-        public string curUserName
+        private string _INSUSER;
+        public string INSUSER
         {
-            get { return _curUserName; }
+            get { return _INSUSER; }
             set
             {
-                _curUserName = value;
-                OnPropertyChanged("curUserName");
+                _INSUSER = value;
+                OnPropertyChanged("INSUSER");
             }
         }
-        private DateTime _curDate;
-        public DateTime curDate
+        private string _Date;
+        public string Date
         {
-            get { return _curDate; }
+            get { return _Date; }
             set
             {
-                _curDate = value;
-                OnPropertyChanged("curDate");
+                _Date = value;
+                OnPropertyChanged("Date");
             }
         }
-        private int _curRejectQTY;
-        public int curRejectQTY
+        private decimal _RejectQTY;
+        public decimal RejectQTY
         {
-            get { return _curRejectQTY; }
+            get { return _RejectQTY; }
             set
             {
-                _curRejectQTY = value;
-                OnPropertyChanged("curRejectQTY");
+                _RejectQTY = value;
+                OnPropertyChanged("RejectQTY");
             }
         }
-        private int _curReject_No1;
-        public int curReject_No1
+        private decimal _Reject_No1;
+        public decimal Reject_No1
         {
-            get { return _curReject_No1; }
+            get { return _Reject_No1; }
             set
             {
-                _curReject_No1 = value;
-                OnPropertyChanged("curReject_No1");
+                _Reject_No1 = value;
+                OnPropertyChanged("Reject_No1");
             }
         }
-        private int _curReject_No2;
-        public int curReject_No2
+        private decimal _Reject_No2;
+        public decimal Reject_No2
         {
-            get { return _curReject_No2; }
+            get { return _Reject_No2; }
             set
             {
-                _curReject_No2 = value;
-                OnPropertyChanged("curReject_No2");
+                _Reject_No2 = value;
+                OnPropertyChanged("Reject_No2");
             }
         }
-        private int _curReject_No3;
-        public int curReject_No3
+        private decimal _Reject_No3;
+        public decimal Reject_No3
         {
-            get { return _curReject_No3; }
+            get { return _Reject_No3; }
             set
             {
-                _curReject_No3 = value;
-                OnPropertyChanged("curReject_No3");
+                _Reject_No3 = value;
+                OnPropertyChanged("Reject_No3");
             }
         }
-        private int _curReject_No4;
-        public int curReject_No4
+        private decimal _Reject_No4;
+        public decimal Reject_No4
         {
-            get { return _curReject_No4; }
+            get { return _Reject_No4; }
             set
             {
-                _curReject_No4 = value;
-                OnPropertyChanged("curReject_No4");
+                _Reject_No4 = value;
+                OnPropertyChanged("Reject_No4");
             }
         }
-        private int _curReject_No5;
-        public int curReject_No5
+        private decimal _Reject_No5;
+        public decimal Reject_No5
         {
-            get { return _curReject_No5; }
+            get { return _Reject_No5; }
             set
             {
-                _curReject_No5 = value;
-                OnPropertyChanged("curReject_No5");
+                _Reject_No5 = value;
+                OnPropertyChanged("Reject_No5");
             }
         }
-        private int _curReject_No6;
-        public int curReject_No6
+        private decimal _Reject_No6;
+        public decimal Reject_No6
         {
-            get { return _curReject_No6; }
+            get { return _Reject_No6; }
             set
             {
-                _curReject_No6 = value;
-                OnPropertyChanged("curReject_No6");
+                _Reject_No6 = value;
+                OnPropertyChanged("Reject_No6");
             }
         }
-        private int _curReject_No7;
-        public int curReject_No7
+        private decimal _Reject_No7;
+        public decimal Reject_No7
         {
-            get { return _curReject_No7; }
+            get { return _Reject_No7; }
             set
             {
-                _curReject_No7 = value;
-                OnPropertyChanged("curReject_No7");
+                _Reject_No7 = value;
+                OnPropertyChanged("Reject_No7");
             }
         }
-        private int _curReject_No8;
-        public int curReject_No8
+        private decimal _Reject_No8;
+        public decimal Reject_No8
         {
-            get { return _curReject_No8; }
+            get { return _Reject_No8; }
             set
             {
-                _curReject_No8 = value;
-                OnPropertyChanged("curReject_No8");
+                _Reject_No8 = value;
+                OnPropertyChanged("Reject_No8");
             }
         }
-        private int _curReject_No9;
-        public int curReject_No9
+        private decimal _Reject_No9;
+        public decimal Reject_No9
         {
-            get { return _curReject_No9; }
+            get { return _Reject_No9; }
             set
             {
-                _curReject_No9 = value;
-                OnPropertyChanged("curReject_No9");
+                _Reject_No9 = value;
+                OnPropertyChanged("Reject_No9");
             }
         }
-        private int _curReject_No10;
-        public int curReject_No10
+        private decimal _Reject_No10;
+        public decimal Reject_No10
         {
-            get { return _curReject_No10; }
+            get { return _Reject_No10; }
             set
             {
-                _curReject_No10 = value;
-                OnPropertyChanged("curReject_No10");
+                _Reject_No10 = value;
+                OnPropertyChanged("Reject_No10");
             }
         }
-        private int _curReject_No11;
-        public int curReject_No11
+        private decimal _Reject_No11;
+        public decimal Reject_No11
         {
-            get { return _curReject_No11; }
+            get { return _Reject_No11; }
             set
             {
-                _curReject_No11 = value;
-                OnPropertyChanged("curReject_No11");
+                _Reject_No11 = value;
+                OnPropertyChanged("Reject_No11");
             }
         }
-        private int _curReject_No12;
-        public int curReject_No12
+        private decimal _Reject_No12;
+        public decimal Reject_No12
         {
-            get { return _curReject_No12; }
+            get { return _Reject_No12; }
             set
             {
-                _curReject_No12 = value;
-                OnPropertyChanged("curReject_No12");
+                _Reject_No12 = value;
+                OnPropertyChanged("Reject_No12");
             }
         }
-        private int _curReject_No13;
-        public int curReject_No13
+        private decimal _Reject_No13;
+        public decimal Reject_No13
         {
-            get { return _curReject_No13; }
+            get { return _Reject_No13; }
             set
             {
-                _curReject_No13 = value;
-                OnPropertyChanged("curReject_No13");
+                _Reject_No13 = value;
+                OnPropertyChanged("Reject_No13");
             }
         }
-        private int _curReject_No14;
-        public int curReject_No14
+        private decimal _Reject_No14;
+        public decimal Reject_No14
         {
-            get { return _curReject_No14; }
+            get { return _Reject_No14; }
             set
             {
-                _curReject_No14 = value;
-                OnPropertyChanged("curReject_No14");
+                _Reject_No14 = value;
+                OnPropertyChanged("Reject_No14");
             }
         }
-        private int _curReject_No15;
-        public int curReject_No15
+        private decimal _Reject_No15;
+        public decimal Reject_No15
         {
-            get { return _curReject_No15; }
+            get { return _Reject_No15; }
             set
             {
-                _curReject_No15 = value;
-                OnPropertyChanged("curReject_No15");
+                _Reject_No15 = value;
+                OnPropertyChanged("Reject_No15");
             }
         }
-        private int _curReject_No16;
-        public int curReject_No16
+        private decimal _Reject_No16;
+        public decimal Reject_No16
         {
-            get { return _curReject_No16; }
+            get { return _Reject_No16; }
             set
             {
-                _curReject_No16 = value;
-                OnPropertyChanged("curReject_No16");
+                _Reject_No16 = value;
+                OnPropertyChanged("Reject_No16");
             }
         }
-        private int _curReject_No17;
-        public int curReject_No17
+        private decimal _Reject_No17;
+        public decimal Reject_No17
         {
-            get { return _curReject_No17; }
+            get { return _Reject_No17; }
             set
             {
-                _curReject_No17 = value;
-                OnPropertyChanged("curReject_No17");
+                _Reject_No17 = value;
+                OnPropertyChanged("Reject_No17");
             }
         }
-        private int _curReject_No18;
-        public int curReject_No18
+        private decimal _Reject_No18;
+        public decimal Reject_No18
         {
-            get { return _curReject_No18; }
+            get { return _Reject_No18; }
             set
             {
-                _curReject_No18 = value;
-                OnPropertyChanged("curReject_No18");
+                _Reject_No18 = value;
+                OnPropertyChanged("Reject_No18");
             }
         }
-        private int _curReject_No19;
-        public int curReject_No19
+        private decimal _Reject_No19;
+        public decimal Reject_No19
         {
-            get { return _curReject_No19; }
+            get { return _Reject_No19; }
             set
             {
-                _curReject_No19 = value;
-                OnPropertyChanged("curReject_No19");
+                _Reject_No19 = value;
+                OnPropertyChanged("Reject_No19");
             }
         }
-        private int _curReject_No20;
-        public int curReject_No20
+        private decimal _Reject_No20;
+        public decimal Reject_No20
         {
-            get { return _curReject_No20; }
+            get { return _Reject_No20; }
             set
             {
-                _curReject_No20 = value;
-                OnPropertyChanged("curReject_No20");
+                _Reject_No20 = value;
+                OnPropertyChanged("Reject_No20");
             }
         }
-        private int _curReject_No21;
-        public int curReject_No21
+        private decimal _Reject_No21;
+        public decimal Reject_No21
         {
-            get { return _curReject_No21; }
+            get { return _Reject_No21; }
             set
             {
-                _curReject_No21 = value;
-                OnPropertyChanged("curReject_No21");
+                _Reject_No21 = value;
+                OnPropertyChanged("Reject_No21");
             }
         }
+
+        //private bool _IsEnableDate;
+        //public bool IsEnableDate
+        //{
+        //    get { return _IsEnableDate; }
+        //    set
+        //    {
+        //        _IsEnableDate = value;
+        //        OnPropertyChanged("IsEnableDate");
+        //    }
+        //}
+        
         #endregion
 
         #region [Constructor]
@@ -282,8 +294,34 @@ namespace 보령
         public SVP수동검사불량유형입력ViewModel()
         {
             _RejectionDetails = new RejectionDetail.OUTDATACollection();
+            _BR_BRS_REG_UDT_BRS_SVP_REJECT_INFO = new BR_BRS_REG_UDT_BRS_SVP_REJECT_INFO();
+            _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO = new BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO();
         }
 
+        #endregion
+
+        #region [BizRule]
+        private BR_BRS_REG_UDT_BRS_SVP_REJECT_INFO _BR_BRS_REG_UDT_BRS_SVP_REJECT_INFO;
+        public BR_BRS_REG_UDT_BRS_SVP_REJECT_INFO BR_BRS_REG_UDT_BRS_SVP_REJECT_INFO
+        {
+            get { return _BR_BRS_REG_UDT_BRS_SVP_REJECT_INFO; }
+            set
+            {
+                _BR_BRS_REG_UDT_BRS_SVP_REJECT_INFO = value;
+                OnPropertyChanged("BR_BRS_REG_UDT_BRS_SVP_REJECT_INFO");
+            }
+        }
+
+        private BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO;
+        public BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO
+        {
+            get { return _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO; }
+            set
+            {
+                _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO = value;
+                OnPropertyChanged("BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO");
+            }
+        }
         #endregion
 
         #region [Command]
@@ -303,50 +341,77 @@ namespace 보령
 
                             if (arg != null && arg is SVP수동검사불량유형입력)
                             {
-                                //_mainWnd = arg as SVP수동검사불량유형입력;
+                                _mainWnd = arg as SVP수동검사불량유형입력;
 
-                                //_BR_BRS_SEL_ProductionOrderCustomValue.INDATAs.Clear();
-                                //_BR_BRS_SEL_ProductionOrderCustomValue.OUTDATAs.Clear();
-                                //_BR_BRS_SEL_ProductionOrderCustomValue.INDATAs.Add(new BR_BRS_SEL_ProductionOrderCustomValue.INDATA
-                                //{
-                                //    POID = _mainWnd.CurrentOrder.ProductionOrderID,
-                                //    OPSGNAME = "조제",
-                                //    POCDID = "FIT_RESULT"
-                                //});
+                                _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.INDATAs.Clear();
+                                _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.OUTDATAs.Clear();
+                                _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.INDATAs.Add(new BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.INDATA
+                                {
+                                    POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                    OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                    INSPECTIONDATE = DateTime.Now.ToString("yyyy-MM-dd"),
+                                    INSUSER = AuthRepositoryViewModel.Instance.LoginedUserID
+                                });
 
-                                //if (await _BR_BRS_SEL_ProductionOrderCustomValue.Execute())
-                                //{
-                                //    if (_BR_BRS_SEL_ProductionOrderCustomValue.OUTDATAs.Count > 0)
-                                //    {
-                                //        var outData = _BR_BRS_SEL_ProductionOrderCustomValue.OUTDATAs[0];
-                                //        curLotNo = outData.POCDVAL1;
-                                //        curUnderVal = Convert.ToInt32(outData.POCDVAL2);
-                                //        curFitCount = Convert.ToInt32(outData.POCDVAL3);
-                                //        curUpperVal = Convert.ToInt32(outData.POCDVAL4);
-                                //        curResult = outData.POCDVAL5;
+                                if (await _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.Execute() && _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.OUTDATAs.Count == 0)
+                                {
+                                    //IsEnableDate = true;
 
-                                //    }
-                                //    else
-                                //    {
-                                //        if (string.IsNullOrEmpty(_mainWnd.CurrentInstruction.Raw.MINVAL))
-                                //        {
-                                //            curUnderVal = 0;
-                                //        }
-                                //        else
-                                //        {
-                                //            curUnderVal = Convert.ToDecimal(_mainWnd.CurrentInstruction.Raw.MINVAL);
-                                //        }
+                                    INSUSER = AuthRepositoryViewModel.Instance.LoginedUserID;
+                                    Date = DateTime.Now.ToString("yyyy-MM-dd");
+                                    RejectQTY = 0;
+                                    Reject_No1 = 0;
+                                    Reject_No2 = 0;
+                                    Reject_No3 = 0;
+                                    Reject_No4 = 0;
+                                    Reject_No5 = 0;
+                                    Reject_No6 = 0;
+                                    Reject_No7 = 0;
+                                    Reject_No8 = 0;
+                                    Reject_No9 = 0;
+                                    Reject_No10 = 0;
+                                    Reject_No11 = 0;
+                                    Reject_No12 = 0;
+                                    Reject_No13 = 0;
+                                    Reject_No14 = 0;
+                                    Reject_No15 = 0;
+                                    Reject_No16 = 0;
+                                    Reject_No17 = 0;
+                                    Reject_No18 = 0;
+                                    Reject_No19 = 0;
+                                    Reject_No20 = 0;
+                                    Reject_No21 = 0;
+                                }else
+                                {
+                                    var outData = _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.OUTDATAs[0];
+                                    //IsEnableDate = false;
 
-                                //        if (string.IsNullOrEmpty(_mainWnd.CurrentInstruction.Raw.MAXVAL))
-                                //        {
-                                //            curUpperVal = 0;
-                                //        }
-                                //        else
-                                //        {
-                                //            curUpperVal = Convert.ToDecimal(_mainWnd.CurrentInstruction.Raw.MAXVAL);
-                                //        }
-                                //    }
-                                //}
+                                    INSUSER = outData.INSUSER;
+                                    Date = outData.INSPECTIONDATE;
+                                    RejectQTY = Convert.ToDecimal(outData.RejectQTY);
+                                    Reject_No1 = Convert.ToDecimal(outData.Reject_No1);
+                                    Reject_No2 = Convert.ToDecimal(outData.Reject_No2);
+                                    Reject_No3 = Convert.ToDecimal(outData.Reject_No3);
+                                    Reject_No4 = Convert.ToDecimal(outData.Reject_No4);
+                                    Reject_No5 = Convert.ToDecimal(outData.Reject_No5);
+                                    Reject_No6 = Convert.ToDecimal(outData.Reject_No6);
+                                    Reject_No7 = Convert.ToDecimal(outData.Reject_No7);
+                                    Reject_No8 = Convert.ToDecimal(outData.Reject_No8);
+                                    Reject_No9 = Convert.ToDecimal(outData.Reject_No9);
+                                    Reject_No10 = Convert.ToDecimal(outData.Reject_No10);
+                                    Reject_No11 = Convert.ToDecimal(outData.Reject_No11);
+                                    Reject_No12 = Convert.ToDecimal(outData.Reject_No12);
+                                    Reject_No13 = Convert.ToDecimal(outData.Reject_No13);
+                                    Reject_No14 = Convert.ToDecimal(outData.Reject_No14);
+                                    Reject_No15 = Convert.ToDecimal(outData.Reject_No15);
+                                    Reject_No16 = Convert.ToDecimal(outData.Reject_No16);
+                                    Reject_No17 = Convert.ToDecimal(outData.Reject_No17);
+                                    Reject_No18 = Convert.ToDecimal(outData.Reject_No18);
+                                    Reject_No19 = Convert.ToDecimal(outData.Reject_No19);
+                                    Reject_No20 = Convert.ToDecimal(outData.Reject_No20);
+                                    Reject_No21 = Convert.ToDecimal(outData.Reject_No21);
+                                }
+
                             }
 
                             IsBusy = false;
@@ -418,83 +483,135 @@ namespace 보령
             {
                 return new AsyncCommandBase(async arg =>
                 {
-                    using (await AwaitableLocks["SaveCommandAsync"].EnterAsync())
+                using (await AwaitableLocks["SaveCommandAsync"].EnterAsync())
+                {
+                    try
                     {
-                        try
-                        {
-                            CommandResults["SaveCommandAsync"] = false;
-                            CommandCanExecutes["SaveCommandAsync"] = false;
+                        CommandResults["SaveCommandAsync"] = false;
+                        CommandCanExecutes["SaveCommandAsync"] = false;
                             
-                            // 전자서명(기록값 변경)
-                            var authHelper = new iPharmAuthCommandHelper();
+                        var authHelper = new iPharmAuthCommandHelper();                            
+                        // 조회내용 기록
+                        authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
 
-                            if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y") && _mainWnd.Phase.CurrentPhase.STATE.Equals("COMP"))
+                        if (await authHelper.ClickAsync(
+                            Common.enumCertificationType.Function,
+                            Common.enumAccessType.Create,
+                            "SVP수동검사불량유형입력",
+                            "SVP수동검사불량유형입력",
+                            false,
+                            "OM_ProductionOrder_SUI",
+                            "", null, null) == false)
+                        {
+                            throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                        }
+
+                            
+                            _BR_BRS_REG_UDT_BRS_SVP_REJECT_INFO.INDATAs.Clear();
+
+                            _BR_BRS_REG_UDT_BRS_SVP_REJECT_INFO.INDATAs.Add(new BR_BRS_REG_UDT_BRS_SVP_REJECT_INFO.INDATA
                             {
-                                authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+                                POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                SEQ = 1,    //2023.01.10 박희돈 HIST 테이블에 값이 없을경우 SEQ값을 1로한다. 값이 있다면 비즈룰에서 HIST테이블의 SEQ값을 조회함.
+                                OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                INSPECTIONDATE = Convert.ToString(Date.ToString()).Substring(0, 10),
+                                RejectQTY = RejectQTY,
+                                Reject_No1 = Reject_No1,
+                                Reject_No2 = Reject_No2,
+                                Reject_No3 = Reject_No3,
+                                Reject_No4 = Reject_No4,
+                                Reject_No5 = Reject_No5,
+                                Reject_No6 = Reject_No6,
+                                Reject_No7 = Reject_No7,
+                                Reject_No8 = Reject_No8,
+                                Reject_No9 = Reject_No9,
+                                Reject_No10 = Reject_No10,
+                                Reject_No11 = Reject_No11,
+                                Reject_No12 = Reject_No12,
+                                Reject_No13 = Reject_No13,
+                                Reject_No14 = Reject_No14,
+                                Reject_No15 = Reject_No15,
+                                Reject_No16 = Reject_No16,
+                                Reject_No17 = Reject_No17,
+                                Reject_No18 = Reject_No18,
+                                Reject_No19 = Reject_No19,
+                                Reject_No20 = Reject_No20,
+                                Reject_No21 = Reject_No21,
+                                INSUSER = AuthRepositoryViewModel.Instance.LoginedUserID,
+                                INSDTTM = Convert.ToString(await AuthRepositoryViewModel.GetDBDateTimeNow())
+                            });
 
-                                if (await authHelper.ClickAsync(
-                                    Common.enumCertificationType.Function,
-                                    Common.enumAccessType.Create,
-                                    string.Format("기록값을 변경합니다."),
-                                    string.Format("기록값 변경"),
-                                    true,
-                                    "OM_ProductionOrder_SUI",
-                                    "", _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID, null) == false)
-                                {
-                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
-                                }
-                            }
-
-                            // 조회내용 기록
-                            authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
-
-                            if (await authHelper.ClickAsync(
-                                Common.enumCertificationType.Function,
-                                Common.enumAccessType.Create,
-                                "SVP수동검사불량유형입력",
-                                "SVP수동검사불량유형입력",
-                                false,
-                                "OM_ProductionOrder_SUI",
-                                "", null, null) == false)
-                            {
-                                throw new Exception(string.Format("서명이 완료되지 않았습니다."));
-                            }
+                            if (!await _BR_BRS_REG_UDT_BRS_SVP_REJECT_INFO.Execute()) return;
 
                             var ds = new DataSet();
                             var dt = new DataTable("DATA");
                             ds.Tables.Add(dt);
 
-                            dt.Columns.Add(new DataColumn("FitLotNo"));
-                            dt.Columns.Add(new DataColumn("하한값"));
-                            dt.Columns.Add(new DataColumn("FIT결과값"));
-                            dt.Columns.Add(new DataColumn("상한값"));
-                            dt.Columns.Add(new DataColumn("적부판단"));
+                            dt.Columns.Add(new DataColumn("검사자"));
+                            dt.Columns.Add(new DataColumn("검사일자"));
+                            dt.Columns.Add(new DataColumn("검사수량"));
+                            dt.Columns.Add(new DataColumn("흰티"));
+                            dt.Columns.Add(new DataColumn("검은티"));
+                            dt.Columns.Add(new DataColumn("유색"));
+                            dt.Columns.Add(new DataColumn("금속성"));
+                            dt.Columns.Add(new DataColumn("유리조각"));
+                            dt.Columns.Add(new DataColumn("섬유1mm초과"));
+                            dt.Columns.Add(new DataColumn("섬유1mm이하"));
+                            dt.Columns.Add(new DataColumn("충전량불량"));
+                            dt.Columns.Add(new DataColumn("바이알손상"));
+                            dt.Columns.Add(new DataColumn("내부오염"));
+                            dt.Columns.Add(new DataColumn("바이알흠집"));
+                            dt.Columns.Add(new DataColumn("성형불량"));
+                            dt.Columns.Add(new DataColumn("캡씰링불량"));
+                            dt.Columns.Add(new DataColumn("이종캡"));
+                            dt.Columns.Add(new DataColumn("캡외관불량"));
+                            dt.Columns.Add(new DataColumn("고무전없음"));
+                            dt.Columns.Add(new DataColumn("이종고무전"));
+                            dt.Columns.Add(new DataColumn("고무전이물"));
+                            dt.Columns.Add(new DataColumn("Cake상태불량"));
+                            dt.Columns.Add(new DataColumn("바이알내부기벽고무전약액뭍음"));
+                            dt.Columns.Add(new DataColumn("기타불량"));
 
                             DataRow row = dt.NewRow();
-                            //row["FitLotNo"] = curLotNo;
-                            //row["하한값"] = curUnderVal;
-                            //row["FIT결과값"] = curFitCount;
-                            //row["상한값"] = curUpperVal;
-                            //row["적부판단"] = curResult;
+                            row["검사자"] = INSUSER;
+                            row["검사일자"] = Convert.ToString(Date.ToString()).Substring(0, 10);
+                            row["검사수량"] = RejectQTY;
+                            row["흰티"] = Reject_No1;
+                            row["검은티"] = Reject_No2;
+                            row["유색"] = Reject_No3;
+                            row["금속성"] = Reject_No4;
+                            row["유리조각"] = Reject_No5;
+                            row["섬유1mm초과"] = Reject_No6;
+                            row["섬유1mm이하"] = Reject_No7;
+                            row["충전량불량"] = Reject_No8;
+                            row["바이알손상"] = Reject_No9;
+                            row["내부오염"] = Reject_No10;
+                            row["바이알흠집"] = Reject_No11;
+                            row["성형불량"] = Reject_No12;
+                            row["캡씰링불량"] = Reject_No13;
+                            row["이종캡"] = Reject_No14;
+                            row["캡외관불량"] = Reject_No15;
+                            row["고무전없음"] = Reject_No16;
+                            row["이종고무전"] = Reject_No17;
+                            row["고무전이물"] = Reject_No18;
+                            row["Cake상태불량"] = Reject_No19;
+                            row["바이알내부기벽고무전약액뭍음"] = Reject_No20;
+                            row["기타불량"] = Reject_No21;
 
                             dt.Rows.Add(row);
-
-                            // 조제공정에서만 기록 값 남도록
-
+                            
                             var xml = BizActorRuleBase.CreateXMLStream(ds);
                             var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
 
-                            //_mainWnd.CurrentInstruction.Raw.ACTVAL = curFitCount.ToString();
-                            //_mainWnd.CurrentInstruction.Raw.NOTE = imageToByteArray();
                             _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
                             _mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
 
-                            var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction);
+                            var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction, false, false, true);
                             if (result != enumInstructionRegistErrorType.Ok)
                             {
                                 throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
                             }
-                            
+
                             if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
                             else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
 

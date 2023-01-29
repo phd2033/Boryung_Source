@@ -26,6 +26,7 @@ namespace 보령
         {
             _RejectionDetails = new RejectionDetail.OUTDATACollection();
             _RejectionDetails2 = new RejectionDetail2.OUTDATACollection();
+            _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO = new BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO();
         }
 
         SVP수동검사불량유형조회 _mainWnd;
@@ -49,6 +50,17 @@ namespace 보령
             {
                 _RejectionDetails2 = value;
                 OnPropertyChanged("RejectionDetails2");
+            }
+        }
+
+        private BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO;
+        public BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO
+        {
+            get { return _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO; }
+            set
+            {
+                _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO = value;
+                OnPropertyChanged("BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO");
             }
         }
         #endregion
@@ -76,7 +88,18 @@ namespace 보령
 
                                 IsBusy = true;
 
-                                // 
+                                _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.INDATAs.Clear();
+                                _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.OUTDATAs.Clear();
+                                _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.INDATAs.Add(new BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.INDATA
+                                {
+                                    POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                    OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID
+                                });
+
+                                if (await _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.Execute() && _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.OUTDATAs.Count > 0)
+                                {
+                                    var outData = _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.OUTDATAs[0];
+                                }
 
                             }
                             IsBusy = false;
@@ -117,17 +140,14 @@ namespace 보령
                             CommandResults["ComfirmCommandAsync"] = false;
                             CommandCanExecutes["ComfirmCommandAsync"] = false;
 
-                            ///
-
                             //이미지 저장시 서명화면으로 인해 이미지가 잘 안보임. 그에 따른 이미지 데이터만 먼저 생성해 놓도록 함.
                             Brush background = _mainWnd.PrintArea.Background;
                             _mainWnd.PrintArea.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0xD6, 0xD4, 0xD4));
                             _mainWnd.PrintArea.BorderThickness = new System.Windows.Thickness(1);
                             _mainWnd.PrintArea.Background = new SolidColorBrush(Colors.White);
-
-
+                            
                             _mainWnd.CurrentInstruction.Raw.NOTE = imageToByteArray();
-
+                            _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
 
                             var authHelper = new iPharmAuthCommandHelper();
 
@@ -148,138 +168,17 @@ namespace 보령
                                     throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                 }
                             }
-
-                            var outputValues = InstructionModel.GetResultReceiver(_mainWnd.CurrentInstruction, _mainWnd.Instructions);
-
-                            authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
-
-                            if (await authHelper.ClickAsync(
-                                Common.enumCertificationType.Function,
-                                Common.enumAccessType.Create,
-                                "SVP수동검사불량유형",
-                                "SVP수동검사불량유형",
-                                false,
-                                "OM_ProductionOrder_SUI",
-                                "", null, null) == false)
-                            {
-                                throw new Exception(string.Format("서명이 완료되지 않았습니다."));
-                            }
-
-                            // DataSet 생성
-                            var ds = new DataSet();
-
-                            // DETAIL TBL
-                            var dt = new DataTable("DATA");
-                            ds.Tables.Add(dt);
-
-                            dt.Columns.Add(new DataColumn("검사자"));
-                            dt.Columns.Add(new DataColumn("검사일자"));
-                            dt.Columns.Add(new DataColumn("검사수량(Vial)"));
-                            dt.Columns.Add(new DataColumn("흰티"));
-                            dt.Columns.Add(new DataColumn("검은티"));
-                            dt.Columns.Add(new DataColumn("유색"));
-                            dt.Columns.Add(new DataColumn("금속성"));
-                            dt.Columns.Add(new DataColumn("유리조각"));
-                            dt.Columns.Add(new DataColumn("섬유(> 1mm)"));
-                            dt.Columns.Add(new DataColumn("섬유(≤ 1mm)"));
-                            dt.Columns.Add(new DataColumn("충전량불량"));
-                            dt.Columns.Add(new DataColumn("캡씰링불량"));
-                            dt.Columns.Add(new DataColumn("이종캡"));
-                            dt.Columns.Add(new DataColumn("캡외관불량"));
-
-                            foreach (var item in RejectionDetails)
-                            {
-                                var row = dt.NewRow();
-
-                                row["검사자"] = item.USERNAME;
-                                row["검사일자"] = item.REJECTDATE;
-                                row["검사수량(Vial)"] = item.REJECTQTY;
-                                row["흰티"] = item.REJECTNO_1;
-                                row["검은티"] = item.REJECTNO_2;
-                                row["유색"] = item.REJECTNO_3;
-                                row["금속성"] = item.REJECTNO_4;
-                                row["유리조각"] = item.REJECTNO_5;
-                                row["섬유(> 1mm)"] = item.REJECTNO_6;
-                                row["섬유(≤ 1mm)"] = item.REJECTNO_7;
-                                row["충전량불량"] = item.REJECTNO_8;
-                                row["캡씰링불량"] = item.REJECTNO_9;
-                                row["이종캡"] = item.REJECTNO_10;
-                                row["캡외관불량"] = item.REJECTNO_11;
-
-                                dt.Rows.Add(row);
-                            }
-
-                            var dt2 = new DataTable("DATA2");
-                            ds.Tables.Add(dt2);
-
-                            dt2.Columns.Add(new DataColumn("검사자"));
-                            dt2.Columns.Add(new DataColumn("검사일자"));
-                            dt2.Columns.Add(new DataColumn("검사수량(Vial)"));
-                            dt2.Columns.Add(new DataColumn("바이알손상"));
-                            dt2.Columns.Add(new DataColumn("내부오염"));
-                            dt2.Columns.Add(new DataColumn("바이알흠집"));
-                            dt2.Columns.Add(new DataColumn("성형불량"));
-                            dt2.Columns.Add(new DataColumn("고무전없음"));
-                            dt2.Columns.Add(new DataColumn("이종고무전"));
-                            dt2.Columns.Add(new DataColumn("고무전이물"));
-                            dt2.Columns.Add(new DataColumn("Cake상태불량"));
-                            dt2.Columns.Add(new DataColumn("바이알내부기벽/고무전약액뭍음"));
-                            dt2.Columns.Add(new DataColumn("기타불량"));
-
-                            foreach (var item in RejectionDetails2)
-                            {
-                                var row = dt2.NewRow();
-
-                                row["검사자"] = item.USERNAME2;
-                                row["검사일자"] = item.REJECTDATE2;
-                                row["검사수량(Vial)"] = item.REJECTQTY2;
-                                row["바이알손상"] = item.REJECTNO_12;
-                                row["내부오염"] = item.REJECTNO_13;
-                                row["바이알흠집"] = item.REJECTNO_14;
-                                row["성형불량"] = item.REJECTNO_15;
-                                row["고무전없음"] = item.REJECTNO_16;
-                                row["이종고무전"] = item.REJECTNO_17;
-                                row["고무전이물"] = item.REJECTNO_18;
-                                row["Cake상태불량"] = item.REJECTNO_19;
-                                row["바이알내부기벽/고무전약액뭍음"] = item.REJECTNO_20;
-                                row["기타불량"] = item.REJECTNO_21;
-
-                                dt2.Rows.Add(row);
-                            }
                             
-                            var dateTimeInstructions = _mainWnd.Instructions.Where(o =>
-                            {
-                                return string.Compare(o.Raw.REF_IRTGUID, _mainWnd.CurrentInstruction.Raw.IRTGUID) == 0 &&
-                                    ((enumVariableType)Enum.Parse(typeof(enumVariableType), o.Raw.IRTTYPE, false)) == enumVariableType.IT004;
-                            }).OrderBy(o => o.Raw.IRTSEQ).ToList();
-
-                            _mainWnd.CurrentInstruction.Raw.ACTVAL = "SVP수동검사불량유형";
-
                             var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction);
                             if (result != enumInstructionRegistErrorType.Ok)
                             {
                                 throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
                             }
 
-                            //var xml = BizActorRuleBase.CreateXMLStream(ds);
-                            //var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
-
-
-                            //_mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
-                            //_mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
-
-                            //var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction, false, false, true);
-                            //if (result != enumInstructionRegistErrorType.Ok)
-                            //{
-                            //    throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
-                            //}
-
                             if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
                             else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
 
-
                             IsBusy = false;
-                            ///
 
                             CommandResults["ComfirmCommandAsync"] = true;
                         }

@@ -23,7 +23,7 @@ namespace 보령
 
         public override string TableTypeName
         {
-            get { return "TABLE,SVP수동검사불량유형조회"; }
+            get { return "SVP수동검사불량유형조회"; }
         }
         private void btnCancel_Click(object sender, System.Windows.RoutedEventArgs e)
         {

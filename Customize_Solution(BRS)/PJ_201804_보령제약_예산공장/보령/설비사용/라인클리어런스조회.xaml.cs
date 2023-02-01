@@ -14,6 +14,7 @@ using System.ComponentModel;
 
 namespace 보령
 {
+    [ShopFloorCustomHidden]
     public partial class 라인클리어런스조회 : ShopFloorCustomWindow
     {
         [Description("LineClearance 조회")]

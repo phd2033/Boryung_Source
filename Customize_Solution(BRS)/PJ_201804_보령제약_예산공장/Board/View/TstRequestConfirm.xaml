@@ -136,6 +136,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="5" />
                             <RowDefinition Height="*" />
+                            <RowDefinition Height="30" />
                             <RowDefinition Height="5" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="5" />
@@ -161,7 +162,7 @@
                             </c1:C1DataGrid.Columns>
                         </c1:C1DataGrid>
 
-                        <!--<Button Grid.Row="3" Grid.Column="1" Width="60" Height="30" HorizontalAlignment="Right" Cursor="Hand" Visibility="Visible">
+                        <Button Grid.Row="2" Grid.Column="1" Width="60" Height="30" HorizontalAlignment="Right" Cursor="Hand" Visibility="Visible">
                             <Button.Template>
                                 <ControlTemplate>
                                     <Image Source="../../Images/Excel.png"/>
@@ -172,7 +173,7 @@
                                     <icommon:EventToCommandAction Command="{Binding ClickExportExcelCommand}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-                        </Button>-->
+                        </Button>
                     </Grid>
                 </Grid>
             </ControlsLib:MainPanel_Top.Contents>

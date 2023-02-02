@@ -314,5 +314,52 @@ namespace Board
                 });
             }
         }
+
+        public ICommand ClickExportExcelCommand
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["ClickExportExcelCommand"].EnterAsync())
+                    {
+                        try
+                        {
+                            IsBusy = true;
+
+                            CommandResults["ClickExportExcelCommand"] = false;
+                            CommandCanExecutes["ClickExportExcelCommand"] = false;
+
+                            ///
+                            Custom_C1ExportExcel customExcel = new Custom_C1ExportExcel();
+
+                            customExcel.SaveBook(book =>
+                            {
+                                C1.Silverlight.Excel.XLSheet sheet = book.Sheets[0];
+                                customExcel.InitHeaderExcel(book, sheet, _mainWnd2.dgProductionOrder);
+                            });
+                            ///
+
+                            CommandResults["ClickExportExcelCommand"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["ClickExportExcelCommand"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["ClickExportExcelCommand"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("ClickExportExcelCommand") ?
+                        CommandCanExecutes["ClickExportExcelCommand"] : (CommandCanExecutes["ClickExportExcelCommand"] = true);
+                });
+            }
+        }
     }
 }

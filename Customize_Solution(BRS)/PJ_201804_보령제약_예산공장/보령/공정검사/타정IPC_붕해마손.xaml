@@ -28,7 +28,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="200"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid x:Name="IPCRecord" Grid.Row="0">
@@ -46,18 +46,20 @@
                         Command="{Binding RegisterIPCCommandAsync}"/>
             </Grid>
             <Grid x:Name="IPCHistory" Grid.Row="1">
-                <c1:C1DataGrid AutoGenerateColumns="False" HeadersVisibility="Column"
+                <ScrollViewer Canvas.ZIndex="1" Padding="0">
+                    <c1:C1DataGrid AutoGenerateColumns="False" HeadersVisibility="Column"
                                CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False" CanUserSort="False"
                                ScrollBarStyle="{Binding Source={StaticResource dgScroll}}"
                                ItemsSource="{Binding IPCResults}">
-                    <c1:C1DataGrid.Columns>
-                        <c1:DataGridTextColumn Header="구분" MinWidth="50" Binding="{Binding GUBUN}"/>
-                        <c1:DataGridTextColumn Header="붕해도" MinWidth="100" Binding="{Binding RSLT1}"/>
-                        <c1:DataGridTextColumn Header="붕해도적합여부" MinWidth="100" Binding="{Binding RSLT3}"/>
-                        <c1:DataGridTextColumn Header="마손도" MinWidth="100" Binding="{Binding RSLT2}"/>
-                        <c1:DataGridTextColumn Header="마손도적합여부" MinWidth="100" Binding="{Binding RSLT4}"/>
-                    </c1:C1DataGrid.Columns>
-                </c1:C1DataGrid>
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridTextColumn Header="구분" MinWidth="50" Binding="{Binding GUBUN}"/>
+                            <c1:DataGridTextColumn Header="붕해도" MinWidth="100" Binding="{Binding RSLT1}"/>
+                            <c1:DataGridTextColumn Header="붕해도적합여부" MinWidth="100" Binding="{Binding RSLT3}"/>
+                            <c1:DataGridTextColumn Header="마손도" MinWidth="100" Binding="{Binding RSLT2}"/>
+                            <c1:DataGridTextColumn Header="마손도적합여부" MinWidth="100" Binding="{Binding RSLT4}"/>
+                        </c1:C1DataGrid.Columns>
+                    </c1:C1DataGrid>
+                </ScrollViewer>
             </Grid>
             <Grid x:Name="Footer" Grid.Row="2">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">

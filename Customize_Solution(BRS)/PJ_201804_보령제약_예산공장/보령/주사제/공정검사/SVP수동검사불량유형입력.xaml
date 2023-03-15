@@ -16,7 +16,7 @@
     xmlns:local="clr-namespace:보령"
     x:Name="Main"
     Title="SVP수동검사불량유형입력"
-    Height="760" Width="1200">
+    Height="730" Width="1200">
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
         <icontrol:ReverseBoolConverter x:Key="boolRevConverter" />
         <local:SVP수동검사불량유형입력ViewModel x:Key="VM"/>
@@ -51,8 +51,10 @@
             </i:EventTrigger>
         </i:Interaction.Triggers>
 
-        <Grid x:Name="LayoutRoot">
+        <Border Grid.Row="1" x:Name="PrintArea" Margin="5" BorderBrush="#FFD6D4D4" BorderThickness="3">
+            <Grid x:Name="LayoutRoot">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -64,7 +66,6 @@
                 <RowDefinition />
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Border Grid.Row="1" x:Name="Border1" Margin="5" BorderBrush="#FFD6D4D4" BorderThickness="3">
                 <Grid Grid.Row="1" x:Name="MainSection">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2"/>
@@ -112,9 +113,10 @@
                                 DateTime="{Binding Path=Date, Mode=TwoWay}" IsReadOnly="True" IsEnabled="{Binding IsEnableDate}"  MinTimeEditorWidth="150" />
                     <sdk:Label Grid.Column="13" Grid.Row="1" Content="검사수량(Vial)" Style="{Binding Source={StaticResource LabelStyle}}" />
                     <ShopFloorUI:NumericKeyPadType Grid.Column="15" Grid.ColumnSpan="4" Grid.Row="1" x:Name="RejectQTY" Value="{Binding Path=RejectQTY, Mode=TwoWay}" HorizontalAlignment="Left" Width="167" />
+                    <sdk:Label Grid.Column="19" Grid.Row="1" Content="검사차수" Style="{Binding Source={StaticResource LabelStyle}}" />
+                    <ShopFloorUI:NumericKeyPadType Grid.Column="20" Grid.ColumnSpan="4" Grid.Row="1" x:Name="InspectCnt" Value="{Binding Path=InspectCnt, Mode=TwoWay}" HorizontalAlignment="Left" Width="167" />
                 </Grid>
-            </Border>
-            <Border Grid.Row="2" x:Name="Border2" Margin="5" BorderBrush="#FFD6D4D4" BorderThickness="3">
+           
                 <Grid Grid.Row="2" x:Name="MainSection2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2"/>
@@ -190,8 +192,7 @@
                                                    IsEnabled="{Binding isFitCountEnable}" IsReadOnly="{Binding isFitCountEnable, Converter={StaticResource boolRevConverter}}" />
 
                 </Grid>
-            </Border>
-            <Border Grid.Row="3" x:Name="Border3" Margin="5" BorderBrush="#FFD6D4D4" BorderThickness="3">
+            
                 <Grid Grid.Row="3" x:Name="MainSection3">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2"/>
@@ -233,9 +234,8 @@
                     <ShopFloorUI:NumericKeyPadType Grid.RowSpan="2" Grid.Column="5" Grid.Row="2" x:Name="Reject_No8" Value="{Binding Path=Reject_No8, Mode=TwoWay}"
                                                    IsEnabled="{Binding isFitCountEnable}" IsReadOnly="{Binding isFitCountEnable, Converter={StaticResource boolRevConverter}}" />
                 </Grid>
-            </Border>
-            <Border Grid.Row="4" x:Name="Border4" Margin="5" BorderBrush="#FFD6D4D4" BorderThickness="3">
-                <Grid Grid.Row="3" x:Name="MainSection4">
+            
+                <Grid Grid.Row="4" x:Name="MainSection4">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2"/>
                         <RowDefinition Height="40"/>
@@ -291,9 +291,8 @@
                     <ShopFloorUI:NumericKeyPadType Grid.RowSpan="2" Grid.Column="23" Grid.Row="2" x:Name="Reject_No12" Value="{Binding Path=Reject_No12, Mode=TwoWay}"
                                                    IsEnabled="{Binding isFitCountEnable}" IsReadOnly="{Binding isFitCountEnable, Converter={StaticResource boolRevConverter}}" />
                 </Grid>
-            </Border>
-            <Border Grid.Row="5" x:Name="Border5" Margin="5" BorderBrush="#FFD6D4D4" BorderThickness="3">
-                <Grid Grid.Row="3" x:Name="MainSection5">
+            
+                <Grid Grid.Row="5" x:Name="MainSection5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2"/>
                         <RowDefinition Height="40"/>
@@ -344,9 +343,8 @@
                     <ShopFloorUI:NumericKeyPadType Grid.RowSpan="2" Grid.Column="17" Grid.Row="2" x:Name="Reject_No15" Value="{Binding Path=Reject_No15, Mode=TwoWay}"
                                                    IsEnabled="{Binding isFitCountEnable}" IsReadOnly="{Binding isFitCountEnable, Converter={StaticResource boolRevConverter}}" />
                 </Grid>
-            </Border>
-            <Border Grid.Row="6" x:Name="Border6" Margin="5" BorderBrush="#FFD6D4D4" BorderThickness="3">
-                <Grid Grid.Row="3" x:Name="MainSection6">
+            
+                <Grid Grid.Row="6" x:Name="MainSection6">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2"/>
                         <RowDefinition Height="40"/>
@@ -397,9 +395,8 @@
                     <ShopFloorUI:NumericKeyPadType Grid.RowSpan="2" Grid.Column="17" Grid.Row="2" x:Name="Reject_No18" Value="{Binding Path=Reject_No18, Mode=TwoWay}"
                                                    IsEnabled="{Binding isFitCountEnable}" IsReadOnly="{Binding isFitCountEnable, Converter={StaticResource boolRevConverter}}" />
                 </Grid>
-            </Border>
-            <Border Grid.Row="7" x:Name="Border7" Margin="5" BorderBrush="#FFD6D4D4" BorderThickness="3">
-                <Grid Grid.Row="3" x:Name="MainSection7">
+            
+                <Grid Grid.Row="7" x:Name="MainSection7">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2"/>
                         <RowDefinition Height="40"/>
@@ -448,17 +445,33 @@
                     <ShopFloorUI:NumericKeyPadType Grid.RowSpan="2" Grid.Column="17" Grid.Row="2" x:Name="Reject_No21" Value="{Binding Path=Reject_No21, Mode=TwoWay}"
                                                    IsEnabled="{Binding isFitCountEnable}" IsReadOnly="{Binding isFitCountEnable, Converter={StaticResource boolRevConverter}}" />
                 </Grid>
-            </Border>
-            <Grid Grid.Row="8" x:Name="Footer">
+            
+                <Grid Grid.Row="8" x:Name="MainSection8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2" />
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="1000" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2" />
+                    </Grid.ColumnDefinitions>
+                    <sdk:Label Grid.Column="1" Grid.Row="1" Content="비고" HorizontalAlignment="Left" FontSize="20" Grid.ColumnSpan="5" Style="{Binding Source={StaticResource LabelStyle}}" />
+                    <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding Path=Comments, Mode=TwoWay}" Style="{Binding Source={StaticResource TextStyle}}"/>
+                </Grid>
+            
+            <Grid Grid.Row="9" x:Name="Footer">
                 <StackPanel Orientation="Horizontal" Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="5" HorizontalAlignment="Center">
-                    <Button Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='기록없음'}" Margin="5,1" Width="90" Height="30" 
+                    <Button Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='기록없음'}" Margin="5,1" Width="90" Height="40" 
                             IsEnabled="{Binding isConfirmEnable}" Command="{Binding NoRecordConfirmCommand}" />
-                    <Button Content="{Binding W[CUIDefaultDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='기록'}" Margin="5,1" Width="90" Height="30"
+                    <Button Content="{Binding W[CUIDefaultDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='기록'}" Margin="5,1" Width="90" Height="40"
                             IsEnabled="{Binding isSaveEnable}" Command="{Binding SaveCommandAsync}"/>
-                    <Button Content="{Binding W[CUICloseButtonText], Source={StaticResource VM}, FallbackValue='닫기'}" Margin="5,1" Width="90" Height="30" Click="btnClose_Click"/>
+                    <Button Content="{Binding W[CUICloseButtonText], Source={StaticResource VM}, FallbackValue='닫기'}" Margin="5,1" Width="90" Height="40" Click="btnClose_Click"/>
                 </StackPanel>
             </Grid>
-
-        </Grid>
+            </Grid>
+        </Border>
     </toolkit:BusyIndicator>
 </ShopFloorUI:ShopFloorCustomWindow>

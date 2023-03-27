@@ -8,7 +8,7 @@
            xmlns:ezmes="clr-namespace:LGCNS.EZMES.ControlsLib;assembly=LGCNS.EZMES.ControlsLib"
            xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
            xmlns:local="clr-namespace:보령"
-           x:Name="Main" Width="1200" Height="780"
+           x:Name="Main" Width="1200" Height="650"
            Title="SVP수동검사불량유형조회">
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
         <local:SVP수동검사불량유형조회ViewModel x:Key="ViewModel"/>
@@ -28,15 +28,15 @@
                 <Border x:Name="PrintMain" Grid.Row="0">
                     <Grid x:Name="LayoutPrint">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="0.9*"/>
+                            <RowDefinition Height="180"/>
                             <RowDefinition Height="160"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Border x:Name="PrintArea1"  Grid.Row="0" BorderBrush="#FFD6D4D4" BorderThickness="3">
                             <Grid x:Name="MainSection" Grid.Row="0" >
                                 <ezmes:CNSDataGrid Grid.Column="0" x:Name="RejectionDetail" HeaderRowCount="6"
                                            IsRowAdd="False" IsRowDelete="False" IsEditMode="False" IsEditSection="True" HeadersVisibility="Column" IsRowNumber="False" 
-                                           ItemsSource="{Binding BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.OUTDATAs}">
+                                           ItemsSource="{Binding BR_BRS_SEL_UDT_BRS_SVP_REJECT_SUM.OUTDATAs}">
                                     <ezmes:CNSDataGrid.DataColumns>
                                         <ezmes:DataColumn HeadName="검사자" DataField="INSUSER" ColumnType="TextBox" HeaderWidth="75"/>
                                         <ezmes:DataColumn HeadName="검사일자" DataField="INSPECTIONDATE" ColumnType="Date" HeaderWidth="85"/>
@@ -64,7 +64,7 @@
                             <Grid x:Name="MainSection2" Grid.Row="1">
                                 <ezmes:CNSDataGrid Grid.Row="1" Grid.Column="0" x:Name="RejectionDetail2" HeaderRowCount="5"
                                            IsRowAdd="False" IsRowDelete="False" IsEditMode="False" IsEditSection="False" HeadersVisibility="Column" IsRowNumber="False" 
-                                           ItemsSource="{Binding BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.OUTDATAs}">
+                                           ItemsSource="{Binding BR_BRS_SEL_UDT_BRS_SVP_REJECT_SUM.OUTDATAs}">
                                     <ezmes:CNSDataGrid.DataColumns>
                                         <ezmes:DataColumn HeadName="검사자" DataField="INSUSER" ColumnType="TextBox" HeaderWidth="75"/>
                                         <ezmes:DataColumn HeadName="검사일자" DataField="INSPECTIONDATE" ColumnType="Date" HeaderWidth="85"/>
@@ -91,11 +91,11 @@
                             <Grid x:Name="MainSection3" Grid.Row="2">
                                 <ezmes:CNSDataGrid Grid.Row="2" Grid.Column="0" x:Name="RejectionDetail3" HeaderRowCount="1"
                                            IsRowAdd="False" IsRowDelete="False" IsEditMode="False" IsEditSection="False" HeadersVisibility="Column" IsRowNumber="False" 
-                                           ItemsSource="{Binding BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.OUTDATAs}">
+                                           ItemsSource="{Binding BR_BRS_SEL_UDT_BRS_SVP_REJECT_SUM_COMMENT.OUTDATAs}">
                                     <ezmes:CNSDataGrid.DataColumns>
                                         <ezmes:DataColumn HeadName="검사자" DataField="INSUSER" ColumnType="TextBox" HeaderWidth="75"/>
                                         <ezmes:DataColumn HeadName="검사일자" DataField="INSPECTIONDATE" ColumnType="Date" HeaderWidth="85"/>
-                                        <ezmes:DataColumn HeadName="검사수량(Vial)" DataField="RejectQTY" ColumnType="Int32" HeaderWidth="100"/>
+                                        <ezmes:DataColumn HeadName="검사수량(Vial)" DataField="REJECTQTY" ColumnType="Int32" HeaderWidth="100"/>
                                         <ezmes:DataColumn HeadName="비고" DataField="COMMENTS" ColumnType="TextBox" HeaderWidth="912" ReadOnly="True"/>
                                     </ezmes:CNSDataGrid.DataColumns>
                                 </ezmes:CNSDataGrid>

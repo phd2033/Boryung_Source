@@ -285,7 +285,18 @@ namespace 보령
                 OnPropertyChanged("Comments");
             }
         }
-        
+
+        bool _isEnabled;
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                _isEnabled = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region [Constructor]
@@ -294,6 +305,7 @@ namespace 보령
         {
             _BR_BRS_REG_UDT_BRS_SVP_REJECT_INFO = new BR_BRS_REG_UDT_BRS_SVP_REJECT_INFO();
             _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO = new BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO();
+            IsEnabled = false;
         }
 
         #endregion
@@ -358,6 +370,8 @@ namespace 보령
                                 {
                                     INSUSER = AuthRepositoryViewModel.Instance.LoginedUserID;
                                     Date = DateTime.Now.ToString("yyyy-MM-dd");
+
+                                    IsEnabled = true;
                                 }
                                 else
                                 {
@@ -389,6 +403,8 @@ namespace 보령
                                     Reject_No20 = Convert.ToDecimal(outData.Reject_No20);
                                     Reject_No21 = Convert.ToDecimal(outData.Reject_No21);
                                     Comments = outData.COMMENTS;
+
+                                    IsEnabled = false;
                                 }
                                 
                             }

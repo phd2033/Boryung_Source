@@ -82,7 +82,7 @@
                                         <ezmes:DataColumn HeadName="불량 유형 및 수량|Cake상태불량²|Cake상태불량²|Cake상태불량²|19" DataField="Reject_No19" ColumnType="Int32" HeaderWidth="105" ReadOnly="True"/>
                                         <ezmes:DataColumn HeadName="불량 유형 및 수량|바이알내부기벽/고무전약액묻음²|바이알내부기벽/고무전약액묻음²|바이알내부기벽/고무전약액묻음²|20" 
                                                   DataField="Reject_No20" ColumnType="Int32" HeaderWidth="190" ReadOnly="True"/>
-                                        <ezmes:DataColumn HeadName="불량 유형 및 수량|기타불량³|기타불량³|기타불량³|기타불량³|21" DataField="Reject_No21" ColumnType="Int32" HeaderWidth="90" ReadOnly="True"/>
+                                        <ezmes:DataColumn HeadName="불량 유형 및 수량|기타불량³|기타불량³|기타불량³|21" DataField="Reject_No21" ColumnType="Int32" HeaderWidth="90" ReadOnly="True"/>
                                     </ezmes:CNSDataGrid.DataColumns>
                                 </ezmes:CNSDataGrid>
                             </Grid>

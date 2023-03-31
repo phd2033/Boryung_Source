@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace 보령
+namespace LGCNS.iPharmMES.Common
 {
 
     /// <summary>
@@ -293,6 +293,166 @@ namespace 보령
                     }
                 }
             }
+            private System.Nullable<decimal> _TOTAL_GOODQTY;
+            [BizActorInputItemAttribute()]
+            public System.Nullable<decimal> TOTAL_GOODQTY
+            {
+                get
+                {
+                    return this._TOTAL_GOODQTY;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._TOTAL_GOODQTY = value;
+                        this.CheckIsOriginal("TOTAL_GOODQTY", value);
+                        this.OnPropertyChanged("TOTAL_GOODQTY");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private System.Nullable<decimal> _CRITICAL_REJECTQTY;
+            [BizActorInputItemAttribute()]
+            public System.Nullable<decimal> CRITICAL_REJECTQTY
+            {
+                get
+                {
+                    return this._CRITICAL_REJECTQTY;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._CRITICAL_REJECTQTY = value;
+                        this.CheckIsOriginal("CRITICAL_REJECTQTY", value);
+                        this.OnPropertyChanged("CRITICAL_REJECTQTY");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private System.Nullable<decimal> _MIDDLE_REJECTQTY;
+            [BizActorInputItemAttribute()]
+            public System.Nullable<decimal> MIDDLE_REJECTQTY
+            {
+                get
+                {
+                    return this._MIDDLE_REJECTQTY;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._MIDDLE_REJECTQTY = value;
+                        this.CheckIsOriginal("MIDDLE_REJECTQTY", value);
+                        this.OnPropertyChanged("MIDDLE_REJECTQTY");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private System.Nullable<decimal> _LIGHT_REJECTQTY;
+            [BizActorInputItemAttribute()]
+            public System.Nullable<decimal> LIGHT_REJECTQTY
+            {
+                get
+                {
+                    return this._LIGHT_REJECTQTY;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._LIGHT_REJECTQTY = value;
+                        this.CheckIsOriginal("LIGHT_REJECTQTY", value);
+                        this.OnPropertyChanged("LIGHT_REJECTQTY");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private System.Nullable<decimal> _TOTAL_REJECTQTY;
+            [BizActorInputItemAttribute()]
+            public System.Nullable<decimal> TOTAL_REJECTQTY
+            {
+                get
+                {
+                    return this._TOTAL_REJECTQTY;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._TOTAL_REJECTQTY = value;
+                        this.CheckIsOriginal("TOTAL_REJECTQTY", value);
+                        this.OnPropertyChanged("TOTAL_REJECTQTY");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
             private string _OPSGGUID;
             [BizActorInputItemAttribute()]
             public string OPSGGUID
@@ -357,13 +517,13 @@ namespace 보령
                     }
                 }
             }
-            private string _INSPECTIONDATE;
+            private string _INSPECTIONDTTM;
             [BizActorInputItemAttribute()]
-            public string INSPECTIONDATE
+            public string INSPECTIONDTTM
             {
                 get
                 {
-                    return this._INSPECTIONDATE;
+                    return this._INSPECTIONDTTM;
                 }
                 set
                 {
@@ -372,9 +532,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._INSPECTIONDATE = value;
-                        this.CheckIsOriginal("INSPECTIONDATE", value);
-                        this.OnPropertyChanged("INSPECTIONDATE");
+                        this._INSPECTIONDTTM = value;
+                        this.CheckIsOriginal("INSPECTIONDTTM", value);
+                        this.OnPropertyChanged("INSPECTIONDTTM");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -389,13 +549,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _RejectQTY;
+            private System.Nullable<decimal> _INSPECTQTY;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> RejectQTY
+            public System.Nullable<decimal> INSPECTQTY
             {
                 get
                 {
-                    return this._RejectQTY;
+                    return this._INSPECTQTY;
                 }
                 set
                 {
@@ -404,9 +564,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._RejectQTY = value;
-                        this.CheckIsOriginal("RejectQTY", value);
-                        this.OnPropertyChanged("RejectQTY");
+                        this._INSPECTQTY = value;
+                        this.CheckIsOriginal("INSPECTQTY", value);
+                        this.OnPropertyChanged("INSPECTQTY");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -421,13 +581,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _Reject_No1;
+            private System.Nullable<decimal> _REJECT_NO1;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> Reject_No1
+            public System.Nullable<decimal> REJECT_NO1
             {
                 get
                 {
-                    return this._Reject_No1;
+                    return this._REJECT_NO1;
                 }
                 set
                 {
@@ -436,9 +596,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._Reject_No1 = value;
-                        this.CheckIsOriginal("Reject_No1", value);
-                        this.OnPropertyChanged("Reject_No1");
+                        this._REJECT_NO1 = value;
+                        this.CheckIsOriginal("REJECT_NO1", value);
+                        this.OnPropertyChanged("REJECT_NO1");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -453,13 +613,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _Reject_No2;
+            private System.Nullable<decimal> _REJECT_NO2;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> Reject_No2
+            public System.Nullable<decimal> REJECT_NO2
             {
                 get
                 {
-                    return this._Reject_No2;
+                    return this._REJECT_NO2;
                 }
                 set
                 {
@@ -468,9 +628,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._Reject_No2 = value;
-                        this.CheckIsOriginal("Reject_No2", value);
-                        this.OnPropertyChanged("Reject_No2");
+                        this._REJECT_NO2 = value;
+                        this.CheckIsOriginal("REJECT_NO2", value);
+                        this.OnPropertyChanged("REJECT_NO2");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -485,13 +645,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _Reject_No3;
+            private System.Nullable<decimal> _REJECT_NO3;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> Reject_No3
+            public System.Nullable<decimal> REJECT_NO3
             {
                 get
                 {
-                    return this._Reject_No3;
+                    return this._REJECT_NO3;
                 }
                 set
                 {
@@ -500,9 +660,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._Reject_No3 = value;
-                        this.CheckIsOriginal("Reject_No3", value);
-                        this.OnPropertyChanged("Reject_No3");
+                        this._REJECT_NO3 = value;
+                        this.CheckIsOriginal("REJECT_NO3", value);
+                        this.OnPropertyChanged("REJECT_NO3");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -517,13 +677,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _Reject_No4;
+            private System.Nullable<decimal> _REJECT_NO4;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> Reject_No4
+            public System.Nullable<decimal> REJECT_NO4
             {
                 get
                 {
-                    return this._Reject_No4;
+                    return this._REJECT_NO4;
                 }
                 set
                 {
@@ -532,9 +692,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._Reject_No4 = value;
-                        this.CheckIsOriginal("Reject_No4", value);
-                        this.OnPropertyChanged("Reject_No4");
+                        this._REJECT_NO4 = value;
+                        this.CheckIsOriginal("REJECT_NO4", value);
+                        this.OnPropertyChanged("REJECT_NO4");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -549,13 +709,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _Reject_No5;
+            private System.Nullable<decimal> _REJECT_NO5;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> Reject_No5
+            public System.Nullable<decimal> REJECT_NO5
             {
                 get
                 {
-                    return this._Reject_No5;
+                    return this._REJECT_NO5;
                 }
                 set
                 {
@@ -564,9 +724,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._Reject_No5 = value;
-                        this.CheckIsOriginal("Reject_No5", value);
-                        this.OnPropertyChanged("Reject_No5");
+                        this._REJECT_NO5 = value;
+                        this.CheckIsOriginal("REJECT_NO5", value);
+                        this.OnPropertyChanged("REJECT_NO5");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -581,13 +741,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _Reject_No6;
+            private System.Nullable<decimal> _REJECT_NO6;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> Reject_No6
+            public System.Nullable<decimal> REJECT_NO6
             {
                 get
                 {
-                    return this._Reject_No6;
+                    return this._REJECT_NO6;
                 }
                 set
                 {
@@ -596,9 +756,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._Reject_No6 = value;
-                        this.CheckIsOriginal("Reject_No6", value);
-                        this.OnPropertyChanged("Reject_No6");
+                        this._REJECT_NO6 = value;
+                        this.CheckIsOriginal("REJECT_NO6", value);
+                        this.OnPropertyChanged("REJECT_NO6");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -613,13 +773,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _Reject_No7;
+            private System.Nullable<decimal> _REJECT_NO7;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> Reject_No7
+            public System.Nullable<decimal> REJECT_NO7
             {
                 get
                 {
-                    return this._Reject_No7;
+                    return this._REJECT_NO7;
                 }
                 set
                 {
@@ -628,9 +788,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._Reject_No7 = value;
-                        this.CheckIsOriginal("Reject_No7", value);
-                        this.OnPropertyChanged("Reject_No7");
+                        this._REJECT_NO7 = value;
+                        this.CheckIsOriginal("REJECT_NO7", value);
+                        this.OnPropertyChanged("REJECT_NO7");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -645,13 +805,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _Reject_No8;
+            private System.Nullable<decimal> _REJECT_NO8;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> Reject_No8
+            public System.Nullable<decimal> REJECT_NO8
             {
                 get
                 {
-                    return this._Reject_No8;
+                    return this._REJECT_NO8;
                 }
                 set
                 {
@@ -660,9 +820,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._Reject_No8 = value;
-                        this.CheckIsOriginal("Reject_No8", value);
-                        this.OnPropertyChanged("Reject_No8");
+                        this._REJECT_NO8 = value;
+                        this.CheckIsOriginal("REJECT_NO8", value);
+                        this.OnPropertyChanged("REJECT_NO8");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -677,13 +837,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _Reject_No9;
+            private System.Nullable<decimal> _REJECT_NO9;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> Reject_No9
+            public System.Nullable<decimal> REJECT_NO9
             {
                 get
                 {
-                    return this._Reject_No9;
+                    return this._REJECT_NO9;
                 }
                 set
                 {
@@ -692,9 +852,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._Reject_No9 = value;
-                        this.CheckIsOriginal("Reject_No9", value);
-                        this.OnPropertyChanged("Reject_No9");
+                        this._REJECT_NO9 = value;
+                        this.CheckIsOriginal("REJECT_NO9", value);
+                        this.OnPropertyChanged("REJECT_NO9");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -709,13 +869,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _Reject_No10;
+            private System.Nullable<decimal> _REJECT_NO10;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> Reject_No10
+            public System.Nullable<decimal> REJECT_NO10
             {
                 get
                 {
-                    return this._Reject_No10;
+                    return this._REJECT_NO10;
                 }
                 set
                 {
@@ -724,9 +884,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._Reject_No10 = value;
-                        this.CheckIsOriginal("Reject_No10", value);
-                        this.OnPropertyChanged("Reject_No10");
+                        this._REJECT_NO10 = value;
+                        this.CheckIsOriginal("REJECT_NO10", value);
+                        this.OnPropertyChanged("REJECT_NO10");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -741,13 +901,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _Reject_No11;
+            private System.Nullable<decimal> _REJECT_NO11;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> Reject_No11
+            public System.Nullable<decimal> REJECT_NO11
             {
                 get
                 {
-                    return this._Reject_No11;
+                    return this._REJECT_NO11;
                 }
                 set
                 {
@@ -756,9 +916,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._Reject_No11 = value;
-                        this.CheckIsOriginal("Reject_No11", value);
-                        this.OnPropertyChanged("Reject_No11");
+                        this._REJECT_NO11 = value;
+                        this.CheckIsOriginal("REJECT_NO11", value);
+                        this.OnPropertyChanged("REJECT_NO11");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -773,13 +933,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _Reject_No12;
+            private System.Nullable<decimal> _REJECT_NO12;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> Reject_No12
+            public System.Nullable<decimal> REJECT_NO12
             {
                 get
                 {
-                    return this._Reject_No12;
+                    return this._REJECT_NO12;
                 }
                 set
                 {
@@ -788,9 +948,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._Reject_No12 = value;
-                        this.CheckIsOriginal("Reject_No12", value);
-                        this.OnPropertyChanged("Reject_No12");
+                        this._REJECT_NO12 = value;
+                        this.CheckIsOriginal("REJECT_NO12", value);
+                        this.OnPropertyChanged("REJECT_NO12");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -805,13 +965,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _Reject_No13;
+            private System.Nullable<decimal> _REJECT_NO13;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> Reject_No13
+            public System.Nullable<decimal> REJECT_NO13
             {
                 get
                 {
-                    return this._Reject_No13;
+                    return this._REJECT_NO13;
                 }
                 set
                 {
@@ -820,9 +980,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._Reject_No13 = value;
-                        this.CheckIsOriginal("Reject_No13", value);
-                        this.OnPropertyChanged("Reject_No13");
+                        this._REJECT_NO13 = value;
+                        this.CheckIsOriginal("REJECT_NO13", value);
+                        this.OnPropertyChanged("REJECT_NO13");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -837,13 +997,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _Reject_No14;
+            private System.Nullable<decimal> _REJECT_NO14;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> Reject_No14
+            public System.Nullable<decimal> REJECT_NO14
             {
                 get
                 {
-                    return this._Reject_No14;
+                    return this._REJECT_NO14;
                 }
                 set
                 {
@@ -852,9 +1012,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._Reject_No14 = value;
-                        this.CheckIsOriginal("Reject_No14", value);
-                        this.OnPropertyChanged("Reject_No14");
+                        this._REJECT_NO14 = value;
+                        this.CheckIsOriginal("REJECT_NO14", value);
+                        this.OnPropertyChanged("REJECT_NO14");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -869,13 +1029,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _Reject_No15;
+            private System.Nullable<decimal> _REJECT_NO15;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> Reject_No15
+            public System.Nullable<decimal> REJECT_NO15
             {
                 get
                 {
-                    return this._Reject_No15;
+                    return this._REJECT_NO15;
                 }
                 set
                 {
@@ -884,9 +1044,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._Reject_No15 = value;
-                        this.CheckIsOriginal("Reject_No15", value);
-                        this.OnPropertyChanged("Reject_No15");
+                        this._REJECT_NO15 = value;
+                        this.CheckIsOriginal("REJECT_NO15", value);
+                        this.OnPropertyChanged("REJECT_NO15");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -901,13 +1061,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _Reject_No16;
+            private System.Nullable<decimal> _REJECT_NO16;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> Reject_No16
+            public System.Nullable<decimal> REJECT_NO16
             {
                 get
                 {
-                    return this._Reject_No16;
+                    return this._REJECT_NO16;
                 }
                 set
                 {
@@ -916,9 +1076,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._Reject_No16 = value;
-                        this.CheckIsOriginal("Reject_No16", value);
-                        this.OnPropertyChanged("Reject_No16");
+                        this._REJECT_NO16 = value;
+                        this.CheckIsOriginal("REJECT_NO16", value);
+                        this.OnPropertyChanged("REJECT_NO16");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -933,13 +1093,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _Reject_No17;
+            private System.Nullable<decimal> _REJECT_NO17;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> Reject_No17
+            public System.Nullable<decimal> REJECT_NO17
             {
                 get
                 {
-                    return this._Reject_No17;
+                    return this._REJECT_NO17;
                 }
                 set
                 {
@@ -948,9 +1108,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._Reject_No17 = value;
-                        this.CheckIsOriginal("Reject_No17", value);
-                        this.OnPropertyChanged("Reject_No17");
+                        this._REJECT_NO17 = value;
+                        this.CheckIsOriginal("REJECT_NO17", value);
+                        this.OnPropertyChanged("REJECT_NO17");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -965,13 +1125,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _Reject_No18;
+            private System.Nullable<decimal> _REJECT_NO18;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> Reject_No18
+            public System.Nullable<decimal> REJECT_NO18
             {
                 get
                 {
-                    return this._Reject_No18;
+                    return this._REJECT_NO18;
                 }
                 set
                 {
@@ -980,9 +1140,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._Reject_No18 = value;
-                        this.CheckIsOriginal("Reject_No18", value);
-                        this.OnPropertyChanged("Reject_No18");
+                        this._REJECT_NO18 = value;
+                        this.CheckIsOriginal("REJECT_NO18", value);
+                        this.OnPropertyChanged("REJECT_NO18");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -997,13 +1157,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _Reject_No19;
+            private System.Nullable<decimal> _REJECT_NO19;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> Reject_No19
+            public System.Nullable<decimal> REJECT_NO19
             {
                 get
                 {
-                    return this._Reject_No19;
+                    return this._REJECT_NO19;
                 }
                 set
                 {
@@ -1012,9 +1172,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._Reject_No19 = value;
-                        this.CheckIsOriginal("Reject_No19", value);
-                        this.OnPropertyChanged("Reject_No19");
+                        this._REJECT_NO19 = value;
+                        this.CheckIsOriginal("REJECT_NO19", value);
+                        this.OnPropertyChanged("REJECT_NO19");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -1029,13 +1189,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _Reject_No20;
+            private System.Nullable<decimal> _REJECT_NO20;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> Reject_No20
+            public System.Nullable<decimal> REJECT_NO20
             {
                 get
                 {
-                    return this._Reject_No20;
+                    return this._REJECT_NO20;
                 }
                 set
                 {
@@ -1044,9 +1204,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._Reject_No20 = value;
-                        this.CheckIsOriginal("Reject_No20", value);
-                        this.OnPropertyChanged("Reject_No20");
+                        this._REJECT_NO20 = value;
+                        this.CheckIsOriginal("REJECT_NO20", value);
+                        this.OnPropertyChanged("REJECT_NO20");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -1061,13 +1221,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _Reject_No21;
+            private System.Nullable<decimal> _REJECT_NO21;
             [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> Reject_No21
+            public System.Nullable<decimal> REJECT_NO21
             {
                 get
                 {
-                    return this._Reject_No21;
+                    return this._REJECT_NO21;
                 }
                 set
                 {
@@ -1076,9 +1236,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._Reject_No21 = value;
-                        this.CheckIsOriginal("Reject_No21", value);
-                        this.OnPropertyChanged("Reject_No21");
+                        this._REJECT_NO21 = value;
+                        this.CheckIsOriginal("REJECT_NO21", value);
+                        this.OnPropertyChanged("REJECT_NO21");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())

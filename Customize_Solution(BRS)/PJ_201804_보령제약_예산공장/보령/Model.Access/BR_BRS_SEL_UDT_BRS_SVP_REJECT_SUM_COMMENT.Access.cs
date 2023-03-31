@@ -257,13 +257,13 @@ namespace 보령
                     }
                 }
             }
-            private string _INSPECTIONDATE;
+            private string _INSPECTIONDTTM;
             [BizActorOutputItemAttribute()]
-            public string INSPECTIONDATE
+            public string INSPECTIONDTTM
             {
                 get
                 {
-                    return this._INSPECTIONDATE;
+                    return this._INSPECTIONDTTM;
                 }
                 set
                 {
@@ -272,9 +272,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._INSPECTIONDATE = value;
-                        this.CheckIsOriginal("INSPECTIONDATE", value);
-                        this.OnPropertyChanged("INSPECTIONDATE");
+                        this._INSPECTIONDTTM = value;
+                        this.CheckIsOriginal("INSPECTIONDTTM", value);
+                        this.OnPropertyChanged("INSPECTIONDTTM");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -289,13 +289,13 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<decimal> _REJECTQTY;
+            private System.Nullable<decimal> _INSPECTQTY;
             [BizActorOutputItemAttribute()]
-            public System.Nullable<decimal> REJECTQTY
+            public System.Nullable<decimal> INSPECTQTY
             {
                 get
                 {
-                    return this._REJECTQTY;
+                    return this._INSPECTQTY;
                 }
                 set
                 {
@@ -304,41 +304,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._REJECTQTY = value;
-                        this.CheckIsOriginal("REJECTQTY", value);
-                        this.OnPropertyChanged("REJECTQTY");
-                        if (RowLoadedFlag)
-                        {
-                            if (this.CheckIsOriginalRow())
-                            {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
-                            }
-                        }
-                    }
-                }
-            }
-            private string _INSUSER;
-            [BizActorOutputItemAttribute()]
-            public string INSUSER
-            {
-                get
-                {
-                    return this._INSUSER;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                    {
-                    }
-                    else
-                    {
-                        this._INSUSER = value;
-                        this.CheckIsOriginal("INSUSER", value);
-                        this.OnPropertyChanged("INSUSER");
+                        this._INSPECTQTY = value;
+                        this.CheckIsOriginal("INSPECTQTY", value);
+                        this.OnPropertyChanged("INSPECTQTY");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -371,6 +339,38 @@ namespace 보령
                         this._COMMENTS = value;
                         this.CheckIsOriginal("COMMENTS", value);
                         this.OnPropertyChanged("COMMENTS");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _INSUSER;
+            [BizActorOutputItemAttribute()]
+            public string INSUSER
+            {
+                get
+                {
+                    return this._INSUSER;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._INSUSER = value;
+                        this.CheckIsOriginal("INSUSER", value);
+                        this.OnPropertyChanged("INSUSER");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())

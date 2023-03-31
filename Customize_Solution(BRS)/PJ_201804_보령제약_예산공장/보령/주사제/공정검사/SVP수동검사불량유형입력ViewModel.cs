@@ -34,255 +34,305 @@ namespace 보령
                 OnPropertyChanged("INSUSER");
             }
         }
-        private string _Date;
-        public string Date
+        private string _INSPECTIONDTTM;
+        public string INSPECTIONDTTM
         {
-            get { return _Date; }
+            get { return _INSPECTIONDTTM; }
             set
             {
-                _Date = value;
-                OnPropertyChanged("Date");
+                _INSPECTIONDTTM = value;
+                OnPropertyChanged("INSPECTIONDTTM");
             }
         }
-        private decimal _InspectCnt;
-        public decimal InspectCnt
+        private decimal _INSPECTCNT;
+        public decimal INSPECTCNT
         {
-            get { return _InspectCnt; }
+            get { return _INSPECTCNT; }
             set
             {
-                _InspectCnt = value;
-                OnPropertyChanged("InspectCnt");
+                _INSPECTCNT = value;
+                OnPropertyChanged("INSPECTCNT");
             }
         }
-        private decimal _RejectQTY;
-        public decimal RejectQTY
+        private decimal _INSPECTQTY;
+        public decimal INSPECTQTY
         {
-            get { return _RejectQTY; }
+            get { return _INSPECTQTY; }
             set
             {
-                _RejectQTY = value;
-                OnPropertyChanged("RejectQTY");
+                _INSPECTQTY = value;
+                OnPropertyChanged("INSPECTQTY");
             }
         }
-        private decimal _Reject_No1;
-        public decimal Reject_No1
+        private decimal _TOTAL_GOODQTY;
+        public decimal TOTAL_GOODQTY
         {
-            get { return _Reject_No1; }
+            get { return _TOTAL_GOODQTY; }
             set
             {
-                _Reject_No1 = value;
-                OnPropertyChanged("Reject_No1");
+                _TOTAL_GOODQTY = value;
+                OnPropertyChanged("TOTAL_GOODQTY");
             }
         }
-        private decimal _Reject_No2;
-        public decimal Reject_No2
+        private decimal _TOTAL_REJECTQTY;
+        public decimal TOTAL_REJECTQTY
         {
-            get { return _Reject_No2; }
+            get { return _TOTAL_REJECTQTY; }
             set
             {
-                _Reject_No2 = value;
-                OnPropertyChanged("Reject_No2");
+                _TOTAL_REJECTQTY = value;
+                OnPropertyChanged("TOTAL_REJECTQTY");
             }
         }
-        private decimal _Reject_No3;
-        public decimal Reject_No3
+        private decimal _CRITICAL_REJECTQTY;
+        public decimal CRITICAL_REJECTQTY
         {
-            get { return _Reject_No3; }
+            get { return _CRITICAL_REJECTQTY; }
             set
             {
-                _Reject_No3 = value;
-                OnPropertyChanged("Reject_No3");
+                _CRITICAL_REJECTQTY = value;
+                OnPropertyChanged("CRITICAL_REJECTQTY");
             }
         }
-        private decimal _Reject_No4;
-        public decimal Reject_No4
+        private decimal _MIDDLE_REJECTQTY;
+        public decimal MIDDLE_REJECTQTY
         {
-            get { return _Reject_No4; }
+            get { return _MIDDLE_REJECTQTY; }
             set
             {
-                _Reject_No4 = value;
-                OnPropertyChanged("Reject_No4");
+                _MIDDLE_REJECTQTY = value;
+                OnPropertyChanged("MIDDLE_REJECTQTY");
             }
         }
-        private decimal _Reject_No5;
-        public decimal Reject_No5
+        private decimal _LIGHT_REJECTQTY;
+        public decimal LIGHT_REJECTQTY
         {
-            get { return _Reject_No5; }
+            get { return _LIGHT_REJECTQTY; }
             set
             {
-                _Reject_No5 = value;
-                OnPropertyChanged("Reject_No5");
+                _LIGHT_REJECTQTY = value;
+                OnPropertyChanged("LIGHT_REJECTQTY");
             }
         }
-        private decimal _Reject_No6;
-        public decimal Reject_No6
+        private decimal _REJECT_NO1;
+        public decimal REJECT_NO1
         {
-            get { return _Reject_No6; }
+            get { return _REJECT_NO1; }
             set
             {
-                _Reject_No6 = value;
-                OnPropertyChanged("Reject_No6");
+                _REJECT_NO1 = value;
+                OnPropertyChanged("REJECT_NO1");
             }
         }
-        private decimal _Reject_No7;
-        public decimal Reject_No7
+        private decimal _REJECT_NO2;
+        public decimal REJECT_NO2
         {
-            get { return _Reject_No7; }
+            get { return _REJECT_NO2; }
             set
             {
-                _Reject_No7 = value;
-                OnPropertyChanged("Reject_No7");
+                _REJECT_NO2 = value;
+                OnPropertyChanged("REJECT_NO2");
             }
         }
-        private decimal _Reject_No8;
-        public decimal Reject_No8
+        private decimal _REJECT_NO3;
+        public decimal REJECT_NO3
         {
-            get { return _Reject_No8; }
+            get { return _REJECT_NO3; }
             set
             {
-                _Reject_No8 = value;
-                OnPropertyChanged("Reject_No8");
+                _REJECT_NO3 = value;
+                OnPropertyChanged("REJECT_NO3");
             }
         }
-        private decimal _Reject_No9;
-        public decimal Reject_No9
+        private decimal _REJECT_NO4;
+        public decimal REJECT_NO4
         {
-            get { return _Reject_No9; }
+            get { return _REJECT_NO4; }
             set
             {
-                _Reject_No9 = value;
-                OnPropertyChanged("Reject_No9");
+                _REJECT_NO4 = value;
+                OnPropertyChanged("REJECT_NO4");
             }
         }
-        private decimal _Reject_No10;
-        public decimal Reject_No10
+        private decimal _REJECT_NO5;
+        public decimal REJECT_NO5
         {
-            get { return _Reject_No10; }
+            get { return _REJECT_NO5; }
             set
             {
-                _Reject_No10 = value;
-                OnPropertyChanged("Reject_No10");
+                _REJECT_NO5 = value;
+                OnPropertyChanged("REJECT_NO5");
             }
         }
-        private decimal _Reject_No11;
-        public decimal Reject_No11
+        private decimal _REJECT_NO6;
+        public decimal REJECT_NO6
         {
-            get { return _Reject_No11; }
+            get { return _REJECT_NO6; }
             set
             {
-                _Reject_No11 = value;
-                OnPropertyChanged("Reject_No11");
+                _REJECT_NO6 = value;
+                OnPropertyChanged("REJECT_NO6");
             }
         }
-        private decimal _Reject_No12;
-        public decimal Reject_No12
+        private decimal _REJECT_NO7;
+        public decimal REJECT_NO7
         {
-            get { return _Reject_No12; }
+            get { return _REJECT_NO7; }
             set
             {
-                _Reject_No12 = value;
-                OnPropertyChanged("Reject_No12");
+                _REJECT_NO7 = value;
+                OnPropertyChanged("REJECT_NO7");
             }
         }
-        private decimal _Reject_No13;
-        public decimal Reject_No13
+        private decimal _REJECT_NO8;
+        public decimal REJECT_NO8
         {
-            get { return _Reject_No13; }
+            get { return _REJECT_NO8; }
             set
             {
-                _Reject_No13 = value;
-                OnPropertyChanged("Reject_No13");
+                _REJECT_NO8 = value;
+                OnPropertyChanged("REJECT_NO8");
             }
         }
-        private decimal _Reject_No14;
-        public decimal Reject_No14
+        private decimal _REJECT_NO9;
+        public decimal REJECT_NO9
         {
-            get { return _Reject_No14; }
+            get { return _REJECT_NO9; }
             set
             {
-                _Reject_No14 = value;
-                OnPropertyChanged("Reject_No14");
+                _REJECT_NO9 = value;
+                OnPropertyChanged("REJECT_NO9");
             }
         }
-        private decimal _Reject_No15;
-        public decimal Reject_No15
+        private decimal _REJECT_NO10;
+        public decimal REJECT_NO10
         {
-            get { return _Reject_No15; }
+            get { return _REJECT_NO10; }
             set
             {
-                _Reject_No15 = value;
-                OnPropertyChanged("Reject_No15");
+                _REJECT_NO10 = value;
+                OnPropertyChanged("REJECT_NO10");
             }
         }
-        private decimal _Reject_No16;
-        public decimal Reject_No16
+        private decimal _REJECT_NO11;
+        public decimal REJECT_NO11
         {
-            get { return _Reject_No16; }
+            get { return _REJECT_NO11; }
             set
             {
-                _Reject_No16 = value;
-                OnPropertyChanged("Reject_No16");
+                _REJECT_NO11 = value;
+                OnPropertyChanged("REJECT_NO11");
             }
         }
-        private decimal _Reject_No17;
-        public decimal Reject_No17
+        private decimal _REJECT_NO12;
+        public decimal REJECT_NO12
         {
-            get { return _Reject_No17; }
+            get { return _REJECT_NO12; }
             set
             {
-                _Reject_No17 = value;
-                OnPropertyChanged("Reject_No17");
+                _REJECT_NO12 = value;
+                OnPropertyChanged("REJECT_NO12");
             }
         }
-        private decimal _Reject_No18;
-        public decimal Reject_No18
+        private decimal _REJECT_NO13;
+        public decimal REJECT_NO13
         {
-            get { return _Reject_No18; }
+            get { return _REJECT_NO13; }
             set
             {
-                _Reject_No18 = value;
-                OnPropertyChanged("Reject_No18");
+                _REJECT_NO13 = value;
+                OnPropertyChanged("REJECT_NO13");
             }
         }
-        private decimal _Reject_No19;
-        public decimal Reject_No19
+        private decimal _REJECT_NO14;
+        public decimal REJECT_NO14
         {
-            get { return _Reject_No19; }
+            get { return _REJECT_NO14; }
             set
             {
-                _Reject_No19 = value;
-                OnPropertyChanged("Reject_No19");
+                _REJECT_NO14 = value;
+                OnPropertyChanged("REJECT_NO14");
             }
         }
-        private decimal _Reject_No20;
-        public decimal Reject_No20
+        private decimal _REJECT_NO15;
+        public decimal REJECT_NO15
         {
-            get { return _Reject_No20; }
+            get { return _REJECT_NO15; }
             set
             {
-                _Reject_No20 = value;
-                OnPropertyChanged("Reject_No20");
+                _REJECT_NO15 = value;
+                OnPropertyChanged("REJECT_NO15");
             }
         }
-        private decimal _Reject_No21;
-        public decimal Reject_No21
+        private decimal _REJECT_NO16;
+        public decimal REJECT_NO16
         {
-            get { return _Reject_No21; }
+            get { return _REJECT_NO16; }
             set
             {
-                _Reject_No21 = value;
-                OnPropertyChanged("Reject_No21");
+                _REJECT_NO16 = value;
+                OnPropertyChanged("REJECT_NO16");
+            }
+        }
+        private decimal _REJECT_NO17;
+        public decimal REJECT_NO17
+        {
+            get { return _REJECT_NO17; }
+            set
+            {
+                _REJECT_NO17 = value;
+                OnPropertyChanged("REJECT_NO17");
+            }
+        }
+        private decimal _REJECT_NO18;
+        public decimal REJECT_NO18
+        {
+            get { return _REJECT_NO18; }
+            set
+            {
+                _REJECT_NO18 = value;
+                OnPropertyChanged("REJECT_NO18");
+            }
+        }
+        private decimal _REJECT_NO19;
+        public decimal REJECT_NO19
+        {
+            get { return _REJECT_NO19; }
+            set
+            {
+                _REJECT_NO19 = value;
+                OnPropertyChanged("REJECT_NO19");
+            }
+        }
+        private decimal _REJECT_NO20;
+        public decimal REJECT_NO20
+        {
+            get { return _REJECT_NO20; }
+            set
+            {
+                _REJECT_NO20 = value;
+                OnPropertyChanged("REJECT_NO20");
+            }
+        }
+        private decimal _REJECT_NO21;
+        public decimal REJECT_NO21
+        {
+            get { return _REJECT_NO21; }
+            set
+            {
+                _REJECT_NO21 = value;
+                OnPropertyChanged("REJECT_NO21");
             }
         }
 
-        private string _Comments;
-        public string Comments
+        private string _COMMENTS;
+        public string COMMENTS
         {
-            get { return _Comments; }
+            get { return _COMMENTS; }
             set
             {
-                _Comments = value;
-                OnPropertyChanged("Comments");
+                _COMMENTS = value;
+                OnPropertyChanged("COMMENTS");
             }
         }
 
@@ -368,112 +418,53 @@ namespace 보령
 
                                 if (await _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.Execute() && _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.OUTDATAs.Count == 0)
                                 {
-                                    INSUSER = AuthRepositoryViewModel.Instance.LoginedUserID;
-                                    Date = DateTime.Now.ToString("yyyy-MM-dd");
+                                    INSUSER = AuthRepositoryViewModel.Instance.LoginedUserName + "(" + AuthRepositoryViewModel.Instance.LoginedUserID + ")";
+                                    INSPECTIONDTTM = DateTime.Now.ToString("yyyy-MM-dd");
 
                                     IsEnabled = true;
                                 }
                                 else
                                 {
                                     var outData = _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.OUTDATAs[0];
-
-                                    InspectCnt = Convert.ToDecimal(outData.INSPECTCNT);
+                                    
                                     INSUSER = outData.INSUSER;
-                                    Date = outData.INSPECTIONDATE;
-                                    RejectQTY = Convert.ToDecimal(outData.RejectQTY);
-                                    Reject_No1 = Convert.ToDecimal(outData.Reject_No1);
-                                    Reject_No2 = Convert.ToDecimal(outData.Reject_No2);
-                                    Reject_No3 = Convert.ToDecimal(outData.Reject_No3);
-                                    Reject_No4 = Convert.ToDecimal(outData.Reject_No4);
-                                    Reject_No5 = Convert.ToDecimal(outData.Reject_No5);
-                                    Reject_No6 = Convert.ToDecimal(outData.Reject_No6);
-                                    Reject_No7 = Convert.ToDecimal(outData.Reject_No7);
-                                    Reject_No8 = Convert.ToDecimal(outData.Reject_No8);
-                                    Reject_No9 = Convert.ToDecimal(outData.Reject_No9);
-                                    Reject_No10 = Convert.ToDecimal(outData.Reject_No10);
-                                    Reject_No11 = Convert.ToDecimal(outData.Reject_No11);
-                                    Reject_No12 = Convert.ToDecimal(outData.Reject_No12);
-                                    Reject_No13 = Convert.ToDecimal(outData.Reject_No13);
-                                    Reject_No14 = Convert.ToDecimal(outData.Reject_No14);
-                                    Reject_No15 = Convert.ToDecimal(outData.Reject_No15);
-                                    Reject_No16 = Convert.ToDecimal(outData.Reject_No16);
-                                    Reject_No17 = Convert.ToDecimal(outData.Reject_No17);
-                                    Reject_No18 = Convert.ToDecimal(outData.Reject_No18);
-                                    Reject_No19 = Convert.ToDecimal(outData.Reject_No19);
-                                    Reject_No20 = Convert.ToDecimal(outData.Reject_No20);
-                                    Reject_No21 = Convert.ToDecimal(outData.Reject_No21);
-                                    Comments = outData.COMMENTS;
+                                    INSPECTIONDTTM = outData.INSPECTIONDTTM;
+                                    INSPECTCNT = Convert.ToDecimal(outData.INSPECTCNT);
+                                    INSPECTQTY = Convert.ToDecimal(outData.INSPECTQTY);
+                                    TOTAL_GOODQTY = Convert.ToDecimal(outData.TOTAL_GOODQTY);
+                                    TOTAL_REJECTQTY = Convert.ToDecimal(outData.TOTAL_REJECTQTY);
+                                    CRITICAL_REJECTQTY = Convert.ToDecimal(outData.CRITICAL_REJECTQTY);
+                                    MIDDLE_REJECTQTY = Convert.ToDecimal(outData.MIDDLE_REJECTQTY);
+                                    LIGHT_REJECTQTY = Convert.ToDecimal(outData.LIGHT_REJECTQTY);
+                                    REJECT_NO1 = Convert.ToDecimal(outData.REJECT_NO1);
+                                    REJECT_NO2 = Convert.ToDecimal(outData.REJECT_NO2);
+                                    REJECT_NO3 = Convert.ToDecimal(outData.REJECT_NO3);
+                                    REJECT_NO4 = Convert.ToDecimal(outData.REJECT_NO4);
+                                    REJECT_NO5 = Convert.ToDecimal(outData.REJECT_NO5);
+                                    REJECT_NO6 = Convert.ToDecimal(outData.REJECT_NO6);
+                                    REJECT_NO7 = Convert.ToDecimal(outData.REJECT_NO7);
+                                    REJECT_NO8 = Convert.ToDecimal(outData.REJECT_NO8);
+                                    REJECT_NO9 = Convert.ToDecimal(outData.REJECT_NO9);
+                                    REJECT_NO10 = Convert.ToDecimal(outData.REJECT_NO10);
+                                    REJECT_NO11 = Convert.ToDecimal(outData.REJECT_NO11);
+                                    REJECT_NO12 = Convert.ToDecimal(outData.REJECT_NO12);
+                                    REJECT_NO13 = Convert.ToDecimal(outData.REJECT_NO13);
+                                    REJECT_NO14 = Convert.ToDecimal(outData.REJECT_NO14);
+                                    REJECT_NO15 = Convert.ToDecimal(outData.REJECT_NO15);
+                                    REJECT_NO16 = Convert.ToDecimal(outData.REJECT_NO16);
+                                    REJECT_NO17 = Convert.ToDecimal(outData.REJECT_NO17);
+                                    REJECT_NO18 = Convert.ToDecimal(outData.REJECT_NO18);
+                                    REJECT_NO19 = Convert.ToDecimal(outData.REJECT_NO19);
+                                    REJECT_NO20 = Convert.ToDecimal(outData.REJECT_NO20);
+                                    REJECT_NO21 = Convert.ToDecimal(outData.REJECT_NO21);
+                                    COMMENTS = outData.COMMENTS;
 
                                     IsEnabled = false;
                                 }
                                 
                             }
 
-                            //    DataSet ds = new DataSet();
-                            //    DataTable dt = new DataTable();
-
-                            //    var bytearray = _mainWnd.CurrentInstruction.Raw.NOTE;
-                            //    string xml = Encoding.UTF8.GetString(bytearray, 0, bytearray.Length);
-                            //    ds.ReadXmlFromString(xml);
-
-                            //    if (ds.Tables.Count == 2 && ds.Tables[1].TableName == "DATA2")
-                            //    {
-                            //        dt = ds.Tables["DATA2"];
-
-                            //        foreach (DataRow row in dt.Rows)
-                            //        {
-                            //            BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.INDATAs.Add(new BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.INDATA
-                            //            {
-                            //                REJECTGUID = row["REJECTGUID"] != null ? row["REJECTGUID"].ToString() : ""
-                            //            });
-                            //        }
-
-                            //        if (await _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.Execute() && _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.OUTDATAs.Count == 0)
-                            //        {
-                            //            INSUSER = AuthRepositoryViewModel.Instance.LoginedUserID;
-                            //            Date = DateTime.Now.ToString("yyyy-MM-dd");
-                            //        }
-                            //        else
-                            //        {
-                            //            var outData = _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.OUTDATAs[0];
-
-                            //            RejectGuid = outData.REJECTGUID;
-                            //            INSUSER = outData.INSUSER;
-                            //            Date = outData.INSPECTIONDATE;
-                            //            RejectQTY = Convert.ToDecimal(outData.RejectQTY);
-                            //            Reject_No1 = Convert.ToDecimal(outData.Reject_No1);
-                            //            Reject_No2 = Convert.ToDecimal(outData.Reject_No2);
-                            //            Reject_No3 = Convert.ToDecimal(outData.Reject_No3);
-                            //            Reject_No4 = Convert.ToDecimal(outData.Reject_No4);
-                            //            Reject_No5 = Convert.ToDecimal(outData.Reject_No5);
-                            //            Reject_No6 = Convert.ToDecimal(outData.Reject_No6);
-                            //            Reject_No7 = Convert.ToDecimal(outData.Reject_No7);
-                            //            Reject_No8 = Convert.ToDecimal(outData.Reject_No8);
-                            //            Reject_No9 = Convert.ToDecimal(outData.Reject_No9);
-                            //            Reject_No10 = Convert.ToDecimal(outData.Reject_No10);
-                            //            Reject_No11 = Convert.ToDecimal(outData.Reject_No11);
-                            //            Reject_No12 = Convert.ToDecimal(outData.Reject_No12);
-                            //            Reject_No13 = Convert.ToDecimal(outData.Reject_No13);
-                            //            Reject_No14 = Convert.ToDecimal(outData.Reject_No14);
-                            //            Reject_No15 = Convert.ToDecimal(outData.Reject_No15);
-                            //            Reject_No16 = Convert.ToDecimal(outData.Reject_No16);
-                            //            Reject_No17 = Convert.ToDecimal(outData.Reject_No17);
-                            //            Reject_No18 = Convert.ToDecimal(outData.Reject_No18);
-                            //            Reject_No19 = Convert.ToDecimal(outData.Reject_No19);
-                            //            Reject_No20 = Convert.ToDecimal(outData.Reject_No20);
-                            //            Reject_No21 = Convert.ToDecimal(outData.Reject_No21);
-                            //            Comments = outData.COMMENTS;
-                            //        }
-                            //    }
-                            //    else
-                            //    {
-                            //        INSUSER = AuthRepositoryViewModel.Instance.LoginedUserID;
-                            //        Date = DateTime.Now.ToString("yyyy-MM-dd");
-                            //    }
-                            //}
-
                             IsBusy = false;
-                            ///
 
                             CommandResults["LoadCommandAsync"] = true;
                         }
@@ -575,32 +566,41 @@ namespace 보령
                                 BATCHNO = _mainWnd.CurrentOrder.BatchNo,
                                 SEQ = 1,    //2023.01.10 박희돈 HIST 테이블에 값이 없을경우 SEQ값을 1로한다. 값이 있다면 비즈룰에서 HIST테이블의 SEQ값을 조회함.
                                 OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
-                                INSPECTCNT = InspectCnt,
-                                INSPECTIONDATE = Convert.ToString(Date.ToString()).Substring(0, 10),
-                                RejectQTY = RejectQTY,
-                                Reject_No1 = Reject_No1,
-                                Reject_No2 = Reject_No2,
-                                Reject_No3 = Reject_No3,
-                                Reject_No4 = Reject_No4,
-                                Reject_No5 = Reject_No5,
-                                Reject_No6 = Reject_No6,
-                                Reject_No7 = Reject_No7,
-                                Reject_No8 = Reject_No8,
-                                Reject_No9 = Reject_No9,
-                                Reject_No10 = Reject_No10,
-                                Reject_No11 = Reject_No11,
-                                Reject_No12 = Reject_No12,
-                                Reject_No13 = Reject_No13,
-                                Reject_No14 = Reject_No14,
-                                Reject_No15 = Reject_No15,
-                                Reject_No16 = Reject_No16,
-                                Reject_No17 = Reject_No17,
-                                Reject_No18 = Reject_No18,
-                                Reject_No19 = Reject_No19,
-                                Reject_No20 = Reject_No20,
-                                Reject_No21 = Reject_No21,
-                                COMMENTS = Comments,
-                                INSUSER = AuthRepositoryViewModel.Instance.LoginedUserID,
+                                INSPECTCNT = INSPECTCNT,
+                                INSPECTIONDTTM = Convert.ToString(INSPECTIONDTTM.ToString()).Substring(0, 10),
+                                INSPECTQTY = INSPECTQTY,
+                                TOTAL_GOODQTY = INSPECTQTY - (REJECT_NO1 + REJECT_NO2 + REJECT_NO3 + REJECT_NO4 + REJECT_NO5 + REJECT_NO6 + REJECT_NO7 + REJECT_NO8
+                                                + REJECT_NO9 + REJECT_NO10 + REJECT_NO11 + REJECT_NO12 + REJECT_NO13 + REJECT_NO14 + REJECT_NO15 + REJECT_NO16
+                                                + REJECT_NO17 + REJECT_NO18 + REJECT_NO19 + REJECT_NO20 + REJECT_NO21),
+                                TOTAL_REJECTQTY = REJECT_NO1 + REJECT_NO2 + REJECT_NO3 + REJECT_NO4 + REJECT_NO5 + REJECT_NO6 + REJECT_NO7 + REJECT_NO8
+                                                + REJECT_NO9 + REJECT_NO10 + REJECT_NO11 + REJECT_NO12 + REJECT_NO13 + REJECT_NO14 + REJECT_NO15 + REJECT_NO16
+                                                + REJECT_NO17 + REJECT_NO18 + REJECT_NO19 + REJECT_NO20 + REJECT_NO21,
+                                CRITICAL_REJECTQTY = REJECT_NO1 + REJECT_NO2 + REJECT_NO3 + REJECT_NO4 + REJECT_NO5 + REJECT_NO6 + REJECT_NO9 + REJECT_NO16 + REJECT_NO17,
+                                MIDDLE_REJECTQTY = REJECT_NO7 + REJECT_NO8 + REJECT_NO10 + REJECT_NO13 + REJECT_NO14 + REJECT_NO18,
+                                LIGHT_REJECTQTY = REJECT_NO11 + REJECT_NO12 + REJECT_NO15,
+                                REJECT_NO1 = REJECT_NO1,
+                                REJECT_NO2 = REJECT_NO2,
+                                REJECT_NO3 = REJECT_NO3,
+                                REJECT_NO4 = REJECT_NO4,
+                                REJECT_NO5 = REJECT_NO5,
+                                REJECT_NO6 = REJECT_NO6,
+                                REJECT_NO7 = REJECT_NO7,
+                                REJECT_NO8 = REJECT_NO8,
+                                REJECT_NO9 = REJECT_NO9,
+                                REJECT_NO10 = REJECT_NO10,
+                                REJECT_NO11 = REJECT_NO11,
+                                REJECT_NO12 = REJECT_NO12,
+                                REJECT_NO13 = REJECT_NO13,
+                                REJECT_NO14 = REJECT_NO14,
+                                REJECT_NO15 = REJECT_NO15,
+                                REJECT_NO16 = REJECT_NO16,
+                                REJECT_NO17 = REJECT_NO17,
+                                REJECT_NO18 = REJECT_NO18,
+                                REJECT_NO19 = REJECT_NO19,
+                                REJECT_NO20 = REJECT_NO20,
+                                REJECT_NO21 = REJECT_NO21,
+                                COMMENTS = COMMENTS,
+                                INSUSER = AuthRepositoryViewModel.Instance.LoginedUserName + "(" + AuthRepositoryViewModel.Instance.LoginedUserID + ")",
                                 INSDTTM = Convert.ToString(await AuthRepositoryViewModel.GetDBDateTimeNow())
                             });
 

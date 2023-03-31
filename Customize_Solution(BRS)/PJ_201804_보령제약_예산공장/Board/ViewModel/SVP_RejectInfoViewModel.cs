@@ -17,8 +17,8 @@ namespace Board
     public class SVP_RejectInfoViewModel : ViewModelBase
     {
         #region ##### property ##### 
-        private TstRequestConfirmViewModel _mainWnd;
-        private TstRequestConfirm _mainWnd2;
+        private SVP_RejectInfoViewModel _mainWnd;
+        private SVP_RejectInfo _mainWnd2;
 
         private DateTime _PeriodSTDTTM;
         public DateTime PeriodSTDTTM
@@ -38,17 +38,6 @@ namespace Board
             set
             {
                 _PeriodEDDTTM = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private string _PcsgName;
-        public string PcsgName
-        {
-            get { return _PcsgName; }
-            set
-            {
-                _PcsgName = value;
                 NotifyPropertyChanged();
             }
         }
@@ -89,48 +78,22 @@ namespace Board
 
         #region [BizRule]
 
-        // 시험의뢰 적합여부 확인
-        private BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM;
-        public BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM
+        private BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO;
+        public BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO
         {
-            get { return _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM; }
+            get { return _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO; }
             set
             {
-                _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM = value;
-                OnPropertyChanged("BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM");
+                _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO = value;
+                OnPropertyChanged("BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO");
             }
         }
-
-        private BR_BRS_INS_TST_APPROVAL_CANCELL _BR_BRS_INS_TST_APPROVAL_CANCELL;
-        public BR_BRS_INS_TST_APPROVAL_CANCELL BR_BRS_INS_TST_APPROVAL_CANCELL
-        {
-            get { return _BR_BRS_INS_TST_APPROVAL_CANCELL; }
-            set
-            {
-                _BR_BRS_INS_TST_APPROVAL_CANCELL = value;
-                OnPropertyChanged("BR_BRS_INS_TST_APPROVAL_CANCELL");
-            }
-        }
-
-        private BR_PHR_SEL_ProcessSegment _BR_PHR_SEL_ProcessSegment;
-        public BR_PHR_SEL_ProcessSegment BR_PHR_SEL_ProcessSegment
-        {
-            get { return _BR_PHR_SEL_ProcessSegment; }
-            set
-            {
-                _BR_PHR_SEL_ProcessSegment = value;
-                NotifyPropertyChanged();
-            }
-        }
-
 
         #endregion
 
         public SVP_RejectInfoViewModel()
         {
-            _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM = new BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM();
-            _BR_BRS_INS_TST_APPROVAL_CANCELL = new BR_BRS_INS_TST_APPROVAL_CANCELL();
-            _BR_PHR_SEL_ProcessSegment = new BR_PHR_SEL_ProcessSegment();
+            _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO = new BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO();
         }
 
         public ICommand LoadedCommandAsync
@@ -148,21 +111,12 @@ namespace Board
                             CommandResults["LoadedCommand"] = false;
                             CommandCanExecutes["LoadedCommand"] = false;
 
-                            _mainWnd = arg as TstRequestConfirmViewModel;
-                            _mainWnd2 = arg as TstRequestConfirm;
+                            _mainWnd = arg as SVP_RejectInfoViewModel;
+                            _mainWnd2 = arg as SVP_RejectInfo;
 
                             PeriodEDDTTM = await AuthRepositoryViewModel.GetDBDateTimeNow();
-                            PeriodSTDTTM = PeriodEDDTTM.AddDays(-1);
-
-                            _BR_PHR_SEL_ProcessSegment.INDATAs.Clear();
-                            _BR_PHR_SEL_ProcessSegment.OUTDATAs.Clear();
-
-                            _BR_PHR_SEL_ProcessSegment.INDATAs.Add(new BR_PHR_SEL_ProcessSegment.INDATA()
-                            {
-                                ISUSE = "Y"
-                            });
-                            if (!await _BR_PHR_SEL_ProcessSegment.Execute()) throw new Exception();
-
+                            PeriodSTDTTM = PeriodEDDTTM.AddDays(-7);
+                            
                             CommandResults["LoadedCommand"] = true;
                         }
                         catch (Exception ex)
@@ -200,20 +154,19 @@ namespace Board
                             CommandResults["SearchCommand"] = false;
                             CommandCanExecutes["SearchCommand"] = false;
 
-                            _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM.INDATAs.Clear();
-                            _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM.OUTDATAs.Clear();
+                            _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.INDATAs.Clear();
+                            _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.OUTDATAs.Clear();
 
-                            _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM.INDATAs.Add(new BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM.INDATA()
+                            _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.INDATAs.Add(new BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.INDATA()
                             {
-                                FROMDATE = PeriodSTDTTM,
-                                TODATE = PeriodEDDTTM,
-                                OPSGNAME = PcsgName,
-                                MTRLID = MtrlId,
-                                MTRLNAME = MtrlName,
-                                BATCHNO = BatchNo
+                                FROMDTTM = PeriodSTDTTM,
+                                TODTTM = PeriodEDDTTM,
+                                MTRLID = MtrlId != "" ? MtrlId : null,
+                                MTRLNAME = MtrlName != "" ? MtrlName : null,
+                                BATCHNO = BatchNo != "" ? BatchNo : null
                             });
 
-                            await _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM.Execute();
+                            await _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.Execute();
 
                             CommandResults["SearchCommand"] = true;
                         }
@@ -237,84 +190,6 @@ namespace Board
             }
         }
 
-        public ICommand BtnApprovalCancelCommand
-        {
-            get
-            {
-                return new AsyncCommandBase(async arg =>
-                {
-                    using (await AwaitableLocks["ApprovalCancelCommand"].EnterAsync())
-                    {
-                        try
-                        {
-                            IsBusy = true;
-
-                            CommandResults["ApprovalCancelCommand"] = false;
-                            CommandCanExecutes["ApprovalCancelCommand"] = false;
-
-                            var temp = _mainWnd2.dgProductionOrder.SelectedItem as BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM.OUTDATA;
-
-                            if (temp == null)
-                            {
-                                OnMessage("승인 취소할 시험의뢰를 선택해주세요");
-                            }
-                            else
-                            {
-                                if (temp.UD_TYPE == "승인전")
-                                {
-                                    _BR_BRS_INS_TST_APPROVAL_CANCELL.INDATAs.Clear();
-
-                                    _BR_BRS_INS_TST_APPROVAL_CANCELL.INDATAs.Add(new BR_BRS_INS_TST_APPROVAL_CANCELL.INDATA()
-                                    {
-                                        POID = temp.POID,
-                                        ITEM_TYPE = temp.ITEM_TYPE,
-                                        TST_REQ_NO = temp.TST_REQ_NO
-                                    });
-
-                                    await _BR_BRS_INS_TST_APPROVAL_CANCELL.Execute();
-
-                                    OnMessage("시험의뢰 취소 완료");
-
-                                    _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM.INDATAs.Clear();
-                                    _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM.OUTDATAs.Clear();
-
-                                    _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM.INDATAs.Add(new BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM.INDATA()
-                                    {
-                                        FROMDATE = PeriodSTDTTM,
-                                        TODATE = PeriodEDDTTM
-                                    });
-
-                                    await _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM.Execute();
-                                }
-                                else
-                                {
-                                    OnMessage("승인전 시험의뢰가 아닙니다");
-                                }
-                            }
-
-
-                            CommandResults["ApprovalCancelCommand"] = true;
-                        }
-                        catch (Exception ex)
-                        {
-                            CommandResults["ApprovalCancelCommand"] = false;
-                            OnException(ex.Message, ex);
-                        }
-                        finally
-                        {
-                            CommandCanExecutes["ApprovalCancelCommand"] = true;
-
-                            IsBusy = false;
-                        }
-                    }
-                }, arg =>
-                {
-                    return CommandCanExecutes.ContainsKey("ApprovalCancelCommand") ?
-                        CommandCanExecutes["ApprovalCancelCommand"] : (CommandCanExecutes["ApprovalCancelCommand"] = true);
-                });
-            }
-        }
-
         public ICommand ClickExportExcelCommand
         {
             get
@@ -330,13 +205,94 @@ namespace Board
                             CommandResults["ClickExportExcelCommand"] = false;
                             CommandCanExecutes["ClickExportExcelCommand"] = false;
 
-                            ///
                             Custom_C1ExportExcel customExcel = new Custom_C1ExportExcel();
 
                             customExcel.SaveBook(book =>
-                            {
+                            {   
                                 C1.Silverlight.Excel.XLSheet sheet = book.Sheets[0];
-                                customExcel.InitHeaderExcel(book, sheet, _mainWnd2.dgProductionOrder);
+                                
+                                //sheet[0, 0].Value = "작업자";
+                                //sheet.MergedCells.Add(0, 0, 6, 1);
+
+                                //sheet[0, 1].Value = "검사일자";
+                                //sheet.MergedCells.Add(0, 1, 6, 1);
+
+                                //sheet[0, 2].Value = "검사수량(Vial)";
+                                //sheet.MergedCells.Add(0, 2, 6, 1);
+
+                                //sheet[0, 3].Value = "총 양품수율";
+                                //sheet.MergedCells.Add(0, 3, 6, 1);
+
+                                //sheet[0, 4].Value = "총 불량수율";
+                                //sheet.MergedCells.Add(0, 4, 6, 1);
+
+                                //sheet[0, 5].Value = "치명결점수량";
+                                //sheet.MergedCells.Add(0, 5, 6, 1);
+
+                                //sheet[0, 6].Value = "중결점수량";
+                                //sheet.MergedCells.Add(0, 6, 6, 1);
+
+                                //sheet[0, 7].Value = "경결점수량";
+                                //sheet.MergedCells.Add(0, 7, 6, 1);
+
+                                //sheet[0, 8].Value = "불량유형및수량";
+                                //sheet.MergedCells.Add(0, 8, 1, 21);
+
+                                //sheet[1, 8].Value = "내용물";
+                                //sheet.MergedCells.Add(1, 8, 1, 8);
+                                //sheet[2, 8].Value = "이물";
+                                //sheet.MergedCells.Add(2, 8, 1, 7);
+                                //sheet[2, 15].Value = "충전량불량";
+                                //sheet.MergedCells.Add(2, 15, 2, 1);
+                                //sheet[1, 16].Value = "용기";
+                                //sheet.MergedCells.Add(1, 16, 1, 4);
+                                //sheet[1, 20].Value = "캡";
+                                //sheet.MergedCells.Add(1, 20, 1, 3);
+                                //sheet[1, 23].Value = "고무전";
+                                //sheet.MergedCells.Add(1, 23, 1, 3);
+                                //sheet[1, 26].Value = "Cake상태불량";
+                                //sheet.MergedCells.Add(1, 26, 1, 1);
+                                //sheet[1, 27].Value = "바이알내부기벽/고무전약액묻음";
+                                //sheet.MergedCells.Add(1, 27, 1, 1);
+                                //sheet[1, 28].Value = "기타불량";
+                                //sheet.MergedCells.Add(1, 28, 5, 1);
+                                //sheet[0, 29].Value = "비고";
+                                //sheet.MergedCells.Add(0, 29, 6, 1);
+
+
+
+                                //sheet[2, 6].Value = "흰티(치명결점)";
+                                //sheet[2, 7].Value = "검은티(치명결점)";
+                                //sheet[2, 8].Value = "유색(치명결점)";
+                                //sheet[2, 9].Value = "금속성(치명결점)";
+                                //sheet[2, 10].Value = "유리조각(치명결점)";
+                                //sheet[2, 11].Value = "섬유(6> 1mm)(치명결점)";
+                                //sheet[2, 12].Value = "섬유(≤ 1mm)(중결점)";
+
+                                //sheet[1, 5].Value = "충전량불량(중결점)";
+                                //sheet.MergedCells.Add(2, 16, 2, 1);
+
+                                //sheet[1, 17].Value = "충전량불량(중결점)";
+                                //sheet.MergedCells.Add(2, 8, 1, 6);
+
+                                //sheet[0, 7].Value = "바이알손상(치명결점)";
+                                //sheet[0, 7].Value = "내부오염(중결점)";
+                                //sheet[0, 7].Value = "바이알흠집(경결점)";
+                                //sheet[0, 7].Value = "성형불량(경결점)";
+                                //sheet[0, 7].Value = "캡씰링불량(중결점)";
+                                //sheet[0, 7].Value = "이종캡(중결점)";
+                                //sheet[0, 7].Value = " 캡외관불량(경결점)";
+                                //sheet[0, 7].Value = "고무전없음(치명결점)";
+                                //sheet[0, 7].Value = "이종고무전(치명결점)";
+                                //sheet[0, 7].Value = "고무전이물(중결점)";
+                                //sheet[0, 7].Value = "Cake상태불량";
+                                //sheet[0, 7].Value = "바이알내부기벽/고무전약액묻음";
+                                //sheet[0, 7].Value = "기타불량";
+                                //sheet[0, 7].Value = "비고";
+
+                                //sheet.MergedCells.Add(new XlCellRange(fromrow, torow, fromcolum, tocolum))
+
+                                customExcel.InitMutiHeaderExcel(book, sheet, _mainWnd2.dgDetail);
                             });
                             ///
 

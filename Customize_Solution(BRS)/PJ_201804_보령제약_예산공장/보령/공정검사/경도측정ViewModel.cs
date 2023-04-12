@@ -1,57 +1,76 @@
-﻿using C1.Silverlight.Data;
-using LGCNS.iPharmMES.Common;
-using ShopFloorUI;
+﻿using LGCNS.iPharmMES.Common;
+using Order;
 using System;
-using System.Net;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using System.Linq;
+using ShopFloorUI;
+using System.Text;
+using C1.Silverlight.Data;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Threading;
+using System.Windows;
 
 namespace 보령
 {
-    public class 공정별성상ViewModel : ViewModelBase
+    public class 경도측정ViewModel : ViewModelBase
     {
         #region Property
-        public 공정별성상ViewModel()
+        public 경도측정ViewModel()
         {
-            _BR_BRS_SEL_ProductionOrderIPCResult = new BR_BRS_SEL_ProductionOrderIPCResult();
             _BR_BRS_SEL_ProductionOrderIPCStandard = new BR_BRS_SEL_ProductionOrderIPCStandard();
-            _IPCResults = new BR_BRS_SEL_ProductionOrderIPCResult.OUTDATACollection();
             _BR_BRS_REG_ProductionOrderTestResult = new BR_BRS_REG_ProductionOrderTestResult();
             _IPC_RESULTS = new ObservableCollection<EACH_INDATA>();
         }
 
-        private 공정별성상 _mainWnd;
-        private string IPC_TSID = "성상";
+        private 경도측정 _mainWnd;
+        private string IPC_TSID = "경도측정";
+        /// <summary>
+        /// 기록 회차
+        /// </summary>
+        private int inx;
 
-        private IPCControlData _ShapeIPCData;
-        public IPCControlData ShapeIPCData
+        private Decimal _MINHARDNESS;
+        public Decimal MINHARDNESS
         {
-            get { return _ShapeIPCData; }
+            get { return _MINHARDNESS; }
             set
             {
-                _ShapeIPCData = value;
-                OnPropertyChanged("ShapeIPCData");
+                _MINHARDNESS = value;
+                OnPropertyChanged("MINHARDNESS");
+            }
+        }
+        private Decimal _MAXHARDNESS;
+        public Decimal MAXHARDNESS
+        {
+            get { return _MAXHARDNESS; }
+            set
+            {
+                _MAXHARDNESS = value;
+                OnPropertyChanged("MAXHARDNESS");
+            }
+        }
+        private Decimal _AVERAGEHARDNESS;
+        public Decimal AVERAGEHARDNESS
+        {
+            get { return _AVERAGEHARDNESS; }
+            set
+            {
+                _AVERAGEHARDNESS = value;
+                OnPropertyChanged("AVERAGEHARDNESS");
             }
         }
 
-        private BR_BRS_SEL_ProductionOrderIPCResult.OUTDATACollection _IPCResults;
-        public BR_BRS_SEL_ProductionOrderIPCResult.OUTDATACollection IPCResults
+        private string _MINSTANDARD;
+        public string MINSTANDARD
         {
-            get { return _IPCResults; }
-            set
-            {
-                _IPCResults = value;
-                OnPropertyChanged("IPCResults");
-            }
+            get { return _MINSTANDARD; }
+        }
+
+        private string _MAXSTANDARD;
+        public string MAXSTANDARD
+        {
+            get { return _MAXSTANDARD; }
         }
 
         private ObservableCollection<EACH_INDATA> _IPC_RESULTS;
@@ -65,35 +84,39 @@ namespace 보령
             }
         }
 
-        private int inx;
+        #endregion
 
-        #endregion
         #region BizRule
-        private BR_BRS_SEL_ProductionOrderIPCResult _BR_BRS_SEL_ProductionOrderIPCResult;
+        /// <summary>
+        /// 개별질량 IPC저장
+        /// </summary>
+
         private BR_BRS_SEL_ProductionOrderIPCStandard _BR_BRS_SEL_ProductionOrderIPCStandard;
-        private BR_BRS_REG_ProductionOrderTestResult _BR_BRS_REG_ProductionOrderTestResult;
+        private BR_BRS_REG_ProductionOrderTestResult _BR_BRS_REG_ProductionOrderTestResult;        
         #endregion
+
         #region Command
 
-        public ICommand LoadedCommandAsync
+        public ICommand LoadedCommand
         {
             get
             {
                 return new AsyncCommandBase(async arg =>
                 {
-                    using (await AwaitableLocks["LoadedCommandAsync"].EnterAsync())
+                    using (await AwaitableLocks["LoadedCommand"].EnterAsync())
                     {
                         try
                         {
                             IsBusy = true;
 
-                            CommandResults["LoadedCommandAsync"] = false;
-                            CommandCanExecutes["LoadedCommandAsync"] = false;
+                            CommandResults["LoadedCommand"] = false;
+                            CommandCanExecutes["LoadedCommand"] = false;
 
                             ///
-                            if(arg != null && arg is 공정별성상)
+
+                            if (arg != null && arg is 경도측정)
                             {
-                                _mainWnd = arg as 공정별성상;
+                                _mainWnd = arg as 경도측정;
 
                                 // IPC 기준정보 조회
                                 _BR_BRS_SEL_ProductionOrderIPCStandard.INDATAs.Clear();
@@ -105,111 +128,196 @@ namespace 보령
                                     TSID = IPC_TSID
                                 });
 
-                                if(await _BR_BRS_SEL_ProductionOrderIPCStandard.Execute() && _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs.Count == 1)
-                                {
-                                    ShapeIPCData = IPCControlData.SetIPCControlData(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0]);
+                                await _BR_BRS_SEL_ProductionOrderIPCStandard.Execute();
 
-                                    //2023.04.10 김호연 Y-MC팀 요청사항으로 기록된 항목 조회하지 않도록 변경
-                                    //await GetIPCResult();
-                                }
+                                _MINSTANDARD = _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0].LSL.ToString() != null ? _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0].LSL.ToString() : "";
+                                _MAXSTANDARD = _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0].USL.ToString() != null ? _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0].USL.ToString() : "";
+                                OnPropertyChanged("MINSTANDARD");
+                                OnPropertyChanged("MAXSTANDARD");
 
                                 inx = 1;
-
-                            } 
+                            }
                             ///
 
-                            CommandResults["LoadedCommandAsync"] = true;
+                            CommandResults["LoadedCommand"] = true;
                         }
                         catch (Exception ex)
                         {
-                            CommandResults["LoadedCommandAsync"] = false;
+                            CommandResults["LoadedCommand"] = false;
                             OnException(ex.Message, ex);
                         }
                         finally
                         {
-                            CommandCanExecutes["LoadedCommandAsync"] = true;
+                            CommandCanExecutes["LoadedCommand"] = true;
 
                             IsBusy = false;
                         }
                     }
                 }, arg =>
-               {
-                   return CommandCanExecutes.ContainsKey("LoadedCommandAsync") ?
-                       CommandCanExecutes["LoadedCommandAsync"] : (CommandCanExecutes["LoadedCommandAsync"] = true);
-               });
+                {
+                    return CommandCanExecutes.ContainsKey("LoadedCommand") ?
+                        CommandCanExecutes["LoadedCommand"] : (CommandCanExecutes["LoadedCommand"] = true);
+                });
             }
         }
+       
 
-
-        public ICommand RegisterIPCCommandAsync
+        public ICommand RecordCommand
         {
             get
             {
                 return new AsyncCommandBase(async arg =>
                 {
-                    using (await AwaitableLocks["RegisterIPCCommandAsync"].EnterAsync())
+                    using (await AwaitableLocks["RecordCommand"].EnterAsync())
                     {
                         try
                         {
                             IsBusy = true;
 
-                            CommandResults["RegisterIPCCommandAsync"] = false;
-                            CommandCanExecutes["RegisterIPCCommandAsync"] = false;
+                            CommandResults["RecordCommand"] = false;
+                            CommandCanExecutes["RecordCommand"] = false;
 
-                            ///
+                            ///   
 
-                            if (ShapeIPCData.CSL.HasValue)
+                            _MINHARDNESS = Convert.ToDecimal(_mainWnd.txtMINHARDNESS.Text);
+                            _MAXHARDNESS = Convert.ToDecimal(_mainWnd.txtMAXHARDNESS.Text);
+                            _AVERAGEHARDNESS = Convert.ToDecimal(_mainWnd.txtAVERAGEHARDNESS.Text);
+
+                            string chk = "";
+
+                            if (_MINSTANDARD != "" && _MAXSTANDARD != "")
                             {
-                                if (ShapeIPCData.CSL.Value != Convert.ToDecimal(ShapeIPCData.ACTVAL))
+                                if (Convert.ToDecimal(_MINSTANDARD) <= _MINHARDNESS && _MAXHARDNESS <= Convert.ToDecimal(_MAXSTANDARD))
+                                    chk = "적합";
+                                else
+                                {
+                                    chk = "부적합";
                                     OnMessage("기준값을 벗어났습니다.");
-                            }                                        
+                                }
+                            }
+                            else if (_MINSTANDARD != "")
+                            {
+                                if (Convert.ToDecimal(_MINSTANDARD) <= _MINHARDNESS)
+                                    chk = "적합";
+                                else
+                                {
+                                    chk = "부적합";
+                                    OnMessage("기준값을 벗어났습니다.");
+                                }
+                            }
+                            else if (_MAXSTANDARD != "")
+                            {
+                                if (_MAXHARDNESS <= Convert.ToDecimal(_MAXSTANDARD))
+                                    chk = "적합";
+                                else
+                                {
+                                    chk = "부적합";
+                                    OnMessage("기준값을 벗어났습니다.");
+                                }
+                            }
 
                             IPC_RESULTS.Add(new EACH_INDATA()
                             {
+                                CHK = "N",
                                 INX = inx++,
-                                IPCVALUE = ShapeIPCData.GetACTVAL
+                                MINHARDNESS = _MINHARDNESS,
+                                MAXHARDNESS = _MAXHARDNESS,
+                                AVERAGEHARDNESS = _AVERAGEHARDNESS,
+                                IPCVALUEYN = chk
                             });
 
                             ///
 
-                            CommandResults["RegisterIPCCommandAsync"] = true;
+                            CommandResults["RecordCommand"] = true;
                         }
                         catch (Exception ex)
                         {
-                            CommandResults["RegisterIPCCommandAsync"] = false;
+                            CommandResults["RecordCommand"] = false;
                             OnException(ex.Message, ex);
                         }
                         finally
                         {
-                            CommandCanExecutes["RegisterIPCCommandAsync"] = true;
-
+                            CommandCanExecutes["RecordCommand"] = true;
                             IsBusy = false;
                         }
                     }
                 }, arg =>
-               {
-                   return CommandCanExecutes.ContainsKey("RegisterIPCCommandAsync") ?
-                       CommandCanExecutes["RegisterIPCCommandAsync"] : (CommandCanExecutes["RegisterIPCCommandAsync"] = true);
-               });
+                {
+                    return CommandCanExecutes.ContainsKey("RecordCommand") ?
+                        CommandCanExecutes["RecordCommand"] : (CommandCanExecutes["RecordCommand"] = true);
+                });
             }
         }
 
-        public ICommand ConfirmCommandAsync
+        public ICommand RowDeleteCommand
         {
             get
             {
                 return new AsyncCommandBase(async arg =>
                 {
-                    using (await AwaitableLocks["ConfirmCommandAsync"].EnterAsync())
+                    using (await AwaitableLocks["RowDeleteCommand"].EnterAsync())
                     {
                         try
                         {
                             IsBusy = true;
 
-                            CommandResults["ConfirmCommandAsync"] = false;
-                            CommandCanExecutes["ConfirmCommandAsync"] = false;
+                            CommandResults["RowDeleteCommand"] = false;
+                            CommandCanExecutes["RowDeleteCommand"] = false;
 
                             ///
+                            var elements = (from data in _IPC_RESULTS
+                                            where data.CHK == "N"
+                                            select data).ToList();
+
+                            _IPC_RESULTS.Clear();
+
+                            inx = 1;
+                            foreach (var data in elements)
+                            {
+                                data.INX = inx++;
+                                _IPC_RESULTS.Add(data);
+                            }
+
+                            ///
+                            CommandResults["RowDeleteCommand"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["RowDeleteCommand"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["RowDeleteCommand"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("RowDeleteCommand") ?
+                        CommandCanExecutes["RowDeleteCommand"] : (CommandCanExecutes["RowDeleteCommand"] = true);
+                });
+            }
+        }
+
+        public ICommand ClickConfirmCommand
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["ClickConfirmCommand"].EnterAsync())
+                    {
+                        try
+                        {
+                            IsBusy = true;
+
+                            CommandResults["ClickConfirmCommand"] = false;
+                            CommandCanExecutes["ClickConfirmCommand"] = false;
+
+                            ///                         
+
                             if (_IPC_RESULTS.Count > 0)
                             {
                                 // 전자서명
@@ -261,7 +369,10 @@ namespace 보령
                                 DataTable dt = new DataTable("DATA");
                                 ds.Tables.Add(dt);
                                 dt.Columns.Add(new DataColumn("순번"));
-                                dt.Columns.Add(new DataColumn("성상"));
+                                dt.Columns.Add(new DataColumn("최소값"));
+                                dt.Columns.Add(new DataColumn("최대값"));
+                                dt.Columns.Add(new DataColumn("평균값"));
+                                dt.Columns.Add(new DataColumn("적합여부"));
 
                                 // 시험명세 기록
                                 _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_SPEC
@@ -300,10 +411,12 @@ namespace 보령
                                 {
                                     var row = dt.NewRow();
                                     row["순번"] = rowdata.INX.ToString();
-                                    row["성상"] = rowdata.IPCVALUE != null ? rowdata.IPCVALUE : "";
+                                    row["최소값"] = rowdata.MINHARDNESS != 0 ? rowdata.MINHARDNESS : 0;
+                                    row["최대값"] = rowdata.MAXHARDNESS != 0 ? rowdata.MAXHARDNESS : 0;
+                                    row["평균값"] = rowdata.AVERAGEHARDNESS != 0 ? rowdata.AVERAGEHARDNESS : 0;
+                                    row["적합여부"] = rowdata.IPCVALUEYN != null ? rowdata.IPCVALUEYN : "";
 
-
-                                    dt.Rows.Add(row);
+                                    dt.Rows.Add(row);                                    
 
                                     // 시험상세결과 기록
                                     _BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEMs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEM
@@ -311,7 +424,7 @@ namespace 보령
                                         POTSRGUID = _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs[0].POTSRGUID,
                                         OPTSIGUID = new Guid(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0].OPTSIGUID),
                                         POTSIRGUID = Guid.NewGuid(),
-                                        ACTVAL = rowdata.IPCVALUE.ToString(),
+                                        ACTVAL = rowdata.AVERAGEHARDNESS.ToString(),
                                         INSUSER = user,
                                         INSDTTM = curDttm,
                                         EFCTTIMEIN = curDttm,
@@ -348,28 +461,26 @@ namespace 보령
                             {
                                 throw new Exception("입력한 정보가 없습니다. 기록 버튼을 클릭하여 추가해 주시기 바랍니다.");
                             }
-
                             ///
-
-                            CommandResults["ConfirmCommandAsync"] = true;
+                            CommandResults["ClickConfirmCommand"] = true;
                         }
                         catch (Exception ex)
                         {
-                            CommandResults["ConfirmCommandAsync"] = false;
+                            CommandResults["ClickConfirmCommand"] = false;
                             OnException(ex.Message, ex);
                         }
                         finally
                         {
-                            CommandCanExecutes["ConfirmCommandAsync"] = true;
+                            CommandCanExecutes["ClickConfirmCommand"] = true;
 
                             IsBusy = false;
                         }
                     }
                 }, arg =>
-               {
-                   return CommandCanExecutes.ContainsKey("ConfirmCommandAsync") ?
-                       CommandCanExecutes["ConfirmCommandAsync"] : (CommandCanExecutes["ConfirmCommandAsync"] = true);
-               });
+                {
+                    return CommandCanExecutes.ContainsKey("ClickConfirmCommand") ?
+                        CommandCanExecutes["ClickConfirmCommand"] : (CommandCanExecutes["ClickConfirmCommand"] = true);
+                });
             }
         }
 
@@ -387,6 +498,8 @@ namespace 보령
 
                             CommandResults["NoRecordConfirmCommand"] = false;
                             CommandCanExecutes["NoRecordConfirmCommand"] = false;
+
+                            ///
 
                             // 전자서명
                             iPharmAuthCommandHelper authHelper = new iPharmAuthCommandHelper();
@@ -408,16 +521,37 @@ namespace 보령
                                 }
                             }
 
+                            authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+                            if (await authHelper.ClickAsync(
+                                Common.enumCertificationType.Role,
+                                Common.enumAccessType.Create,
+                                "경도측정",
+                                "경도측정",
+                                false,
+                                "OM_ProductionOrder_SUI",
+                                "",
+                                null, null) == false)
+                            {
+                                throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                            }
 
-                            var ds = new DataSet();
-                            var dt = new DataTable("DATA");
+                            //XML 형식으로 저장
+                            DataSet ds = new DataSet();
+                            DataTable dt = new DataTable("DATA");
                             ds.Tables.Add(dt);
-                            dt.Columns.Add(new DataColumn("구분"));
-                            dt.Columns.Add(new DataColumn("성상"));
+
+                            dt.Columns.Add(new DataColumn("순번"));
+                            dt.Columns.Add(new DataColumn("최소값"));
+                            dt.Columns.Add(new DataColumn("최대값"));
+                            dt.Columns.Add(new DataColumn("평균값"));
+                            dt.Columns.Add(new DataColumn("적합여부"));
 
                             var row = dt.NewRow();
-                            row["구분"] = "N/A";
-                            row["성상"] = "N/A";
+                            row["순번"] = "N/A";
+                            row["최소값"] = "N/A";
+                            row["최대값"] = "N/A";
+                            row["평균값"] = "N/A";
+                            row["적합여부"] = "N/A";
                             dt.Rows.Add(row);
 
                             var xml = BizActorRuleBase.CreateXMLStream(ds);
@@ -463,45 +597,19 @@ namespace 보령
 
         #endregion
 
-        //private async Task GetIPCResult()
-        //{
-        //    try
-        //    {
-        //        _IPCResults.Clear();
-        //        _BR_BRS_SEL_ProductionOrderIPCResult.INDATAs.Clear();
-        //        _BR_BRS_SEL_ProductionOrderIPCResult.OUTDATAs.Clear();
-
-        //        _BR_BRS_SEL_ProductionOrderIPCResult.INDATAs.Add(new BR_BRS_SEL_ProductionOrderIPCResult.INDATA
-        //        {
-        //            POID = _mainWnd.CurrentOrder.ProductionOrderID,
-        //            OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
-        //            TSID = IPC_TSID
-        //        });
-
-        //        if(await _BR_BRS_SEL_ProductionOrderIPCResult.Execute() && _BR_BRS_SEL_ProductionOrderIPCResult.OUTDATAs.Count > 0 )
-        //        {
-        //            _IPCResults.Add(new BR_BRS_SEL_ProductionOrderIPCResult.OUTDATA
-        //            {
-        //                GUBUN = "기준",
-        //                RSLT1 = _ShapeIPCData.Standard
-        //            });
-
-        //            foreach (BR_BRS_SEL_ProductionOrderIPCResult.OUTDATA item in _BR_BRS_SEL_ProductionOrderIPCResult.OUTDATAs)
-        //            {
-        //                _IPCResults.Add(item);
-        //            }
-
-        //            OnPropertyChanged("IPCResults");
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        OnException(ex.Message, ex);
-        //    }
-        //}
-
         public class EACH_INDATA : BizActorDataSetBase
         {
+            private string _CHK;
+            public string CHK
+            {
+                get { return _CHK; }
+                set
+                {
+                    _CHK = value;
+                    OnPropertyChanged("CHK");
+                }
+            }
+
             private int _INX;
             public int INX
             {
@@ -513,14 +621,47 @@ namespace 보령
                 }
             }
 
-            private string _IPCVALUE;
-            public string IPCVALUE
+            private Decimal _MINHARDNESS;
+            public Decimal MINHARDNESS
             {
-                get { return _IPCVALUE; }
+                get { return _MINHARDNESS; }
                 set
                 {
-                    _IPCVALUE = value;
-                    OnPropertyChanged("IPCVALUE");
+                    _MINHARDNESS = value;
+                    OnPropertyChanged("MINHARDNESS");
+                }
+            }
+
+            private Decimal _MAXHARDNESS;
+            public Decimal MAXHARDNESS
+            {
+                get { return _MAXHARDNESS; }
+                set
+                {
+                    _MAXHARDNESS = value;
+                    OnPropertyChanged("MAXHARDNESS");
+                }
+            }
+
+            private Decimal _AVERAGEHARDNESS;
+            public Decimal AVERAGEHARDNESS
+            {
+                get { return _AVERAGEHARDNESS; }
+                set
+                {
+                    _AVERAGEHARDNESS = value;
+                    OnPropertyChanged("AVERAGEHARDNESS");
+                }
+            }
+
+            private string _IPCVALUEYN;
+            public string IPCVALUEYN
+            {
+                get { return _IPCVALUEYN; }
+                set
+                {
+                    _IPCVALUEYN = value;
+                    OnPropertyChanged("IPCVALUEYN");
                 }
             }
         }

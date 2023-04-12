@@ -433,10 +433,26 @@
       <DependentUpon>공정검사결과입력.xaml</DependentUpon>
     </Compile>
     <Compile Include="공정검사\Popup\공정검사결과입력ViewModel.cs" />
+    <Compile Include="공정검사\경도측정.xaml.cs">
+      <DependentUpon>경도측정.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="공정검사\경도측정ViewModel.cs" />
     <Compile Include="공정검사\공정별성상.xaml.cs">
       <DependentUpon>공정별성상.xaml</DependentUpon>
     </Compile>
     <Compile Include="공정검사\공정별성상ViewModel.cs" />
+    <Compile Include="공정검사\두께측정.xaml.cs">
+      <DependentUpon>두께측정.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="공정검사\두께측정ViewModel.cs" />
+    <Compile Include="공정검사\마손측정.xaml.cs">
+      <DependentUpon>마손측정.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="공정검사\마손측정ViewModel.cs" />
+    <Compile Include="공정검사\붕해측정.xaml.cs">
+      <DependentUpon>붕해측정.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="공정검사\붕해측정ViewModel.cs" />
     <Compile Include="공정검사\선별공정불량확인.xaml.cs">
       <DependentUpon>선별공정불량확인.xaml</DependentUpon>
     </Compile>
@@ -1076,7 +1092,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="공정검사\경도측정.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="공정검사\공정별성상.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="공정검사\두께측정.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="공정검사\마손측정.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="공정검사\붕해측정.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

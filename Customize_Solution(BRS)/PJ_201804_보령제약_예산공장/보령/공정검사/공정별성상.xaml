@@ -48,10 +48,10 @@
                     <c1:C1DataGrid AutoGenerateColumns="False" HeadersVisibility="Column"
                                CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False" CanUserSort="False"
                                ScrollBarStyle="{Binding Source={StaticResource dgScroll}}"
-                               ItemsSource="{Binding IPCResults}">
+                               ItemsSource="{Binding IPC_RESULTS}">
                         <c1:C1DataGrid.Columns>
-                            <c1:DataGridTextColumn Header="구분" MinWidth="50" Binding="{Binding GUBUN}"/>
-                            <c1:DataGridTextColumn Header="성상" MinWidth="100" Binding="{Binding RSLT1}"/>
+                            <c1:DataGridTextColumn Header="순번" MinWidth="50" Binding="{Binding INX}"/>
+                            <c1:DataGridTextColumn Header="성상" MinWidth="100" Binding="{Binding IPCVALUE}"/>
                         </c1:C1DataGrid.Columns>
                     </c1:C1DataGrid>
                 </ScrollViewer>
@@ -59,6 +59,7 @@
             <Grid x:Name="Footer" Grid.Row="2">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Button x:Name="btnRecord" Content="기록" Width="100" Height="40" Margin="5,0" Command="{Binding ConfirmCommandAsync}"/>
+                    <Button x:Name="NoRecord" Content="기록없음" Width="100" Height="40" Margin="5,0" Command="{Binding NoRecordConfirmCommand}"/>
                     <Button x:Name="btnCancel" Content="취소" Width="100" Height="40" Margin="5,0" Click="btnCancel_Click"/>
                 </StackPanel>
             </Grid>

@@ -22,6 +22,7 @@ namespace 보령
             _BR_BRS_SEL_CurrentWeight = new BR_BRS_SEL_CurrentWeight();
             _IPC_RESULTS = new ObservableCollection<EACH_INDATA>();
             _BR_BRS_REG_IPC_1ST_LAYERED_WEIGHT_MULTI = new BR_BRS_REG_IPC_1ST_LAYERED_WEIGHT_MULTI();
+            _BR_BRS_SEL_ProductionOrderIPCStandard = new BR_BRS_SEL_ProductionOrderIPCStandard();
 
             string interval_str = ShopFloorUI.App.Current.Resources["GetWeightInterval"].ToString();
             if (int.TryParse(interval_str, out _repeaterInterval) == false)
@@ -35,6 +36,7 @@ namespace 보령
         private DispatcherTimer _repeater = new DispatcherTimer();
         private int _repeaterInterval = 2000;
         private ScaleWebAPIHelper _restScaleService = new ScaleWebAPIHelper();
+        private string IPC_TSID = "1차층 평균질량";
 
         /// <summary>
         /// 기록 회차
@@ -101,6 +103,18 @@ namespace 보령
             get { return _AVGWEIGHT.WeightUOMString; }
         }
 
+        private string _INDIVIDUALMINWEIGHT;
+        public string INDIVIDUALMINWEIGHT
+        {
+            get { return _INDIVIDUALMINWEIGHT; }
+        }
+
+        private string _INDIVIDUALMAXWEIGHT;
+        public string INDIVIDUALMAXWEIGHT
+        {
+            get { return _INDIVIDUALMAXWEIGHT; }
+        }
+
         // 화면 컨트롤
         private bool _IsBtnEnable;
         /// <summary>
@@ -152,6 +166,8 @@ namespace 보령
         /// </summary>
         private BR_PHR_REG_ScaleSetTare _BR_PHR_REG_ScaleSetTare;
 
+        private BR_BRS_SEL_ProductionOrderIPCStandard _BR_BRS_SEL_ProductionOrderIPCStandard;
+
         #endregion
 
         #region Command
@@ -183,6 +199,23 @@ namespace 보령
 
                                     _repeater = null;
                                 };
+
+                                // IPC 기준정보 조회
+                                _BR_BRS_SEL_ProductionOrderIPCStandard.INDATAs.Clear();
+                                _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs.Clear();
+                                _BR_BRS_SEL_ProductionOrderIPCStandard.INDATAs.Add(new BR_BRS_SEL_ProductionOrderIPCStandard.INDATA
+                                {
+                                    POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                    OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                    TSID = IPC_TSID
+                                });
+
+                                await _BR_BRS_SEL_ProductionOrderIPCStandard.Execute();
+
+                                _INDIVIDUALMINWEIGHT = _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0].LSL.ToString();
+                                _INDIVIDUALMAXWEIGHT = _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0].USL.ToString();
+                                OnPropertyChanged("INDIVIDUALMINWEIGHT");
+                                OnPropertyChanged("INDIVIDUALMAXWEIGHT");
 
                                 inx = 1;
                                 IsBtnEnable = false;
@@ -394,7 +427,16 @@ namespace 보령
 
                             ///
 
-                            if(_IPC_RESULTS.Count == 0)
+                            if (_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0].LSL > _CURWEIGHT.Value)
+                            {
+                                OnMessage("개별질량 하한값 보다 낮습니다.");
+                            }
+                            else if (_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0].USL < _CURWEIGHT.Value)
+                            {
+                                OnMessage("개별질량 상한값 보다 높습니다");
+                            }
+
+                            if (_IPC_RESULTS.Count == 0)
                             {
                                 _MINWEIGHT.SetWeight(0, "mg", 1);
                                 _MAXWEIGHT.SetWeight(0, "mg", 1);

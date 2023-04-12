@@ -21,9 +21,9 @@ namespace 보령
             _ScaleInfo = new BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID();
             _BR_PHR_REG_ScaleSetTare = new BR_PHR_REG_ScaleSetTare();
             _BR_BRS_SEL_CurrentWeight = new BR_BRS_SEL_CurrentWeight();
-            _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI = new BR_BRS_REG_IPC_EACH_WEIGHT_MULTI();
             _IPC_RESULTS = new ObservableCollection<EACH_INDATA>();
             _BR_BRS_SEL_ProductionOrderIPCStandard = new BR_BRS_SEL_ProductionOrderIPCStandard();
+            _BR_BRS_REG_ProductionOrderTestResult = new BR_BRS_REG_ProductionOrderTestResult();
 
             string interval_str = ShopFloorUI.App.Current.Resources["GetWeightInterval"].ToString();
             if (int.TryParse(interval_str, out _repeaterInterval) == false)
@@ -169,10 +169,6 @@ namespace 보령
         /// </summary>
         private BR_BRS_SEL_CurrentWeight _BR_BRS_SEL_CurrentWeight;
 
-        /// <summary>
-        /// 개별질량 IPC저장
-        /// </summary>
-        private BR_BRS_REG_IPC_EACH_WEIGHT_MULTI _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI;
         
         /// <summary>
         /// 저울 Tare 신호 송신(SBI)
@@ -181,6 +177,8 @@ namespace 보령
 
 
         private BR_BRS_SEL_ProductionOrderIPCStandard _BR_BRS_SEL_ProductionOrderIPCStandard;
+
+        private BR_BRS_REG_ProductionOrderTestResult _BR_BRS_REG_ProductionOrderTestResult;
         #endregion
 
         #region Command
@@ -602,15 +600,23 @@ namespace 보령
                                 decimal avg = _IPC_RESULTS.Average(x => x.RESULT);
                                 foreach (var item in _IPC_RESULTS)
                                 {
-                                    if (_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0].LSL > _CURWEIGHT.Value)
+                                    if (_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0].LSL > item.RESULT)
                                     {
                                         Standard = false;
                                     }
-                                    else if (_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0].USL < _CURWEIGHT.Value)
+                                    else if (_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0].USL < item.RESULT)
                                     {
                                         Standard = false;
                                     }
                                 }
+
+                                _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs.Clear();
+                                _BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEMs.Clear();
+                                _BR_BRS_REG_ProductionOrderTestResult.INDATA_ETCs.Clear();
+
+                                string confirmguid = AuthRepositoryViewModel.Instance.ConfirmedGuid;
+                                DateTime curDttm = await AuthRepositoryViewModel.GetDBDateTimeNow();
+                                string user = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_IPC");
 
                                 if (!Standard)
                                 {
@@ -642,7 +648,6 @@ namespace 보령
                                         throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                     }
 
-                                    _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATAs.Clear();
 
                                     //XML 형식으로 저장
                                     DataSet ds = new DataSet();
@@ -661,6 +666,38 @@ namespace 보령
                                     dt2.Columns.Add(new DataColumn("최대값"));
                                     dt2.Columns.Add(new DataColumn("평균값"));
 
+                                    // 시험명세 기록
+                                    _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_SPEC
+                                    {
+                                        POTSRGUID = Guid.NewGuid(),
+                                        POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                        OPTSGUID = new Guid(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2].OPTSGUID),
+                                        OPSGGUID = new Guid(_mainWnd.CurrentOrder.OrderProcessSegmentID),
+                                        TESTSEQ = null,
+                                        STRDTTM = curDttm,
+                                        ENDDTTM = curDttm,
+                                        EQPTID = null,
+                                        INSUSER = user,
+                                        INSDTTM = curDttm,
+                                        EFCTTIMEIN = curDttm,
+                                        EFCTTIMEOUT = curDttm,
+                                        MSUBLOTID = null,
+                                        REASON = null,
+                                        ISUSE = "Y",
+                                        ACTIVEYN = "Y",
+                                        SMPQTY = _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2].SMPQTY,
+                                        SMPQTYUOMID = _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2].SMPQTYUOMID,
+                                    });
+
+                                    // 전자서명 코멘트
+                                    _BR_BRS_REG_ProductionOrderTestResult.INDATA_ETCs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_ETC
+                                    {
+                                        COMMENTTYPE = "CM001",
+                                        COMMENT = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_IPC"),
+                                        TSTYPE = _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2].TSTYPE,
+                                        LOCATIONID = AuthRepositoryViewModel.Instance.RoomID
+                                    });
+
                                     // 측정내용 XML, BR indata
                                     foreach (var rowdata in _IPC_RESULTS)
                                     {
@@ -668,25 +705,29 @@ namespace 보령
                                         row["순번"] = rowdata.INX.ToString();
                                         row["장비번호"] = rowdata.SCALEID != null ? rowdata.SCALEID : "";
                                         row["현재무게"] = rowdata.RESULTSTR != null ? rowdata.RESULTSTR : "";
-                                        dt.Rows.Add(row);
+                                        dt.Rows.Add(row);                                       
 
-                                        _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATAs.Add(new BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATA()
+                                        // 시험상세결과 기록
+                                        _BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEMs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEM
                                         {
-                                            SCALEID = rowdata.SCALEID,
-                                            POID = ProductionOrderInfo.OrderID,
-                                            OPSGGUID = ProductionOrderInfo.OrderProcessSegmentID,
-                                            SMPQTY = 1,
-                                            AVG_WEIGHT = rowdata.RESULT.ToString("0.0"),
-                                            SMPQTYUOMID = "",
-                                            USERID = ProductionOrderInfo.UserID,
-                                            LOCATIONID = "",
-                                            STRTDTTM = rowdata.RECORDDTTM
+                                            POTSRGUID = _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs[0].POTSRGUID,
+                                            OPTSIGUID = new Guid(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2].OPTSIGUID),
+                                            POTSIRGUID = Guid.NewGuid(),
+                                            ACTVAL = rowdata.RESULT.ToString("0.0"),
+                                            INSUSER = user,
+                                            INSDTTM = curDttm,
+                                            EFCTTIMEIN = curDttm,
+                                            EFCTTIMEOUT = curDttm,
+                                            COMMENTGUID = !string.IsNullOrWhiteSpace(confirmguid) ? new Guid(confirmguid) : (Guid?)null,
+                                            REASON = null,
+                                            ISUSE = "Y",
+                                            ACTIVEYN = "Y"
                                         });
                                     }
                                     // 요약 XML
                                     dt2.Rows.Add(MINWEIGHT, MAXWEIGHT, AVGWEIGHT);
 
-                                    if (await _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.Execute() == true)
+                                    if (await _BR_BRS_REG_ProductionOrderTestResult.Execute() == true)
                                     {
                                         var xml = BizActorRuleBase.CreateXMLStream(ds);
                                         var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
@@ -741,8 +782,6 @@ namespace 보령
                                             throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                         }
 
-                                        _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATAs.Clear();
-
                                         //XML 형식으로 저장
                                         DataSet ds = new DataSet();
 
@@ -760,6 +799,38 @@ namespace 보령
                                         dt2.Columns.Add(new DataColumn("최대값"));
                                         dt2.Columns.Add(new DataColumn("평균값"));
 
+                                        // 시험명세 기록
+                                        _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_SPEC
+                                        {
+                                            POTSRGUID = Guid.NewGuid(),
+                                            POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                            OPTSGUID = new Guid(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2].OPTSGUID),
+                                            OPSGGUID = new Guid(_mainWnd.CurrentOrder.OrderProcessSegmentID),
+                                            TESTSEQ = null,
+                                            STRDTTM = curDttm,
+                                            ENDDTTM = curDttm,
+                                            EQPTID = null,
+                                            INSUSER = user,
+                                            INSDTTM = curDttm,
+                                            EFCTTIMEIN = curDttm,
+                                            EFCTTIMEOUT = curDttm,
+                                            MSUBLOTID = null,
+                                            REASON = null,
+                                            ISUSE = "Y",
+                                            ACTIVEYN = "Y",
+                                            SMPQTY = _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2].SMPQTY,
+                                            SMPQTYUOMID = _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2].SMPQTYUOMID,
+                                        });
+
+                                        // 전자서명 코멘트
+                                        _BR_BRS_REG_ProductionOrderTestResult.INDATA_ETCs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_ETC
+                                        {
+                                            COMMENTTYPE = "CM001",
+                                            COMMENT = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_IPC"),
+                                            TSTYPE = _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2].TSTYPE,
+                                            LOCATIONID = AuthRepositoryViewModel.Instance.RoomID
+                                        });
+
                                         // 측정내용 XML, BR indata
                                         foreach (var rowdata in _IPC_RESULTS)
                                         {
@@ -769,23 +840,27 @@ namespace 보령
                                             row["현재무게"] = rowdata.RESULTSTR != null ? rowdata.RESULTSTR : "";
                                             dt.Rows.Add(row);
 
-                                            _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATAs.Add(new BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATA()
+                                            // 시험상세결과 기록
+                                            _BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEMs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEM
                                             {
-                                                SCALEID = rowdata.SCALEID,
-                                                POID = ProductionOrderInfo.OrderID,
-                                                OPSGGUID = ProductionOrderInfo.OrderProcessSegmentID,
-                                                SMPQTY = 1,
-                                                AVG_WEIGHT = rowdata.RESULT.ToString("0.0"),
-                                                SMPQTYUOMID = "",
-                                                USERID = ProductionOrderInfo.UserID,
-                                                LOCATIONID = "",
-                                                STRTDTTM = rowdata.RECORDDTTM
+                                                POTSRGUID = _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs[0].POTSRGUID,
+                                                OPTSIGUID = new Guid(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2].OPTSIGUID),
+                                                POTSIRGUID = Guid.NewGuid(),
+                                                ACTVAL = rowdata.RESULT.ToString("0.0"),
+                                                INSUSER = user,
+                                                INSDTTM = curDttm,
+                                                EFCTTIMEIN = curDttm,
+                                                EFCTTIMEOUT = curDttm,
+                                                COMMENTGUID = !string.IsNullOrWhiteSpace(confirmguid) ? new Guid(confirmguid) : (Guid?)null,
+                                                REASON = null,
+                                                ISUSE = "Y",
+                                                ACTIVEYN = "Y"
                                             });
                                         }
                                         // 요약 XML
                                         dt2.Rows.Add(MINWEIGHT, MAXWEIGHT, AVGWEIGHT);
 
-                                        if (await _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.Execute() == true)
+                                        if (await _BR_BRS_REG_ProductionOrderTestResult.Execute() == true)
                                         {
                                             var xml = BizActorRuleBase.CreateXMLStream(ds);
                                             var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
@@ -838,8 +913,6 @@ namespace 보령
                                             throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                         }
 
-                                        _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATAs.Clear();
-
                                         //XML 형식으로 저장
                                         DataSet ds = new DataSet();
 
@@ -857,6 +930,38 @@ namespace 보령
                                         dt2.Columns.Add(new DataColumn("최대값"));
                                         dt2.Columns.Add(new DataColumn("평균값"));
 
+                                        // 시험명세 기록
+                                        _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_SPEC
+                                        {
+                                            POTSRGUID = Guid.NewGuid(),
+                                            POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                            OPTSGUID = new Guid(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2].OPTSGUID),
+                                            OPSGGUID = new Guid(_mainWnd.CurrentOrder.OrderProcessSegmentID),
+                                            TESTSEQ = null,
+                                            STRDTTM = curDttm,
+                                            ENDDTTM = curDttm,
+                                            EQPTID = null,
+                                            INSUSER = user,
+                                            INSDTTM = curDttm,
+                                            EFCTTIMEIN = curDttm,
+                                            EFCTTIMEOUT = curDttm,
+                                            MSUBLOTID = null,
+                                            REASON = null,
+                                            ISUSE = "Y",
+                                            ACTIVEYN = "Y",
+                                            SMPQTY = _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2].SMPQTY,
+                                            SMPQTYUOMID = _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2].SMPQTYUOMID,
+                                        });
+
+                                        // 전자서명 코멘트
+                                        _BR_BRS_REG_ProductionOrderTestResult.INDATA_ETCs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_ETC
+                                        {
+                                            COMMENTTYPE = "CM001",
+                                            COMMENT = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_IPC"),
+                                            TSTYPE = _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2].TSTYPE,
+                                            LOCATIONID = AuthRepositoryViewModel.Instance.RoomID
+                                        });
+
                                         // 측정내용 XML, BR indata
                                         foreach (var rowdata in _IPC_RESULTS)
                                         {
@@ -866,23 +971,27 @@ namespace 보령
                                             row["현재무게"] = rowdata.RESULTSTR != null ? rowdata.RESULTSTR : "";
                                             dt.Rows.Add(row);
 
-                                            _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATAs.Add(new BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATA()
+                                            // 시험상세결과 기록
+                                            _BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEMs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEM
                                             {
-                                                SCALEID = rowdata.SCALEID,
-                                                POID = ProductionOrderInfo.OrderID,
-                                                OPSGGUID = ProductionOrderInfo.OrderProcessSegmentID,
-                                                SMPQTY = 1,
-                                                AVG_WEIGHT = rowdata.RESULT.ToString("0.0"),
-                                                SMPQTYUOMID = "",
-                                                USERID = ProductionOrderInfo.UserID,
-                                                LOCATIONID = "",
-                                                STRTDTTM = rowdata.RECORDDTTM
+                                                POTSRGUID = _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs[0].POTSRGUID,
+                                                OPTSIGUID = new Guid(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2].OPTSIGUID),
+                                                POTSIRGUID = Guid.NewGuid(),
+                                                ACTVAL = rowdata.RESULT.ToString("0.0"),
+                                                INSUSER = user,
+                                                INSDTTM = curDttm,
+                                                EFCTTIMEIN = curDttm,
+                                                EFCTTIMEOUT = curDttm,
+                                                COMMENTGUID = !string.IsNullOrWhiteSpace(confirmguid) ? new Guid(confirmguid) : (Guid?)null,
+                                                REASON = null,
+                                                ISUSE = "Y",
+                                                ACTIVEYN = "Y"
                                             });
                                         }
                                         // 요약 XML
                                         dt2.Rows.Add(MINWEIGHT, MAXWEIGHT, AVGWEIGHT);
 
-                                        if (await _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.Execute() == true)
+                                        if (await _BR_BRS_REG_ProductionOrderTestResult.Execute() == true)
                                         {
                                             var xml = BizActorRuleBase.CreateXMLStream(ds);
                                             var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
@@ -919,8 +1028,6 @@ namespace 보령
                                             throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                         }
 
-                                        _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATAs.Clear();
-
                                         //XML 형식으로 저장
                                         DataSet ds = new DataSet();
 
@@ -938,6 +1045,38 @@ namespace 보령
                                         dt2.Columns.Add(new DataColumn("최대값"));
                                         dt2.Columns.Add(new DataColumn("평균값"));
 
+                                        // 시험명세 기록
+                                        _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_SPEC
+                                        {
+                                            POTSRGUID = Guid.NewGuid(),
+                                            POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                            OPTSGUID = new Guid(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2].OPTSGUID),
+                                            OPSGGUID = new Guid(_mainWnd.CurrentOrder.OrderProcessSegmentID),
+                                            TESTSEQ = null,
+                                            STRDTTM = curDttm,
+                                            ENDDTTM = curDttm,
+                                            EQPTID = null,
+                                            INSUSER = user,
+                                            INSDTTM = curDttm,
+                                            EFCTTIMEIN = curDttm,
+                                            EFCTTIMEOUT = curDttm,
+                                            MSUBLOTID = null,
+                                            REASON = null,
+                                            ISUSE = "Y",
+                                            ACTIVEYN = "Y",
+                                            SMPQTY = _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2].SMPQTY,
+                                            SMPQTYUOMID = _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2].SMPQTYUOMID,
+                                        });
+
+                                        // 전자서명 코멘트
+                                        _BR_BRS_REG_ProductionOrderTestResult.INDATA_ETCs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_ETC
+                                        {
+                                            COMMENTTYPE = "CM001",
+                                            COMMENT = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_IPC"),
+                                            TSTYPE = _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2].TSTYPE,
+                                            LOCATIONID = AuthRepositoryViewModel.Instance.RoomID
+                                        });
+
                                         // 측정내용 XML, BR indata
                                         foreach (var rowdata in _IPC_RESULTS)
                                         {
@@ -945,25 +1084,29 @@ namespace 보령
                                             row["순번"] = rowdata.INX.ToString();
                                             row["장비번호"] = rowdata.SCALEID != null ? rowdata.SCALEID : "";
                                             row["현재무게"] = rowdata.RESULTSTR != null ? rowdata.RESULTSTR : "";
-                                            dt.Rows.Add(row);
+                                            dt.Rows.Add(row);                                            
 
-                                            _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATAs.Add(new BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.INDATA()
+                                            // 시험상세결과 기록
+                                            _BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEMs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEM
                                             {
-                                                SCALEID = rowdata.SCALEID,
-                                                POID = ProductionOrderInfo.OrderID,
-                                                OPSGGUID = ProductionOrderInfo.OrderProcessSegmentID,
-                                                SMPQTY = 1,
-                                                AVG_WEIGHT = rowdata.RESULT.ToString("0.0"),
-                                                SMPQTYUOMID = "",
-                                                USERID = ProductionOrderInfo.UserID,
-                                                LOCATIONID = "",
-                                                STRTDTTM = rowdata.RECORDDTTM
+                                                POTSRGUID = _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs[0].POTSRGUID,
+                                                OPTSIGUID = new Guid(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[2].OPTSIGUID),
+                                                POTSIRGUID = Guid.NewGuid(),
+                                                ACTVAL = rowdata.RESULT.ToString("0.0"),
+                                                INSUSER = user,
+                                                INSDTTM = curDttm,
+                                                EFCTTIMEIN = curDttm,
+                                                EFCTTIMEOUT = curDttm,
+                                                COMMENTGUID = !string.IsNullOrWhiteSpace(confirmguid) ? new Guid(confirmguid) : (Guid?)null,
+                                                REASON = null,
+                                                ISUSE = "Y",
+                                                ACTIVEYN = "Y"
                                             });
                                         }
                                         // 요약 XML
                                         dt2.Rows.Add(MINWEIGHT, MAXWEIGHT, AVGWEIGHT);
 
-                                        if (await _BR_BRS_REG_IPC_EACH_WEIGHT_MULTI.Execute() == true)
+                                        if (await _BR_BRS_REG_ProductionOrderTestResult.Execute() == true)
                                         {
                                             var xml = BizActorRuleBase.CreateXMLStream(ds);
                                             var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);

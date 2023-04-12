@@ -17,40 +17,30 @@ using System.Collections.ObjectModel;
 
 namespace 보령
 {
-    public class 공정별성상ViewModel : ViewModelBase
+    public class 마손측정ViewModel : ViewModelBase
     {
         #region Property
-        public 공정별성상ViewModel()
+        public 마손측정ViewModel()
         {
             _BR_BRS_SEL_ProductionOrderIPCResult = new BR_BRS_SEL_ProductionOrderIPCResult();
             _BR_BRS_SEL_ProductionOrderIPCStandard = new BR_BRS_SEL_ProductionOrderIPCStandard();
-            _IPCResults = new BR_BRS_SEL_ProductionOrderIPCResult.OUTDATACollection();
-            _BR_BRS_REG_ProductionOrderTestResult = new BR_BRS_REG_ProductionOrderTestResult();
             _IPC_RESULTS = new ObservableCollection<EACH_INDATA>();
+            _BR_BRS_REG_ProductionOrderTestResult = new BR_BRS_REG_ProductionOrderTestResult();
         }
 
-        private 공정별성상 _mainWnd;
-        private string IPC_TSID = "성상";
+        private 마손측정 _mainWnd;
+        private string IPC_TSID = "마손측정";
 
-        private IPCControlData _ShapeIPCData;
-        public IPCControlData ShapeIPCData
+        private int inx;
+
+        private IPCControlData _IPCData;
+        public IPCControlData IPCData
         {
-            get { return _ShapeIPCData; }
+            get { return _IPCData; }
             set
             {
-                _ShapeIPCData = value;
-                OnPropertyChanged("ShapeIPCData");
-            }
-        }
-
-        private BR_BRS_SEL_ProductionOrderIPCResult.OUTDATACollection _IPCResults;
-        public BR_BRS_SEL_ProductionOrderIPCResult.OUTDATACollection IPCResults
-        {
-            get { return _IPCResults; }
-            set
-            {
-                _IPCResults = value;
-                OnPropertyChanged("IPCResults");
+                _IPCData = value;
+                OnPropertyChanged("IPCData");
             }
         }
 
@@ -64,8 +54,6 @@ namespace 보령
                 OnPropertyChanged("IPC_RESULTS");
             }
         }
-
-        private int inx;
 
         #endregion
         #region BizRule
@@ -91,9 +79,9 @@ namespace 보령
                             CommandCanExecutes["LoadedCommandAsync"] = false;
 
                             ///
-                            if(arg != null && arg is 공정별성상)
+                            if(arg != null && arg is 마손측정)
                             {
-                                _mainWnd = arg as 공정별성상;
+                                _mainWnd = arg as 마손측정;
 
                                 // IPC 기준정보 조회
                                 _BR_BRS_SEL_ProductionOrderIPCStandard.INDATAs.Clear();
@@ -107,14 +95,10 @@ namespace 보령
 
                                 if(await _BR_BRS_SEL_ProductionOrderIPCStandard.Execute() && _BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs.Count == 1)
                                 {
-                                    ShapeIPCData = IPCControlData.SetIPCControlData(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0]);
-
-                                    //2023.04.10 김호연 Y-MC팀 요청사항으로 기록된 항목 조회하지 않도록 변경
-                                    //await GetIPCResult();
+                                    IPCData = IPCControlData.SetIPCControlData(_BR_BRS_SEL_ProductionOrderIPCStandard.OUTDATAs[0]);
                                 }
 
                                 inx = 1;
-
                             } 
                             ///
 
@@ -158,16 +142,44 @@ namespace 보령
 
                             ///
 
-                            if (ShapeIPCData.CSL.HasValue)
+                            string chk = "";
+
+                            if (IPCData.LSL.HasValue && IPCData.USL.HasValue)
                             {
-                                if (ShapeIPCData.CSL.Value != Convert.ToDecimal(ShapeIPCData.ACTVAL))
+                                if (IPCData.LSL.Value <= Convert.ToDecimal(_IPCData.GetACTVAL) && Convert.ToDecimal(_IPCData.GetACTVAL) <= IPCData.USL.Value)
+                                    chk = "적합";
+                                else
+                                {
+                                    chk = "부적합";
                                     OnMessage("기준값을 벗어났습니다.");
-                            }                                        
+                                }
+                            }
+                            else if (IPCData.LSL.HasValue)
+                            {
+                                if (IPCData.LSL.Value <= Convert.ToDecimal(_IPCData.GetACTVAL))
+                                    chk = "적합";
+                                else
+                                {
+                                    chk = "부적합";
+                                    OnMessage("기준값을 벗어났습니다.");
+                                }
+                            }
+                            else if (IPCData.USL.HasValue)
+                            {
+                                if (Convert.ToDecimal(_IPCData.GetACTVAL) <= IPCData.USL.Value)
+                                    chk = "적합";
+                                else
+                                {
+                                    chk = "부적합";
+                                    OnMessage("기준값을 벗어났습니다.");
+                                }
+                            }
 
                             IPC_RESULTS.Add(new EACH_INDATA()
                             {
                                 INX = inx++,
-                                IPCVALUE = ShapeIPCData.GetACTVAL
+                                IPCVALUE = _IPCData.GetACTVAL,
+                                IPCVALUEYN = chk
                             });
 
                             ///
@@ -261,7 +273,8 @@ namespace 보령
                                 DataTable dt = new DataTable("DATA");
                                 ds.Tables.Add(dt);
                                 dt.Columns.Add(new DataColumn("순번"));
-                                dt.Columns.Add(new DataColumn("성상"));
+                                dt.Columns.Add(new DataColumn("마손측정값"));
+                                dt.Columns.Add(new DataColumn("적합여부"));
 
                                 // 시험명세 기록
                                 _BR_BRS_REG_ProductionOrderTestResult.INDATA_SPECs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_SPEC
@@ -300,10 +313,11 @@ namespace 보령
                                 {
                                     var row = dt.NewRow();
                                     row["순번"] = rowdata.INX.ToString();
-                                    row["성상"] = rowdata.IPCVALUE != null ? rowdata.IPCVALUE : "";
+                                    row["마손측정값"] = rowdata.IPCVALUE != null ? rowdata.IPCVALUE : "";
+                                    row["적합여부"] = rowdata.IPCVALUEYN != null ? rowdata.IPCVALUEYN : "";
 
 
-                                    dt.Rows.Add(row);
+                                    dt.Rows.Add(row);                                    
 
                                     // 시험상세결과 기록
                                     _BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEMs.Add(new BR_BRS_REG_ProductionOrderTestResult.INDATA_ITEM
@@ -348,7 +362,7 @@ namespace 보령
                             {
                                 throw new Exception("입력한 정보가 없습니다. 기록 버튼을 클릭하여 추가해 주시기 바랍니다.");
                             }
-
+                            
                             ///
 
                             CommandResults["ConfirmCommandAsync"] = true;
@@ -412,12 +426,14 @@ namespace 보령
                             var ds = new DataSet();
                             var dt = new DataTable("DATA");
                             ds.Tables.Add(dt);
-                            dt.Columns.Add(new DataColumn("구분"));
-                            dt.Columns.Add(new DataColumn("성상"));
+                            dt.Columns.Add(new DataColumn("순번"));
+                            dt.Columns.Add(new DataColumn("마손측정"));
+                            dt.Columns.Add(new DataColumn("적합여부"));
 
                             var row = dt.NewRow();
-                            row["구분"] = "N/A";
-                            row["성상"] = "N/A";
+                            row["순번"] = "N/A";
+                            row["마손측정값"] = "N/A";
+                            row["적합여부"] = "N/A";
                             dt.Rows.Add(row);
 
                             var xml = BizActorRuleBase.CreateXMLStream(ds);
@@ -461,44 +477,7 @@ namespace 보령
             }
         }
 
-        #endregion
-
-        //private async Task GetIPCResult()
-        //{
-        //    try
-        //    {
-        //        _IPCResults.Clear();
-        //        _BR_BRS_SEL_ProductionOrderIPCResult.INDATAs.Clear();
-        //        _BR_BRS_SEL_ProductionOrderIPCResult.OUTDATAs.Clear();
-
-        //        _BR_BRS_SEL_ProductionOrderIPCResult.INDATAs.Add(new BR_BRS_SEL_ProductionOrderIPCResult.INDATA
-        //        {
-        //            POID = _mainWnd.CurrentOrder.ProductionOrderID,
-        //            OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
-        //            TSID = IPC_TSID
-        //        });
-
-        //        if(await _BR_BRS_SEL_ProductionOrderIPCResult.Execute() && _BR_BRS_SEL_ProductionOrderIPCResult.OUTDATAs.Count > 0 )
-        //        {
-        //            _IPCResults.Add(new BR_BRS_SEL_ProductionOrderIPCResult.OUTDATA
-        //            {
-        //                GUBUN = "기준",
-        //                RSLT1 = _ShapeIPCData.Standard
-        //            });
-
-        //            foreach (BR_BRS_SEL_ProductionOrderIPCResult.OUTDATA item in _BR_BRS_SEL_ProductionOrderIPCResult.OUTDATAs)
-        //            {
-        //                _IPCResults.Add(item);
-        //            }
-
-        //            OnPropertyChanged("IPCResults");
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        OnException(ex.Message, ex);
-        //    }
-        //}
+        #endregion    
 
         public class EACH_INDATA : BizActorDataSetBase
         {
@@ -521,6 +500,17 @@ namespace 보령
                 {
                     _IPCVALUE = value;
                     OnPropertyChanged("IPCVALUE");
+                }
+            }
+
+            private string _IPCVALUEYN;
+            public string IPCVALUEYN
+            {
+                get { return _IPCVALUEYN; }
+                set
+                {
+                    _IPCVALUEYN = value;
+                    OnPropertyChanged("IPCVALUEYN");
                 }
             }
         }

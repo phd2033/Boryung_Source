@@ -263,8 +263,8 @@ namespace 보령
                                 if (await authHelper.ClickAsync(
                                     Common.enumCertificationType.Role,
                                     Common.enumAccessType.Create,
-                                    "경도측정",
-                                    "경도측정",
+                                    "LOD측정",
+                                    "LOD측정",
                                     false,
                                     "OM_ProductionOrder_SUI",
                                     "",
@@ -288,7 +288,7 @@ namespace 보령
                                 DataTable dt = new DataTable("DATA");
                                 ds.Tables.Add(dt);
                                 dt.Columns.Add(new DataColumn("순번"));
-                                dt.Columns.Add(new DataColumn("마손측정값"));
+                                dt.Columns.Add(new DataColumn("LOD측정"));
                                 dt.Columns.Add(new DataColumn("적합여부"));
 
                                 // 시험명세 기록
@@ -328,7 +328,7 @@ namespace 보령
                                 {
                                     var row = dt.NewRow();
                                     row["순번"] = rowdata.INX.ToString();
-                                    row["마손측정값"] = rowdata.IPCVALUE != null ? rowdata.IPCVALUE : "";
+                                    row["LOD측정"] = rowdata.IPCVALUE != null ? rowdata.IPCVALUE : "";
                                     row["적합여부"] = rowdata.IPCVALUEYN != null ? rowdata.IPCVALUEYN : "";
 
 
@@ -441,12 +441,12 @@ namespace 보령
                             var ds = new DataSet();
                             var dt = new DataTable("DATA");
                             ds.Tables.Add(dt);
-                            dt.Columns.Add(new DataColumn("구분"));
+                            dt.Columns.Add(new DataColumn("순번"));
                             dt.Columns.Add(new DataColumn("LOD측정"));
                             dt.Columns.Add(new DataColumn("적합여부"));
 
                             var row = dt.NewRow();
-                            row["구분"] = "N/A";
+                            row["순번"] = "N/A";
                             row["LOD측정"] = "N/A";
                             row["적합여부"] = "N/A";
                             dt.Rows.Add(row);

@@ -248,8 +248,8 @@ namespace 보령
                                 if (await authHelper.ClickAsync(
                                     Common.enumCertificationType.Role,
                                     Common.enumAccessType.Create,
-                                    "경도측정",
-                                    "경도측정",
+                                    "마손측정",
+                                    "마손측정",
                                     false,
                                     "OM_ProductionOrder_SUI",
                                     "",

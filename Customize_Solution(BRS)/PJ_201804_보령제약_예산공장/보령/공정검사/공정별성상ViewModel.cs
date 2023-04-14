@@ -236,8 +236,8 @@ namespace 보령
                                 if (await authHelper.ClickAsync(
                                     Common.enumCertificationType.Role,
                                     Common.enumAccessType.Create,
-                                    "경도측정",
-                                    "경도측정",
+                                    "성상측정",
+                                    "성상측정",
                                     false,
                                     "OM_ProductionOrder_SUI",
                                     "",
@@ -412,11 +412,11 @@ namespace 보령
                             var ds = new DataSet();
                             var dt = new DataTable("DATA");
                             ds.Tables.Add(dt);
-                            dt.Columns.Add(new DataColumn("구분"));
+                            dt.Columns.Add(new DataColumn("순번"));
                             dt.Columns.Add(new DataColumn("성상"));
 
                             var row = dt.NewRow();
-                            row["구분"] = "N/A";
+                            row["순번"] = "N/A";
                             row["성상"] = "N/A";
                             dt.Rows.Add(row);
 

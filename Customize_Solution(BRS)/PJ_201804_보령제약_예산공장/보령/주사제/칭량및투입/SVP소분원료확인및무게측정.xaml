@@ -146,6 +146,7 @@
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Button Margin="5,0" x:Name="btnChangeScale" Width="100" Height="50" Content="{Binding W[CUIChangeScaleButtonText], Source={StaticResource VM}, FallbackValue=저울변경}" Command="{Binding ChangeScaleCommand}"/>
                     <Button Margin="5,0" Name="btnComfirm" Width="100" Height="50" Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue=기록}" Command="{Binding ConfirmCommandAsync}"/>
+                    <Button Margin="5,0" Name="btnNoRecordConfirm" Width="100" Height="50" Content="{Binding W[CUIDefaultDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue=기록없음}" Command="{Binding NoRecordConfirmCommandAsync}"/>
                     <Button Margin="5,0" Name="btnClose" Width="100" Height="50" Content="{Binding W[CUICloseButtonText], Source={StaticResource VM}, FallbackValue=닫기}" Click="btnClose_Click" />
                 </StackPanel>
             </Grid>

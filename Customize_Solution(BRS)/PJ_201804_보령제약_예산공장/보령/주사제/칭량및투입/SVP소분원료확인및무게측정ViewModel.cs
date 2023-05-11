@@ -622,8 +622,8 @@ namespace 보령
                                 if (await authHelper.ClickAsync(
                                     Common.enumCertificationType.Function,
                                     Common.enumAccessType.Create,
-                                    string.Format("반제품무게측정"),
-                                    string.Format("반제품무게측정"),
+                                    string.Format("SVP소분원료확인및무게측정"),
+                                    string.Format("SVP소분원료확인및무게측정"),
                                     false,
                                     "OM_ProductionOrder_SUI",
                                     _mainWnd.CurrentOrderInfo.EquipmentID, _mainWnd.CurrentOrderInfo.RecipeID, null) == false)
@@ -703,6 +703,127 @@ namespace 보령
                 {
                     return CommandCanExecutes.ContainsKey("ConfirmCommandAsync") ?
                         CommandCanExecutes["ConfirmCommandAsync"] : (CommandCanExecutes["ConfirmCommandAsync"] = true);
+                });
+            }
+        }
+
+        public ICommand NoRecordConfirmCommandAsync
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["NoRecordConfirmCommandAsync"].EnterAsync())
+                    {
+                        try
+                        {
+                            IsBusy = true;
+
+                            CommandResults["NoRecordConfirmCommandAsync"] = false;
+                            CommandCanExecutes["NoRecordConfirmCommandAsync"] = false;
+
+                            ///
+                            _repeater.Stop();
+
+                            // 전자서명
+                            iPharmAuthCommandHelper authHelper = new iPharmAuthCommandHelper();
+
+                            if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y") && _mainWnd.Phase.CurrentPhase.STATE.Equals("COMP")) // 값 수정
+                            {
+                                authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+
+                                if (await authHelper.ClickAsync(
+                                    Common.enumCertificationType.Function,
+                                    Common.enumAccessType.Create,
+                                    string.Format("기록값을 변경합니다."),
+                                    string.Format("기록값 변경"),
+                                    true,
+                                    "OM_ProductionOrder_SUI",
+                                    "", _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID, null) == false)
+                                {
+                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                }
+                            }
+
+                            authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+                            if (await authHelper.ClickAsync(
+                                Common.enumCertificationType.Role,
+                                Common.enumAccessType.Create,
+                                "SVP소분원료확인및무게측정",
+                                "SVP소분원료확인및무게측정",
+                                false,
+                                "OM_ProductionOrder_SUI",
+                                "",
+                                null, null) == false)
+                            {
+                                throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                            }
+
+                            //XML 형식으로 저장
+                            DataSet ds = new DataSet();
+                            DataTable dt = new DataTable("DATA");
+                            ds.Tables.Add(dt);
+
+                            //2023.01.03 김호연 원료별 칭량을 하면 2개 이상의 배치가 동시에 기록되므로 EBR 확인할때 오더로 구분해야함
+                            dt.Columns.Add(new DataColumn("오더번호"));
+                            //-------------------------------------------------------------------------------------------------------
+                            dt.Columns.Add(new DataColumn("저울번호"));
+                            dt.Columns.Add(new DataColumn("용기중량"));
+                            dt.Columns.Add(new DataColumn("내용물중량"));
+                            dt.Columns.Add(new DataColumn("하한"));
+                            dt.Columns.Add(new DataColumn("전체중량"));
+                            dt.Columns.Add(new DataColumn("상한"));
+                            dt.Columns.Add(new DataColumn("무게"));
+
+                            var row = dt.NewRow();
+                            row["오더번호"] = "N/A";
+                            row["저울번호"] = "N/A";
+                            row["용기중량"] = "N/A";
+                            row["내용물중량"] = "N/A";
+                            row["하한"] = "N/A";
+                            row["전체중량"] = "N/A";
+                            row["상한"] = "N/A";
+                            row["무게"] = "N/A";
+                            dt.Rows.Add(row);
+
+                            var xml = BizActorRuleBase.CreateXMLStream(ds);
+                            var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
+
+                            _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
+                            _mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
+
+                            var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction);
+
+                            if (result != enumInstructionRegistErrorType.Ok)
+                            {
+                                throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
+                            }
+
+                            if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
+                            else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
+
+                            _mainWnd.Close();
+
+                            //
+                            CommandResults["NoRecordConfirmCommandAsync"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["NoRecordConfirmCommandAsync"] = false;
+                            _repeater.Start();
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["NoRecordConfirmCommandAsync"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("NoRecordConfirmCommandAsync") ?
+                        CommandCanExecutes["NoRecordConfirmCommandAsync"] : (CommandCanExecutes["NoRecordConfirmCommandAsync"] = true);
                 });
             }
         }

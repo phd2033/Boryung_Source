@@ -10,7 +10,7 @@
            xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
            xmlns:local="clr-namespace:보령"
            mc:Ignorable="d"
-           Width="600" Height="500" x:Name="Main"
+           Width="700" Height="550" x:Name="Main"
            Title="라인클리어런스기록">
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
         <local:라인클리어런스기록ViewModel x:Key="ViewModel"/>
@@ -36,19 +36,19 @@
                                ItemsSource="{Binding LINECLEARANCEOUTDATA}">
                     <c1:C1DataGrid.Columns>
                         <!--<c1:DataGridTextColumn Header="순번" Binding="{Binding Path=NO}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center" Width="0.5*"/>-->
-                        <c1:DataGridTextColumn Header="점검사항" Binding="{Binding Path=ITEMNAME}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center" Width="3*"/>
+                        <c1:DataGridTextColumn Header="점검사항" Binding="{Binding Path=ITEMNAME}" HeaderStyle="{StaticResource HeaderStyle}" Width="3*"/>
                         <!--<c1:DataGridTextColumn Header="결과" Binding="{Binding Path=RESULT}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center" Width="1*"/>-->
-                        <c1:DataGridTemplateColumn Header="결과">
+                        <c1:DataGridTemplateColumn Header="결과"  HeaderStyle="{StaticResource HeaderStyle}" Width="170">
                             <c1:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Grid VerticalAlignment="Center">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="50"/>
-                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="60"/>
+                                            <ColumnDefinition Width="60"/>
                                             <ColumnDefinition Width="50"/>
                                         </Grid.ColumnDefinitions>
-                                        <RadioButton  Grid.Column="0" IsChecked="{Binding RESULTYES, Mode=TwoWay}" Content="YES"></RadioButton>
-                                        <RadioButton  Grid.Column="1" IsChecked="{Binding RESULTNO, Mode=TwoWay}" Content="NO"></RadioButton>
+                                        <RadioButton  Grid.Column="0" IsChecked="{Binding RESULTYES, Mode=TwoWay}" Content="{Binding ContentsYes, Mode=TwoWay}"></RadioButton>
+                                        <RadioButton  Grid.Column="1" IsChecked="{Binding RESULTNO, Mode=TwoWay}" Content="{Binding ContentsNo, Mode=TwoWay}"></RadioButton>
                                         <RadioButton  Grid.Column="2" IsChecked="{Binding RESULTNA, Mode=TwoWay}" Content="N/A" ></RadioButton>
                                     </Grid>
                                 </DataTemplate>
@@ -62,10 +62,12 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="100"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="1" x:Name="btnConfirm" Margin="5" Content="기록" Command="{Binding ConfirmCommandAsync}"/>
-                <Button Grid.Column="2" x:Name="btnCancel" Margin="5" Content="취소" Click="btnCancel_Click"/>
+                <Button Grid.Column="2" x:Name="btnNoRecordConfirm" Margin="5" Content="기록없음" Command="{Binding NoRecordConfirmCommandAsync}"/>
+                <Button Grid.Column="3" x:Name="btnCancel" Margin="5" Content="취소" Click="btnCancel_Click"/>
             </Grid>
         </Grid>
     </toolkit:BusyIndicator>

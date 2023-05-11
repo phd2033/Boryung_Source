@@ -33,8 +33,9 @@ namespace 보령
                 OnPropertyChanged("LINECLEARANCEOUTDATA");
             }
         }
-
         
+        string _ProdTeamId = string.Empty;
+
         #endregion
         #region [BizRule]
         // 라인클리어런스 정보 조회
@@ -118,11 +119,28 @@ namespace 보령
                                 _BR_BRS_GET_CommonCode_LineClearance.OUTDATAs.Clear();
                                 _BR_BRS_GET_CommonCode_LineClearance.INDATAs.Add(new BR_BRS_GET_CommonCode_LineClearance.INDATA
                                 {
-                                    CMCDTYPE = "BRS_LINECLEARANCE"
+                                    POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                    OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID
                                 });
 
                                 if (await _BR_BRS_GET_CommonCode_LineClearance.Execute() == true)
-                                {                                   
+                                {
+                                    _ProdTeamId = _BR_BRS_GET_CommonCode_LineClearance.OUTDATA_OrderTypes[0].PRODTEAMID;
+                                    
+                                    string contentsYes = string.Empty;
+                                    string contentsNo = string.Empty;
+
+                                    if ("고형제".Equals(_ProdTeamId))
+                                    {
+                                        contentsYes = "Yes";
+                                        contentsNo = "No";
+                                    }
+                                    else
+                                    {
+                                        contentsYes = "적합";
+                                        contentsNo = "부적합";
+                                    }
+
                                     foreach (var outdata in _BR_BRS_GET_CommonCode_LineClearance.OUTDATAs)
                                     {
                                         var temp = new LINECLEARANCE.OUTDATA
@@ -130,7 +148,9 @@ namespace 보령
                                             ITEMNAME = outdata.CMCDNAME,
                                             RESULTYES = false,
                                             RESULTNO = false,
-                                            RESULTNA = false
+                                            RESULTNA = false,
+                                            ContentsYes = contentsYes,
+                                            ContentsNo = contentsNo
                                         };
                                         _LINECLEARANCEOUTDATA.Add(temp);
                                         _mainWnd.MainDataGrid.Refresh();
@@ -266,11 +286,25 @@ namespace 보령
                                     }
                                     if (item.RESULTYES)
                                     {
-                                        row["결과"] = "YES";
+                                        if("고형제".Equals(_ProdTeamId))
+                                        {
+                                            row["결과"] = "YES";
+                                        }
+                                        else
+                                        {
+                                            row["결과"] = "적합";
+                                        }
                                     }
                                     else if (item.RESULTNO)
                                     {
-                                        row["결과"] = "NO";
+                                        if ("고형제".Equals(_ProdTeamId))
+                                        {
+                                            row["결과"] = "NO";
+                                        }
+                                        else
+                                        {
+                                            row["결과"] = "부적합";
+                                        }
                                     }
                                     else
                                     {
@@ -320,6 +354,108 @@ namespace 보령
             }
         }
 
+        public ICommand NoRecordConfirmCommandAsync
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["NoRecordConfirmCommandAsync"].EnterAsync())
+                    {
+                        try
+                        {
+                            IsBusy = true;
+
+                            CommandResults["NoRecordConfirmCommandAsync"] = false;
+                            CommandCanExecutes["NoRecordConfirmCommandAsync"] = false;
+                            
+                            // 전자서명
+                            iPharmAuthCommandHelper authHelper = new iPharmAuthCommandHelper();
+
+                            if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y") && _mainWnd.Phase.CurrentPhase.STATE.Equals("COMP")) // 값 수정
+                            {
+                                authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+
+                                if (await authHelper.ClickAsync(
+                                    Common.enumCertificationType.Function,
+                                    Common.enumAccessType.Create,
+                                    string.Format("기록값을 변경합니다."),
+                                    string.Format("기록값 변경"),
+                                    true,
+                                    "OM_ProductionOrder_SUI",
+                                    "", _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID, null) == false)
+                                {
+                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                }
+                            }
+
+                            authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+                            if (await authHelper.ClickAsync(
+                                Common.enumCertificationType.Role,
+                                Common.enumAccessType.Create,
+                                "SVP소분원료확인및무게측정",
+                                "SVP소분원료확인및무게측정",
+                                false,
+                                "OM_ProductionOrder_SUI",
+                                "",
+                                null, null) == false)
+                            {
+                                throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                            }
+
+                            //XML 형식으로 저장
+                            var ds = new DataSet();
+                            var dt = new DataTable("DATA");
+                            ds.Tables.Add(dt);
+                            
+                            dt.Columns.Add(new DataColumn("점검사항"));
+                            dt.Columns.Add(new DataColumn("결과"));
+
+                            var row = dt.NewRow();
+                            row["점검사항"] = "N/A";
+                            row["결과"] = "N/A";
+                            dt.Rows.Add(row);
+
+                            var xml = BizActorRuleBase.CreateXMLStream(ds);
+                            var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
+
+                            _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
+                            _mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
+
+                            var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction);
+
+                            if (result != enumInstructionRegistErrorType.Ok)
+                            {
+                                throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
+                            }
+
+                            if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
+                            else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
+
+                            _mainWnd.Close();
+
+                            //
+                            CommandResults["NoRecordConfirmCommandAsync"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["NoRecordConfirmCommandAsync"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["NoRecordConfirmCommandAsync"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("NoRecordConfirmCommandAsync") ?
+                        CommandCanExecutes["NoRecordConfirmCommandAsync"] : (CommandCanExecutes["NoRecordConfirmCommandAsync"] = true);
+                });
+            }
+        }
         #endregion
         #region [Constructor]
         public 라인클리어런스기록ViewModel()
@@ -509,6 +645,73 @@ namespace 보령
                             this._RESULTNA = value;
                             this.CheckIsOriginal("RESULTNA", value);
                             this.OnPropertyChanged("RESULTNA");
+                            if (RowLoadedFlag)
+                            {
+                                if (this.CheckIsOriginalRow())
+                                {
+                                    RowEditSec = "SEL";
+                                }
+                                else
+                                {
+                                    RowEditSec = "UPD";
+                                }
+                            }
+                        }
+                    }
+                }
+
+                private string _ContentsYes;
+                [BizActorOutputItemAttribute()]
+                public string ContentsYes
+                {
+                    get
+                    {
+                        return this._ContentsYes;
+                    }
+                    set
+                    {
+                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                        {
+                        }
+                        else
+                        {
+                            this._ContentsYes = value;
+                            this.CheckIsOriginal("ContentsYes", value);
+                            this.OnPropertyChanged("ContentsYes");
+                            if (RowLoadedFlag)
+                            {
+                                if (this.CheckIsOriginalRow())
+                                {
+                                    RowEditSec = "SEL";
+                                }
+                                else
+                                {
+                                    RowEditSec = "UPD";
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+                private string _ContentsNo;
+                [BizActorOutputItemAttribute()]
+                public string ContentsNo
+                {
+                    get
+                    {
+                        return this._ContentsNo;
+                    }
+                    set
+                    {
+                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                        {
+                        }
+                        else
+                        {
+                            this._ContentsNo = value;
+                            this.CheckIsOriginal("ContentsNo", value);
+                            this.OnPropertyChanged("ContentsNo");
                             if (RowLoadedFlag)
                             {
                                 if (this.CheckIsOriginalRow())

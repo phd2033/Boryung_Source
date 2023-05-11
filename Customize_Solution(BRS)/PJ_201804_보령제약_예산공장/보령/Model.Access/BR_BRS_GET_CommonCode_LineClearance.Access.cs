@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace LGCNS.iPharmMES.Common
+namespace 보령
 {
-    
+
     /// <summary>
     /// summary of BR_BRS_GET_CommonCode_LineClearance
     /// </summary>
@@ -22,7 +22,7 @@ namespace LGCNS.iPharmMES.Common
                 return this._INDATAs;
             }
         }
-        [BizActorInputSetDefineAttribute(Order="0")]
+        [BizActorInputSetDefineAttribute(Order = "0")]
         [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
         public partial class INDATA : BizActorDataSetBase
         {
@@ -69,13 +69,13 @@ namespace LGCNS.iPharmMES.Common
                     this.OnPropertyChanged("RowEditSec");
                 }
             }
-            private string _CMCDTYPE;
+            private string _POID;
             [BizActorInputItemAttribute()]
-            public string CMCDTYPE
+            public string POID
             {
                 get
                 {
-                    return this._CMCDTYPE;
+                    return this._POID;
                 }
                 set
                 {
@@ -84,9 +84,41 @@ namespace LGCNS.iPharmMES.Common
                     }
                     else
                     {
-                        this._CMCDTYPE = value;
-                        this.CheckIsOriginal("CMCDTYPE", value);
-                        this.OnPropertyChanged("CMCDTYPE");
+                        this._POID = value;
+                        this.CheckIsOriginal("POID", value);
+                        this.OnPropertyChanged("POID");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _OPSGGUID;
+            [BizActorInputItemAttribute()]
+            public string OPSGGUID
+            {
+                get
+                {
+                    return this._OPSGGUID;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._OPSGGUID = value;
+                        this.CheckIsOriginal("OPSGGUID", value);
+                        this.OnPropertyChanged("OPSGGUID");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -114,7 +146,7 @@ namespace LGCNS.iPharmMES.Common
                 return this._OUTDATAs;
             }
         }
-        [BizActorOutputSetDefineAttribute(Order="0")]
+        [BizActorOutputSetDefineAttribute(Order = "0")]
         [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
         public partial class OUTDATA : BizActorDataSetBase
         {
@@ -482,12 +514,105 @@ namespace LGCNS.iPharmMES.Common
                 }
             }
         }
+        public sealed partial class OUTDATA_OrderTypeCollection : BufferedObservableCollection<OUTDATA_OrderType>
+        {
+        }
+        private OUTDATA_OrderTypeCollection _OUTDATA_OrderTypes;
+        [BizActorOutputSetAttribute()]
+        public OUTDATA_OrderTypeCollection OUTDATA_OrderTypes
+        {
+            get
+            {
+                return this._OUTDATA_OrderTypes;
+            }
+        }
+        [BizActorOutputSetDefineAttribute(Order = "1")]
+        [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
+        public partial class OUTDATA_OrderType : BizActorDataSetBase
+        {
+            public OUTDATA_OrderType()
+            {
+                RowLoadedFlag = false;
+            }
+            private bool _RowLoadedFlag;
+            public bool RowLoadedFlag
+            {
+                get
+                {
+                    return this._RowLoadedFlag;
+                }
+                set
+                {
+                    this._RowLoadedFlag = value;
+                    this.OnPropertyChanged("_RowLoadedFlag");
+                }
+            }
+            private string _RowIndex;
+            public string RowIndex
+            {
+                get
+                {
+                    return this._RowIndex;
+                }
+                set
+                {
+                    this._RowIndex = value;
+                    this.OnPropertyChanged("RowIndex");
+                }
+            }
+            private string _RowEditSec;
+            public string RowEditSec
+            {
+                get
+                {
+                    return this._RowEditSec;
+                }
+                set
+                {
+                    this._RowEditSec = value;
+                    this.OnPropertyChanged("RowEditSec");
+                }
+            }
+            private string _PRODTEAMID;
+            [BizActorOutputItemAttribute()]
+            public string PRODTEAMID
+            {
+                get
+                {
+                    return this._PRODTEAMID;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._PRODTEAMID = value;
+                        this.CheckIsOriginal("PRODTEAMID", value);
+                        this.OnPropertyChanged("PRODTEAMID");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+        }
         public BR_BRS_GET_CommonCode_LineClearance()
         {
             RuleName = "BR_BRS_GET_CommonCode_LineClearance";
             BizName = "BR_BRS_GET_CommonCode_LineClearance";
             _INDATAs = new INDATACollection();
             _OUTDATAs = new OUTDATACollection();
+            _OUTDATA_OrderTypes = new OUTDATA_OrderTypeCollection();
         }
     }
 }

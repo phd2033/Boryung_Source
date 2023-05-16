@@ -34,6 +34,26 @@ namespace 보령
                 OnPropertyChanged("MsubLotBcd");
             }
         }
+        private string _MtrlId;
+        public string MtrlId
+        {
+            get { return _MtrlId; }
+            set
+            {
+                _MtrlId = value;
+                OnPropertyChanged("MtrlId");
+            }
+        }
+        private string _MtrlName;
+        public string MtrlName
+        {
+            get { return _MtrlName; }
+            set
+            {
+                _MtrlName = value;
+                OnPropertyChanged("MtrlName");
+            }
+        }
         private string _Barcode;
         public string Barcode
         {

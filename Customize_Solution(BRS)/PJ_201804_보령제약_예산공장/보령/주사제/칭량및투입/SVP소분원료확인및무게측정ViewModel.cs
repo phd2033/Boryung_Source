@@ -108,6 +108,26 @@ namespace 보령
             get { return _MINVALUE.WeightUOMString; }
         }
 
+        private string _MtrlId;
+        public string MtrlId
+        {
+            get { return _MtrlId; }
+            set
+            {
+                _MtrlId = value;
+                OnPropertyChanged("MtrlId");
+            }
+        }
+        private string _MtrlName;
+        public string MtrlName
+        {
+            get { return _MtrlName; }
+            set
+            {
+                _MtrlName = value;
+                OnPropertyChanged("MtrlName");
+            }
+        }
 
         private bool _btnSaveWeightEnable;
         /// <summary>
@@ -393,7 +413,11 @@ namespace 보령
                                 {
                                     foreach (var item in _BR_BRS_GET_MaterialSubLot_ContainerInfo_Dispensing.OUTDATAs)
                                     {
-                                        GorssSum += Weight.Add(0, _CURVALUE.Uom, item.MSUBLOTQTY.GetValueOrDefault(), item.UOMNAME);
+                                        GorssSum += Weight.Add(0, _CURVALUE.Uom, item.MSUBLOTQTY.GetValueOrDefault() + item.TAREWEIGHT.GetValueOrDefault(), item.UOMNAME);
+                                        //2023.05.15 박희돈 Y-MC팀 이정연팀장, 김진수매니저 요청. EBR에 자재코드와 자재명 표현.
+                                        MtrlId = item.MTRLID;
+                                        MtrlName = item.MTRLNAME;
+                                        MSUBLOTBCD = item.MSUBLOTBCD;
                                     }
                                 }
                                 else
@@ -476,62 +500,12 @@ namespace 보령
 
                             // 2021-12-03 김호연 
                             // 저울 무게 기록하는 시점에 무게 변경되는 현상이 발생
-                            // 저울 무게는 변경이 되니 변수에 담아서 무게 저장 및 기록
+                            // 저울 무게는 변경이 되니 변수에 담음
                             Decimal CurWeightValue = _CURVALUE.Value;
 
                             btnSaveWeightEnable = false;
                             _repeater.Stop();
-
-                            //foreach (var item in BR_BRS_GET_MaterialSubLot_ContainerInfo_Dispensing.OUTDATAs)
-                            //{
-                            //    _BR_BRS_UPD_MaterialSubLot_ChangeQuantity.INDATA_MLOTs.Add(new BR_BRS_UPD_MaterialSubLot_ChangeQuantity.INDATA_MLOT
-                            //    {
-                            //        MTRLID = item.MTRLID != null ? item.MTRLID : "",
-                            //        MLOTID = item.MLOTID != null ? item.MLOTID : "",
-                            //        MLOTVER = item.MLOTVER != null ? item.MLOTVER : 1m,
-                            //        INDUSER = AuthRepositoryViewModel.Instance.LoginedUserID
-                            //    });
-
-                            //    _BR_BRS_UPD_MaterialSubLot_ChangeQuantity.INDATA_MSUBLOTs.Add(new BR_BRS_UPD_MaterialSubLot_ChangeQuantity.INDATA_MSUBLOT
-                            //    {
-                            //        MSUBLOTID = item.MSUBLOTID != null ? item.MSUBLOTID : "",
-                            //        MSUBLOTVER = item.MSUBLOTVER != null ? item.MSUBLOTVER : 1m,
-                            //        MSUBLOTSEQ = item.MSUBLOTSEQ != null ? item.MSUBLOTSEQ : 1,
-                            //        MSUBLOTQTY = CurWeightValue,
-                            //        UOMID = item.UOMID != null ? item.UOMID : "",
-                            //        TAREWEIGHT = item.TAREWEIGHT != null ? item.TAREWEIGHT : 1m,
-                            //        TAREUOMID = item.TAREUOMID != null ? item.TAREUOMID : "",
-                            //    });
-                            //    _BR_BRS_UPD_MaterialSubLot_ChangeQuantity.LABEL_INDATAs.Add(new BR_BRS_UPD_MaterialSubLot_ChangeQuantity.LABEL_INDATA
-                            //    {
-                            //        PRINTYN = false
-                            //    });
-                            //    if (await _BR_BRS_UPD_MaterialSubLot_ChangeQuantity.Execute())
-                            //    {
-                            //        Weight tare = new Weight();
-                            //        tare.SetWeight(0, _CURVALUE.Uom, _CURVALUE.Precision);
-
-                            //        DISPMSUBLOTList.Add(new ChargedWIPContainer
-                            //        {
-                            //            PoId = _mainWnd.CurrentOrder.ProductionOrderID,
-                            //            ScaleId = _SCALEID,
-                            //            Uom = _CURVALUE.Uom,
-                            //            Precision = _CURVALUE.Precision,
-                            //            TareWeight = Convert.ToDecimal(tare.Value.ToString("F" + tare.Precision)),
-                            //            NetWeight = GorssSum,
-                            //            MinWeight = MINVALUE,
-                            //            MaxWeight = MAXVALUE,
-                            //            //CurWeight = _CURVALUE.Value
-                            //            // 2021-12-03 김호연 
-                            //            CurWeight = CurWeightValue
-                            //        });
-                            //    }
-                            //    else
-                            //    {
-                            //        btnSaveWeightEnable = true;
-                            //    }
-                            //}
-
+                            
                             Weight tare = new Weight();
                             tare.SetWeight(0, _CURVALUE.Uom, _CURVALUE.Precision);
 
@@ -539,6 +513,9 @@ namespace 보령
                             {
                                 PoId = _mainWnd.CurrentOrder.ProductionOrderID,
                                 ScaleId = _SCALEID,
+                                MtrlId = MtrlId,
+                                MtrlName = MtrlName,
+                                MsubLotBcd = MSUBLOTBCD,
                                 Uom = _CURVALUE.Uom,
                                 Precision = _CURVALUE.Precision,
                                 TareWeight = Convert.ToDecimal(tare.Value.ToString("F" + tare.Precision)),
@@ -549,11 +526,11 @@ namespace 보령
                                 // 2021-12-03 김호연 
                                 CurWeight = CurWeightValue
                             });
-
-                            btnSaveWeightEnable = true;
-
+                            
                             InitializeData();
                             _repeater.Start();
+
+                            //btnSaveWeightEnable = true;
 
                             CommandResults["SaveWeightCommandAsync"] = true;
                         }
@@ -638,9 +615,12 @@ namespace 보령
                                 //2023.01.03 김호연 원료별 칭량을 하면 2개 이상의 배치가 동시에 기록되므로 EBR 확인할때 오더로 구분해야함
                                 dt.Columns.Add(new DataColumn("오더번호"));
                                 //-------------------------------------------------------------------------------------------------------
+                                dt.Columns.Add(new DataColumn("원료코드"));
+                                dt.Columns.Add(new DataColumn("원료명"));
                                 dt.Columns.Add(new DataColumn("저울번호"));
-                                dt.Columns.Add(new DataColumn("용기중량"));
-                                dt.Columns.Add(new DataColumn("내용물중량"));
+                                //Y-MC팀 이정연팀장, 김진수매니저 요청. 용기중량 내용물중량 주석
+                                //dt.Columns.Add(new DataColumn("용기중량"));
+                                //dt.Columns.Add(new DataColumn("내용물중량"));
                                 dt.Columns.Add(new DataColumn("하한"));
                                 dt.Columns.Add(new DataColumn("전체중량"));
                                 dt.Columns.Add(new DataColumn("상한"));
@@ -653,10 +633,12 @@ namespace 보령
                                     //2023.01.03 김호연 원료별 칭량을 하면 2개 이상의 배치가 동시에 기록되므로 EBR 확인할때 오더로 구분해야함
                                     row["오더번호"] = item.PoId != null ? item.PoId : "";
                                     //-------------------------------------------------------------------------------------------------------
-                                    row["오더번호"] = item.PoId != null ? item.PoId : "";
+                                    row["원료코드"] = item.MtrlId != null ? item.MtrlId : "";
+                                    row["원료명"] = item.MtrlName != null ? item.MtrlName : "";
                                     row["저울번호"] = item.ScaleId != null ? item.ScaleId : "";
-                                    row["용기중량"] = item != null ? item.TareWeight.ToString("F" + item.Precision) + " " + _ScaleUom : "";
-                                    row["내용물중량"] = item != null ? item.NetWeight.ToString("F" + item.Precision) + " " + _ScaleUom : "";
+                                    //Y-MC팀 이정연팀장, 김진수매니저 요청. 용기중량 내용물중량 주석
+                                    //row["용기중량"] = item != null ? item.TareWeight.ToString("F" + item.Precision) + " " + _ScaleUom : "";
+                                    //row["내용물중량"] = item != null ? item.NetWeight.ToString("F" + item.Precision) + " " + _ScaleUom : "";
                                     row["하한"] = item != null ? item.MinWeight : "";
                                     row["전체중량"] = item != null ? item.GrossWeight.ToString("F" + item.Precision) + " " + _ScaleUom : "";
                                     row["상한"] = item != null ? item.MaxWeight : "";

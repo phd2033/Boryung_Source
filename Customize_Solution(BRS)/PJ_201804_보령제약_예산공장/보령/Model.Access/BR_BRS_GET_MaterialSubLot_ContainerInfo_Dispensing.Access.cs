@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace 보령
 {
-    
+
     /// <summary>
     /// summary of BR_BRS_GET_MaterialSubLot_ContainerInfo_Dispensing
     /// </summary>
@@ -22,7 +22,7 @@ namespace 보령
                 return this._INDATAs;
             }
         }
-        [BizActorInputSetDefineAttribute(Order="0")]
+        [BizActorInputSetDefineAttribute(Order = "0")]
         [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
         public partial class INDATA : BizActorDataSetBase
         {
@@ -210,7 +210,7 @@ namespace 보령
                 return this._OUTDATAs;
             }
         }
-        [BizActorOutputSetDefineAttribute(Order="0")]
+        [BizActorOutputSetDefineAttribute(Order = "0")]
         [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
         public partial class OUTDATA : BizActorDataSetBase
         {
@@ -1427,6 +1427,38 @@ namespace 보령
                         this._TSTREQNO = value;
                         this.CheckIsOriginal("TSTREQNO", value);
                         this.OnPropertyChanged("TSTREQNO");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private System.Nullable<decimal> _GROSSQTY;
+            [BizActorOutputItemAttribute()]
+            public System.Nullable<decimal> GROSSQTY
+            {
+                get
+                {
+                    return this._GROSSQTY;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._GROSSQTY = value;
+                        this.CheckIsOriginal("GROSSQTY", value);
+                        this.OnPropertyChanged("GROSSQTY");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())

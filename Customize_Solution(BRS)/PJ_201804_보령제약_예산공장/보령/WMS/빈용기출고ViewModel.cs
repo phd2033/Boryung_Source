@@ -175,8 +175,8 @@ namespace 보령
                                                 STATUS = row["상태"] != null ? row["상태"].ToString() : "",
                                                 PoId = row["오더번호"] != null ? row["오더번호"].ToString() : "",
                                                 VesselId = row["용기번호"] != null ? row["용기번호"].ToString() : "",
-                                                OPSGNAME = row["공정명"] != null ? row["공정명"].ToString() : "",
-                                                OUTPUTID = row["공정중제품"] != null ? row["공정중제품"].ToString() : "",
+                                                //OPSGNAME = row["공정명"] != null ? row["공정명"].ToString() : "",
+                                                //OUTPUTID = row["공정중제품"] != null ? row["공정중제품"].ToString() : "",
                                                 WASHINGDTTM = row["세척일시"] != null ? row["세척일시"].ToString() : "",
                                                 CLEANEXPIREDTTM = row["세척유효일시"] != null ? row["세척유효일시"].ToString() : ""
                                             });

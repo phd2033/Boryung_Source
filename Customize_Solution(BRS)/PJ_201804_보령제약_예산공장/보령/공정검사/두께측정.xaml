@@ -94,9 +94,9 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <sdk:Label Grid.Column="0" Content="경도 하한 기준" Style="{Binding Source={StaticResource LabelStyle}}"/>
+                    <sdk:Label Grid.Column="0" Content="두께 하한 기준" Style="{Binding Source={StaticResource LabelStyle}}"/>
                     <TextBox Grid.Column="1" IsReadOnly="True" Text="{Binding Path=MINSTANDARD}" Style="{Binding Source={StaticResource TextStyle}}"/>
-                    <sdk:Label Grid.Column="2" Content="경도 상한 기준" Style="{Binding Source={StaticResource LabelStyle}}"/>
+                    <sdk:Label Grid.Column="2" Content="두께 상한 기준" Style="{Binding Source={StaticResource LabelStyle}}"/>
                     <TextBox Grid.Column="3" IsReadOnly="True" Text="{Binding Path=MAXSTANDARD}" Style="{Binding Source={StaticResource TextStyle}}"/>
                 </Grid>
 

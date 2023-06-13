@@ -210,39 +210,41 @@ namespace 보령
                                     _mainWnd.CurrentInstruction.Raw.DVTFCYN = "Y";
                                     _mainWnd.CurrentInstruction.Raw.DVTCONFIRMUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Deviation");
 
-                                }
 
-                                foreach (var item2 in _BR_BRS_SEL_ProductionOrderOutput_State.OUTDATAs)
-                                {
-                                    //2023.05.15 박희돈 반제품 보관기간 변경. +1달
-                                    var bizrule2 = new BR_PHR_UPD_MaterialSubLot_ChangeQCStateExpiryDate();
-                                    bizrule2.INDATA_MLOTs.Clear();
-                                    bizrule2.INDATA_MSUBLOTs.Clear();
-
-                                    bizrule2.INDATA_MLOTs.Add(
-                                        new BR_PHR_UPD_MaterialSubLot_ChangeQCStateExpiryDate.INDATA_MLOT
+                                    foreach (var item2 in _BR_BRS_SEL_ProductionOrderOutput_State.OUTDATAs)
+                                    {
+                                        if("Y".Equals(item2.DEVIATIONYN))
                                         {
-                                            MTRLID = item2.MTRLID,
-                                            MLOTID = item2.MLOTID,
-                                            MLOTVER = item2.MLOTVER,
-                                            INDUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Deviation")
+                                            //2023.05.15 박희돈 반제품 보관기간 변경. +1달
+                                            var bizrule2 = new BR_PHR_UPD_MaterialSubLot_ChangeQCStateExpiryDate();
+                                            bizrule2.INDATA_MLOTs.Clear();
+                                            bizrule2.INDATA_MSUBLOTs.Clear();
+
+                                            bizrule2.INDATA_MLOTs.Add(
+                                                new BR_PHR_UPD_MaterialSubLot_ChangeQCStateExpiryDate.INDATA_MLOT
+                                                {
+                                                    MTRLID = item2.MTRLID,
+                                                    MLOTID = item2.MLOTID,
+                                                    MLOTVER = item2.MLOTVER,
+                                                    INDUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Deviation")
+                                                }
+                                                );
+
+                                            bizrule2.INDATA_MSUBLOTs.Add(
+                                                new BR_PHR_UPD_MaterialSubLot_ChangeQCStateExpiryDate.INDATA_MSUBLOT
+                                                {
+                                                    MSUBLOTID = item2.MSUBLOTID,
+                                                    MSUBLOTVER = item2.MSUBLOTVER,
+                                                    MSUBLOTSEQ = Convert.ToInt16(item2.MSUBLOTSEQ),
+                                                    MSUBLOTSTAT = "Accept",
+                                                //EXPIRYDTTM = item2.EXPIRYDTTM.Value.AddMonths(1)
+                                                EXPIRYDTTM = DateTime.Now.AddMonths(1)
+                                                }
+                                                );
+
+                                            await bizrule2.Execute();
                                         }
-                                        );
-
-                                    bizrule2.INDATA_MSUBLOTs.Add(
-                                        new BR_PHR_UPD_MaterialSubLot_ChangeQCStateExpiryDate.INDATA_MSUBLOT
-                                        {
-                                            MSUBLOTID = item2.MSUBLOTID,
-                                            MSUBLOTVER = item2.MSUBLOTVER,
-                                            MSUBLOTSEQ = Convert.ToInt16(item2.MSUBLOTSEQ),
-                                            MSUBLOTSTAT = "Accept",
-                                            //EXPIRYDTTM = item2.EXPIRYDTTM.Value.AddMonths(1)
-                                            EXPIRYDTTM = DateTime.Now.AddMonths(1)
-                                        }
-                                        );
-
-                                    await bizrule2.Execute();
-
+                                    }
                                 }
 
                                 var xml = BizActorRuleBase.CreateXMLStream(ds);

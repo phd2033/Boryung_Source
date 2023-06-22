@@ -11,6 +11,7 @@
     xmlns:local="clr-namespace:보령"
     xmlns:ShopFloorUI="clr-namespace:ShopFloorUI;assembly=ShopFloorUI.Common"
     xmlns:icommon="clr-namespace:LGCNS.iPharmMES.Common;assembly=LGCNS.iPharmMES.Common"
+    xmlns:localctrl="clr-namespace:보령.UserControls"
     x:Name="Main"
     mc:Ignorable="d"
     Title="피킹정보조회 및 불출라벨 발행"
@@ -37,12 +38,12 @@
         </i:Interaction.Triggers>
         <Grid x:Name="LayoutRoot" Margin="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
+                <RowDefinition Height="60"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <Grid x:Name="Header" Grid.Row="0">
-                <Grid.ColumnDefinitions>
+                <!--<Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.1*"/>
                     <ColumnDefinition Width="0.2*"/>
                     <ColumnDefinition Width="0.1*"/>
@@ -62,7 +63,16 @@
                 <sdk:Label Grid.Column="2" Content="오더 번호"  VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource SearchCaption}" />
                 <TextBox Grid.Column="3" VerticalAlignment="Center" Text="{Binding Path=OrderNo}" Margin="5" IsReadOnly="True"  />
                 <sdk:Label Grid.Column="4" Content="단위공정명"  VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource SearchCaption}" />
-                <TextBox Grid.Column="5" VerticalAlignment="Center" Text="{Binding Path=ProcessSegmentName}" Margin="5" IsReadOnly="True"  />
+                <TextBox Grid.Column="5" VerticalAlignment="Center" Text="{Binding Path=ProcessSegmentName}" Margin="5" IsReadOnly="True"  />-->
+                <localctrl:CustomUIHeader CurOrder="{Binding ElementName=Main, Path=CurrentOrder}"
+                                          OrderList="{Binding OrderList, Mode=TwoWay}"
+                                          CanSelectOrderNo="{Binding CanSelectOrder, Mode=TwoWay}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="OrderNoSelection_Changed">
+                            <i:InvokeCommandAction Command="{Binding OrderChagedCommandAsync}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </localctrl:CustomUIHeader>
             </Grid>
             <Grid x:Name="MainSection" Grid.Row="1">
                 <Grid.RowDefinitions>
@@ -119,7 +129,7 @@
                     </c1:C1DataGrid>
                 </Grid>
             </Grid>
-            
+
             <Grid Grid.Row="2" x:Name="Footer" HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>

@@ -179,8 +179,8 @@ namespace 보령
                                 });
                                 await _BR_PHR_SEL_System_Printer.Execute();
 
-                                //if (OrderList.Count == 1)
-                                //    OrderChagedCommandAsync.Execute(null);
+                                if (OrderList.Count == 1)
+                                    OrderChagedCommandAsync.Execute(null);
 
                                 // 피킹목록조회
                                 //_BR_BRS_GET_UDT_ProductionOrderPickingInfo_Solution.INDATAs.Clear();

@@ -106,8 +106,9 @@ namespace 보령
 
                                 if (_BR_BRS_SEL_Yield_Calculation_Weight_FERT_Selection.OUTDATAs.Count > 0)
                                 {
-                                    InputVal1 = _BR_BRS_SEL_Yield_Calculation_Weight_FERT_Selection.OUTDATAs[0].IN_VALUE;
-                                    InputVal2 = _BR_BRS_SEL_Yield_Calculation_Weight_FERT_Selection.OUTDATAs[0].OUT_VALUE;
+                                    //2023.06.23 박희돈 양품수량 = OUT_VAL, 투입수량 = IN_VALUE
+                                    InputVal2 = _BR_BRS_SEL_Yield_Calculation_Weight_FERT_Selection.OUTDATAs[0].IN_VALUE;
+                                    InputVal1 = _BR_BRS_SEL_Yield_Calculation_Weight_FERT_Selection.OUTDATAs[0].OUT_VALUE;
                                     OutputVal = _BR_BRS_SEL_Yield_Calculation_Weight_FERT_Selection.OUTDATAs[0].SUM;
                                 }
 

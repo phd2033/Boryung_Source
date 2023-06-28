@@ -55,9 +55,9 @@
                     </Grid.ColumnDefinitions>
                     <sdk:Label Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Content="{Binding W[FERTDisassembleOrderSelectionYieldFormula], Source={StaticResource R}, FallbackValue=선별 수율 계산식}" HorizontalAlignment="Right"/>
                     <sdk:Label Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Content=" = "/>
-                    <sdk:Label Grid.Row="0" Grid.Column="2" Content="{Binding W[FERTDisassembleOrderSelectionYieldFormulaNumerator], Source={StaticResource R}, FallbackValue=T (선별 정제 양품수량)}"/>
+                    <sdk:Label Grid.Row="0" Grid.Column="2" Content="{Binding W[FERTDisassembleOrderSelectionYieldFormulaNumerator], Source={StaticResource R}, FallbackValue=선별공정 양품 수량}"/>
                     <Line Grid.Row="1" Grid.Column="2" Stroke="Black" Stretch="Fill" StrokeThickness="1" X2="1"/>
-                    <sdk:Label Grid.Row="2" Grid.Column="2" Content="{Binding W[FERTDisassembleOrderSelectionYieldFormulaDenominator], Source={StaticResource R}, FallbackValue=T (완제품할당량 X 포장단위)}"/>
+                    <sdk:Label Grid.Row="2" Grid.Column="2" Content="{Binding W[FERTDisassembleOrderSelectionYieldFormulaDenominator], Source={StaticResource R}, FallbackValue=계획수량 X 포장단위}"/>
                     <sdk:Label Grid.Row="0" Grid.Column="3" Grid.RowSpan="3" Content=" X 100" HorizontalAlignment="Left"/>
                 </Grid>
                 <Grid Grid.Row="1" Name="InputValueGrid">

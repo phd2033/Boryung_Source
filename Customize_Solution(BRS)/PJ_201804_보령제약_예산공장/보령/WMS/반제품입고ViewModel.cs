@@ -142,10 +142,10 @@ namespace 보령
                                     {
                                         _IBCList.Add(new ChargedContainer
                                         {
-                                            PoId = row["POID"] != null ? row["POID"].ToString() : "",
-                                            VesselId = row["IBCID"] != null ? row["IBCID"].ToString() : "",
-                                            STRGDAY = row["STRGDAY"] != null ? row["STRGDAY"].ToString() : "",
-                                            EXPIREDTTM = row["EXPIREDTTM"] != null ? row["EXPIREDTTM"].ToString() : ""
+                                            PoId = row["오더번호"] != null ? row["오더번호"].ToString() : "",
+                                            VesselId = row["용기번호"] != null ? row["용기번호"].ToString() : "",
+                                            STRGDAY = row["보관기간"] != null ? row["보관기간"].ToString() : "",
+                                            EXPIREDTTM = row["유효기한"] != null ? row["유효기한"].ToString() : ""
                                             // 2021.08.18 박희돈 사용안함. 최병인팀장 확인
                                             //MLOTID = row["MLOTID"] != null ? row["MLOTID"].ToString() : ""
                                         });

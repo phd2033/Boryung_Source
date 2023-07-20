@@ -137,11 +137,12 @@ namespace 보령
                                     OnMessage("시험결과가 부적합 입니다.");
                                     return;
                                 }
-                                else if (item.MSUBLOTEXPIRYSTAT != strAccept)
-                                {
-                                    OnMessage("반제품 유효기간이 부적합 입니다.");
-                                    return;
-                                }
+                                //2023.06.26 박희돈 반제품 유효기간은 반제품보관상태확인에서 코멘트 작성 후 연장함으로 유효기간 체크로직 제외
+                                //else if (item.MSUBLOTEXPIRYSTAT != strAccept)
+                                //{
+                                //    OnMessage("반제품 유효기간이 부적합 입니다.");
+                                //    return;
+                                //}
                             }
 
                             // 전자서명 요청

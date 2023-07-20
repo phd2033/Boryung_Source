@@ -24,13 +24,13 @@ namespace 보령
         }
 
         반제품보관상태확인 _mainWnd;
-        
+
         #endregion
 
         #region [Bizrule]
 
         private BR_BRS_SEL_ProductionOrderOutput_State _BR_BRS_SEL_ProductionOrderOutput_State;
-        public BR_BRS_SEL_ProductionOrderOutput_State BR_BRS_SEL_ProductionOrderOutput_State 
+        public BR_BRS_SEL_ProductionOrderOutput_State BR_BRS_SEL_ProductionOrderOutput_State
         {
             get { return _BR_BRS_SEL_ProductionOrderOutput_State; }
             set
@@ -132,7 +132,7 @@ namespace 보령
                                     throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                 }
                             }
-                            
+
                             var ds = new DataSet();
                             var dt = new DataTable("DATA");
                             ds.Tables.Add(dt);
@@ -149,7 +149,7 @@ namespace 보령
                             {
                                 foreach (var item in _BR_BRS_SEL_ProductionOrderOutput_State.OUTDATAs)
                                 {
-                                    if("Y".Equals(item.DEVIATIONYN))
+                                    if ("Y".Equals(item.DEVIATIONYN))
                                     {
                                         checkDeviation = "Y";
                                     }
@@ -165,7 +165,7 @@ namespace 보령
 
                                 }
 
-                                if(checkDeviation == "N")
+                                if (checkDeviation == "N")
                                 {
                                     authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
                                     if (await authHelper.ClickAsync(
@@ -213,32 +213,46 @@ namespace 보령
 
                                     foreach (var item2 in _BR_BRS_SEL_ProductionOrderOutput_State.OUTDATAs)
                                     {
-                                        if("Y".Equals(item2.DEVIATIONYN))
+                                        if ("Y".Equals(item2.DEVIATIONYN))
                                         {
                                             //2023.05.15 박희돈 반제품 보관기간 변경. +1달
-                                            var bizrule2 = new BR_PHR_UPD_MaterialSubLot_ChangeQCStateExpiryDate();
+                                            var bizrule2 = new BR_BRS_UPD_MaterialSubLot_ChangeQCStateExpiryDate();
+                                            bizrule2.INDATA_MAILs.Clear();
                                             bizrule2.INDATA_MLOTs.Clear();
                                             bizrule2.INDATA_MSUBLOTs.Clear();
 
+                                            bizrule2.INDATA_MAILs.Add(
+                                                new BR_BRS_UPD_MaterialSubLot_ChangeQCStateExpiryDate.INDATA_MAIL
+                                                {
+                                                    POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                                    MTRLNAME = _mainWnd.CurrentOrder.MaterialName,
+                                                    OLDEXPIRYDTTM = item2.EXPIRYDTTM.Value,
+                                                    OPSGNAME = _mainWnd.CurrentOrder.OrderProcessSegmentName,
+                                                    BATCHNO = _mainWnd.CurrentOrder.BatchNo,
+                                                    USERNAME = AuthRepositoryViewModel.GetUserNameByFunctionCode("OM_ProductionOrder_Deviation")
+                                                }
+                                                );
+
                                             bizrule2.INDATA_MLOTs.Add(
-                                                new BR_PHR_UPD_MaterialSubLot_ChangeQCStateExpiryDate.INDATA_MLOT
+                                                new BR_BRS_UPD_MaterialSubLot_ChangeQCStateExpiryDate.INDATA_MLOT
                                                 {
                                                     MTRLID = item2.MTRLID,
                                                     MLOTID = item2.MLOTID,
                                                     MLOTVER = item2.MLOTVER,
+                                                    REASON = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_Deviation"),
                                                     INDUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Deviation")
                                                 }
                                                 );
 
                                             bizrule2.INDATA_MSUBLOTs.Add(
-                                                new BR_PHR_UPD_MaterialSubLot_ChangeQCStateExpiryDate.INDATA_MSUBLOT
+                                                new BR_BRS_UPD_MaterialSubLot_ChangeQCStateExpiryDate.INDATA_MSUBLOT
                                                 {
                                                     MSUBLOTID = item2.MSUBLOTID,
                                                     MSUBLOTVER = item2.MSUBLOTVER,
                                                     MSUBLOTSEQ = Convert.ToInt16(item2.MSUBLOTSEQ),
                                                     MSUBLOTSTAT = "Accept",
-                                                //EXPIRYDTTM = item2.EXPIRYDTTM.Value.AddMonths(1)
-                                                EXPIRYDTTM = DateTime.Now.AddMonths(1)
+                                                    //EXPIRYDTTM = item2.EXPIRYDTTM.Value.AddMonths(1)
+                                                    EXPIRYDTTM = DateTime.Now.AddMonths(1)
                                                 }
                                                 );
 
@@ -260,7 +274,7 @@ namespace 보령
                                     throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
                                 }
 
-                                if(checkDeviation == "Y")
+                                if (checkDeviation == "Y")
                                 {
 
                                     var bizrule = new BR_PHR_REG_InstructionComment();

@@ -34,6 +34,7 @@ namespace 보령
             _BR_PHR_SEL_PRINT_LabelImage = new BR_PHR_SEL_PRINT_LabelImage();
             _BR_PHR_SEL_System_Printer = new BR_PHR_SEL_System_Printer();
             _BR_BRS_SEL_ProductionOrderDispenseSubLot_OPSG_COMPONENT = new 보령.BR_BRS_SEL_ProductionOrderDispenseSubLot_OPSG_COMPONENT();
+            _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID = new BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID();
 
             int interval = 2000;
             string interval_str = ShopFloorUI.App.Current.Resources["GetWeightInterval"].ToString();
@@ -147,6 +148,20 @@ namespace 보령
         }
         #endregion
         #region [무게측정]
+        private BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.OUTDATA _ScaleInfo;
+        private int _scalePrecision = 3;
+        public int scalePrecision
+        {
+            set
+            {
+                _scalePrecision = value;
+                _LowerWeight.Precision = _scalePrecision;
+                _UpperWeight.Precision = _scalePrecision;
+                OnPropertyChanged("ScaleWeight");
+                OnPropertyChanged("UpperWeight");
+                OnPropertyChanged("LowerWeight");
+            }
+        }
         string _scaleId;
         public string ScaleId
         {
@@ -155,6 +170,9 @@ namespace 보령
             {
                 _scaleId = value;
                 NotifyPropertyChanged();
+
+                SetScalePrecision();
+                SetMinMaxValue();
             }
         }
 
@@ -191,27 +209,38 @@ namespace 보령
             }
         }
 
-        private string _UpperWeight;
+        //private string _UpperWeight;
+        //public string UpperWeight
+        //{
+        //    get { return _UpperWeight; }
+        //    set
+        //    {
+        //        _UpperWeight = value;
+        //        OnPropertyChanged("UpperWeight");
+        //    }
+        //}
+        private Weight _UpperWeight = new Weight();
         public string UpperWeight
         {
-            get { return _UpperWeight; }
-            set
-            {
-                _UpperWeight = value;
-                OnPropertyChanged("UpperWeight");
-            }
+            get { return _UpperWeight.WeightUOMString; }
         }
 
-        private string _LowerWeight;
+        //private string _LowerWeight;
+        //public string LowerWeight
+        //{
+        //    get { return _LowerWeight; }
+        //    set
+        //    {
+        //        _LowerWeight = value;
+        //        OnPropertyChanged("LowerWeight");
+        //    }
+        //}
+        private Weight _LowerWeight = new Weight();
         public string LowerWeight
         {
-            get { return _LowerWeight; }
-            set
-            {
-                _LowerWeight = value;
-                OnPropertyChanged("LowerWeight");
-            }
+            get { return _LowerWeight.WeightUOMString; }
         }
+
         private bool _CANCHARGEFLAG; // 투입 버튼
         public bool CANCHARGEFLAG
         {
@@ -281,6 +310,10 @@ namespace 보령
             }
         }
         private BR_BRS_SEL_ProductionOrderDispenseSubLot_OPSG_COMPONENT _BR_BRS_SEL_ProductionOrderDispenseSubLot_OPSG_COMPONENT;
+        /// <summary>
+        /// 저울조회 비즈룰
+        /// </summary>
+        private BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID;
 
         private BR_PHR_SEL_System_Printer.OUTDATA _selectedPrint;
         public string curPrintName
@@ -389,8 +422,15 @@ namespace 보령
 
                                     if (_filteredComponents.Count > 0)
                                     {
-                                        UpperWeight = string.Format("{0}{1}", _filteredComponents[0].UPPERQTY, _filteredComponents[0].UOMNAME);
-                                        LowerWeight = string.Format("{0}{1}", _filteredComponents[0].LOWERQTY, _filteredComponents[0].UOMNAME);
+                                        //UpperWeight = string.Format("{0}{1}", _filteredComponents[0].UPPERQTY, _filteredComponents[0].UOMNAME);
+                                        //LowerWeight = string.Format("{0}{1}", _filteredComponents[0].LOWERQTY, _filteredComponents[0].UOMNAME);
+
+                                        int precision = Convert.ToInt32(Math.Pow(10, _scalePrecision));
+
+                                        _UpperWeight.SetWeight(Convert.ToDecimal(Math.Floor(Convert.ToDouble(_filteredComponents[0].UPPERQTY.Value) * precision) / precision), _filteredComponents[0].UOMNAME, _scalePrecision);
+                                        _LowerWeight.SetWeight(Convert.ToDecimal(Math.Ceiling(Convert.ToDouble(_filteredComponents[0].LOWERQTY.Value) * precision) / precision), _filteredComponents[0].UOMNAME, _scalePrecision);
+                                        
+                                        OnPropertyChanged("UpperWeight"); OnPropertyChanged("LowerWeight");
 
                                         if (_filteredComponents.Where(o => o.ISBCDSCAN == "Y").ToList().Count > 0)
                                             ScanMtrlCommandAsync.Execute(null);
@@ -522,8 +562,9 @@ namespace 보령
                                 else
                                     _DispatcherTimer.Stop();
                             };
+                            
                             ScanPopup.Show();
-
+                                
                             IsBusy = false;
                             ///
 
@@ -745,6 +786,37 @@ namespace 보령
         }
         #endregion
         #region [Custom]
+        async void SetScalePrecision()
+        {
+            if (!string.IsNullOrWhiteSpace(ScaleId))
+            {
+                _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.INDATAs.Clear();
+                _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.OUTDATAs.Clear();
+                _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.INDATAs.Add(new BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.INDATA
+                {
+                    LANGID = AuthRepositoryViewModel.Instance.LangID,
+                    EQPTID = ScaleId
+                });
+
+                if (await _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.Execute() && _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.OUTDATAs.Count > 0)
+                {
+                    _ScaleInfo = _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.OUTDATAs[0];
+                    scalePrecision = _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.OUTDATAs[0].PRECISION.HasValue ? Convert.ToInt32(_BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.OUTDATAs[0].PRECISION.Value) : 3;
+                }
+            }
+        }
+        private void SetMinMaxValue()
+        {
+            int precision = Convert.ToInt32(Math.Pow(10, _scalePrecision));
+
+            if (_filteredComponents.Count > 0)
+            {
+                _UpperWeight.SetWeight(Convert.ToDecimal(Math.Floor(Convert.ToDouble(_filteredComponents[0].UPPERQTY.Value) * precision) / precision), _filteredComponents[0].UOMNAME, _scalePrecision);
+                _LowerWeight.SetWeight(Convert.ToDecimal(Math.Ceiling(Convert.ToDouble(_filteredComponents[0].LOWERQTY.Value) * precision) / precision), _filteredComponents[0].UOMNAME, _scalePrecision);
+                OnPropertyChanged("UpperWeight"); OnPropertyChanged("LowerWeight");
+            }
+        }
+
         async void _DispatcherTimer_Tick(object sender, EventArgs e)
         {
             try
@@ -763,6 +835,7 @@ namespace 보령
                     {
                         NumericScaleValue = decimal.Parse(currentweight.OUTDATAs[0].Weight.ToString());
                         ScaleValue = string.Format("{0}{1}", currentweight.OUTDATAs[0].Weight.ToString(), currentweight.OUTDATAs[0].UOM);
+
                         ValidationScaleValue(ScaleValue);
                     }
                     else

@@ -801,7 +801,15 @@ namespace 보령
                 if (await _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.Execute() && _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.OUTDATAs.Count > 0)
                 {
                     _ScaleInfo = _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.OUTDATAs[0];
-                    scalePrecision = _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.OUTDATAs[0].PRECISION.HasValue ? Convert.ToInt32(_BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.OUTDATAs[0].PRECISION.Value) : 3;
+
+                    if (_ScaleInfo != null && "KG".Equals(_ScaleInfo.NOTATION.ToUpper()))
+                    {
+                        scalePrecision = 0;
+                    }
+                    else
+                    {
+                        scalePrecision = _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.OUTDATAs[0].PRECISION.HasValue ? Convert.ToInt32(_BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.OUTDATAs[0].PRECISION.Value) : 3;
+                    }
                 }
             }
         }
@@ -811,9 +819,20 @@ namespace 보령
 
             if (_filteredComponents.Count > 0)
             {
-                _UpperWeight.SetWeight(Convert.ToDecimal(Math.Floor(Convert.ToDouble(_filteredComponents[0].UPPERQTY.Value) * precision) / precision), _filteredComponents[0].UOMNAME, _scalePrecision);
-                _LowerWeight.SetWeight(Convert.ToDecimal(Math.Ceiling(Convert.ToDouble(_filteredComponents[0].LOWERQTY.Value) * precision) / precision), _filteredComponents[0].UOMNAME, _scalePrecision);
-                OnPropertyChanged("UpperWeight"); OnPropertyChanged("LowerWeight");
+                if(_ScaleInfo != null && "KG".Equals(_ScaleInfo.NOTATION.ToUpper()))
+                {
+                    // 2023.08.10 박희돈 kg 저울은 정수로 표현
+                    _UpperWeight.SetWeight(Convert.ToDecimal(Math.Floor(Convert.ToDouble(_filteredComponents[0].UPPERQTY.Value))), _filteredComponents[0].UOMNAME, 0);
+                    _LowerWeight.SetWeight(Convert.ToDecimal(Math.Ceiling(Convert.ToDouble(_filteredComponents[0].LOWERQTY.Value))), _filteredComponents[0].UOMNAME, 0);
+                    OnPropertyChanged("UpperWeight"); OnPropertyChanged("LowerWeight");
+                }
+                else
+                {
+                    _UpperWeight.SetWeight(Convert.ToDecimal(Math.Floor(Convert.ToDouble(_filteredComponents[0].UPPERQTY.Value) * precision) / precision), _filteredComponents[0].UOMNAME, _scalePrecision);
+                    _LowerWeight.SetWeight(Convert.ToDecimal(Math.Ceiling(Convert.ToDouble(_filteredComponents[0].LOWERQTY.Value) * precision) / precision), _filteredComponents[0].UOMNAME, _scalePrecision);
+                    OnPropertyChanged("UpperWeight"); OnPropertyChanged("LowerWeight");
+                }
+                
             }
         }
 
@@ -834,7 +853,13 @@ namespace 보령
                     if (await currentweight.Execute(exceptionHandle: LGCNS.iPharmMES.Common.Common.enumBizRuleXceptionHandleType.FailEvent) == true)
                     {
                         NumericScaleValue = decimal.Parse(currentweight.OUTDATAs[0].Weight.ToString());
-                        ScaleValue = string.Format("{0}{1}", currentweight.OUTDATAs[0].Weight.ToString(), currentweight.OUTDATAs[0].UOM);
+                        if (_ScaleInfo != null && "KG".Equals(_ScaleInfo.NOTATION.ToUpper()))
+                        {
+                            ScaleValue = string.Format("{0}{1}", Math.Floor(Convert.ToDouble(currentweight.OUTDATAs[0].Weight)).ToString(), currentweight.OUTDATAs[0].UOM);
+                        }else
+                        {
+                            ScaleValue = string.Format("{0}{1}", currentweight.OUTDATAs[0].Weight.ToString(), currentweight.OUTDATAs[0].UOM);
+                        }
 
                         ValidationScaleValue(ScaleValue);
                     }

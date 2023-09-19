@@ -167,6 +167,7 @@
     <Compile Include="Model.Access\BR_BRS_SEL_EquipmentStatusParameter_EQSTID.Access.cs" />
     <Compile Include="Model.Access\BR_BRS_SEL_EquipmentStatus_PROCEQPT_LIST.Access.cs" />
     <Compile Include="Model.Access\BR_BRS_SEL_EquipmentStatus_PROC_OPSG.Access.cs" />
+    <Compile Include="Model.Access\BR_BRS_SEL_EquipmentStatus_SVP_WashParts.Access.cs" />
     <Compile Include="Model.Access\BR_BRS_SEL_Equipment_GetInfo.Access.cs" />
     <Compile Include="Model.Access\BR_BRS_SEL_ProductionOrderBOM_CHGSEQ.Access.cs" />
     <Compile Include="Model.Access\BR_BRS_SEL_ProductionOrderCustomValue.Access.cs" />
@@ -479,6 +480,10 @@
       <DependentUpon>반제품Pallet적재.xaml</DependentUpon>
     </Compile>
     <Compile Include="반제품\반제품Pallet적재ViewModel.cs" />
+    <Compile Include="반제품\캡슐선별반제품생성ViewModel.cs" />
+    <Compile Include="반제품\캡슐선별반제품생성.xaml.cs">
+      <DependentUpon>캡슐선별반제품생성.xaml</DependentUpon>
+    </Compile>
     <Compile Include="반제품\포장공정반제품분할.xaml.cs">
       <DependentUpon>포장공정반제품분할.xaml</DependentUpon>
     </Compile>
@@ -871,6 +876,10 @@
       <DependentUpon>SVP반제품생성.xaml</DependentUpon>
     </Compile>
     <Compile Include="주사제\반제품\SVP반제품생성ViewModel.cs" />
+    <Compile Include="주사제\설비상태\세척장비액션수행.xaml.cs">
+      <DependentUpon>세척장비액션수행.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="주사제\설비상태\세척장비액션수행ViewModel.cs" />
     <Compile Include="주사제\설비상태\아이솔레이터압력확인ViewModel.cs" />
     <Compile Include="주사제\공정검사\중요간섭상황기록.xaml.cs">
       <DependentUpon>중요간섭상황기록.xaml</DependentUpon>
@@ -888,6 +897,9 @@
     <Compile Include="주사제\설비상태\설비필터확인ViewModel.cs" />
     <Compile Include="주사제\설비상태\아이솔레이터압력확인.xaml.cs">
       <DependentUpon>아이솔레이터압력확인.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="주사제\설비상태\세척장비시간입력Popup.xaml.cs">
+      <DependentUpon>세척장비시간입력Popup.xaml</DependentUpon>
     </Compile>
     <Compile Include="주사제\자재정산\popup\SVP자재환입저울스캔팝업.xaml.cs">
       <DependentUpon>SVP자재환입저울스캔팝업.xaml</DependentUpon>
@@ -1141,6 +1153,10 @@
     <Page Include="반제품\반제품Pallet적재.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="반제품\캡슐선별반제품생성.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="반제품\포장공정반제품분할.xaml">
       <SubType>Designer</SubType>
@@ -1538,9 +1554,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="주사제\설비상태\세척장비액션수행.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="주사제\설비상태\아이솔레이터압력확인.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="주사제\설비상태\세척장비시간입력Popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="주사제\자재정산\popup\SVP자재환입저울스캔팝업.xaml">
       <Generator>MSBuild:Compile</Generator>

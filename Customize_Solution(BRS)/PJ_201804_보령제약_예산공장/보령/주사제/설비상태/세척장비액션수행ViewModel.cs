@@ -28,6 +28,7 @@ namespace 보령
             _BR_PHR_SEL_EquipmentClassAction = new BR_PHR_SEL_EquipmentClassAction();
             _filteredComponents = new BR_PHR_SEL_EquipmentClassAction.OUTDATACollection();
             _EmptyContainerList = new ObservableCollection<EmptyWIPContainer>();
+
         }
 
         private 세척장비액션수행 _mainWnd;

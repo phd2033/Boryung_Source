@@ -1,8 +1,8 @@
-﻿﻿using LGCNS.iPharmMES.Common;
+﻿using LGCNS.iPharmMES.Common;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace LGCNS.iPharmMES.Common
+namespace 보령
 {
 
     /// <summary>
@@ -467,6 +467,38 @@ namespace LGCNS.iPharmMES.Common
                         this._MSUBLOTID = value;
                         this.CheckIsOriginal("MSUBLOTID", value);
                         this.OnPropertyChanged("MSUBLOTID");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private System.Nullable<decimal> _MSUBLOTVER;
+            [BizActorOutputItemAttribute()]
+            public System.Nullable<decimal> MSUBLOTVER
+            {
+                get
+                {
+                    return this._MSUBLOTVER;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._MSUBLOTVER = value;
+                        this.CheckIsOriginal("MSUBLOTVER", value);
+                        this.OnPropertyChanged("MSUBLOTVER");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -961,13 +993,13 @@ namespace LGCNS.iPharmMES.Common
                     }
                 }
             }
-            private System.Nullable<decimal> _MSUBLOTVER;
+            private string _INSUERID;
             [BizActorOutputItemAttribute()]
-            public System.Nullable<decimal> MSUBLOTVER
+            public string INSUERID
             {
                 get
                 {
-                    return this._MSUBLOTVER;
+                    return this._INSUERID;
                 }
                 set
                 {
@@ -976,9 +1008,9 @@ namespace LGCNS.iPharmMES.Common
                     }
                     else
                     {
-                        this._MSUBLOTVER = value;
-                        this.CheckIsOriginal("MSUBLOTVER", value);
-                        this.OnPropertyChanged("MSUBLOTVER");
+                        this._INSUERID = value;
+                        this.CheckIsOriginal("INSUERID", value);
+                        this.OnPropertyChanged("INSUERID");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -997,6 +1029,7 @@ namespace LGCNS.iPharmMES.Common
         public BR_BRS_SEL_ProductionOrder_Component_PickingInfo()
         {
             RuleName = "BR_BRS_SEL_ProductionOrder_Component_PickingInfo";
+            BizName = "BR_BRS_SEL_ProductionOrder_Component_PickingInfo";
             _INDATAs = new INDATACollection();
             _OUTDATAs = new OUTDATACollection();
         }

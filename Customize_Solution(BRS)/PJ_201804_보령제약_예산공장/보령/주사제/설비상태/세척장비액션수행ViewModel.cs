@@ -28,7 +28,6 @@ namespace 보령
             _BR_PHR_SEL_EquipmentClassAction = new BR_PHR_SEL_EquipmentClassAction();
             _filteredComponents = new BR_PHR_SEL_EquipmentClassAction.OUTDATACollection();
             _EmptyContainerList = new ObservableCollection<EmptyWIPContainer>();
-
         }
 
         private 세척장비액션수행 _mainWnd;
@@ -339,7 +338,8 @@ namespace 보령
                                     {
                                         EQPTID = item.EQPTID2,
                                         EQACID = EQACID,
-                                        USER = USERID
+                                        USER = USERID,
+                                        DTTM = FromDt
                                     });
                                     _BR_PHR_UPD_EquipmentAction_Multi.STATUSDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.STATUSDATA
                                     {

@@ -223,6 +223,7 @@
     <Compile Include="Model.Access\반제품\BR_BRS_SEL_ProductionOrderOutput_State.Access..cs" />
     <Compile Include="Model.Access\반제품\BR_BRS_SEL_ProductionOrder_HALB.Access.cs" />
     <Compile Include="Model.Access\반제품\BR_BRS_UPD_MaterialSubLot_ChangeQCStateExpiryDate.Access.cs" />
+    <Compile Include="Model.Access\설비\BR_PHR_SVP_UPD_EquipmentAction_Multi.Access.cs" />
     <Compile Include="Model.Access\소독액관리\BR_BRS_REG_MLOT_MaterialSublot_Solution.Access.cs" />
     <Compile Include="Model.Access\소독액관리\BR_BRS_REG_ProductionOrder_MaterialSublot_Solution.Access.cs" />
     <Compile Include="Model.Access\소독액관리\BR_BRS_UPD_MaterialSubLot_UsedQty.Access.cs" />

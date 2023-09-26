@@ -23,7 +23,8 @@ namespace 보령
         #region [Property]
         public 세척장비액션수행ViewModel()
         {
-            _BR_PHR_UPD_EquipmentAction_Multi = new BR_PHR_UPD_EquipmentAction_Multi();
+            _BR_PHR_SVP_UPD_EquipmentAction_Multi = new BR_PHR_SVP_UPD_EquipmentAction_Multi();
+            //_BR_PHR_UPD_EquipmentAction_Multi = new BR_PHR_UPD_EquipmentAction_Multi();
             _BR_BRS_SEL_EquipmentStatus_SVP_WashParts = new BR_BRS_SEL_EquipmentStatus_SVP_WashParts();
             _BR_PHR_SEL_EquipmentClassAction = new BR_PHR_SEL_EquipmentClassAction();
             _filteredComponents = new BR_PHR_SEL_EquipmentClassAction.OUTDATACollection();
@@ -84,7 +85,8 @@ namespace 보령
         #endregion
 
         #region [BizRule]
-        private BR_PHR_UPD_EquipmentAction_Multi _BR_PHR_UPD_EquipmentAction_Multi;
+        //private BR_PHR_UPD_EquipmentAction_Multi _BR_PHR_UPD_EquipmentAction_Multi;
+        private BR_PHR_SVP_UPD_EquipmentAction_Multi _BR_PHR_SVP_UPD_EquipmentAction_Multi;
 
         BR_BRS_SEL_EquipmentStatus_SVP_WashParts _BR_BRS_SEL_EquipmentStatus_SVP_WashParts;
         public BR_BRS_SEL_EquipmentStatus_SVP_WashParts BR_BRS_SEL_EquipmentStatus_SVP_WashParts
@@ -245,8 +247,11 @@ namespace 보령
                             }
 
 
-                            _BR_PHR_UPD_EquipmentAction_Multi.INDATAs.Clear();
-                            _BR_PHR_UPD_EquipmentAction_Multi.PARAMDATAs.Clear();
+                            //_BR_PHR_UPD_EquipmentAction_Multi.INDATAs.Clear();
+                            //_BR_PHR_UPD_EquipmentAction_Multi.PARAMDATAs.Clear();
+
+                            _BR_PHR_SVP_UPD_EquipmentAction_Multi.INDATAs.Clear();
+                            _BR_PHR_SVP_UPD_EquipmentAction_Multi.PARAMDATAs.Clear();
 
                             // 고정값 조회
                             DateTime curDTTM = await AuthRepositoryViewModel.GetDBDateTimeNow();
@@ -284,7 +289,8 @@ namespace 보령
 
                                     if (!string.IsNullOrEmpty(item.EQPTID1))
                                     {
-                                        _BR_PHR_UPD_EquipmentAction_Multi.INDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.INDATA
+                                        //_BR_PHR_UPD_EquipmentAction_Multi.INDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.INDATA
+                                        _BR_PHR_SVP_UPD_EquipmentAction_Multi.INDATAs.Add(new BR_PHR_SVP_UPD_EquipmentAction_Multi.INDATA
                                         {
                                             EQPTID = item.EQPTID1,
                                             EQACID = this.ActionList.EQACID,
@@ -292,14 +298,16 @@ namespace 보령
                                             DTTM = FromDt
                                         });
 
-                                        _BR_PHR_UPD_EquipmentAction_Multi.STATUSDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.STATUSDATA
+                                        //_BR_PHR_UPD_EquipmentAction_Multi.STATUSDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.STATUSDATA
+                                        _BR_PHR_SVP_UPD_EquipmentAction_Multi.STATUSDATAs.Add(new BR_PHR_SVP_UPD_EquipmentAction_Multi.STATUSDATA
                                         {
                                             EQPTID = item.EQPTID1,
                                             EQACID = this.ActionList.EQACID,
                                             EQSTID = EQSTID
                                         });
 
-                                        _BR_PHR_UPD_EquipmentAction_Multi.PARAMDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.PARAMDATA
+                                        //_BR_PHR_UPD_EquipmentAction_Multi.PARAMDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.PARAMDATA
+                                        _BR_PHR_SVP_UPD_EquipmentAction_Multi.PARAMDATAs.Add(new BR_PHR_SVP_UPD_EquipmentAction_Multi.PARAMDATA
                                         {
                                             EQPTID = item.EQPTID1,
                                             EQSTID = EQSTID,
@@ -335,20 +343,23 @@ namespace 보령
                                         EQPAID = item.EQPAID3;
                                     }
 
-                                    _BR_PHR_UPD_EquipmentAction_Multi.INDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.INDATA
+                                    //_BR_PHR_UPD_EquipmentAction_Multi.INDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.INDATA
+                                    _BR_PHR_SVP_UPD_EquipmentAction_Multi.INDATAs.Add(new BR_PHR_SVP_UPD_EquipmentAction_Multi.INDATA
                                     {
                                         EQPTID = item.EQPTID2,
                                         EQACID = EQACID,
                                         USER = USERID,
                                         DTTM = FromDt
                                     });
-                                    _BR_PHR_UPD_EquipmentAction_Multi.STATUSDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.STATUSDATA
+                                    //_BR_PHR_UPD_EquipmentAction_Multi.STATUSDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.STATUSDATA
+                                    _BR_PHR_SVP_UPD_EquipmentAction_Multi.STATUSDATAs.Add(new BR_PHR_SVP_UPD_EquipmentAction_Multi.STATUSDATA
                                     {
                                         EQPTID = item.EQPTID2,
                                         EQACID = EQACID,
                                         EQSTID = EQSTID
                                     });
-                                    _BR_PHR_UPD_EquipmentAction_Multi.PARAMDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.PARAMDATA
+                                    //_BR_PHR_UPD_EquipmentAction_Multi.PARAMDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.PARAMDATA
+                                    _BR_PHR_SVP_UPD_EquipmentAction_Multi.PARAMDATAs.Add(new BR_PHR_SVP_UPD_EquipmentAction_Multi.PARAMDATA
                                     {
                                         EQPTID = item.EQPTID2,
                                         EQSTID = EQSTID,
@@ -383,20 +394,23 @@ namespace 보령
                                         EQPAID = item.EQPAID3;
                                     }
 
-                                    _BR_PHR_UPD_EquipmentAction_Multi.INDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.INDATA
+                                    //_BR_PHR_UPD_EquipmentAction_Multi.INDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.INDATA
+                                    _BR_PHR_SVP_UPD_EquipmentAction_Multi.INDATAs.Add(new BR_PHR_SVP_UPD_EquipmentAction_Multi.INDATA
                                     {
                                         EQPTID = item.EQPTID3,
                                         EQACID = EQACID,
                                         USER = USERID,
                                         DTTM = FromDt
                                     });
-                                    _BR_PHR_UPD_EquipmentAction_Multi.STATUSDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.STATUSDATA
+                                    //_BR_PHR_UPD_EquipmentAction_Multi.STATUSDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.STATUSDATA
+                                    _BR_PHR_SVP_UPD_EquipmentAction_Multi.STATUSDATAs.Add(new BR_PHR_SVP_UPD_EquipmentAction_Multi.STATUSDATA
                                     {
                                         EQPTID = item.EQPTID3,
                                         EQACID = EQACID,
                                         EQSTID = EQSTID
                                     });
-                                    _BR_PHR_UPD_EquipmentAction_Multi.PARAMDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.PARAMDATA
+                                    //_BR_PHR_UPD_EquipmentAction_Multi.PARAMDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.PARAMDATA
+                                    _BR_PHR_SVP_UPD_EquipmentAction_Multi.PARAMDATAs.Add(new BR_PHR_SVP_UPD_EquipmentAction_Multi.PARAMDATA
                                     {
                                         EQPTID = item.EQPTID3,
                                         EQSTID = EQSTID,
@@ -431,20 +445,23 @@ namespace 보령
                                         EQPAID = item.EQPAID3;
                                     }
 
-                                    _BR_PHR_UPD_EquipmentAction_Multi.INDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.INDATA
+                                    //_BR_PHR_UPD_EquipmentAction_Multi.INDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.INDATA
+                                    _BR_PHR_SVP_UPD_EquipmentAction_Multi.INDATAs.Add(new BR_PHR_SVP_UPD_EquipmentAction_Multi.INDATA
                                     {
                                         EQPTID = item.EQPTID4,
                                         EQACID = EQACID,
                                         USER = USERID,
                                         DTTM = FromDt
                                     });
-                                    _BR_PHR_UPD_EquipmentAction_Multi.STATUSDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.STATUSDATA
+                                    //_BR_PHR_UPD_EquipmentAction_Multi.STATUSDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.STATUSDATA
+                                    _BR_PHR_SVP_UPD_EquipmentAction_Multi.STATUSDATAs.Add(new BR_PHR_SVP_UPD_EquipmentAction_Multi.STATUSDATA
                                     {
                                         EQPTID = item.EQPTID4,
                                         EQACID = EQACID,
                                         EQSTID = EQSTID
                                     });
-                                    _BR_PHR_UPD_EquipmentAction_Multi.PARAMDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.PARAMDATA
+                                    //_BR_PHR_UPD_EquipmentAction_Multi.PARAMDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.PARAMDATA
+                                    _BR_PHR_SVP_UPD_EquipmentAction_Multi.PARAMDATAs.Add(new BR_PHR_SVP_UPD_EquipmentAction_Multi.PARAMDATA
                                     {
                                         EQPTID = item.EQPTID4,
                                         EQSTID = EQSTID,
@@ -479,21 +496,24 @@ namespace 보령
                                         EQPAID = item.EQPAID3;
                                     }
 
-                                    _BR_PHR_UPD_EquipmentAction_Multi.INDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.INDATA
+                                    //_BR_PHR_UPD_EquipmentAction_Multi.INDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.INDATA
+                                    _BR_PHR_SVP_UPD_EquipmentAction_Multi.INDATAs.Add(new BR_PHR_SVP_UPD_EquipmentAction_Multi.INDATA
                                     {
                                         EQPTID = item.EQPTID5,
                                         EQACID = EQACID,
                                         USER = USERID,
                                         DTTM = FromDt
                                     });
-                                    _BR_PHR_UPD_EquipmentAction_Multi.STATUSDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.STATUSDATA
+                                    //_BR_PHR_UPD_EquipmentAction_Multi.STATUSDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.STATUSDATA
+                                    _BR_PHR_SVP_UPD_EquipmentAction_Multi.STATUSDATAs.Add(new BR_PHR_SVP_UPD_EquipmentAction_Multi.STATUSDATA
                                     {
                                         EQPTID = item.EQPTID5,
                                         EQACID = EQACID,
                                         EQSTID = EQSTID
                                     });
-                                    _BR_PHR_UPD_EquipmentAction_Multi.PARAMDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.PARAMDATA
-                                    {
+                                    //_BR_PHR_UPD_EquipmentAction_Multi.PARAMDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.PARAMDATA
+                                    _BR_PHR_SVP_UPD_EquipmentAction_Multi.PARAMDATAs.Add(new BR_PHR_SVP_UPD_EquipmentAction_Multi.PARAMDATA
+                                     {
                                         EQPTID = item.EQPTID5,
                                         EQSTID = EQSTID,
                                         EQPAID = EQPAID,
@@ -504,7 +524,8 @@ namespace 보령
 
                             if(eqptCnt > 0)
                             {
-                                if (await _BR_PHR_UPD_EquipmentAction_Multi.Execute())
+                                //if (await _BR_PHR_UPD_EquipmentAction_Multi.Execute())
+                                if (await _BR_PHR_SVP_UPD_EquipmentAction_Multi.Execute())
                                 {
                                     OnMessage("설비 " + this.ActionList.EQACNAME + " 액션을 수행했습니다.");
 

@@ -104,6 +104,17 @@ namespace 보령
             }
         }
 
+        string _YIELD;
+        public string YIELD
+        {
+            get { return _YIELD; }
+            set
+            {
+                _YIELD = value;
+                OnPropertyChanged("YIELD");
+            }
+        }
+
         private Weight _UpperWeight = new Weight();
         public string UpperWeight
         {
@@ -344,7 +355,7 @@ namespace 보령
             get { return _filteredComponents; }
             set {
                     _filteredComponents = value;
-                    NotifyPropertyChanged();
+                    OnPropertyChanged("filteredComponents");
                 }
         }
         
@@ -489,6 +500,8 @@ namespace 보령
                                     else
                                         outdata.IS_CAN_CHARGING_CHECKED_NAME = (Convert.ToDecimal(outdata.REMAINQTY) <= 0) ? "투입완료" : "투입대기";
 
+                                    YIELD = string.Format("{0:0.0}", outdata.YIELD);
+
                                     filteredComponents.Add(outdata);
                                 }
                                 
@@ -575,8 +588,10 @@ namespace 보령
                                     pop.Closed += (s, e) =>
                                     {
                                         //2023.10.01 박희돈 투입가능 text가 Refresh 안됨. 스크롤을 움직여야 보여짐. 그래서 새로 바인딩 함.
-                                        filteredComponents = new BR_BRS_SEL_ProductionOrder_Dispence_Component_Summary.OUTDATACollection();
-                                        filteredComponents = BR_BRS_SEL_ProductionOrder_Dispence_Component_Summary.OUTDATAs;
+                                        //filteredComponents = new BR_BRS_SEL_ProductionOrder_Dispence_Component_Summary.OUTDATACollection();
+                                        //filteredComponents = BR_BRS_SEL_ProductionOrder_Dispence_Component_Summary.OUTDATAs;
+
+                                        filteredComponents.NotifyOfPropertyChange("filteredComponents");
                                     };
 
                                     pop.Show();
@@ -622,8 +637,8 @@ namespace 보령
                                                     return;
                                                 }
 
-                                                if (!_YeldFlag)
-                                                {
+                                                //if (!_YeldFlag)
+                                                //{
                                                     // 원료 변경
                                                     // 2023.10.01 박희돈 전량투입은 투입대기로 바뀌면 안됨. 95프로 미만 수율에만 변경 함.
                                                     select.IsSelected = true;
@@ -632,7 +647,7 @@ namespace 보령
                                                         if (item.MSUBLOTBCD != select.MSUBLOTBCD)
                                                             item.IsSelected = false;
 
-                                                        if (Convert.ToDecimal(item.REMAINQTY) > 0)
+                                                        if (Convert.ToDecimal(item.UsedWeight) == 0)
                                                         {
                                                             item.IS_CAN_CHARGING_CHECKED_NAME = "투입대기";
                                                         }
@@ -642,21 +657,27 @@ namespace 보령
                                                     _LowerWeight.SetWeight(select.LOWER.GetValueOrDefault().ToString("F" + _ScaleInfo.PRECISION), select.UOM);
                                                     OnPropertyChanged("UpperWeight");
                                                     OnPropertyChanged("LowerWeight");
-                                                }
+                                                //}
 
                                                 MTRLID = select.MTRLID;
                                                 MTRLNAME = select.MTRLNAME;
-                                                RESERVEQTY = select.REMAINQTY;
+                                                //RESERVEQTY = select.REMAINQTY;
+                                                YIELD = string.Format("{0:0.0}", select.YIELD);
                                                 select.IS_CAN_CHARGING_CHECKED_NAME = "투입가능";
 
                                                 //2023.10.01 박희돈 투입가능 text가 Refresh 안됨. 스크롤을 움직여야 보여짐. 그래서 새로 바인딩 함.
-                                                filteredComponents = new BR_BRS_SEL_ProductionOrder_Dispence_Component_Summary.OUTDATACollection();
-                                                filteredComponents = BR_BRS_SEL_ProductionOrder_Dispence_Component_Summary.OUTDATAs;
-
+                                                //filteredComponents = new BR_BRS_SEL_ProductionOrder_Dispence_Component_Summary.OUTDATACollection();
+                                                //filteredComponents = BR_BRS_SEL_ProductionOrder_Dispence_Component_Summary.OUTDATAs;
+                                                
                                                 curSeletedSourceContainer = select;
-                                                TarebtnEnable = false;
 
-                                                //OnPropertyChanged("filteredComponents");
+                                                TarebtnEnable = false;
+                                                MtrlbtnEnable = false;
+
+                                                OnPropertyChanged("filteredComponents");
+
+                                                _mainWnd.dgSourceContainer.Refresh();
+
                                             }
                                         }
                                     }
@@ -723,7 +744,6 @@ namespace 보령
 
                                     if (await GetScaleInfo(text))
                                     {
-                                        MtrlbtnEnable = true;
                                         _DispatcherTimer.Start();
                                     }
                                     else
@@ -810,6 +830,8 @@ namespace 보령
                             {
                                 _SetTare = true;
                                 TarebtnEnable = false;
+
+                                MtrlbtnEnable = true;
                             }
 
 
@@ -899,8 +921,13 @@ namespace 보령
                                 }
 
                                 //2023.10.01 박희돈 투입가능 text가 Refresh 안됨. 스크롤을 움직여야 보여짐. 그래서 새로 바인딩 함.
-                                filteredComponents = new BR_BRS_SEL_ProductionOrder_Dispence_Component_Summary.OUTDATACollection();
-                                filteredComponents = BR_BRS_SEL_ProductionOrder_Dispence_Component_Summary.OUTDATAs;
+                                //filteredComponents = new BR_BRS_SEL_ProductionOrder_Dispence_Component_Summary.OUTDATACollection();
+                                //filteredComponents = BR_BRS_SEL_ProductionOrder_Dispence_Component_Summary.OUTDATAs;
+
+
+                                OnPropertyChanged("filteredComponents");
+
+                                _mainWnd.dgSourceContainer.Refresh();
 
                                 await GetDispenseHistory();
                             }
@@ -954,7 +981,13 @@ namespace 보령
                             decimal weight = _ScaleWeight.Value;
 
                             var select = BR_BRS_SEL_ProductionOrder_Dispence_Component_Summary.OUTDATAs.Where(o => o.MSUBLOTBCD == _Text).FirstOrDefault();
-                            if (weight > 0 && select.IS_CAN_CHARGING_CHECKED_NAME.Equals("투입가능") || select.IS_CAN_CHARGING_CHECKED_NAME.Equals("투입완료"))
+                            
+                            if (select.UPPER < weight || select.LOWER > weight)
+                            {
+                                throw new Exception(string.Format("소분할 무게를 확인하세요."));
+                            }
+
+                            if (weight > 0 && select.IS_CAN_CHARGING_CHECKED_NAME.Equals("투입가능"))
                             {
                                 BR_BRS_REG_ProductionOrder_Dispence_Split_Charging.INDATAs.Add(new BR_BRS_REG_ProductionOrder_Dispence_Split_Charging.INDATA
                                 {
@@ -1012,6 +1045,18 @@ namespace 보령
 
                                     select.IS_CAN_CHARGING_CHECKED_NAME = "투입완료";
                                     OnPropertyChanged("BR_BRS_SEL_ProductionOrder_Dispence_Component_Summary");
+
+                                    //filteredComponents = new BR_BRS_SEL_ProductionOrder_Dispence_Component_Summary.OUTDATACollection();
+                                    //filteredComponents = BR_BRS_SEL_ProductionOrder_Dispence_Component_Summary.OUTDATAs;
+
+
+                                    OnPropertyChanged("filteredComponents");
+
+                                    _mainWnd.dgSourceContainer.Refresh();
+
+                                    TarebtnEnable = true;
+                                    MtrlbtnEnable = false;
+
                                 }
                                 else
                                     OnMessage("투입할 원료가 없습니다.");

@@ -102,9 +102,9 @@
                     <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding MTRLNAME}"
                              Style="{StaticResource txtStyle}"/>
 
-                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding W[CUIStandardQuantity], Source={StaticResource VM}, FallbackValue='기준량'}"
+                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding W[CUIStandardQuantity], Source={StaticResource VM}, FallbackValue='과립수율'}"
                                Style="{StaticResource lblStyle}"/>
-                    <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding RESERVEQTY}"
+                    <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding YIELD}"
                              Style="{StaticResource txtStyle}"/>
                 </Grid>
                 <Grid Grid.Row="1" Grid.Column="0" x:Name="SourceContainerNDispeseContainer">
@@ -131,8 +131,8 @@
                             <!--2023.10.01 박희돈 투입가능 text가 Refresh 안됨. 스크롤을 움직여야 보여짐. 그래서 새로 바인딩 하고 위치 변경함.-->
                             <c1:DataGridTextColumn Header="{Binding W[CUIIS_CAN_CHARGING_CHECKED_NAME], Source={StaticResource VM}, FallbackValue='투입준비여부'}"
                                                    Binding="{Binding IS_CAN_CHARGING_CHECKED_NAME, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <c1:DataGridTextColumn Header="{Binding W[CUIYIELD], Source={StaticResource VM}, FallbackValue='과립수율'}"
-                                                   Binding="{Binding YIELD}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <c1:DataGridTextColumn Header="{Binding W[CUIYIELD], Source={StaticResource VM}, FallbackValue='기준량'}"
+                                                   Binding="{Binding REQQTY}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <c1:DataGridTextColumn Header="{Binding W[CUITARGETWEIGHT], Source={StaticResource VM}, FallbackValue='분할량'}"
                                                    Binding="{Binding TARGETWEIGHT, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <c1:DataGridTextColumn Header="{Binding W[CUIUOM], Source={StaticResource VM}, FallbackValue='단위'}" Width="50"
@@ -155,6 +155,8 @@
                                                    Binding="{Binding MSUBLOTBCD}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <c1:DataGridTextColumn Header="{Binding W[CUIMLOTID], Source={StaticResource VM}, FallbackValue='시험번호'}"
                                                    Binding="{Binding MLOTID}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <c1:DataGridTextColumn Header="{Binding W[CUIYIELD], Source={StaticResource VM}, FallbackValue='기준량'}"
+                                                   Binding="{Binding REQQTY}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <c1:DataGridTextColumn Header="{Binding W[CUIChargingQuantity], Source={StaticResource VM}, FallbackValue='투입량'}"
                                                    Binding="{Binding CHGQTY_UOM}"/>
                         </c1:C1DataGrid.Columns>

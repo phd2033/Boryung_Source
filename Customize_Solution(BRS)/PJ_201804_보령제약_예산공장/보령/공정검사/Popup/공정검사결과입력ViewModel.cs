@@ -267,7 +267,8 @@ namespace 보령
                                     {
                                         if (decimal.TryParse(rslt, out val))
                                         {
-                                            NumericRslt = decimal.Round(val, _curIPCData.PRECISION).ToString();
+                                            //NumericRslt = decimal.Round(val, _curIPCData.PRECISION).ToString();
+                                            NumericRslt = MathExt.Round(val, _curIPCData.PRECISION, MidpointRounding.AwayFromZero).ToString();
                                         }
                                         else
                                             OnMessage("숫자로 변환 실패");

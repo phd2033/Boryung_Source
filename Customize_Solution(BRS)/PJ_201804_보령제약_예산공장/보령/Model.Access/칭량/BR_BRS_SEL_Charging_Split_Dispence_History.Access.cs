@@ -641,6 +641,38 @@ namespace 보령
                     }
                 }
             }
+            private System.Nullable<decimal> _REQQTY;
+            [BizActorOutputItemAttribute()]
+            public System.Nullable<decimal> REQQTY
+            {
+                get
+                {
+                    return this._REQQTY;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._REQQTY = value;
+                        this.CheckIsOriginal("REQQTY", value);
+                        this.OnPropertyChanged("REQQTY");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
         }
         public BR_BRS_SEL_Charging_Split_Dispence_History()
         {

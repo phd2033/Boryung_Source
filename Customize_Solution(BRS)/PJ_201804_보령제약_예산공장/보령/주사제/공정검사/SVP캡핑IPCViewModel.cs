@@ -289,6 +289,11 @@ namespace 보령
             });
             cur.Add(new TimeCombobox
             {
+                KEY = "MID",
+                NAME = "중기"
+            });
+            cur.Add(new TimeCombobox
+            {
                 KEY = "END",
                 NAME = "말기"
             });

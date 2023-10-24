@@ -162,9 +162,9 @@ namespace 보령
                                     throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                 }
 
-                                //2023.09.21. asy 인계자 로직 변경으로 인한 주석처리
-                                //string ACQUIREUSERID = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI") 
-                                //+ "(" + AuthRepositoryViewModel.GetUserNameByFunctionCode("OM_ProductionOrder_SUI") + ")"; 
+                             
+                                string ACQUIREUSERID = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI")
+                                + "(" + AuthRepositoryViewModel.GetUserNameByFunctionCode("OM_ProductionOrder_SUI") + ")";
                                 DateTime ACQUIREDTTM = await AuthRepositoryViewModel.GetDBDateTimeNow();
 
                                 var ds = new DataSet();
@@ -197,7 +197,7 @@ namespace 보령
                                     row["추가량"] = item.ADDQTY != null ? item.ADDQTY : "";
                                     row["인계자"] = item.HANDOVERUSERID != null ? item.HANDOVERUSERID : "";
                                     row["인계시간"] = item.HANDOVERDTTM != null ? Convert.ToDateTime(item.HANDOVERDTTM).ToString("yyyy-MM-dd HH:mm") : "";
-                                    row["인수자"] = item.INSUERID != null ? item.INSUERID : "";//인수자 컬럼 수정 ACQUIREUSERID;
+                                    row["인수자"] = ACQUIREUSERID;
                                     row["인수시간"] = ACQUIREDTTM.ToString("yyyy-MM-dd HH:mm");
 
                                     dt.Rows.Add(row);

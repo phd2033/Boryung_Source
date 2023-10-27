@@ -54,7 +54,7 @@
                             <RowDefinition/>
                             <RowDefinition/>
                             <RowDefinition/>
-                            <RowDefinition/>
+                            <!--<RowDefinition/>-->
                         </Grid.RowDefinitions>
                         <!--Header-->
                         <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="0.5" Background="LightGray">
@@ -397,7 +397,7 @@
                             </Grid>
                         </Border>
                         <!--Module 1-5 -->
-                        <Border Grid.Row="8" Grid.Column="0" Style="{StaticResource block}">
+                        <!--<Border Grid.Row="8" Grid.Column="0" Style="{StaticResource block}">
                             <sdk:Label Content="Module 1-5"/>
                         </Border>
                         <Border Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="4" Style="{StaticResource block}">
@@ -411,7 +411,7 @@
                                 <TextBox Grid.Column="1" Text="{Binding ModuleGrovePressureList[26].Pressure, Mode=TwoWay}" LostFocus="AllModule_LostFocus"/>
                                 <sdk:Label Grid.Column="2" Content="Pa"/>
                             </Grid>
-                        </Border>
+                        </Border>-->
                     </Grid>
                 </Border>
             </Grid>

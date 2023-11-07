@@ -59,11 +59,11 @@
         </i:Interaction.Triggers>
         <Grid x:Name="LayoutRoot" Margin="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="35"/>
                 <RowDefinition/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="1" x:Name="MainSection">
+            <Grid Grid.Row="0" x:Name="ClassSection">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.5*" />
                     <ColumnDefinition Width="*" />
@@ -72,44 +72,60 @@
                     <ColumnDefinition Width="125" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="설비군 선택" Style="{Binding Source={StaticResource lblStyle}}" />
+                <ComboBox Grid.Row="0" Grid.Column="1" Margin="5" Name="cboClassList" ItemsSource="{Binding BR_BRS_SEL_SVP_PartWash_EquipmentClass_EQCLNAME.OUTDATAs }" DisplayMemberPath="EQCLNAME" SelectedValuePath="EQCLID" HorizontalContentAlignment="Center"
+                              SelectedItem="{Binding EqclList, Mode=TwoWay}"/>
+                <Button Grid.Row="0" Grid.Column="2" Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='조회'}"
+                         Command="{Binding EqptListSearchCommandAsync}" Margin="10,0"/>
+            </Grid>
+            <Grid Grid.Row="1" x:Name="MainSection">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="94*" />
+                    <ColumnDefinition Width="138*" />
+                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="130" />
+                    <ColumnDefinition Width="125" />
+                    <ColumnDefinition Width="187*" />
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="액션 선택" Style="{Binding Source={StaticResource lblStyle}}" />
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="액션 선택" Style="{Binding Source={StaticResource lblStyle}}" Margin="21,12,20,11" />
                 <ComboBox Grid.Row="0" Grid.Column="1" Margin="5" Name="cboActionList" ItemsSource="{Binding FilteredComponents }" DisplayMemberPath="EQACNAME" SelectedValuePath="EQACID" HorizontalContentAlignment="Center"
-                              SelectedItem="{Binding ActionList, Mode=TwoWay}"/>
-                
-                <TextBlock Grid.Row="0" Grid.Column="2" Text="액션 시간" Style="{Binding Source={StaticResource lblStyle}}" />
-                <c1:C1DateTimePicker x:Name="c1pkrFromDate" Grid.Row="0" Grid.Column="3" 
+                              SelectedItem="{Binding ActionList, Mode=TwoWay}" Grid.ColumnSpan="2"/>
+
+                <TextBlock Grid.Row="0" Grid.Column="3" Text="액션 시간" Style="{Binding Source={StaticResource lblStyle}}" Margin="14,12,13,11" />
+                <c1:C1DateTimePicker x:Name="c1pkrFromDate" Grid.Row="0" Grid.Column="4" 
                                  Margin="0 5 0 5"
                                  DateFormat="Short"
                                  TimeIncrement="00:01:00"
                                  EditMode="Date"
                                  FontSize="14"
                                  DateTime="{Binding FromDt,Mode=TwoWay}" MinTimeEditorWidth="120" TimeFormat="Custom" CustomTimeFormat="HH:mm:ss"/>
-                <c1:C1DateTimePicker x:Name="c1pkrFromTime" Grid.Row="0" Grid.Column="4" 
+                <c1:C1DateTimePicker x:Name="c1pkrFromTime" Grid.Row="0" Grid.Column="5" 
                                  Margin="0 5 0 5"
                                  DateFormat="Short"
                                  TimeIncrement="00:01:00"
                                  EditMode="Time"
                                  FontSize="14"
                                  DateTime="{Binding FromDt,Mode=TwoWay}" MinTimeEditorWidth="120" TimeFormat="Custom" CustomTimeFormat="HH:mm:ss" GotFocus="c1pkrFromTime_GotFocus"/>
-                
-                <controlLib:CNSDataGrid x:Name="LayerChargedContainer" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" IsRowNumber="False"
+
+                <controlLib:CNSDataGrid x:Name="LayerChargedContainer" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7" IsRowNumber="False"
                                         ItemsSource="{Binding BR_BRS_SEL_EquipmentStatus_SVP_WashParts.OUTDATAs, Mode=TwoWay}">
                     <controlLib:CNSDataGrid.DataColumns>
                         <controlLib:DataColumn DataField="CHK" HeadName="" HeaderWidth="40"   ColumnType="CheckBox" HorizontalAlignment="Center" Excel="False" ColumnVisibility="Visible" ReadOnly="False" />
-                        <controlLib:DataColumn DataField="EQPTID1" HeadName="설비번호" HeaderWidth="120" ColumnType="TextBox" HorizontalAlignment="Center" Excel="False" ColumnVisibility="Visible" ReadOnly="False"/>
+                        <controlLib:DataColumn DataField="EQPTID1" HeadName="설비번호" HeaderWidth="120" ColumnType="TextBox" HorizontalAlignment="Center" Excel="False" ColumnVisibility="Visible" ReadOnly="True"/>
                         <controlLib:DataColumn DataField="CHK2" HeadName="" HeaderWidth="40"   ColumnType="CheckBox" HorizontalAlignment="Center" Excel="False" ColumnVisibility="Visible" ReadOnly="False" />
-                        <controlLib:DataColumn DataField="EQPTID2" HeadName="설비번호" HeaderWidth="120" ColumnType="TextBox" HorizontalAlignment="Center" Excel="False" ColumnVisibility="Visible" ReadOnly="False"/>
+                        <controlLib:DataColumn DataField="EQPTID2" HeadName="설비번호" HeaderWidth="120" ColumnType="TextBox" HorizontalAlignment="Center" Excel="False" ColumnVisibility="Visible" ReadOnly="True"/>
                         <controlLib:DataColumn DataField="CHK3" HeadName="" HeaderWidth="40"   ColumnType="CheckBox" HorizontalAlignment="Center" Excel="False" ColumnVisibility="Visible" ReadOnly="False" />
-                        <controlLib:DataColumn DataField="EQPTID3" HeadName="설비번호" HeaderWidth="120" ColumnType="TextBox" HorizontalAlignment="Center" Excel="False" ColumnVisibility="Visible" ReadOnly="False"/>
+                        <controlLib:DataColumn DataField="EQPTID3" HeadName="설비번호" HeaderWidth="120" ColumnType="TextBox" HorizontalAlignment="Center" Excel="False" ColumnVisibility="Visible" ReadOnly="True"/>
                         <controlLib:DataColumn DataField="CHK4" HeadName="" HeaderWidth="40"   ColumnType="CheckBox" HorizontalAlignment="Center" Excel="False" ColumnVisibility="Visible" ReadOnly="False" />
-                        <controlLib:DataColumn DataField="EQPTID4" HeadName="설비번호" HeaderWidth="120" ColumnType="TextBox" HorizontalAlignment="Center" Excel="False" ColumnVisibility="Visible" ReadOnly="False"/>
+                        <controlLib:DataColumn DataField="EQPTID4" HeadName="설비번호" HeaderWidth="120" ColumnType="TextBox" HorizontalAlignment="Center" Excel="False" ColumnVisibility="Visible" ReadOnly="True"/>
                         <controlLib:DataColumn DataField="CHK5" HeadName="" HeaderWidth="40"   ColumnType="CheckBox" HorizontalAlignment="Center" Excel="False" ColumnVisibility="Visible" ReadOnly="False" />
-                        <controlLib:DataColumn DataField="EQPTID5" HeadName="설비번호" HeaderWidth="120" ColumnType="TextBox" HorizontalAlignment="Center" Excel="False" ColumnVisibility="Visible" ReadOnly="False"/>
+                        <controlLib:DataColumn DataField="EQPTID5" HeadName="설비번호" HeaderWidth="120" ColumnType="TextBox" HorizontalAlignment="Center" Excel="False" ColumnVisibility="Visible" ReadOnly="True"/>
                     </controlLib:CNSDataGrid.DataColumns>
                 </controlLib:CNSDataGrid>
             </Grid>

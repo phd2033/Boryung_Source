@@ -26,9 +26,10 @@ namespace 보령
             _BR_PHR_SVP_UPD_EquipmentAction_Multi = new BR_PHR_SVP_UPD_EquipmentAction_Multi();
             //_BR_PHR_UPD_EquipmentAction_Multi = new BR_PHR_UPD_EquipmentAction_Multi();
             _BR_BRS_SEL_EquipmentStatus_SVP_WashParts = new BR_BRS_SEL_EquipmentStatus_SVP_WashParts();
-            _BR_PHR_SEL_EquipmentClassAction = new BR_PHR_SEL_EquipmentClassAction();
-            _filteredComponents = new BR_PHR_SEL_EquipmentClassAction.OUTDATACollection();
+            _BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus = new BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus();
+            _filteredComponents = new BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.OUTDATACollection();
             _EmptyContainerList = new ObservableCollection<EmptyWIPContainer>();
+            _BR_BRS_SEL_SVP_PartWash_EquipmentClass_EQCLNAME = new BR_BRS_SEL_SVP_PartWash_EquipmentClass_EQCLNAME();
 
         }
 
@@ -45,8 +46,8 @@ namespace 보령
             }
         }
 
-        private BR_PHR_SEL_EquipmentClassAction.OUTDATA _ActionList;
-        public BR_PHR_SEL_EquipmentClassAction.OUTDATA ActionList
+        private BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.OUTDATA _ActionList;
+        public BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.OUTDATA ActionList
         {
             get { return _ActionList; }
             set
@@ -65,6 +66,20 @@ namespace 보령
             }
         }
 
+        private BR_BRS_SEL_SVP_PartWash_EquipmentClass_EQCLNAME.OUTDATA _EqclList;
+        public BR_BRS_SEL_SVP_PartWash_EquipmentClass_EQCLNAME.OUTDATA EqclList
+        {
+            get { return _EqclList; }
+            set
+            {
+                BR_BRS_SEL_EquipmentStatus_SVP_WashParts.OUTDATAs.Clear();
+                FilteredComponents.Clear();
+
+                _EqclList = value;
+                OnPropertyChanged("EqclList");
+            }
+        }
+
         private ObservableCollection<EmptyWIPContainer> _EmptyContainerList;
         public ObservableCollection<EmptyWIPContainer> EmptyContainerList
         {
@@ -76,12 +91,13 @@ namespace 보령
             }
         }
 
-        BR_PHR_SEL_EquipmentClassAction.OUTDATACollection _filteredComponents;
-        public BR_PHR_SEL_EquipmentClassAction.OUTDATACollection FilteredComponents
+        BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.OUTDATACollection _filteredComponents;
+        public BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.OUTDATACollection FilteredComponents
         {
             get { return _filteredComponents; }
             set { _filteredComponents = value; }
         }
+        
         #endregion
 
         #region [BizRule]
@@ -98,14 +114,25 @@ namespace 보령
                 NotifyPropertyChanged();
             }
         }
-
-        BR_PHR_SEL_EquipmentClassAction _BR_PHR_SEL_EquipmentClassAction;
-        public BR_PHR_SEL_EquipmentClassAction BR_PHR_SEL_EquipmentClassAction
+        
+        BR_BRS_SEL_SVP_PartWash_EquipmentClass_EQCLNAME _BR_BRS_SEL_SVP_PartWash_EquipmentClass_EQCLNAME;
+        public BR_BRS_SEL_SVP_PartWash_EquipmentClass_EQCLNAME BR_BRS_SEL_SVP_PartWash_EquipmentClass_EQCLNAME
         {
-            get { return _BR_PHR_SEL_EquipmentClassAction; }
+            get { return _BR_BRS_SEL_SVP_PartWash_EquipmentClass_EQCLNAME; }
             set
             {
-                _BR_PHR_SEL_EquipmentClassAction = value;
+                _BR_BRS_SEL_SVP_PartWash_EquipmentClass_EQCLNAME = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus _BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus;
+        public BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus
+        {
+            get { return _BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus; }
+            set
+            {
+                _BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus = value;
                 NotifyPropertyChanged();
             }
         }
@@ -134,45 +161,50 @@ namespace 보령
 
                                 FromDt = await AuthRepositoryViewModel.GetDBDateTimeNow();
 
-                                _EmptyContainerList.Clear();
-                                BR_PHR_SEL_EquipmentClassAction.INDATAs.Clear();
-                                BR_PHR_SEL_EquipmentClassAction.OUTDATAs.Clear();
+                                BR_BRS_SEL_SVP_PartWash_EquipmentClass_EQCLNAME.INDATAs.Clear();
+                                BR_BRS_SEL_SVP_PartWash_EquipmentClass_EQCLNAME.OUTDATAs.Clear();
 
-                                // 2023.08.28 박희돈 청소액션 값 조회
-                                BR_PHR_SEL_EquipmentClassAction.INDATAs.Clear();
-                                BR_PHR_SEL_EquipmentClassAction.OUTDATAs.Clear();
-                                BR_PHR_SEL_EquipmentClassAction.INDATAs.Add(new BR_PHR_SEL_EquipmentClassAction.INDATA
-                                {
-                                    LANGID = AuthRepositoryViewModel.Instance.LangID,
-                                    EQCLID = AuthRepositoryViewModel.GetSystemOptionValue("SVP_PARTWASH_EQUIPEMENTGROUP"),
-                                    EQACIUSE = "Y"
-                                });
+                                if (await BR_BRS_SEL_SVP_PartWash_EquipmentClass_EQCLNAME.Execute() == false) return;
 
-                                if (await BR_PHR_SEL_EquipmentClassAction.Execute())
-                                {
-                                    if (BR_PHR_SEL_EquipmentClassAction.OUTDATAs.Count > 0)
-                                    {
-                                        foreach (var item in BR_PHR_SEL_EquipmentClassAction.OUTDATAs)
-                                        {
-                                            if (item.EQACNAME.Contains("청소"))
-                                            {
-                                                FilteredComponents.Add(item);
-                                            }
-                                        }
-                                    }
-                                }
+                                //_EmptyContainerList.Clear();
+                                //BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.INDATAs.Clear();
+                                //BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.OUTDATAs.Clear();
+
+                                //// 2023.08.28 박희돈 청소액션 값 조회
+                                //BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.INDATAs.Clear();
+                                //BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.OUTDATAs.Clear();
+                                //BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.INDATAs.Add(new BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.INDATA
+                                //{
+                                //    LANGID = AuthRepositoryViewModel.Instance.LangID,
+                                //    EQCLID = AuthRepositoryViewModel.GetSystemOptionValue("SVP_PARTWASH_EQUIPEMENTGROUP"),
+                                //    EQACIUSE = "Y"
+                                //});
+
+                                //if (await BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.Execute())
+                                //{
+                                //    if (BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.OUTDATAs.Count > 0)
+                                //    {
+                                //        foreach (var item in BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.OUTDATAs)
+                                //        {
+                                //            if (item.EQACNAME.Contains("청소"))
+                                //            {
+                                //                FilteredComponents.Add(item);
+                                //            }
+                                //        }
+                                //    }
+                                //}
 
                                 //2023.08.28 박희돈 세척설비파츠 설비목록 조회
-                                BR_BRS_SEL_EquipmentStatus_SVP_WashParts.INDATAs.Clear();
-                                BR_BRS_SEL_EquipmentStatus_SVP_WashParts.OUTDATAs.Clear();
+                                //BR_BRS_SEL_EquipmentStatus_SVP_WashParts.INDATAs.Clear();
+                                //BR_BRS_SEL_EquipmentStatus_SVP_WashParts.OUTDATAs.Clear();
 
-                                BR_BRS_SEL_EquipmentStatus_SVP_WashParts.INDATAs.Add(new BR_BRS_SEL_EquipmentStatus_SVP_WashParts.INDATA
-                                {
-                                    EQCLID = AuthRepositoryViewModel.GetSystemOptionValue("SVP_PARTWASH_EQUIPEMENTGROUP")
-                                }
-                                );
+                                //BR_BRS_SEL_EquipmentStatus_SVP_WashParts.INDATAs.Add(new BR_BRS_SEL_EquipmentStatus_SVP_WashParts.INDATA
+                                //{
+                                //    EQCLID = AuthRepositoryViewModel.GetSystemOptionValue("SVP_PARTWASH_EQUIPEMENTGROUP")
+                                //}
+                                //);
 
-                                if (await BR_BRS_SEL_EquipmentStatus_SVP_WashParts.Execute() == false) return;
+                                //if (await BR_BRS_SEL_EquipmentStatus_SVP_WashParts.Execute() == false) return;
 
                             }
 
@@ -196,6 +228,89 @@ namespace 보령
                 {
                     return CommandCanExecutes.ContainsKey("LoadedCommandAsync") ?
                         CommandCanExecutes["LoadedCommandAsync"] : (CommandCanExecutes["LoadedCommandAsync"] = true);
+                });
+            }
+        }
+
+        public ICommand EqptListSearchCommandAsync
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["EqptListSearchCommandAsync"].EnterAsync())
+                    {
+                        try
+                        {
+                            CommandCanExecutes["EqptListSearchCommandAsync"] = false;
+                            CommandResults["EqptListSearchCommandAsync"] = false;
+
+                            IsBusy = true;
+
+
+                            if (this.EqclList == null || string.IsNullOrEmpty(this.EqclList.EQCLNAME))
+                            {
+                                throw new Exception(string.Format("설비군을 선택해주세요"));
+                            }
+
+                            _EmptyContainerList.Clear();
+                            BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.INDATAs.Clear();
+                            BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.OUTDATAs.Clear();
+
+                            // 2023.08.28 박희돈 청소액션 값 조회
+                            BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.INDATAs.Clear();
+                            BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.OUTDATAs.Clear();
+                            BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.INDATAs.Add(new BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.INDATA
+                            {
+                                EQCLID = EqclList.EQCLID,
+                                EQCLIUSE = "Y"
+                            });
+
+                            if (await BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.Execute())
+                            {
+                                if (BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.OUTDATAs.Count > 0)
+                                {
+                                    foreach (var item in BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus.OUTDATAs)
+                                    {
+                                        if (item.EQACNAME.Contains("청소"))
+                                        {
+                                            FilteredComponents.Add(item);
+                                        }
+                                    }
+                                }
+                            }
+
+                            //2023.08.28 박희돈 세척설비파츠 설비목록 조회
+                            BR_BRS_SEL_EquipmentStatus_SVP_WashParts.INDATAs.Clear();
+                            BR_BRS_SEL_EquipmentStatus_SVP_WashParts.OUTDATAs.Clear();
+
+                            BR_BRS_SEL_EquipmentStatus_SVP_WashParts.INDATAs.Add(new BR_BRS_SEL_EquipmentStatus_SVP_WashParts.INDATA
+                            {
+                                EQCLID = EqclList.EQCLID
+                            }
+                            );
+
+                            if (await BR_BRS_SEL_EquipmentStatus_SVP_WashParts.Execute() == false) return;
+
+                            IsBusy = false;
+
+                            CommandResults["EqptListSearchCommandAsync"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            IsBusy = false;
+                            CommandResults["EqptListSearchCommandAsync"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["EqptListSearchCommandAsync"] = true;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("EqptListSearchCommandAsync") ?
+                        CommandCanExecutes["EqptListSearchCommandAsync"] : (CommandCanExecutes["EqptListSearchCommandAsync"] = true);
                 });
             }
         }

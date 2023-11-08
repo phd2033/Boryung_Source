@@ -13,6 +13,10 @@
            Title="반제품입고" x:Name="Main">
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
         <local:반제품입고ViewModel x:Name="ViewModel"/>
+        <Style x:Key="dgScroll" TargetType="ScrollBar">
+            <Setter Property="MinWidth" Value="30"/>
+            <Setter Property="MinHeight" Value="30"/>
+        </Style>
     </ShopFloorUI:ShopFloorCustomWindow.Resources>
     <Grid x:Name="LayoutRoot" Background="White" DataContext="{Binding Source={StaticResource ViewModel}}">
         <i:Interaction.Triggers>
@@ -64,17 +68,20 @@
                     </i:Interaction.Triggers>
                 </Button>
             </Grid>
-            <c1:C1DataGrid Grid.Row="2" HeadersVisibility="Column" Height="150" ItemsSource="{Binding IBCList}" AutoGenerateColumns="False"
+            
+            <Grid x:Name="IBCList" Grid.Row="2">
+                <c1:C1DataGrid Grid.Row="2" HeadersVisibility="Column" Height="150" ItemsSource="{Binding IBCList}" AutoGenerateColumns="False"
                        CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False" CanUserResizeColumns="False" CanUserResizeRows="False"
-                       HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
-                <c1:C1DataGrid.Columns>
-                    <c1:DataGridTextColumn Header="오더번호" Binding="{Binding PoId}"/>
-                    <c1:DataGridTextColumn Header="IBC ID" Binding="{Binding VesselId}"/>
-                    <c1:DataGridTextColumn Header="반제품 보관기간" Binding="{Binding STRGDAY}"/>
-                    <c1:DataGridTextColumn Header="반제품 유효기한" Binding="{Binding EXPIREDTTM}"/>
-                    <!--<c1:DataGridTextColumn Header="성적번호" Binding="{Binding MLOTID}"/> 2021.08.18 박희돈 사용안함. 최병인팀장 확인 -->
-                </c1:C1DataGrid.Columns>
-            </c1:C1DataGrid>
+                       HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible" ScrollMode="RealTime">
+                    <c1:C1DataGrid.Columns>
+                        <c1:DataGridTextColumn Header="오더번호" Binding="{Binding PoId}"/>
+                        <c1:DataGridTextColumn Header="IBC ID" Binding="{Binding VesselId}"/>
+                        <c1:DataGridTextColumn Header="반제품 보관기간" Binding="{Binding STRGDAY}"/>
+                        <c1:DataGridTextColumn Header="반제품 유효기한" Binding="{Binding EXPIREDTTM}"/>
+                        <!--<c1:DataGridTextColumn Header="성적번호" Binding="{Binding MLOTID}"/> 2021.08.18 박희돈 사용안함. 최병인팀장 확인 -->
+                    </c1:C1DataGrid.Columns>
+                </c1:C1DataGrid>
+            </Grid>
         </Grid>
 
         

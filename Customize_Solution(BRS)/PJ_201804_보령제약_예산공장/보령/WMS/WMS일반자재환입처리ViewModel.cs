@@ -601,7 +601,7 @@ namespace 보령
                                                 DateTime NOW = await AuthRepositoryViewModel.GetDBDateTimeNow();
                                                 _BR_PHR_SEL_PRINT_LabelImage.INDATAs.Add(new BR_PHR_SEL_PRINT_LabelImage.INDATA
                                                 {
-                                                    ReportPath = "/Reports/LOGBOOK/LABEL_C0402_018_4",
+                                                    ReportPath = "/Reports/LOGBOOK/LABEL_C0402_018_16",
                                                     PrintName = curPrintName,
                                                     USERID = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI")
                                                 });

@@ -761,7 +761,7 @@ namespace 보령
         {
             foreach (var item in ListRequestOut)
             {
-                if (item.VESSELID.Equals(target))
+                if (item.VESSELID.ToUpper().Equals(target))
                     return item;
             }
 

@@ -200,7 +200,7 @@ namespace 보령
             {
                 foreach (var item in _BR_BRS_GET_VESSEL_INFO_DETAIL.OUTDATA_WIPs)
                 {
-                    if (item.VESSELID.Equals(target))
+                    if (item.VESSELID.ToUpper().Equals(target.ToUpper()))
                     {
                         IBCInfoList.SelectedItem = item;
                         SetLowerUpper(item);
@@ -212,7 +212,7 @@ namespace 보령
             {
                 foreach (var item in _BR_BRS_GET_VESSEL_INFO_DETAIL.OUTDATA_DETAILs)
                 {
-                    if (item.MSUBLOTBCD.Equals(target))
+                    if (item.MSUBLOTBCD.ToUpper().Equals(target.ToUpper()))
                     {
                         PalletInfoList.SelectedItem = item;
                         SetLowerUpper(item);

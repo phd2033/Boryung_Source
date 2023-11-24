@@ -85,19 +85,17 @@ namespace 보령
                 NotifyPropertyChanged();
             }
         }
-
-
-        bool _result_OUTPUT_ReadOnly;
-        public bool Result_OUTPUT_ReadOnly
-        {
-            get { return _result_OUTPUT_ReadOnly; }
-            set
-            {
-                _result_OUTPUT_ReadOnly = value;
-                NotifyPropertyChanged();
-            }
-        }
-
+        
+        //bool _result_OUTPUT_ReadOnly;
+        //public bool Result_OUTPUT_ReadOnly
+        //{
+        //    get { return _result_OUTPUT_ReadOnly; }
+        //    set
+        //    {
+        //        _result_OUTPUT_ReadOnly = value;
+        //        NotifyPropertyChanged();
+        //    }
+        //}
 
         bool _result_CALC_ReadOnly;
         public bool Result_CALC_ReadOnly
@@ -223,13 +221,13 @@ namespace 보령
                                 _ModifyFlag = true;
                             }
 
-                            //Result_AVG, Result_OUTPUT, Result_CALC ReadOnly 해제
-                            Result_OUTPUT_ReadOnly = false;
+                            //Result_AVG, Result_OUTPUT, Result_CALC ReadOnly 해제 -> OUTPUT은 재선별을 해도 반영이 바로 되어서 다시 ReadOnly로 변경
+                            //Result_OUTPUT_ReadOnly = false;
                             Result_AVG_ReadOnly = false;
                             Result_CALC_ReadOnly = false;
 
                             //Result_AVG, Result_OUTPUT, Result_CALC ReadOnly 값 초기화
-                            Result_OUTPUT = "";
+                            //Result_OUTPUT = "";
                             Result_AVG = "";
                             Result_CALC = "";
 
@@ -293,7 +291,7 @@ namespace 보령
                                 }
 
                                 //값의 변경이 있을 때 호출
-                                OnPropertyChanged("Result_OUTPUT_ReadOnly");
+                                //OnPropertyChanged("Result_OUTPUT_ReadOnly");
                                 OnPropertyChanged("Result_AVG_ReadOnly");
                                 OnPropertyChanged("Result_CALC_ReadOnly");
 
@@ -378,7 +376,7 @@ namespace 보령
             //  Is_EnableOKBtn = false;
 
             // 기존 readOnly 설정값 유지
-            Result_OUTPUT_ReadOnly = true;
+            //Result_OUTPUT_ReadOnly = true;
             Result_AVG_ReadOnly = true;
             Result_CALC_ReadOnly = true;
         }

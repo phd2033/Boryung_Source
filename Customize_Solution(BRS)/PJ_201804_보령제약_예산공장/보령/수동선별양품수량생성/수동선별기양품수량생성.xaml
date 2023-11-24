@@ -55,11 +55,11 @@
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="15"/>
                     <RowDefinition Height="30"/>
-                    <RowDefinition Height="15"/>
-                    <RowDefinition Height="70"/>
-                    <RowDefinition Height="15"/>
+                    <RowDefinition Height="25"/>
                     <RowDefinition Height="35"/>
                     <RowDefinition Height="15"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="25"/>
                     <RowDefinition Height="35"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
@@ -83,7 +83,7 @@
                 <sdk:Label  Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="2" Content="평균질량 (mg)" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Top"/>
 
                 <Line Grid.Column="3" Grid.Row="6"  Grid.ColumnSpan="2"   Stroke="Black" Stretch="Fill" StrokeThickness="1" X1="0" Y1="0" X2="1" Y2="0" ></Line>
-                <TextBox   Grid.Column="3" Grid.Row="5" Text="{Binding Result_OUTPUT, StringFormat='0.##0', Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" Margin="20,0,10,0" IsReadOnly="{Binding Result_OUTPUT_ReadOnly}" TextWrapping="Wrap" />
+                <TextBox   Grid.Column="3" Grid.Row="5" Text="{Binding Result_OUTPUT, StringFormat='0.##0', Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" Margin="20,0,10,0" IsReadOnly="True" TextWrapping="Wrap" />
                 <sdk:Label Grid.Column="4" Grid.Row="5" Content="(g)" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <TextBox   Grid.Column="3" Grid.Row="7" Text="{Binding Result_AVG, StringFormat='0.##0', Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" Margin="20,0,10,0" IsReadOnly="{Binding Result_AVG_ReadOnly}" />
                 <sdk:Label  Grid.Column="4" Grid.Row="7" Content="(mg)" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Center" />

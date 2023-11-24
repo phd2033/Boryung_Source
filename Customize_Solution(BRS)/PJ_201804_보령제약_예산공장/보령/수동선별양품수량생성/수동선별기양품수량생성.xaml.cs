@@ -27,7 +27,5 @@ namespace 보령
         {
             DialogResult = false;
         }
-
-       
     }
 }

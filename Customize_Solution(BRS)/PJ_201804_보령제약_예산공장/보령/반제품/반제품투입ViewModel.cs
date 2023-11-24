@@ -158,7 +158,7 @@ namespace 보령
                     }
                 }
 
-                var item = OutputSubLotInfo.Where(o => o.VESSELID == Barcode).FirstOrDefault();
+                var item = OutputSubLotInfo.Where(o => o.VESSELID.ToUpper() == Barcode).FirstOrDefault();
 
                 if( item == null)
                 {

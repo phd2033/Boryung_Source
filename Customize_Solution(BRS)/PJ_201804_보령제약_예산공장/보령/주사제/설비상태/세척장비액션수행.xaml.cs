@@ -43,16 +43,21 @@ namespace 보령
 
         private void c1pkrFromTime_GotFocus(object sender, RoutedEventArgs e)
         {
-            //var popup = new 세척장비시간입력Popup();
+            var popup = new 세척장비시간입력Popup();
 
-            //popup.resTime = c1pkrFromTime.DateTime.HasValue ? c1pkrFromTime.DateTime.Value : DateTime.Now;
-            //popup.Closed += (s1, e1) =>
-            //{
-            //    if (popup.DialogResult.HasValue && popup.DialogResult.Value)
-            //        c1pkrFromTime.DateTime = Convert.ToDateTime((this.DataContext as 세척장비액션수행ViewModel).FromDt.ToString("yyyy-MM-dd") + popup.resTime.ToString(" HH:mm:ss"));
-            //};
+            popup.resTime = c1pkrFromTime.DateTime.HasValue ? c1pkrFromTime.DateTime.Value : DateTime.Now;
 
-            //popup.Show();
+            //팝업이 닫힐 때 이벤트
+            popup.Closed += (s1, e1) =>
+            {
+                if (popup.DialogResult.HasValue && popup.DialogResult.Value)
+                {
+                    //c1pkrFromTime.DateTime = Convert.ToDateTime((this.DataContext as 세척장비액션수행ViewModel).FromDt.ToString("yyyy-MM-dd") + popup.resTime.ToString(" HH:mm:ss"));
+                    c1pkrFromTime.DateTime = Convert.ToDateTime(c1pkrFromDate.DateTime.Value.ToString("yyyy-MM-dd") + popup.resTime.ToString(" HH:mm:ss"));
+                }
+            };
+
+            popup.Show(); //Closed 이벤트를 발생
         }
     }
 }

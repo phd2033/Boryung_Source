@@ -293,7 +293,7 @@ namespace 보령
         public BRS_SEL_ProductionOrder_OPSG_Output_WEIGHT()
         {
             RuleName = "BRS_SEL_ProductionOrder_OPSG_Output_WEIGHT";
-            BizName = "BRS_SEL_ProductionOrder_OPSG_Output_WEIGHT";
+            BizName = "";
             _INDATAs = new INDATACollection();
             _OUTDATAs = new OUTDATACollection();
         }

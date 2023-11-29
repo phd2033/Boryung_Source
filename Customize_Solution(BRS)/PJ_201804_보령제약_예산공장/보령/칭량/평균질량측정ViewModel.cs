@@ -87,14 +87,14 @@ namespace 보령
             get { return _sampleCount; }
             set
             {
-                if (value > 0)
+                if(value > 0)
                     _sampleCount = value;
                 else
                 {
                     _sampleCount = 1;
                     OnMessage("샘플수량이 0보다 작을 수 없습니다.");
                 }
-
+                
                 calAvgWeight();
                 OnPropertyChanged("sampleCount");
             }
@@ -247,7 +247,7 @@ namespace 보령
 
                             ///
 
-                            if (!string.IsNullOrWhiteSpace(arg.ToString()))
+                            if(!string.IsNullOrWhiteSpace(arg.ToString()))
                             {
                                 string eqpt = arg.ToString();
 
@@ -278,7 +278,7 @@ namespace 보령
                                     _repeater.Stop();
                                 }
                             }
-
+                           
                             ///
 
                             CommandResults["BarcodeChangedCommand"] = true;
@@ -567,7 +567,7 @@ namespace 보령
                                     });
                                 }
 
-                                if (await _BR_BRS_REG_IPC_AVG_WEIGHT_MULTI.Execute() == true)
+                                if(await _BR_BRS_REG_IPC_AVG_WEIGHT_MULTI.Execute() == true)
                                 {
                                     var xml = BizActorRuleBase.CreateXMLStream(ds);
                                     var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
@@ -739,14 +739,11 @@ namespace 보령
                             var popup = new InputWeightpopup();
                             popup.Closed += (s, e) =>
                             {
-                                if (popup.DialogResult.GetValueOrDefault())
+                                if(popup.DialogResult.GetValueOrDefault())
                                 {
                                     eqptID = "";
 
-                                    //무게계산
-                                    //_curWeight.SetWeight(Convert.ToDecimal(popup.txtWeight.Value), "g", 5);
-                                    _curWeight.SetWeight(Convert.ToDecimal(String.Format("{0:0.N5}", popup.txtWeight.Value)), "g", 5);
-                                    //평균 무게 계산
+                                    _curWeight.SetWeight(Convert.ToDecimal(popup.txtWeight.Value), "g", 3);
                                     calAvgWeight();
                                     isBtnEnable = true;
                                     OnPropertyChanged("curWeight");
@@ -759,7 +756,7 @@ namespace 보령
                         }
                         catch (Exception ex)
                         {
-                            CommandResults["UnuseScaleCommand"] = false;
+                            CommandResults["UnuseScaleCommand"] = false;    
                             OnException(ex.Message, ex);
                         }
                         finally
@@ -837,7 +834,7 @@ namespace 보령
                         _curWeight.Value = 0;
                         isBtnEnable = false;
                     }
-
+                        
                     calAvgWeight();
                     OnPropertyChanged("curWeight");
 
@@ -855,9 +852,8 @@ namespace 보령
         /// </summary>
         public void calAvgWeight()
         {
-            if (sampleCount > 0 && _curWeight.Value > 0)
-                //avgWeighing = string.Format("{0:#,0} mg", (Weight.Add(0, "mg", _curWeight.Value, _curWeight.Uom) / Convert.ToDecimal(_sampleCount)));
-                avgWeighing = string.Format("{0:0.###}", (Weight.Add(0, "mg", _curWeight.Value, _curWeight.Uom) / Convert.ToDecimal(_sampleCount))) + " mg";
+            if(sampleCount > 0 && _curWeight.Value > 0)
+                avgWeighing = string.Format("{0:#,0} mg", (Weight.Add(0, "mg", _curWeight.Value, _curWeight.Uom) / Convert.ToDecimal(_sampleCount)));  
         }
 
         public partial class AVG_INDATA : BizActorDataSetBase

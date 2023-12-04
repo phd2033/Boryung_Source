@@ -113,7 +113,7 @@
             </Grid>
             <Image x:Name="ScreenShot" Grid.ColumnSpan="3" Grid.Row="6" Stretch="None"/>
         </Grid>
-</toolkit:BusyIndicator>
+    </toolkit:BusyIndicator>
 </ShopFloorUI:ShopFloorCustomWindow>
 
     

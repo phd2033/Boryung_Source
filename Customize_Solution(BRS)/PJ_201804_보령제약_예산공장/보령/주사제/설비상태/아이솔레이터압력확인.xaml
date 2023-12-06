@@ -222,7 +222,7 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <sdk:Label Grid.Column="0" Content="Glove 1 : "/>
+                                <sdk:Label Grid.Column="0" Content="Glove 13 : "/>
                                 <TextBox Grid.Column="1" Text="{Binding ModuleGrovePressureList[12].Pressure, Mode=TwoWay}" LostFocus="Module_LostFocus"/>
                                 <sdk:Label Grid.Column="2" Content="Pa"/>
                             </Grid>
@@ -234,7 +234,7 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <sdk:Label Grid.Column="0" Content="Glove 2 : "/>
+                                <sdk:Label Grid.Column="0" Content="Glove 14 : "/>
                                 <TextBox Grid.Column="1" Text="{Binding ModuleGrovePressureList[13].Pressure, Mode=TwoWay}" LostFocus="Module_LostFocus"/>
                                 <sdk:Label Grid.Column="2" Content="Pa"/>
                             </Grid>
@@ -246,7 +246,7 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <sdk:Label Grid.Column="0" Content="Glove 3 : "/>
+                                <sdk:Label Grid.Column="0" Content="Glove 15 : "/>
                                 <TextBox Grid.Column="1" Text="{Binding ModuleGrovePressureList[14].Pressure, Mode=TwoWay}" LostFocus="Module_LostFocus"/>
                                 <sdk:Label Grid.Column="2" Content="Pa"/>
                             </Grid>
@@ -258,7 +258,7 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <sdk:Label Grid.Column="0" Content="Glove 4 : "/>
+                                <sdk:Label Grid.Column="0" Content="Glove 16 : "/>
                                 <TextBox Grid.Column="1" Text="{Binding ModuleGrovePressureList[15].Pressure, Mode=TwoWay}" LostFocus="Module_LostFocus"/>
                                 <sdk:Label Grid.Column="2" Content="Pa"/>
                             </Grid>
@@ -274,7 +274,7 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <sdk:Label Grid.Column="0" Content="Glove 1 : "/>
+                                <sdk:Label Grid.Column="0" Content="Glove 17 : "/>
                                 <TextBox Grid.Column="1" Text="{Binding ModuleGrovePressureList[16].Pressure, Mode=TwoWay}" LostFocus="Module_LostFocus"/>
                                 <sdk:Label Grid.Column="2" Content="Pa"/>
                             </Grid>
@@ -286,7 +286,7 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <sdk:Label Grid.Column="0" Content="Glove 2 : "/>
+                                <sdk:Label Grid.Column="0" Content="Glove 18 : "/>
                                 <TextBox Grid.Column="1" Text="{Binding ModuleGrovePressureList[17].Pressure, Mode=TwoWay}" LostFocus="Module_LostFocus"/>
                                 <sdk:Label Grid.Column="2" Content="Pa"/>
                             </Grid>
@@ -298,7 +298,7 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <sdk:Label Grid.Column="0" Content="Glove 3 : "/>
+                                <sdk:Label Grid.Column="0" Content="Glove 19 : "/>
                                 <TextBox Grid.Column="1" Text="{Binding ModuleGrovePressureList[18].Pressure, Mode=TwoWay}" LostFocus="Module_LostFocus"/>
                                 <sdk:Label Grid.Column="2" Content="Pa"/>
                             </Grid>
@@ -310,7 +310,7 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <sdk:Label Grid.Column="0" Content="Glove 4 : "/>
+                                <sdk:Label Grid.Column="0" Content="Glove 20 : "/>
                                 <TextBox Grid.Column="1" Text="{Binding ModuleGrovePressureList[19].Pressure, Mode=TwoWay}" LostFocus="Module_LostFocus"/>
                                 <sdk:Label Grid.Column="2" Content="Pa"/>
                             </Grid>
@@ -326,7 +326,7 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <sdk:Label Grid.Column="0" Content="Glove 1 : "/>
+                                <sdk:Label Grid.Column="0" Content="Glove 21 : "/>
                                 <TextBox Grid.Column="1" Text="{Binding ModuleGrovePressureList[20].Pressure, Mode=TwoWay}" LostFocus="Module_LostFocus"/>
                                 <sdk:Label Grid.Column="2" Content="Pa"/>
                             </Grid>
@@ -338,7 +338,7 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <sdk:Label Grid.Column="0" Content="Glove 2 : "/>
+                                <sdk:Label Grid.Column="0" Content="Glove 22 : "/>
                                 <TextBox Grid.Column="1" Text="{Binding ModuleGrovePressureList[21].Pressure, Mode=TwoWay}" LostFocus="Module_LostFocus"/>
                                 <sdk:Label Grid.Column="2" Content="Pa"/>
                             </Grid>
@@ -355,7 +355,7 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <sdk:Label Grid.Column="0" Content="Glove 1 : "/>
+                                <sdk:Label Grid.Column="0" Content="Glove 23 : "/>
                                 <TextBox Grid.Column="1" Text="{Binding ModuleGrovePressureList[22].Pressure, Mode=TwoWay}" LostFocus="Module_LostFocus"/>
                                 <sdk:Label Grid.Column="2" Content="Pa"/>
                             </Grid>
@@ -367,7 +367,7 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <sdk:Label Grid.Column="0" Content="Glove 2 : "/>
+                                <sdk:Label Grid.Column="0" Content="Glove 24 : "/>
                                 <TextBox Grid.Column="1" Text="{Binding ModuleGrovePressureList[23].Pressure, Mode=TwoWay}" LostFocus="Module_LostFocus"/>
                                 <sdk:Label Grid.Column="2" Content="Pa"/>
                             </Grid>
@@ -379,7 +379,7 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <sdk:Label Grid.Column="0" Content="Glove 3 : "/>
+                                <sdk:Label Grid.Column="0" Content="Glove 25 : "/>
                                 <TextBox Grid.Column="1" Text="{Binding ModuleGrovePressureList[24].Pressure, Mode=TwoWay}" LostFocus="Module_LostFocus"/>
                                 <sdk:Label Grid.Column="2" Content="Pa"/>
                             </Grid>
@@ -391,7 +391,7 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <sdk:Label Grid.Column="0" Content="Glove 4 : "/>
+                                <sdk:Label Grid.Column="0" Content="Glove 26 : "/>
                                 <TextBox Grid.Column="1" Text="{Binding ModuleGrovePressureList[25].Pressure, Mode=TwoWay}" LostFocus="Module_LostFocus"/>
                                 <sdk:Label Grid.Column="2" Content="Pa"/>
                             </Grid>

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace 보령
 {
-    
+
     /// <summary>
     /// summary of BRS_SEL_ProductionOrder_OPSG_Output_WEIGHT
     /// </summary>
@@ -22,7 +22,7 @@ namespace 보령
                 return this._INDATAs;
             }
         }
-        [BizActorInputSetDefineAttribute(Order="0")]
+        [BizActorInputSetDefineAttribute(Order = "0")]
         [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
         public partial class INDATA : BizActorDataSetBase
         {
@@ -146,7 +146,7 @@ namespace 보령
                 return this._OUTDATAs;
             }
         }
-        [BizActorOutputSetDefineAttribute(Order="0")]
+        [BizActorOutputSetDefineAttribute(Order = "0")]
         [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
         public partial class OUTDATA : BizActorDataSetBase
         {
@@ -293,7 +293,7 @@ namespace 보령
         public BRS_SEL_ProductionOrder_OPSG_Output_WEIGHT()
         {
             RuleName = "BRS_SEL_ProductionOrder_OPSG_Output_WEIGHT";
-            BizName = "BRS_SEL_ProductionOrder_OPSG_Output_WEIGHT";
+            BizName = "";
             _INDATAs = new INDATACollection();
             _OUTDATAs = new OUTDATACollection();
         }

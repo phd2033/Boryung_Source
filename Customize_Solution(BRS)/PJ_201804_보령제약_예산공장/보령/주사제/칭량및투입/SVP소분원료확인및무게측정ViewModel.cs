@@ -426,7 +426,8 @@ namespace 보령
                                 if (GorssSum > 0)
                                 {
                                     int precision = 0;
-                                    precision = Convert.ToInt32(Math.Pow(10, _CURVALUE.Precision));
+                                    //precision = Convert.ToInt32(Math.Pow(10, Scal.Precision));
+                                    precision = Convert.ToInt32(Math.Pow(10, Convert.ToInt16(_ScaleInfo.PRECISION)));
                                     // 2023.05.09 박희돈 저울 1자리일 경우 소수점이 3자리이면 올림 시 값이 달라짐.
                                     // EX) 내용물 97g일 경우 하한값은 97 * 0.998 = 96.806이 나오며 계산상 소수점 1자리는 96.9로 나옴.
                                     //     3번째 자리 버리고 2번째 자리에서 올림이 아닌 전체 소수점 자리로 계산 됨.(엑셀 올림 버림도 동일) 
@@ -436,8 +437,12 @@ namespace 보령
                                     //decimal min = Convert.ToDecimal(Math.Ceiling(Convert.ToDouble((tare + GorssSum) * 0.998m) * 10) / 10);
                                     //decimal max = Convert.ToDecimal(Math.Floor(Convert.ToDouble((tare + GorssSum) * 1.002m) * 10) / 10);
 
-                                    _MINVALUE.SetWeight(min > 0 ? min : 0m, _CURVALUE.Uom, _CURVALUE.Precision);
-                                    _MAXVALUE.SetWeight(max > 0 ? max : 0m, _CURVALUE.Uom, _CURVALUE.Precision);
+                                    //_MINVALUE.SetWeight(min > 0 ? min : 0m, _CURVALUE.Uom, _CURVALUE.Precision);
+                                    //_MAXVALUE.SetWeight(max > 0 ? max : 0m, _CURVALUE.Uom, _CURVALUE.Precision);
+
+                                    _MINVALUE.SetWeight(min > 0 ? min : 0m, _ScaleInfo.NOTATION, Convert.ToInt16(_ScaleInfo.PRECISION));
+                                    _MAXVALUE.SetWeight(max > 0 ? max : 0m, _ScaleInfo.NOTATION, Convert.ToInt16(_ScaleInfo.PRECISION));
+
                                     OnPropertyChanged("MINVALUE");
                                     OnPropertyChanged("MAXVALUE");
                                 }

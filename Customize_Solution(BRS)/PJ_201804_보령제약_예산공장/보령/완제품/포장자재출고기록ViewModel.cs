@@ -198,7 +198,7 @@ namespace 보령
                                     row["인계자"] = item.HANDOVERUSERID != null ? item.HANDOVERUSERID : "";
                                     row["인계시간"] = item.HANDOVERDTTM != null ? Convert.ToDateTime(item.HANDOVERDTTM).ToString("yyyy-MM-dd HH:mm") : "";
                                     row["인수자"] = item.INSUERID;
-                                    row["인수시간"] = item.HANDOVERDTTM;
+                                    row["인수시간"] = ACQUIREDTTM.ToString("yyyy-MM-dd HH:mm");
 
                                     dt.Rows.Add(row);
                                 }

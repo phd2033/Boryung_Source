@@ -173,6 +173,8 @@ namespace 보령
                             _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI.INDATAs.Clear();
                             _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI.PARAMDATAs.Clear();
 
+                            string eqptList = string.Empty;
+
                             foreach (var item in _BR_BRS_SEL_EquipmentStatus_PROC_OPSG.OUTDATAs)
                             {
                                 if (item.SELFLAG)
@@ -191,7 +193,23 @@ namespace 보령
                                     row["설비명"] = item.EQPTNAME ?? "";
 
                                     dt.Rows.Add(row);
+
+                                    if(string.IsNullOrEmpty(eqptList))
+                                    {
+                                        eqptList = row["설비코드"].ToString();
+                                    }
+                                    else
+                                    {
+
+                                        eqptList = eqptList + ',' + row["설비코드"].ToString();
+                                    }
                                 }
+                            }
+
+                            if (!await OnMessageAsync(eqptList + " 설비를 종료 하시겠습니까?", true))
+                            {
+                                IsBusy = false;
+                                return;
                             }
 
                             bool BRExecuteFlag = false; // 설비사용종료 비즈룰이 실행된 경우 true

@@ -84,6 +84,8 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="5" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
@@ -97,10 +99,12 @@
                     <TextBox Grid.Column="7"  Text="{Binding MtrlId, Mode=TwoWay}" Style="{StaticResource txtStyle}"/>
                     <sdk:Label Grid.Column="9" Content="제품명" Style="{StaticResource lblStyle}"/>
                     <TextBox Grid.Column="11"  Text="{Binding MtrlName, Mode=TwoWay}" Style="{StaticResource txtStyle}"/>
-                    <sdk:Label Grid.Column="13" Content="배치번호" Style="{StaticResource lblStyle}"/>
+                    <sdk:Label Grid.Column="13" Content="제조번호" Style="{StaticResource lblStyle}"/>
                     <TextBox Grid.Column="15" Text="{Binding BatchNo, Mode=TwoWay}" Style="{StaticResource txtStyle}"/>
+                    <sdk:Label Grid.Column="17" Content="검사자" Style="{StaticResource lblStyle}"/>
+                    <TextBox Grid.Column="19" Text="{Binding UserName, Mode=TwoWay}" Style="{StaticResource txtStyle}"/>
 
-                    <Button Grid.Column="22" Content="검색" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,0,0" Width="80" >
+                    <Button Grid.Column="21" Content="검색" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,0,0" Width="80" >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding Path=BtnSearchCommand}"/>
@@ -148,13 +152,20 @@
 
                             <c1:C1DataGrid.Columns>
                                 <c1:DataGridTextColumn SortMemberPath="INSUSER" Header="[검사자, 검사자, 검사자, 검사자, 검사자, 검사자]" Binding="{Binding INSUSER}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="MTRLNAME" Header="[제품명, 제품명, 제품명, 제품명, 제품명, 제품명]" Binding="{Binding MTRLNAME}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="BATCHNO" Header="[제조번호, 제조번호, 제조번호, 제조번호, 제조번호]" Binding="{Binding BATCHNO}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="INSPECTIONDTTM" Header="[검사일자, 검사일자, 검사일자, 검사일자, 검사일자, 검사일자]" Binding="{Binding INSPECTIONDTTM}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="INSPECTQTY" Header="[검사수량(Vial), 검사수량(Vial), 검사수량(Vial), 검사수량(Vial), 검사수량(Vial), 검사수량(Vial)]" Binding="{Binding INSPECTQTY}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="INSUSER" Header="[총 양품수율, 총 양품수율, 총 양품수율, 총 양품수율, 총 양품수율, (총 양품수량 / 총 검사수량(%))]" Binding="{Binding GOODYIELD}" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="INSPECTIONDTTM" Header="[총 불량수율, 총 불량수율, 총 불량수율, 총 불량수율, 총 불량수율, (총 불량수량 / 총 검사수량(%))]" Binding="{Binding REJECTYIELD}" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="INSPECTQTY" Header="[치명결점수량, 치명결점수량, 치명결점수량, 치명결점수량, 치명결점수량, (총 양품수량 / 총 검사수량(%))]" Binding="{Binding CRITICALYIELD}" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="INSPECTIONDTTM" Header="[중결점수량, 중결점수량, 중결점수량, 중결점수량, 중결점수량, (중결점수량 / 총 검사수량(%))]" Binding="{Binding MIDDLEYIELD}" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="INSPECTQTY" Header="[경결점수량, 경결점수량, 경결점수량, 경결점수량, 경결점수량, (경결점수량 / 총 검사수량(%))]" Binding="{Binding LIGHTYIELD}" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="INSUSER" Header="[총 양품수율, 총 양품수율, 총 양품수율, 총 양품수율, 총 양품수율, 총 양품수량]" Binding="{Binding TOTAL_GOODQTY}" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="INSUSER" Header="[총 양품수율, 총 양품수율, 총 양품수율, 총 양품수율, 총 양품수율, 총 검사수율(%)]" Binding="{Binding GOODYIELD}" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="INSPECTIONDTTM" Header="[총 불량수율, 총 불량수율, 총 불량수율, 총 불량수율, 총 불량수율, 총 불량수량]" Binding="{Binding TOTAL_REJECTQTY}" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="INSPECTIONDTTM" Header="[총 불량수율, 총 불량수율, 총 불량수율, 총 불량수율, 총 불량수율, 총 검사수율(%)]" Binding="{Binding REJECTYIELD}" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="INSPECTQTY" Header="[치명결점수량, 치명결점수량, 치명결점수량, 치명결점수량, 치명결점수량, 총 치명결점수량]" Binding="{Binding CRITICAL_REJECTQTY}" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="INSPECTQTY" Header="[치명결점수량, 치명결점수량, 치명결점수량, 치명결점수량, 치명결점수량, 총 검사수율(%)]" Binding="{Binding CRITICALYIELD}" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="INSPECTIONDTTM" Header="[중결점수량, 중결점수량, 중결점수량, 중결점수량, 중결점수량, 중결점수량]" Binding="{Binding MIDDLE_REJECTQTY}" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="INSPECTIONDTTM" Header="[중결점수량, 중결점수량, 중결점수량, 중결점수량, 중결점수량, 총 검사수율(%)]" Binding="{Binding MIDDLEYIELD}" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="INSPECTQTY" Header="[경결점수량, 경결점수량, 경결점수량, 경결점수량, 경결점수량, 경결점수량]" Binding="{Binding LIGHT_REJECTQTY}" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="INSPECTQTY" Header="[경결점수량, 경결점수량, 경결점수량, 경결점수량, 경결점수량, 총 검사수율(%)]" Binding="{Binding LIGHTYIELD}" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="REJECT_NO1" Header="[불량 유형 및 수량, 내용물, 이물, 흰티, 치명결점, 1]" Binding="{Binding REJECT_NO1}" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="REJECT_NO2" Header="[불량 유형 및 수량, 내용물, 이물, 검은티, 치명결점, 2]" Binding="{Binding REJECT_NO2}" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="REJECT_NO3" Header="[불량 유형 및 수량, 내용물, 이물, 유색, 치명결점, 3]" Binding="{Binding REJECT_NO3}" HorizontalAlignment="Right" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>

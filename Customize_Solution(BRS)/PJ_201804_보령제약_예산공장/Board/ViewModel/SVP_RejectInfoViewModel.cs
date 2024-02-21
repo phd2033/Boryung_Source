@@ -53,6 +53,17 @@ namespace Board
             }
         }
 
+        private string _UserName;
+        public string UserName
+        {
+            get { return _UserName; }
+            set
+            {
+                _UserName = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private string _MtrlId;
         public string MtrlId
         {
@@ -163,7 +174,8 @@ namespace Board
                                 TODTTM = PeriodEDDTTM,
                                 MTRLID = MtrlId != "" ? MtrlId : null,
                                 MTRLNAME = MtrlName != "" ? MtrlName : null,
-                                BATCHNO = BatchNo != "" ? BatchNo : null
+                                BATCHNO = BatchNo != "" ? BatchNo : null,
+                                USERNAME = UserName != "" ? _UserName : null
                             });
 
                             await _BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.Execute();

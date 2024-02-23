@@ -13,7 +13,6 @@ using System.ComponentModel;
 
 namespace 보령
 {
-    [ShopFloorCustomHidden]
     [Description("개별질량측정_기록")]
     public partial class 개별질량측정_기록 : ShopFloorCustomWindow
     {

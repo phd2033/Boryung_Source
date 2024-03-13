@@ -12,6 +12,7 @@ using LGCNS.iPharmMES.Common;
 using C1.Silverlight.Data;
 using ShopFloorUI;
 using System.Collections.Generic;
+using System.Text;
 
 namespace 보령
 {
@@ -174,7 +175,7 @@ namespace 보령
                             _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI.PARAMDATAs.Clear();
 
                             string eqptList = string.Empty;
-
+                            
                             foreach (var item in _BR_BRS_SEL_EquipmentStatus_PROC_OPSG.OUTDATAs)
                             {
                                 if (item.SELFLAG)
@@ -211,7 +212,7 @@ namespace 보령
                                 IsBusy = false;
                                 return;
                             }
-
+                            
                             bool BRExecuteFlag = false; // 설비사용종료 비즈룰이 실행된 경우 true
                             if (_BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI.INDATAs.Count > 0)
                             {
@@ -219,6 +220,30 @@ namespace 보령
                                     BRExecuteFlag = true;
                                 else
                                     throw _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI.Exception;
+                            }
+
+                            // 김진수 매니저 요청. 설비들 각각 종료하는 시간이 다름. 지시문이 기록되어 있으면 지시문 기록 정보에 추가로 기록 가능하도록 변경 요청
+                            // 변경실행 대기 중으로 미반영 중
+                            // CR-24-0009 변경으로 로직 변경함.
+                            // 현재 페이즈가 완료 상태이고 기록이 있는 경우 XML기록 결과를 보여줌
+                            if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y") && _mainWnd.CurrentInstruction.Raw.NOTE != null)
+                            {
+                                var bytearray = _mainWnd.CurrentInstruction.Raw.NOTE;
+                                string loadXml = Encoding.UTF8.GetString(bytearray, 0, bytearray.Length);
+                                DataSet dsLoad = new DataSet();
+                                dsLoad.ReadXmlFromString(loadXml);
+
+                                if (dsLoad.Tables.Count == 1 && dsLoad.Tables[0].TableName == "DATA")
+                                {
+                                    foreach (DataRow loadRow in dsLoad.Tables[0].Rows)
+                                    {
+                                        var row = dt.NewRow();
+                                        row["설비코드"] = loadRow["설비코드"];
+                                        row["설비명"] = loadRow["설비명"];
+
+                                        dt.Rows.Add(row);
+                                    }
+                                }
                             }
 
                             var xml = BizActorRuleBase.CreateXMLStream(ds);

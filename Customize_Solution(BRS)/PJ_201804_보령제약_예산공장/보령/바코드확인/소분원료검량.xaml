@@ -87,15 +87,13 @@
                     <c1:C1DataGrid x:Name="LayerChargingContainerDataGrid" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Margin="2"
                                    HeadersVisibility="Column" AutoGenerateColumns="False" ScrollBarStyle="{Binding Source={StaticResource dgScroll}}"
                                    CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False"
-                                   ItemsSource="{Binding BR_BRS_GET_MaterialSubLot_ContainerInfo_Dispensing.OUTDATAs}" Grid.ColumnSpan="4">
+                                   ItemsSource="{Binding BR_BRS_GET_MaterialSubLot_ContainerInfo_LayerCharging.OUTDATAs}" Grid.ColumnSpan="4">
                         <c1:C1DataGrid.Columns>
-                            <c1:DataGridTextColumn Header="제조번호" Binding="{Binding BATCHNO}"/>
-                            <c1:DataGridTextColumn Header="오더번호" Binding="{Binding POID}"/>
                             <c1:DataGridTextColumn Header="공정" Binding="{Binding OPSGNAME}"/>
                             <c1:DataGridTextColumn Header="자재 ID" Binding="{Binding MTRLID}"/>
                             <c1:DataGridTextColumn Header="자재명" Binding="{Binding MTRLNAME}"/>
                             <c1:DataGridTextColumn Header="원료시험번호" Binding="{Binding TSTREQNO}"/>
-                            <c1:DataGridTextColumn Header="무게" Binding="{Binding GROSSQTY}"/>
+                            <c1:DataGridTextColumn Header="원료무게" Binding="{Binding MSUBLOTQTY}"/>
                             <c1:DataGridTextColumn Header="단위" Binding="{Binding UOMNAME}" Width="60"/>
                         </c1:C1DataGrid.Columns>
                     </c1:C1DataGrid>
@@ -107,12 +105,12 @@
                                 <RowDefinition/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Text="{Binding MAXVALUE, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ScaleValueStyle}"/>
+                            <!--<TextBlock Grid.Row="0" Text="{Binding MAXVALUE, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ScaleValueStyle}"/>-->
                             <Border Grid.Row="1" Background="{Binding btnSaveWeightEnable, Converter={StaticResource ScaleBackGround}}">
                                 <TextBlock x:Name="txtScaleValue" Text="{Binding CURVALUE, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="30"
                                            Style="{StaticResource ScaleValueStyle}"/>
                             </Border>
-                            <TextBlock Grid.Row="2" Text="{Binding MINVALUE, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ScaleValueStyle}"/>
+                            <!--<TextBlock Grid.Row="2" Text="{Binding MINVALUE, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ScaleValueStyle}"/>-->
                         </Grid>
                     </Border>
 
@@ -136,6 +134,7 @@
                             <c1:DataGridTextColumn Header="{Binding W[CUIMaterialID], Source={StaticResource VM}, FallbackValue='원료코드'}" Binding="{Binding MtrlId}"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <c1:DataGridTextColumn Header="{Binding W[CUIMaterialName], Source={StaticResource VM}, FallbackValue='원료명'}" Binding="{Binding MtrlName}"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <c1:DataGridTextColumn Header="{Binding W[CUICurWeight], Source={StaticResource VM}, FallbackValue='무게(측정값)'}" Binding="{Binding CurWeight, StringFormat='#0.00# g'}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <c1:DataGridTextColumn Header="{Binding W[CUIMSublotBcd], Source={StaticResource VM}, FallbackValue='원료바코드'}" Binding="{Binding MsubLotBcd}"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </c1:C1DataGrid.Columns>
                     </c1:C1DataGrid>
                 </Grid>

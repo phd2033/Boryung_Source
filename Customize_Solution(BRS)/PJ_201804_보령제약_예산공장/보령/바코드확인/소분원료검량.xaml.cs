@@ -15,6 +15,7 @@ using ShopFloorUI;
 
 namespace 보령
 {
+    [ShopFloorCustomHidden]
     [Description("소분된 원료를 현장에서 검량")]
     public partial class 소분원료검량 : ShopFloorCustomWindow
     {

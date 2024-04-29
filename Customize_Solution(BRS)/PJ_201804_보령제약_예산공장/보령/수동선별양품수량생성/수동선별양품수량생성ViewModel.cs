@@ -42,6 +42,17 @@ namespace 보령
             }
         }
 
+        BR_BRS_REG_Manual_Inspection_GoodQty _BR_BRS_REG_Manual_Inspection_GoodQty;
+        public BR_BRS_REG_Manual_Inspection_GoodQty BR_BRS_REG_Manual_Inspection_GoodQty
+        {
+            get { return _BR_BRS_REG_Manual_Inspection_GoodQty; }
+            set
+            {
+                _BR_BRS_REG_Manual_Inspection_GoodQty = value;
+                OnPropertyChanged("BR_BRS_REG_Manual_Inspection_GoodQty");
+            }
+        }
+
         private string _result_AVG;
         public string Result_AVG
         {
@@ -228,8 +239,8 @@ namespace 보령
 
                             //Result_AVG, Result_OUTPUT, Result_CALC ReadOnly 값 초기화
                             //Result_OUTPUT = "";
-                            Result_AVG = "";
-                            Result_CALC = "";
+                            //Result_AVG = "";
+                            //Result_CALC = "";
 
                             CommandResults["ModifyCommand"] = true;
                         }
@@ -275,7 +286,6 @@ namespace 보령
                                 var authHelper = new iPharmAuthCommandHelper();
 
                                 //수율 값 저장 전자서명
-                                var outputValues = InstructionModel.GetResultReceiver(_mainWnd.CurrentInstruction, _mainWnd.Instructions);
                                 authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_Yield");
 
                                 if (await authHelper.ClickAsync(
@@ -291,9 +301,20 @@ namespace 보령
                                 }
 
                                 //값의 변경이 있을 때 호출
-                                //OnPropertyChanged("Result_OUTPUT_ReadOnly");
-                                OnPropertyChanged("Result_AVG_ReadOnly");
-                                OnPropertyChanged("Result_CALC_ReadOnly");
+                                OnPropertyChanged("Result_AVG");
+                                OnPropertyChanged("Result_CALC");
+
+                                _BR_BRS_REG_Manual_Inspection_GoodQty.INDATAs.Clear();
+
+                                _BR_BRS_REG_Manual_Inspection_GoodQty.INDATAs.Add(new BR_BRS_REG_Manual_Inspection_GoodQty.INDATA()
+                                {
+                                    POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                    OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                    GOODQTY = Math.Floor(Convert.ToDouble(Result_CALC)).ToString(),
+                                    USERID = AuthRepositoryViewModel.Instance.LoginedUserID
+                                });
+
+                                if (!await _BR_BRS_REG_Manual_Inspection_GoodQty.Execute()) throw new Exception(string.Format("GoodQty 생성 중 오류가 발생했습니다."));
 
                                 Brush background = _mainWndXml.PrintArea.Background;
                                 _mainWndXml.PrintArea.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0xD6, 0xD4, 0xD4));
@@ -303,22 +324,24 @@ namespace 보령
                                 _mainWnd.CurrentInstruction.Raw.ACTVAL = Math.Floor(Convert.ToDouble(Result_CALC)).ToString(); //"Image Attached" -> 소수점버림 처리
                                 _mainWnd.CurrentInstruction.Raw.NOTE = imageToByteArray();
 
+
                                 var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction, false, false, true);
                                 if (result != enumInstructionRegistErrorType.Ok)
                                 {
                                     throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
                                 }
 
-                                foreach (var item in outputValues)
-                                {
-                                    item.Raw.ACTVAL = _mainWnd.CurrentInstruction.Raw.ACTVAL;
+                                //var outputValues = InstructionModel.GetResultReceiver(_mainWnd.CurrentInstruction, _mainWnd.Instructions);
+                                //foreach (var item in outputValues)
+                                //{
+                                //    item.Raw.ACTVAL = _mainWnd.CurrentInstruction.Raw.ACTVAL;
 
-                                    result = await _mainWnd.Phase.RegistInstructionValue(item);
-                                    if (result != enumInstructionRegistErrorType.Ok)
-                                    {
-                                        throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", item.Raw.IRTGUID, result));
-                                    }
-                                }
+                                //    result = await _mainWnd.Phase.RegistInstructionValue(item);
+                                //    if (result != enumInstructionRegistErrorType.Ok)
+                                //    {
+                                //        throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", item.Raw.IRTGUID, result));
+                                //    }
+                                //}
 
                                 if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
                                 else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
@@ -373,6 +396,7 @@ namespace 보령
         public 수동선별양품수량생성ViewModel()
         {
             _BRS_SEL_ProductionOrder_OPSG_Output_WEIGHT = new BRS_SEL_ProductionOrder_OPSG_Output_WEIGHT();
+            _BR_BRS_REG_Manual_Inspection_GoodQty = new BR_BRS_REG_Manual_Inspection_GoodQty();
             //  Is_EnableOKBtn = false;
 
             // 기존 readOnly 설정값 유지

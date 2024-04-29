@@ -18,6 +18,10 @@ namespace 보령
         {
             InitializeComponent();
         }
+        public override string TableTypeName
+        {
+            get { return "TABLE,수동선별양품수량생성"; }
+        }
 
         private void Close_Click(object sender, System.Windows.RoutedEventArgs e)
         {

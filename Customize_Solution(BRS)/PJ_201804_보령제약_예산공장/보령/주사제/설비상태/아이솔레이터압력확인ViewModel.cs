@@ -148,7 +148,7 @@ namespace 보령
                             stream.Seek(0, SeekOrigin.Begin);
                             stream.Read(datas, 0, datas.Length);
 
-                            _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
+                            _mainWnd.CurrentInstruction.Raw.ACTVAL = "아이솔레이터압력확인";
                             _mainWnd.CurrentInstruction.Raw.NOTE = datas;
 
                             // 결과 기록

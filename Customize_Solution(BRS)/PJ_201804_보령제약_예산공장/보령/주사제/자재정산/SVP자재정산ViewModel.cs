@@ -188,29 +188,29 @@ namespace 보령
 
                                 ds.Tables.Add(dt);
 
-                                dt.Columns.Add(new DataColumn("MTRLID"));
-                                dt.Columns.Add(new DataColumn("MTRLNAME"));
-                                dt.Columns.Add(new DataColumn("UOM"));
-                                dt.Columns.Add(new DataColumn("PICKING"));
-                                dt.Columns.Add(new DataColumn("ADDING"));
-                                dt.Columns.Add(new DataColumn("SCRAP"));
-                                dt.Columns.Add(new DataColumn("SAMPLE"));
-                                dt.Columns.Add(new DataColumn("REMAIN"));
-                                dt.Columns.Add(new DataColumn("USING"));
+                                dt.Columns.Add(new DataColumn("자재코드"));
+                                dt.Columns.Add(new DataColumn("자재명"));
+                                dt.Columns.Add(new DataColumn("단위"));
+                                dt.Columns.Add(new DataColumn("인수량"));
+                                dt.Columns.Add(new DataColumn("추가량"));
+                                dt.Columns.Add(new DataColumn("불량"));
+                                dt.Columns.Add(new DataColumn("샘플량"));
+                                dt.Columns.Add(new DataColumn("잔량"));
+                                dt.Columns.Add(new DataColumn("사용량"));
 
                                 foreach (var item in _PackingInfoList)
                                 {
                                     var row = dt.NewRow();
 
-                                    row["MTRLID"] = item.MTRLID != null ? item.MTRLID : "";
-                                    row["MTRLNAME"] = item.MTRLNAME != null ? item.MTRLNAME : "";
-                                    row["UOM"] = item.UOM != null ? item.UOM : "";
-                                    row["PICKING"] = item.PICKING.ToString("#0.00#");
-                                    row["ADDING"] = item.ADDING.ToString("#0.00#");
-                                    row["SCRAP"] = item.SCRAP.ToString("#0.00#");
-                                    row["SAMPLE"] = item.SAMPLE.ToString("#0.00#");
-                                    row["REMAIN"] = item.REMAIN.ToString("#0.00#");
-                                    row["USING"] = item.USING.ToString("#0.00#");
+                                    row["자재코드"] = item.MTRLID != null ? item.MTRLID : "";
+                                    row["자재명"] = item.MTRLNAME != null ? item.MTRLNAME : "";
+                                    row["단위"] = item.UOM != null ? item.UOM : "";
+                                    row["인수량"] = item.PICKING.ToString("#0");
+                                    row["추가량"] = item.ADDING.ToString("#0");
+                                    row["불량"] = item.SCRAP.ToString("#0");
+                                    row["샘플량"] = item.SAMPLE.ToString("#0");
+                                    row["잔량"] = item.REMAIN.ToString("#0");
+                                    row["사용량"] = item.USING.ToString("#0");
 
                                     dt.Rows.Add(row);
                                 }

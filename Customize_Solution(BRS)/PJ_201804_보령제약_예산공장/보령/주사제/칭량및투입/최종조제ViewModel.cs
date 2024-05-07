@@ -1124,7 +1124,7 @@ namespace 보령
 
                             dt.Columns.Add(new DataColumn("용기번호"));
                             dt.Columns.Add(new DataColumn("하한"));
-                            dt.Columns.Add(new DataColumn("보충전무게"));
+                            dt.Columns.Add(new DataColumn("LoadCell지시값"));
                             dt.Columns.Add(new DataColumn("상한"));
                             dt.Columns.Add(new DataColumn("최종무게"));
                             dt.Columns.Add(new DataColumn("저울번호"));
@@ -1132,7 +1132,7 @@ namespace 보령
                             DataRow row = dt.NewRow();
                             row["용기번호"] = BeakerId ?? ""; 
                             row["하한"] = MinWeight ?? "";
-                            row["보충전무게"] = AddWeight ?? "";
+                            row["LoadCell지시값"] = AddWeight ?? "";
                             row["상한"] = MaxWeight ?? "";
                             row["최종무게"] = FinalWeight ?? "";
                             row["저울번호"] = ScaleId ?? "";

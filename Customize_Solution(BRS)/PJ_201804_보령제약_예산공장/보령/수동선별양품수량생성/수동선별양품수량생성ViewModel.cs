@@ -324,24 +324,39 @@ namespace 보령
                                 _mainWnd.CurrentInstruction.Raw.ACTVAL = Math.Floor(Convert.ToDouble(Result_CALC)).ToString(); //"Image Attached" -> 소수점버림 처리
                                 _mainWnd.CurrentInstruction.Raw.NOTE = imageToByteArray();
 
-
                                 var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction, false, false, true);
                                 if (result != enumInstructionRegistErrorType.Ok)
                                 {
                                     throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
                                 }
 
-                                //var outputValues = InstructionModel.GetResultReceiver(_mainWnd.CurrentInstruction, _mainWnd.Instructions);
-                                //foreach (var item in outputValues)
-                                //{
-                                //    item.Raw.ACTVAL = _mainWnd.CurrentInstruction.Raw.ACTVAL;
+                                if (_ModifyFlag)
+                                {
 
-                                //    result = await _mainWnd.Phase.RegistInstructionValue(item);
-                                //    if (result != enumInstructionRegistErrorType.Ok)
-                                //    {
-                                //        throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", item.Raw.IRTGUID, result));
-                                //    }
-                                //}
+                                    var bizrule = new BR_PHR_REG_InstructionComment();
+
+                                    bizrule.IN_Comments.Add(
+                                        new BR_PHR_REG_InstructionComment.IN_Comment
+                                        {
+                                            POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                            OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                            COMMENTTYPE = "CM008",
+                                            COMMENT = _ModifyComment
+                                        }
+                                        );
+                                    bizrule.IN_IntructionResults.Add(
+                                        new BR_PHR_REG_InstructionComment.IN_IntructionResult
+                                        {
+                                            RECIPEISTGUID = _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
+                                            ACTIVITYID = _mainWnd.CurrentInstruction.Raw.ACTIVITYID,
+                                            IRTGUID = _mainWnd.CurrentInstruction.Raw.IRTGUID,
+                                            IRTRSTGUID = _mainWnd.CurrentInstruction.Raw.IRTRSTGUID,
+                                            IRTSEQ = (int)_mainWnd.CurrentInstruction.Raw.IRTSEQ
+                                        }
+                                        );
+
+                                    await bizrule.Execute();
+                                }
 
                                 if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
                                 else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);

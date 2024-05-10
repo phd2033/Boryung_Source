@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-using System.Data.OracleClient;
 using ServerAgent;
 using System.Collections.Generic;
 using System.Diagnostics;
-
+using Oracle.ManagedDataAccess.Client;
 
 namespace BR_HR
 {
@@ -22,9 +21,12 @@ namespace BR_HR
         {
             try
             {
-                string _strCon = "Data Source=BR_HR;User id=PHARM_WMS;Password=PHARM_WMS1#;Integrated Security=no;";
-
+                //string _strCon = "Data Source=BR_HR;User id=PHARM_WMS;Password=PHARM_WMS1#;Integrated Security=no;";
+                
                 DataTable dtcon = GetConinfo();
+
+                string _strCon = $@"Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST={dtcon.Rows[0]["HRDB_IP"] as string})(PORT={dtcon.Rows[0]["HRDB_PORT"] as string})))
+                                    (CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=BREHR))); User Id = PHARM_WMS; Password = PHARM_WMS1#;";
 
                 RemoteCall rc = new RemoteCall(dtcon.Rows[0]["SVRNAME"] as string
                                              , dtcon.Rows[0]["PROTOCOL"] as string
@@ -44,6 +46,7 @@ namespace BR_HR
                 string Cmd = string.Empty;
 
                 Cmd = "";
+                //Cmd = Cmd + Environment.NewLine + "SELECT DISTINCT ORG_ID, ORG_NM FROM BORYUNGEHR.VW_PHARM_WMS_INSA_NEW WHERE 1=1 AND ORG_ID = '75120'";
                 Cmd = Cmd + Environment.NewLine + "SELECT C_CD AS COMPANY_CODE";
                 Cmd = Cmd + Environment.NewLine + "     , COMP_NM AS COMPANY_NAME";
                 Cmd = Cmd + Environment.NewLine + "     , EMP_ID AS EMPNO";
@@ -64,12 +67,17 @@ namespace BR_HR
                     Cmd = Cmd + Environment.NewLine + "   AND MOD_YMDHMS >= SYSDATE" + Date;
                 }
                 Cmd = Cmd + Environment.NewLine + "   AND C_CD = '" + C_CD + "'";
+                Debug.WriteLine(Cmd);
+
+                //using (OracleDataAdapter adapter = new OracleDataAdapter(Cmd, s_con))
+                //{
+                //    DataSet dsSet = new DataSet();
+                //    adapter.Fill(dsSet);
+                //}
 
                 s_cmd.CommandText = Cmd;
                 OracleDataReader s_dr = s_cmd.ExecuteReader();
-
-
-
+                
                 DataSet dsin = new DataSet();
                 DataTable dsinD = new DataTable("INDATA");
 

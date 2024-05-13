@@ -169,6 +169,7 @@
                     <Button x:Name="btnRecord" Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource R}, FallbackValue='기록'}" 
                             Style="{Binding Source={StaticResource BtnDefault}}" IsEnabled="{Binding RECORD_ENABLE}"
                             Command="{Binding ConfirmCommandAsync}"/>
+                    <Button x:Name="btnNoRecord" Content="기록없음" Style="{Binding Source={StaticResource BtnDefault}}" Command="{Binding NoRecordConfirmCommandAsync}"/>
                     <Button x:Name="btnCacel" Content="{Binding W[CUICloseButtonText], Source={StaticResource R}, FallbackValue='취소'}"
                             Style="{Binding Source={StaticResource BtnDefault}}"
                             Click="btnCancel_Click"/>

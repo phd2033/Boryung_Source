@@ -15,6 +15,7 @@ using C1.Silverlight.Data;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
+using LGCNS.iPharmMES.Recipe.Common;
 
 namespace 보령
 {
@@ -30,6 +31,8 @@ namespace 보령
         }
         private decimal _totalCount = 0;
         private bool _IsEditable = false;
+        private string _comment = string.Empty;
+
         public bool IsEditable
         {
             get { return _IsEditable; }
@@ -89,7 +92,7 @@ namespace 보령
                                     ISUSE = "Y"
                                 });
 
-                                if(await _BR_PHR_SEL_ProductionOrder_OrderSummary.Execute())
+                                if (await _BR_PHR_SEL_ProductionOrder_OrderSummary.Execute())
                                 {
                                     PRODUCTUOM = _BR_PHR_SEL_ProductionOrder_OrderSummary.OUTDATAs[0].NOTATION;
                                 }
@@ -113,10 +116,10 @@ namespace 보령
                         }
                     }
                 }, arg =>
-               {
-                   return CommandCanExecutes.ContainsKey("LoadedCommandAsync") ?
-                       CommandCanExecutes["LoadedCommandAsync"] : (CommandCanExecutes["LoadedCommandAsync"] = true);
-               });
+                {
+                    return CommandCanExecutes.ContainsKey("LoadedCommandAsync") ?
+                        CommandCanExecutes["LoadedCommandAsync"] : (CommandCanExecutes["LoadedCommandAsync"] = true);
+                });
             }
         }
 
@@ -156,10 +159,10 @@ namespace 보령
                         }
                     }
                 }, arg =>
-               {
-                   return CommandCanExecutes.ContainsKey("RequestCommand") ?
-                       CommandCanExecutes["RequestCommand"] : (CommandCanExecutes["RequestCommand"] = true);
-               });
+                {
+                    return CommandCanExecutes.ContainsKey("RequestCommand") ?
+                        CommandCanExecutes["RequestCommand"] : (CommandCanExecutes["RequestCommand"] = true);
+                });
             }
         }
         public ICommand ChageCommandAsync
@@ -168,6 +171,7 @@ namespace 보령
             {
                 return new AsyncCommandBase(async arg =>
                 {
+
                     try
                     {
                         CommandResults["ChageCommandAsync"] = false;
@@ -177,22 +181,68 @@ namespace 보령
 
                         // 강제진행 권한이 있는 유저가 서명 시 기능활성화
                         var authHelper = new iPharmAuthCommandHelper();
-                        authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_ForceExecution");
+                        authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_Deviation");
+                        //authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_ForceExecution");
+
+                        enumRoleType inspectorRole = enumRoleType.ROLE001;
+                        if (await authHelper.ClickAsync(
+                                Common.enumCertificationType.Role,
+                                Common.enumAccessType.Create,
+                                "기록값 변경 시 코멘트 작성 필요합니다. ",
+                                "양품수량 기록값 변경",
+                                true,
+                                "OM_ProductionOrder_Deviation",
+                                "",
+                                this._mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
+                                this._mainWnd.CurrentInstruction.Raw.DVTPASSYN == "Y" ? enumRoleType.ROLE001.ToString() : inspectorRole.ToString()) == false)
+                        /*
                         if (await authHelper.ClickAsync(
                             Common.enumCertificationType.Function,
                             Common.enumAccessType.Create,
-                            "정제수량변경",
-                            "정제수량변경",
+                            "기록값 변경 시 코멘트 작성 필요합니다. ",
+                            "양품수량 기록값 변경",
                             false,
                             "OM_ProductionOrder_ForceExecution",
                             "",
-                            null, null) == false)
+                            this._mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
+                            this._mainWnd.CurrentInstruction.Raw.DVTPASSYN == "Y" ? enumRoleType.ROLE001.ToString() : inspectorRole.ToString()) == false)
+                         */
                         {
-                            throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                            return;
+                            // throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                         }
+
+                        _mainWnd.CurrentInstruction.Raw.DVTFCYN = "Y";
+                        _mainWnd.CurrentInstruction.Raw.DVTCONFIRMUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Deviation");
 
                         IsEditable = true;
 
+                        _comment = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_Deviation");
+
+
+                        //var bizrule = new BR_PHR_REG_InstructionComment();
+
+                        //bizrule.IN_Comments.Add(
+                        //    new BR_PHR_REG_InstructionComment.IN_Comment
+                        //    {
+                        //        POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                        //        OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                        //        COMMENTTYPE = "CM008",
+                        //        COMMENT = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_Deviation")
+                        //    }
+                        //    );
+                        //bizrule.IN_IntructionResults.Add(
+                        //    new BR_PHR_REG_InstructionComment.IN_IntructionResult
+                        //    {
+                        //        RECIPEISTGUID = _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
+                        //        ACTIVITYID = _mainWnd.CurrentInstruction.Raw.ACTIVITYID,
+                        //        IRTGUID = _mainWnd.CurrentInstruction.Raw.IRTGUID,
+                        //        IRTRSTGUID = _mainWnd.CurrentInstruction.Raw.IRTRSTGUID,
+                        //        IRTSEQ = (int)_mainWnd.CurrentInstruction.Raw.IRTSEQ
+                        //    }
+                        //    );
+
+                        //await bizrule.Execute();
                         ///
                         CommandResults["ChageCommandAsync"] = true;
                     }
@@ -206,6 +256,7 @@ namespace 보령
                         IsBusy = false;
                         CommandCanExecutes["ChageCommandAsync"] = true;
                     }
+
                 }, arg =>
                 {
                     return CommandCanExecutes.ContainsKey("ChageCommandAsync") ?
@@ -250,23 +301,26 @@ namespace 보령
                                 throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                             }
                         }
-
-                        authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
-                        if (await authHelper.ClickAsync(
-                            Common.enumCertificationType.Role,
-                            Common.enumAccessType.Create,
-                            "정제수량확인",
-                            "정제수량확인",
-                            false,
-                            "OM_ProductionOrder_SUI",
-                            "",
-                            null, null) == false)
+                        else
                         {
-                            throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                            authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+                            if (await authHelper.ClickAsync(
+                                Common.enumCertificationType.Role,
+                                Common.enumAccessType.Create,
+                                "정제수량확인",
+                                "정제수량확인",
+                                false,
+                                "OM_ProductionOrder_SUI",
+                                "",
+                                null, null) == false)
+                            {
+                                throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                            }
                         }
 
+
                         string userid = string.IsNullOrWhiteSpace(AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI")) ? AuthRepositoryViewModel.Instance.LoginedUserID : AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI");
-                        _mainWnd.CurrentInstruction.Raw.COMMENTGUID = AuthRepositoryViewModel.Instance.ConfirmedGuid;
+                        //_mainWnd.CurrentInstruction.Raw.COMMENTGUID = AuthRepositoryViewModel.Instance.ConfirmedGuid;
 
                         var ds = new DataSet();
                         var dt = new DataTable("DATA");
@@ -289,7 +343,7 @@ namespace 보령
                                 {
                                     _totalCount += chk;
                                 }
-                            }   
+                            }
 
                             var row = dt.NewRow();
 
@@ -324,10 +378,38 @@ namespace 보령
                                 throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
                             }
 
+                            if (IsEditable)
+                            {
+                                var bizrule = new BR_PHR_REG_InstructionComment();
+
+                                bizrule.IN_Comments.Add(
+                                    new BR_PHR_REG_InstructionComment.IN_Comment
+                                    {
+                                        POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                        OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                        COMMENTTYPE = "CM008",
+                                        COMMENT = _comment
+                                    }
+                                    );
+                                bizrule.IN_IntructionResults.Add(
+                                    new BR_PHR_REG_InstructionComment.IN_IntructionResult
+                                    {
+                                        RECIPEISTGUID = _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
+                                        ACTIVITYID = _mainWnd.CurrentInstruction.Raw.ACTIVITYID,
+                                        IRTGUID = _mainWnd.CurrentInstruction.Raw.IRTGUID,
+                                        IRTRSTGUID = _mainWnd.CurrentInstruction.Raw.IRTRSTGUID,
+                                        IRTSEQ = (int)_mainWnd.CurrentInstruction.Raw.IRTSEQ
+                                    }
+                                    );
+
+                                await bizrule.Execute();
+                            }
+
                             if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
                             else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
-                        }                            
-                        
+
+                        }
+
                         ///
                         CommandResults["ConfirmCommandAsync"] = true;
                     }
@@ -373,7 +455,7 @@ namespace 보령
                             {
                                 EQPTID = row["설비코드"].ToString(),
                                 TAGDESC = row["태그종류"].ToString(),
-                                TAGVALUE = row["수량"].ToString().Replace(_PRODUCTUOM,"")
+                                TAGVALUE = row["수량"].ToString().Replace(_PRODUCTUOM, "")
                             });
                         }
                     }
@@ -388,8 +470,17 @@ namespace 보령
                         OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID ?? "",
                         EQCLID = _mainWnd.CurrentInstruction.Raw.EQCLID ?? ""
                     });
-
                     await BR_BRS_SEL_TabletPressGoodCount.Execute();
+
+                    if ((_BR_BRS_SEL_TabletPressGoodCount.OUTDATAs.Count < 1 || _BR_BRS_SEL_TabletPressGoodCount.OUTDATAs[0].TAGVALUE == "0") == true)
+                    {
+                        BR_BRS_SEL_TabletPressGoodCount.OUTDATAs.Add(new BR_BRS_SEL_TabletPressGoodCount.OUTDATA
+                        {
+                            EQPTID = "N/A",
+                            TAGDESC = "양품 수량",
+                            TAGVALUE = "0"
+                        });
+                    }
                 }
             }
             catch (Exception)

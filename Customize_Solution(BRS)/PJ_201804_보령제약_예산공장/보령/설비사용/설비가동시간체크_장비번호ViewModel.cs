@@ -420,7 +420,7 @@ namespace 보령
                 int tar;
 
                 if (string.IsNullOrWhiteSpace(curInst.Raw.MINVAL) && string.IsNullOrWhiteSpace(curInst.Raw.MAXVAL) && string.IsNullOrWhiteSpace(curInst.Raw.TARGETVAL))
-                    BASELINE = "무제한";
+                    BASELINE = "N/A";
                 else
                 {
                     if (!string.IsNullOrWhiteSpace(curInst.Raw.TARGETVAL) && Int32.TryParse(curInst.Raw.TARGETVAL, out tar))
@@ -449,7 +449,7 @@ namespace 보령
             var numWorkTime = Convert.ToInt32(WORKTIME.Replace(_UOM, ""));
 
 
-            if (BASELINE == "무제한")
+            if (BASELINE == "N/A")
                 return true;
 
             if (MIN.HasValue && MAX.HasValue)

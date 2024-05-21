@@ -507,7 +507,7 @@ namespace 보령
                             }
 
                             _MainWnd.CurrentInstruction.Raw.NOTE = imageToByteArray();
-                            _MainWnd.CurrentInstruction.Raw.ACTVAL = "Image Attached";
+                            _MainWnd.CurrentInstruction.Raw.ACTVAL = "이미지등록";
 
                             var result = await _MainWnd.Phase.RegistInstructionValue(_MainWnd.CurrentInstruction);
                             if (result != enumInstructionRegistErrorType.Ok)
@@ -540,6 +540,79 @@ namespace 보령
         }
 
 
+        public ICommand NoRecordCommandAsync
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["NoRecordConfirmCommand"].EnterAsync())
+                    {
+                        try
+                        {
+                            IsBusy = true;
+
+                            CommandResults["NoRecordConfirmCommand"] = false;
+                            CommandCanExecutes["NoRecordConfirmCommand"] = false;
+
+                            // 전자서명
+                            iPharmAuthCommandHelper authHelper = new iPharmAuthCommandHelper();
+
+                            if (_MainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y") && _MainWnd.Phase.CurrentPhase.STATE.Equals("COMP")) // 값 수정
+                            {
+                                authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+
+                                if (await authHelper.ClickAsync(
+                                    Common.enumCertificationType.Function,
+                                    Common.enumAccessType.Create,
+                                    string.Format("기록값을 변경합니다."),
+                                    string.Format("기록값 변경"),
+                                    true,
+                                    "OM_ProductionOrder_SUI",
+                                    "", _MainWnd.CurrentInstruction.Raw.RECIPEISTGUID, null) == false)
+                                {
+                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                }
+                            }
+
+                            Brush background = _MainWnd.PrintArea.Background;
+                            _MainWnd.PrintArea.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0xD6, 0xD4, 0xD4));
+                            _MainWnd.PrintArea.BorderThickness = new System.Windows.Thickness(1);
+                            _MainWnd.PrintArea.Background = new SolidColorBrush(Colors.White);
+
+                            _MainWnd.CurrentInstruction.Raw.NOTE = imageToByteArrayNoRecode();
+                            _MainWnd.CurrentInstruction.Raw.ACTVAL = "Image Attached";
+
+                            var result = await _MainWnd.Phase.RegistInstructionValue(_MainWnd.CurrentInstruction);
+                            if (result != enumInstructionRegistErrorType.Ok)
+                            {
+                                throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _MainWnd.CurrentInstruction.Raw.IRTGUID, result));
+                            }
+
+                            if (_MainWnd.Dispatcher.CheckAccess()) _MainWnd.DialogResult = true;
+                            else _MainWnd.Dispatcher.BeginInvoke(() => _MainWnd.DialogResult = true);
+
+                            CommandResults["ConfirmCommandAsync"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["NoRecordConfirmCommand"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["NoRecordConfirmCommand"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("NoRecordConfirmCommand") ?
+                        CommandCanExecutes["NoRecordConfirmCommand"] : (CommandCanExecutes["NoRecordConfirmCommand"] = true);
+                });
+            }
+        }
         #endregion
 
         private byte[] imageToByteArray()
@@ -567,6 +640,31 @@ namespace 보령
 
         }
 
+        public byte[] imageToByteArrayNoRecode()
+        {
+            try
+            {
+
+                C1Bitmap bitmap = new C1Bitmap(new WriteableBitmap(_MainWnd.PrintArea, null));
+                System.IO.Stream stream = bitmap.GetStream(ImageFormat.Png, true);
+
+                int len = (int)stream.Seek(0, SeekOrigin.End);
+
+                byte[] datas = new byte[len];
+
+                stream.Seek(0, SeekOrigin.Begin);
+
+                stream.Read(datas, 0, datas.Length);
+
+                return datas;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         #region[Construct]
 
         public 이미지등록ViewModel()

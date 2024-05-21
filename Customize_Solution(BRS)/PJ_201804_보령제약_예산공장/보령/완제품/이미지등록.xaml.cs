@@ -31,6 +31,10 @@ namespace 보령
         {
             this.DialogResult = false;
         }
+        private void NoRecordButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
+        }
     }
 }
 

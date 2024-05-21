@@ -182,7 +182,6 @@ namespace 보령
                         // 강제진행 권한이 있는 유저가 서명 시 기능활성화
                         var authHelper = new iPharmAuthCommandHelper();
                         authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_Deviation");
-                        //authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_ForceExecution");
 
                         enumRoleType inspectorRole = enumRoleType.ROLE001;
                         if (await authHelper.ClickAsync(
@@ -195,21 +194,8 @@ namespace 보령
                                 "",
                                 this._mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
                                 this._mainWnd.CurrentInstruction.Raw.DVTPASSYN == "Y" ? enumRoleType.ROLE001.ToString() : inspectorRole.ToString()) == false)
-                        /*
-                        if (await authHelper.ClickAsync(
-                            Common.enumCertificationType.Function,
-                            Common.enumAccessType.Create,
-                            "기록값 변경 시 코멘트 작성 필요합니다. ",
-                            "양품수량 기록값 변경",
-                            false,
-                            "OM_ProductionOrder_ForceExecution",
-                            "",
-                            this._mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
-                            this._mainWnd.CurrentInstruction.Raw.DVTPASSYN == "Y" ? enumRoleType.ROLE001.ToString() : inspectorRole.ToString()) == false)
-                         */
                         {
                             return;
-                            // throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                         }
 
                         _mainWnd.CurrentInstruction.Raw.DVTFCYN = "Y";
@@ -219,31 +205,6 @@ namespace 보령
 
                         _comment = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_Deviation");
 
-
-                        //var bizrule = new BR_PHR_REG_InstructionComment();
-
-                        //bizrule.IN_Comments.Add(
-                        //    new BR_PHR_REG_InstructionComment.IN_Comment
-                        //    {
-                        //        POID = _mainWnd.CurrentOrder.ProductionOrderID,
-                        //        OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
-                        //        COMMENTTYPE = "CM008",
-                        //        COMMENT = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_Deviation")
-                        //    }
-                        //    );
-                        //bizrule.IN_IntructionResults.Add(
-                        //    new BR_PHR_REG_InstructionComment.IN_IntructionResult
-                        //    {
-                        //        RECIPEISTGUID = _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
-                        //        ACTIVITYID = _mainWnd.CurrentInstruction.Raw.ACTIVITYID,
-                        //        IRTGUID = _mainWnd.CurrentInstruction.Raw.IRTGUID,
-                        //        IRTRSTGUID = _mainWnd.CurrentInstruction.Raw.IRTRSTGUID,
-                        //        IRTSEQ = (int)_mainWnd.CurrentInstruction.Raw.IRTSEQ
-                        //    }
-                        //    );
-
-                        //await bizrule.Execute();
-                        ///
                         CommandResults["ChageCommandAsync"] = true;
                     }
                     catch (Exception ex)
@@ -320,8 +281,7 @@ namespace 보령
 
 
                         string userid = string.IsNullOrWhiteSpace(AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI")) ? AuthRepositoryViewModel.Instance.LoginedUserID : AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI");
-                        //_mainWnd.CurrentInstruction.Raw.COMMENTGUID = AuthRepositoryViewModel.Instance.ConfirmedGuid;
-
+                       
                         var ds = new DataSet();
                         var dt = new DataTable("DATA");
                         ds.Tables.Add(dt);
@@ -470,9 +430,11 @@ namespace 보령
                         OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID ?? "",
                         EQCLID = _mainWnd.CurrentInstruction.Raw.EQCLID ?? ""
                     });
+
+                    //2024.05.21 김도연 : 설비 통신 초기화하고 MES로 전달할 경우, 태그값이 0으로 올라옴
                     await BR_BRS_SEL_TabletPressGoodCount.Execute();
 
-                    if ((_BR_BRS_SEL_TabletPressGoodCount.OUTDATAs.Count < 1 || _BR_BRS_SEL_TabletPressGoodCount.OUTDATAs[0].TAGVALUE == "0") == true)
+                    if (_BR_BRS_SEL_TabletPressGoodCount.OUTDATAs.Count < 1)
                     {
                         BR_BRS_SEL_TabletPressGoodCount.OUTDATAs.Add(new BR_BRS_SEL_TabletPressGoodCount.OUTDATA
                         {
@@ -481,6 +443,7 @@ namespace 보령
                             TAGVALUE = "0"
                         });
                     }
+                    
                 }
             }
             catch (Exception)

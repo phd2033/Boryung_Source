@@ -458,8 +458,8 @@ namespace 보령
                             if (await authHelper.ClickAsync(
                                 Common.enumCertificationType.Role,
                                 Common.enumAccessType.Create,
-                                string.Format("정제체크마스터조회"),
-                                string.Format("정제체크마스터조회"),
+                                string.Format("정제체크마스터조회_수정"),
+                                string.Format("정제체크마스터조회_수정"),
                                 true,
                                 "OM_ProductionOrder_Deviation",
                                 _mainWnd.CurrentOrderInfo.EquipmentID, _mainWnd.CurrentOrderInfo.RecipeID, _mainWnd.CurrentInstruction.Raw.DVTPASSYN == "Y" ? enumRoleType.ROLE001.ToString() : inspectorRole.ToString()) == false)
@@ -613,8 +613,8 @@ namespace 보령
                                 if (await authHelper.ClickAsync(
                                     Common.enumCertificationType.Function,
                                     Common.enumAccessType.Create,
-                                    string.Format("정제체크마스터조회"),
-                                    string.Format("정제체크마스터조회"),
+                                    string.Format("정제체크마스터조회_수정"),
+                                    string.Format("정제체크마스터조회_수정"),
                                     false,
                                     "OM_ProductionOrder_SUI",
                                     _mainWnd.CurrentOrderInfo.EquipmentID, _mainWnd.CurrentOrderInfo.RecipeID, null) == false)

@@ -34,7 +34,23 @@
                                CanUserAddRows="False" CanUserEditRows="{Binding IsEditable}" CanUserRemoveRows="False"
                                ItemsSource="{Binding BR_BRS_SEL_TabletPressGoodCount.OUTDATAs}">
                     <c1:C1DataGrid.Columns>
-                        <c1:DataGridTextColumn Header="설비코드" IsReadOnly="True" Binding="{Binding EQPTID}"/>
+                        <c1:DataGridTemplateColumn Header="설비코드">
+                            <c1:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid VerticalAlignment="Center">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding EQPTID}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </c1:DataGridTemplateColumn.CellTemplate>
+                            <c1:DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <TextBox Grid.Column="0" Text="{Binding EQPTID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                </DataTemplate>
+                            </c1:DataGridTemplateColumn.CellEditingTemplate>
+                        </c1:DataGridTemplateColumn>
                         <c1:DataGridTextColumn Header="태그종류" IsReadOnly="True" Binding="{Binding TAGDESC}"/>
                         <c1:DataGridTemplateColumn Header="수량">
                             <c1:DataGridTemplateColumn.CellTemplate>

@@ -878,6 +878,10 @@
       <DependentUpon>정제체크마스터조회.xaml</DependentUpon>
     </Compile>
     <Compile Include="정제체크마스터\정제체크마스터조회ViewModel.cs" />
+    <Compile Include="정제체크마스터\정제체크마스터조회_입력.xaml.cs">
+      <DependentUpon>정제체크마스터조회_입력.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="정제체크마스터\정제체크마스터조회_입력ViewModel.cs" />
     <Compile Include="주사제\공정검사\AQL검사기록.xaml.cs">
       <DependentUpon>AQL검사기록.xaml</DependentUpon>
     </Compile>
@@ -1558,6 +1562,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="정제체크마스터\정제체크마스터조회.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="정제체크마스터\정제체크마스터조회_입력.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

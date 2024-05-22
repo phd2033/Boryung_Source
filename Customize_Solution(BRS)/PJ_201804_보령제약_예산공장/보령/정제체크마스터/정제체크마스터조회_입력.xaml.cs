@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 
 namespace 보령
 {
+    [ShopFloorCustomHidden]
      public partial class 정제체크마스터조회_입력 : ShopFloorCustomWindow
     {
 

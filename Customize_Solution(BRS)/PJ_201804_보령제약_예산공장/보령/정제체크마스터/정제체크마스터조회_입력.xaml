@@ -68,8 +68,8 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="타정기 정보" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                        <TextBox x:Name="txtEqptId" Text="{Binding EQPTID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Style="{Binding Source={StaticResource txtEQPT}}"/>
+                    <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                        <TextBox x:Name="txtEqptId" Text="{Binding EQPTID, Mode=TwoWay}" IsReadOnly="{Binding EQPTID_ENABLE}" Style="{Binding Source={StaticResource txtEQPT}}"/>
                         <TextBox x:Name="txtEqptName" Text="{Binding EQPTNAME, Mode=OneWay}" IsReadOnly="True" Style="{Binding Source={StaticResource txtEQPT}}"/>
                     </StackPanel>
 
@@ -83,25 +83,24 @@
                     <ezmes:CNSDataGrid x:Name="dgCheckMasterIPCResult" IsRowAdd="True" IsRowDelete="True" IsEditMode="True" IsEditSection="True" IsRowNumber="False"
                                     HeadersVisibility="Column" ItemsSource="{Binding IPCResultSections}" Margin="0,0,0,100">
                         <ezmes:CNSDataGrid.DataColumns>
-                            <!--<ezmes:DataColumn HeadName="No" HeaderWidth="40" DataField = "SEQ" ColumnType =" TextBox"/>-->
-                            <ezmes:DataColumn HeadName="점검 일시" HeaderWidth="125" DataField = "STRTDTTM" ColumnType ="DateTime"/> <!--130-->
+                            <ezmes:DataColumn HeadName="점검 일시" HeaderWidth="125" DataField = "STRTDTTM" ColumnType ="DateTime" HorizontalAlignment="Center"/> <!--130-->
 
-                            <ezmes:DataColumn HeadName="평균질량" HeaderWidth="95" DataField = "AVG_WEIGHT" ColumnType ="TextBox"/>
-                            <ezmes:DataColumn HeadName="개개질량(최소)" HeaderWidth="95" DataField = "MIN_WEIGHT" ColumnType ="TextBox"/>
-                            <ezmes:DataColumn HeadName="개개질량(최대)" HeaderWidth="95" DataField = "MAX_WEIGHT" ColumnType ="TextBox"/>
-                            <ezmes:DataColumn HeadName="개별질량RSD" HeaderWidth="95" DataField ="SD_WEIGHT" ColumnType ="TextBox"/>
+                            <ezmes:DataColumn HeadName="평균질량" HeaderWidth="95" DataField = "AVG_WEIGHT" ColumnType ="TextBox" HorizontalAlignment="Center"/>
+                            <ezmes:DataColumn HeadName="개개질량(최소)" HeaderWidth="95" DataField = "MIN_WEIGHT" ColumnType ="TextBox" HorizontalAlignment="Center"/>
+                            <ezmes:DataColumn HeadName="개개질량(최대)" HeaderWidth="95" DataField = "MAX_WEIGHT" ColumnType ="TextBox" HorizontalAlignment="Center"/>
+                            <ezmes:DataColumn HeadName="개별질량RSD" HeaderWidth="95" DataField ="SD_WEIGHT" ColumnType ="TextBox" HorizontalAlignment="Center"/>
 
-                            <ezmes:DataColumn HeadName="두께(평균)" HeaderWidth="95" DataField = "AVG_THICKNESS" ColumnType ="TextBox"/>
-                            <ezmes:DataColumn HeadName="두께(최소)" HeaderWidth="95" DataField = "MIN_THICKNESS" ColumnType ="TextBox"/>
-                            <ezmes:DataColumn HeadName="두께(최대)" HeaderWidth="95" DataField = "MAX_THICKNESS" ColumnType ="TextBox"/>
+                            <ezmes:DataColumn HeadName="두께(평균)" HeaderWidth="95" DataField = "AVG_THICKNESS" ColumnType ="TextBox" HorizontalAlignment="Center"/>
+                            <ezmes:DataColumn HeadName="두께(최소)" HeaderWidth="95" DataField = "MIN_THICKNESS" ColumnType ="TextBox" HorizontalAlignment="Center"/>
+                            <ezmes:DataColumn HeadName="두께(최대)" HeaderWidth="95" DataField = "MAX_THICKNESS" ColumnType ="TextBox" HorizontalAlignment="Center"/>
 
-                            <ezmes:DataColumn HeadName="경도(평균)" HeaderWidth="95" DataField = "AVG_HARDNESS" ColumnType ="TextBox"/>
-                            <ezmes:DataColumn HeadName="경도(최소)" HeaderWidth="95" DataField = "MIN_HARDNESS" ColumnType ="TextBox"/>
-                            <ezmes:DataColumn HeadName="경도(최대)" HeaderWidth="95" DataField = "MAX_HARDNESS" ColumnType ="TextBox"/>
+                            <ezmes:DataColumn HeadName="경도(평균)" HeaderWidth="95" DataField = "AVG_HARDNESS" ColumnType ="TextBox" HorizontalAlignment="Center"/>
+                            <ezmes:DataColumn HeadName="경도(최소)" HeaderWidth="95" DataField = "MIN_HARDNESS" ColumnType ="TextBox" HorizontalAlignment="Center"/>
+                            <ezmes:DataColumn HeadName="경도(최대)" HeaderWidth="95" DataField = "MAX_HARDNESS" ColumnType ="TextBox" HorizontalAlignment="Center"/>
 
                         </ezmes:CNSDataGrid.DataColumns>
                     </ezmes:CNSDataGrid>
-                </Grid>
+                    </Grid>
 
                 <Grid x:Name="AVG_IPCResult" Grid.Row="2">
                     <c1:C1DataGrid Grid.Row="0" AutoGenerateColumns="False"

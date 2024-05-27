@@ -484,10 +484,10 @@
       <DependentUpon>레시피확인.xaml</DependentUpon>
     </Compile>
     <Compile Include="레시피확인\레시피확인ViewModel.cs" />
-    <Compile Include="바코드확인\소분원료검량.xaml.cs">
-      <DependentUpon>소분원료검량.xaml</DependentUpon>
+    <Compile Include="바코드확인\소분원료확인및무게측정.xaml.cs">
+      <DependentUpon>소분원료확인및무게측정.xaml</DependentUpon>
     </Compile>
-    <Compile Include="바코드확인\소분원료검량ViewModel.cs" />
+    <Compile Include="바코드확인\소분원료확인및무게측정ViewModel.cs" />
     <Compile Include="반제품\Popup\포장공정반제품분할이력.xaml.cs">
       <DependentUpon>포장공정반제품분할이력.xaml</DependentUpon>
     </Compile>
@@ -1181,7 +1181,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="바코드확인\소분원료검량.xaml">
+    <Page Include="바코드확인\소분원료확인및무게측정.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -9,32 +9,25 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using System.Windows.Navigation;
-using System.ComponentModel;
 using ShopFloorUI;
+using System.ComponentModel;
 
 namespace 보령
 {
-    [ShopFloorCustomHidden]
-    [Description("소분된 원료를 현장에서 검량")]
-    public partial class 소분원료검량 : ShopFloorCustomWindow
+    [Description("원료가 적재된 IBC의 반제품 무게측정(입고전 적재 원료 최종확인)")]
+    public partial class 소분원료확인및무게측정 : ShopFloorCustomWindow
     {
-        public 소분원료검량()
+
+        public 소분원료확인및무게측정()
         {
             InitializeComponent();
         }
+
         public override string TableTypeName
         {
-            get { return "TABLE,소분원료검량"; }
+            get { return "TABLE,소분원료확인및무게측정"; }
         }
-        private async void Main_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (Phase != null)
-            {
-                if (await Phase.SessionCheck() != enumInstructionRegistErrorType.Ok)
-                    DialogResult = false;
-            }
-        }
+
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;

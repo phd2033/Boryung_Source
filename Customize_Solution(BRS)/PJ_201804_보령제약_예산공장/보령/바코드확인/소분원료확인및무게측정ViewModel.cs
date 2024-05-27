@@ -19,19 +19,18 @@ using 보령.UserControls;
 
 namespace 보령
 {
-    public class 소분원료검량ViewModel : ViewModelBase
+    public class 소분원료확인및무게측정ViewModel : ViewModelBase
     {
         #region Property
-        private 소분원료검량 _mainWnd;
-        public 소분원료검량ViewModel()
+        private 소분원료확인및무게측정 _mainWnd;
+        public 소분원료확인및무게측정ViewModel()
         {
             _BR_PHR_SEL_EquipmentCustomAttributeValue_ScaleInfo = new BR_PHR_SEL_EquipmentCustomAttributeValue_ScaleInfo();
             _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID = new BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID();
-            _BR_BRS_GET_MaterialSubLot_ContainerInfo_LayerCharging = new BR_BRS_GET_MaterialSubLot_ContainerInfo_LayerCharging();
+            _BR_BRS_GET_MaterialSubLot_ContainerInfo_Dispensing = new BR_BRS_GET_MaterialSubLot_ContainerInfo_Dispensing();
             _DISPMSUBLOTList = new ObservableCollection<ChargedWIPContainer>();
             _BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi = new BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi();
-            _BR_BRS_UPD_MaterialSubLot_ChangeQuantity_Dispense = new BR_BRS_UPD_MaterialSubLot_ChangeQuantity_Dispense();
-            _BR_PHR_UPD_MaterialSubLot_CheckWeight = new BR_PHR_UPD_MaterialSubLot_CheckWeight();
+            _BR_BRS_UPD_MaterialSubLot_ChangeQuantity = new BR_BRS_UPD_MaterialSubLot_ChangeQuantity();
 
             string interval_str = ShopFloorUI.App.Current.Resources["GetWeightInterval"].ToString();
             if (int.TryParse(interval_str, out _repeaterInterval) == false)
@@ -52,19 +51,6 @@ namespace 보령
                 OnPropertyChanged("OrderList");
             }
         }
-
-        // 검량 확인
-        private BR_PHR_UPD_MaterialSubLot_CheckWeight _BR_PHR_UPD_MaterialSubLot_CheckWeight;
-        public BR_PHR_UPD_MaterialSubLot_CheckWeight BR_PHR_UPD_MaterialSubLot_CheckWeight
-        {
-            get { return _BR_PHR_UPD_MaterialSubLot_CheckWeight; }
-            set
-            {
-                _BR_PHR_UPD_MaterialSubLot_CheckWeight = value;
-                OnPropertyChanged("BR_PHR_UPD_MaterialSubLot_CheckWeight");
-            }
-        }
-
         private bool _CanSelectOrder;
         public bool CanSelectOrder
         {
@@ -106,21 +92,21 @@ namespace 보령
         private int _ScalePrecision = 3;
 
 
-        //private Weight _MAXVALUE = new Weight();
-        //public string MAXVALUE
-        //{
-        //    get { return _MAXVALUE.WeightUOMString; }
-        //}
+        private Weight _MAXVALUE = new Weight();
+        public string MAXVALUE
+        {
+            get { return _MAXVALUE.WeightUOMString; }
+        }
         private Weight _CURVALUE = new Weight();
         public string CURVALUE
         {
             get { return _CURVALUE.WeightUOMString; }
         }
-        //private Weight _MINVALUE = new Weight();
-        //public string MINVALUE
-        //{
-        //    get { return _MINVALUE.WeightUOMString; }
-        //}
+        private Weight _MINVALUE = new Weight();
+        public string MINVALUE
+        {
+            get { return _MINVALUE.WeightUOMString; }
+        }
 
         private string _MtrlId;
         public string MtrlId
@@ -140,105 +126,6 @@ namespace 보령
             {
                 _MtrlName = value;
                 OnPropertyChanged("MtrlName");
-            }
-        }
-
-        private string _MlotId;
-        public string MlotId
-        {
-            get { return _MlotId; }
-            set
-            {
-                _MlotId = value;
-                OnPropertyChanged("MlotId");
-            }
-        }
-
-        private decimal _MlotVer;
-        public decimal MlotVer
-        {
-            get { return _MlotVer; }
-            set
-            {
-                _MlotVer = value;
-                OnPropertyChanged("MlotVer");
-            }
-        }
-
-        private decimal _MsubLotVer;
-        public decimal MsubLotVer
-        {
-            get { return _MsubLotVer; }
-            set
-            {
-                _MsubLotVer = value;
-                OnPropertyChanged("MsubLotVer");
-            }
-        }
-
-        private string _MsubLotState;
-        public string MsubLotState
-        {
-            get { return _MsubLotState; }
-            set
-            {
-                _MsubLotState = value;
-                OnPropertyChanged("MsubLotState");
-            }
-        }
-
-        private System.Nullable<short> _MsubLotSeq;
-        public System.Nullable<short> MsubLotSeq
-        {
-            get { return _MsubLotSeq; }
-            set
-            {
-                _MsubLotSeq = value;
-                OnPropertyChanged("MsubLotSeq");
-            }
-        }
-
-        private string _UomId;
-        public string UomId
-        {
-            get { return _UomId; }
-            set
-            {
-                _UomId = value;
-                OnPropertyChanged("UomId");
-            }
-        }
-
-        private System.Nullable<decimal> _TareWeight;
-        public System.Nullable<decimal> TareWeight
-        {
-            get { return _TareWeight; }
-            set
-            {
-                _TareWeight = value;
-                OnPropertyChanged("TareWeight");
-            }
-        }
-
-        private string _TareUomId;
-        public string TareUomId
-        {
-            get { return _TareUomId; }
-            set
-            {
-                _TareUomId = value;
-                OnPropertyChanged("TareUomId");
-            }
-        }
-
-        private string _MsubLotId;
-        public string MsubLotId
-        {
-            get { return _MsubLotId; }
-            set
-            {
-                _MsubLotId = value;
-                OnPropertyChanged("MsubLotId");
             }
         }
 
@@ -284,27 +171,27 @@ namespace 보령
         /// <summary>
         /// 소분된 SubLot 조회
         /// </summary>
-        private BR_BRS_GET_MaterialSubLot_ContainerInfo_LayerCharging _BR_BRS_GET_MaterialSubLot_ContainerInfo_LayerCharging;
-        public BR_BRS_GET_MaterialSubLot_ContainerInfo_LayerCharging BR_BRS_GET_MaterialSubLot_ContainerInfo_LayerCharging
+        private BR_BRS_GET_MaterialSubLot_ContainerInfo_Dispensing _BR_BRS_GET_MaterialSubLot_ContainerInfo_Dispensing;
+        public BR_BRS_GET_MaterialSubLot_ContainerInfo_Dispensing BR_BRS_GET_MaterialSubLot_ContainerInfo_Dispensing
         {
-            get { return _BR_BRS_GET_MaterialSubLot_ContainerInfo_LayerCharging; }
+            get { return _BR_BRS_GET_MaterialSubLot_ContainerInfo_Dispensing; }
             set
             {
-                _BR_BRS_GET_MaterialSubLot_ContainerInfo_LayerCharging = value;
-                OnPropertyChanged("BR_BRS_GET_MaterialSubLot_ContainerInfo_LayerCharging");
+                _BR_BRS_GET_MaterialSubLot_ContainerInfo_Dispensing = value;
+                OnPropertyChanged("BR_BRS_GET_MaterialSubLot_ContainerInfo_Dispensing");
             }
         }
         /// <summary>
         /// 무게 변경
         /// </summary>
-        private BR_BRS_UPD_MaterialSubLot_ChangeQuantity_Dispense _BR_BRS_UPD_MaterialSubLot_ChangeQuantity_Dispense;
-        public BR_BRS_UPD_MaterialSubLot_ChangeQuantity_Dispense BR_BRS_UPD_MaterialSubLot_ChangeQuantity_Dispense
+        private BR_BRS_UPD_MaterialSubLot_ChangeQuantity _BR_BRS_UPD_MaterialSubLot_ChangeQuantity;
+        public BR_BRS_UPD_MaterialSubLot_ChangeQuantity BR_BRS_UPD_MaterialSubLot_ChangeQuantity
         {
-            get { return _BR_BRS_UPD_MaterialSubLot_ChangeQuantity_Dispense; }
+            get { return _BR_BRS_UPD_MaterialSubLot_ChangeQuantity; }
             set
             {
-                _BR_BRS_UPD_MaterialSubLot_ChangeQuantity_Dispense = value;
-                OnPropertyChanged("BR_BRS_UPD_MaterialSubLot_ChangeQuantity_Dispense");
+                _BR_BRS_UPD_MaterialSubLot_ChangeQuantity = value;
+                OnPropertyChanged("BR_BRS_UPD_MaterialSubLot_ChangeQuantity");
             }
         }
         /// <summary>
@@ -333,9 +220,9 @@ namespace 보령
                             CommandCanExecutes["LoadedCommandAsync"] = false;
 
                             ///
-                            if (arg != null && arg is 소분원료검량)
+                            if (arg != null && arg is 소분원료확인및무게측정)
                             {
-                                _mainWnd = arg as 소분원료검량;
+                                _mainWnd = arg as 소분원료확인및무게측정;
 
                                 // 창이 닫히는 경우 timer를 정지, 초기화
                                 _mainWnd.Closed += (s, e) =>
@@ -514,60 +401,48 @@ namespace 보령
                                 GorssSum = 0m;  // 이론량. 용기에 담긴 제품의 무게의 합.
 
                                 // 적재된 원료 조회
-                                _BR_BRS_GET_MaterialSubLot_ContainerInfo_LayerCharging.INDATAs.Clear();
-                                _BR_BRS_GET_MaterialSubLot_ContainerInfo_LayerCharging.OUTDATAs.Clear();
-                                _BR_BRS_GET_MaterialSubLot_ContainerInfo_LayerCharging.INDATAs.Add(new BR_BRS_GET_MaterialSubLot_ContainerInfo_LayerCharging.INDATA
+                                _BR_BRS_GET_MaterialSubLot_ContainerInfo_Dispensing.INDATAs.Clear();
+                                _BR_BRS_GET_MaterialSubLot_ContainerInfo_Dispensing.OUTDATAs.Clear();
+                                _BR_BRS_GET_MaterialSubLot_ContainerInfo_Dispensing.INDATAs.Add(new BR_BRS_GET_MaterialSubLot_ContainerInfo_Dispensing.INDATA
                                 {
                                     POID = _mainWnd.CurrentOrder.ProductionOrderID,
                                     MSUBLOTBCD = mSubLotBcd
                                 });
 
-                                if (await _BR_BRS_GET_MaterialSubLot_ContainerInfo_LayerCharging.Execute() && _BR_BRS_GET_MaterialSubLot_ContainerInfo_LayerCharging.OUTDATAs.Count > 0)
+                                if (await _BR_BRS_GET_MaterialSubLot_ContainerInfo_Dispensing.Execute() && _BR_BRS_GET_MaterialSubLot_ContainerInfo_Dispensing.OUTDATAs.Count > 0)
                                 {
-                                    foreach (var item in _BR_BRS_GET_MaterialSubLot_ContainerInfo_LayerCharging.OUTDATAs)
+                                    foreach (var item in _BR_BRS_GET_MaterialSubLot_ContainerInfo_Dispensing.OUTDATAs)
                                     {
                                         GorssSum += Weight.Add(0, _CURVALUE.Uom, item.MSUBLOTQTY.GetValueOrDefault() + item.TAREWEIGHT.GetValueOrDefault(), item.UOMNAME);
                                         MtrlId = item.MTRLID;
                                         MtrlName = item.MTRLNAME;
                                         MSUBLOTBCD = item.MSUBLOTBCD;
-                                        MlotId = item.MLOTID;
-                                        MlotVer = Convert.ToDecimal(item.MLOTVER);
-                                        MsubLotVer = Convert.ToDecimal(item.MSUBLOTVER);
-                                        MsubLotState = item.MSUBLOTSTAT;
-                                        MsubLotId = item.MSUBLOTID;
-                                        MsubLotSeq = item.MSUBLOTSEQ;
-                                        UomId = item.UOMID;
-                                        TareWeight = item.TAREWEIGHT;
-                                        TareUomId = item.TAREUOMID;
                                     }
                                 }
                                 else
-                                {
                                     OnMessage("적재된 자재가 없습니다.");
-                                    CommandResults["GetMsublotInfoCommandAsync"] = true;
-                                    return;
-                                }
 
                                 if (GorssSum > 0)
                                 {
-                                    //int precision = 0;
+                                    int precision = 0;
+                                    //precision = Convert.ToInt32(Math.Pow(10, Scal.Precision));
+                                    precision = Convert.ToInt32(Math.Pow(10, Convert.ToInt16(_ScaleInfo.PRECISION)));
+                                    
+                                    // 2024.05.27 박희돈 중남미 페루 카나브 F 신규 파트너사 (SUN Pharma) 실사 관련 CAPA
+                                    //기준: 칭량된 원료의 무게
+                                    //상한: 0.2 % +1.68
+                                    //하한: 0.2 % +1.48
+                                    decimal min = Convert.ToDecimal((Math.Ceiling(Convert.ToDouble((tare + GorssSum) * 0.998m) * precision) / precision) - 1.48);
+                                    decimal max = Convert.ToDecimal((Math.Floor(Convert.ToDouble((tare + GorssSum) * 1.002m) * precision) / precision) + 1.68);
 
-                                    //precision = Convert.ToInt32(Math.Pow(10, Convert.ToInt16(_ScaleInfo.PRECISION)));
-                                    //decimal min = Convert.ToDecimal(Math.Ceiling(Convert.ToDouble((tare + GorssSum) * 0.998m) * precision) / precision);
-                                    //decimal max = Convert.ToDecimal(Math.Floor(Convert.ToDouble((tare + GorssSum) * 1.002m) * precision) / precision);
+                                    _MINVALUE.SetWeight(min > 0 ? min : 0m, _ScaleInfo.NOTATION, Convert.ToInt16(_ScaleInfo.PRECISION));
+                                    _MAXVALUE.SetWeight(max > 0 ? max : 0m, _ScaleInfo.NOTATION, Convert.ToInt16(_ScaleInfo.PRECISION));
 
-                                    //_MINVALUE.SetWeight(min > 0 ? min : 0m, _ScaleInfo.NOTATION, Convert.ToInt16(_ScaleInfo.PRECISION));
-                                    //_MAXVALUE.SetWeight(max > 0 ? max : 0m, _ScaleInfo.NOTATION, Convert.ToInt16(_ScaleInfo.PRECISION));
-
-                                    //OnPropertyChanged("MINVALUE");
-                                    //OnPropertyChanged("MAXVALUE");
+                                    OnPropertyChanged("MINVALUE");
+                                    OnPropertyChanged("MAXVALUE");
                                 }
                                 else
-                                {
                                     OnMessage("적재된 원료무게 합이 0 보다 작을 수 없습니다.");
-                                    CommandResults["GetMsublotInfoCommandAsync"] = true;
-                                    return;
-                                }
 
                                 // 이미 측정한 용기인지 확인
                                 if (_DISPMSUBLOTList.Count > 0 && _DISPMSUBLOTList.Where(x => x.MsubLotBcd == _MSUBLOTBCD).Count() > 0)
@@ -640,23 +515,16 @@ namespace 보령
                                 ScaleId = _SCALEID,
                                 MtrlId = MtrlId,
                                 MtrlName = MtrlName,
-                                //MsubLotBcd = MSUBLOTBCD,
                                 MsubLotBcd = MSUBLOTBCD,
                                 Uom = _CURVALUE.Uom,
                                 Precision = _CURVALUE.Precision,
                                 TareWeight = Convert.ToDecimal(tare.Value.ToString("F" + tare.Precision)),
                                 NetWeight = GorssSum,
-                                //MinWeight = MINVALUE,
-                                //MaxWeight = MAXVALUE,
-                                CurWeight = CurWeightValue,
-                                MlotId = MlotId,
-                                MlotVer = MlotVer,
-                                MsubLotVer = MsubLotVer,
-                                MsubLotState = MsubLotState,
-                                MsubLotId = MsubLotId,
-                                MsubLotSeq = MsubLotSeq,
-                                TareUomId = TareUomId,
-                                UomId = UomId
+                                MinWeight = MINVALUE,
+                                MaxWeight = MAXVALUE,
+                                //CurWeight = _CURVALUE.Value
+                                // 2021-12-03 김호연 
+                                CurWeight = CurWeightValue
                             });
 
                             InitializeData();
@@ -731,8 +599,8 @@ namespace 보령
                                 if (await authHelper.ClickAsync(
                                     Common.enumCertificationType.Function,
                                     Common.enumAccessType.Create,
-                                    string.Format("소분원료검량"),
-                                    string.Format("소분원료검량"),
+                                    string.Format("소분원료확인및무게측정"),
+                                    string.Format("소분원료확인및무게측정"),
                                     false,
                                     "OM_ProductionOrder_SUI",
                                     _mainWnd.CurrentOrderInfo.EquipmentID, _mainWnd.CurrentOrderInfo.RecipeID, null) == false)
@@ -740,75 +608,35 @@ namespace 보령
                                     throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                 }
 
-
-                                _BR_BRS_UPD_MaterialSubLot_ChangeQuantity_Dispense.INDATA_MLOTs.Clear();
-                                _BR_BRS_UPD_MaterialSubLot_ChangeQuantity_Dispense.INDATA_MSUBLOTs.Clear();
-
-                                foreach (var item in _DISPMSUBLOTList)
-                                {
-                                    _BR_BRS_UPD_MaterialSubLot_ChangeQuantity_Dispense.INDATA_MLOTs.Add(new BR_BRS_UPD_MaterialSubLot_ChangeQuantity_Dispense.INDATA_MLOT
-                                    {
-                                        MTRLID = item.MtrlId,
-                                        MLOTID = item.MlotId != null ? item.MlotId : "",
-                                        MLOTVER = item.MlotVer,
-                                        REASON = "소분원료검량",
-                                        INDUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI")
-                                    });
-
-                                    _BR_BRS_UPD_MaterialSubLot_ChangeQuantity_Dispense.INDATA_MSUBLOTs.Add(new BR_BRS_UPD_MaterialSubLot_ChangeQuantity_Dispense.INDATA_MSUBLOT
-                                    {
-                                        MSUBLOTID = item.MsubLotId != null ? item.MsubLotId : "",
-                                        MSUBLOTVER = item.MsubLotVer,
-                                        MSUBLOTSEQ = item.MsubLotSeq,
-                                        MSUBLOTQTY = item.CurWeight,
-                                        UOMID = item.UomId,
-                                        TAREWEIGHT = item.TareWeight,
-                                        TAREUOMID = item.TareUomId
-                                        //MSUBLOTSTAT = item.MsubLotState != null ? item.MsubLotState : ""
-                                    });
-
-                                    _BR_BRS_UPD_MaterialSubLot_ChangeQuantity_Dispense.LABEL_INDATAs.Add(new BR_BRS_UPD_MaterialSubLot_ChangeQuantity_Dispense.LABEL_INDATA
-                                    {
-                                        ReportPath = "/Reports/Label/LABEL_WEIGHING",
-                                        PrintName = "",
-                                        USERID = "",
-                                        PRINTYN = false
-                                    });
-
-                                    _BR_BRS_UPD_MaterialSubLot_ChangeQuantity_Dispense.LABEL_Parameterss.Add(new BR_BRS_UPD_MaterialSubLot_ChangeQuantity_Dispense.LABEL_Parameters
-                                    {
-                                        ParamName = "MSUBLOTID",
-                                        ParamValue = item.MsubLotId
-                                    });
-
-                                }
-
-                                if (!await _BR_BRS_UPD_MaterialSubLot_ChangeQuantity_Dispense.Execute()) return;
-
                                 DataSet ds = new DataSet();
                                 DataTable dt = new DataTable("DATA");
                                 ds.Tables.Add(dt);
-                                
+
+                                //2023.01.03 김호연 원료별 칭량을 하면 2개 이상의 배치가 동시에 기록되므로 EBR 확인할때 오더로 구분해야함
                                 dt.Columns.Add(new DataColumn("오더번호"));
+                                //-------------------------------------------------------------------------------------------------------
                                 dt.Columns.Add(new DataColumn("원료코드"));
                                 dt.Columns.Add(new DataColumn("원료명"));
                                 dt.Columns.Add(new DataColumn("저울번호"));
-                                //dt.Columns.Add(new DataColumn("하한"));
-                                dt.Columns.Add(new DataColumn("내용물무게"));
-                                dt.Columns.Add(new DataColumn("원료바코드"));
-                                //dt.Columns.Add(new DataColumn("상한"));
+                                dt.Columns.Add(new DataColumn("하한"));
+                                dt.Columns.Add(new DataColumn("전체중량"));
+                                dt.Columns.Add(new DataColumn("상한"));
+                                dt.Columns.Add(new DataColumn("무게"));
 
                                 foreach (var item in _DISPMSUBLOTList)
                                 {
                                     var row = dt.NewRow();
-                                    
+
+                                    //2023.01.03 김호연 원료별 칭량을 하면 2개 이상의 배치가 동시에 기록되므로 EBR 확인할때 오더로 구분해야함
                                     row["오더번호"] = item.PoId != null ? item.PoId : "";
+                                    //-------------------------------------------------------------------------------------------------------
                                     row["원료코드"] = item.MtrlId != null ? item.MtrlId : "";
                                     row["원료명"] = item.MtrlName != null ? item.MtrlName : "";
                                     row["저울번호"] = item.ScaleId != null ? item.ScaleId : "";
-                                    //row["하한"] = item != null ? item.MinWeight : "";
-                                    row["내용물무게"] = item != null ? item.CurWeight.ToString("F" + item.Precision) + " " + _ScaleUom : "";
-                                    row["원료바코드"] = item.MsubLotBcd != null ? item.MsubLotBcd : "";
+                                    row["하한"] = item != null ? item.MinWeight : "";
+                                    row["전체중량"] = item != null ? item.GrossWeight.ToString("F" + item.Precision) + " " + _ScaleUom : "";
+                                    row["상한"] = item != null ? item.MaxWeight : "";
+                                    row["무게"] = item != null ? item.CurWeight.ToString("F" + item.Precision) + " " + _ScaleUom : "";
 
                                     dt.Rows.Add(row);
                                 }
@@ -897,8 +725,8 @@ namespace 보령
                             if (await authHelper.ClickAsync(
                                 Common.enumCertificationType.Role,
                                 Common.enumAccessType.Create,
-                                "소분원료검량",
-                                "소분원료검량",
+                                "소분원료확인및무게측정",
+                                "소분원료확인및무게측정",
                                 false,
                                 "OM_ProductionOrder_SUI",
                                 "",
@@ -915,19 +743,23 @@ namespace 보령
                             //2023.01.03 김호연 원료별 칭량을 하면 2개 이상의 배치가 동시에 기록되므로 EBR 확인할때 오더로 구분해야함
                             dt.Columns.Add(new DataColumn("오더번호"));
                             //-------------------------------------------------------------------------------------------------------
-                            dt.Columns.Add(new DataColumn("원료코드"));
-                            dt.Columns.Add(new DataColumn("원료명"));
                             dt.Columns.Add(new DataColumn("저울번호"));
-                            dt.Columns.Add(new DataColumn("내용물무게"));
-                            dt.Columns.Add(new DataColumn("원료바코드"));
+                            dt.Columns.Add(new DataColumn("용기중량"));
+                            dt.Columns.Add(new DataColumn("내용물중량"));
+                            dt.Columns.Add(new DataColumn("하한"));
+                            dt.Columns.Add(new DataColumn("전체중량"));
+                            dt.Columns.Add(new DataColumn("상한"));
+                            dt.Columns.Add(new DataColumn("무게"));
 
                             var row = dt.NewRow();
                             row["오더번호"] = "N/A";
-                            row["원료코드"] = "N/A";
-                            row["원료명"] = "N/A";
                             row["저울번호"] = "N/A";
-                            row["내용물무게"] = "N/A";
-                            row["원료바코드"] = "N/A";
+                            row["용기중량"] = "N/A";
+                            row["내용물중량"] = "N/A";
+                            row["하한"] = "N/A";
+                            row["전체중량"] = "N/A";
+                            row["상한"] = "N/A";
+                            row["무게"] = "N/A";
                             dt.Rows.Add(row);
 
                             var xml = BizActorRuleBase.CreateXMLStream(ds);
@@ -1016,18 +848,16 @@ namespace 보령
                         _CURVALUE = val;
                         _ScaleUom = val.Uom;
                         _ScalePrecision = val.Precision;
-                        btnSaveWeightEnable = true;
-
-                        //if (_MINVALUE.Value >= 0 && _MAXVALUE.Value > 0)
-                        //{
-                        //    if (Weight.Add(0, _CURVALUE.Uom, _MINVALUE.Value, _MINVALUE.Uom) <= _CURVALUE.Value
-                        //        && _CURVALUE.Value <= Weight.Add(0, _CURVALUE.Uom, _MAXVALUE.Value, _MAXVALUE.Uom))
-                        //        btnSaveWeightEnable = true;
-                        //    else
-                        //        btnSaveWeightEnable = false;
-                        //}
-                        //else
-                        //    btnSaveWeightEnable = false;
+                        if (_MINVALUE.Value >= 0 && _MAXVALUE.Value > 0)
+                        {
+                            if (Weight.Add(0, _CURVALUE.Uom, _MINVALUE.Value, _MINVALUE.Uom) <= _CURVALUE.Value
+                                && _CURVALUE.Value <= Weight.Add(0, _CURVALUE.Uom, _MAXVALUE.Value, _MAXVALUE.Uom))
+                                btnSaveWeightEnable = true;
+                            else
+                                btnSaveWeightEnable = false;
+                        }
+                        else
+                            btnSaveWeightEnable = false;
                     }
                     else
                     {
@@ -1057,12 +887,12 @@ namespace 보령
                 // 용기정보, 적재된 원료, MIN&MAX 범위 초기화
 
                 MSUBLOTBCD = "";
-                BR_BRS_GET_MaterialSubLot_ContainerInfo_LayerCharging.OUTDATAs.Clear();
-                //_MINVALUE.Value = 0;
-                //_MAXVALUE.Value = 0;
+                BR_BRS_GET_MaterialSubLot_ContainerInfo_Dispensing.OUTDATAs.Clear();
+                _MINVALUE.Value = 0;
+                _MAXVALUE.Value = 0;
 
-                //OnPropertyChanged("MINVALUE");
-                //OnPropertyChanged("MAXVALUE");
+                OnPropertyChanged("MINVALUE");
+                OnPropertyChanged("MAXVALUE");
 
             }
             catch (Exception ex)
@@ -1083,95 +913,31 @@ namespace 보령
                     this.OnPropertyChanged("ScaleId");
                 }
             }
-
-            private string _MlotId;
-            public string MlotId
-            {
-                get { return this._MlotId; }
-                set
-                {
-                    this._MlotId = value;
-                    this.OnPropertyChanged("MlotId");
-                }
-            }
-
-            private decimal _MlotVer;
-            public decimal MlotVer
-            {
-                get { return this._MlotVer; }
-                set
-                {
-                    this._MlotVer = value;
-                    this.OnPropertyChanged("MlotVer");
-                }
-            }
-
-            private decimal _MsubLotVer;
-            public decimal MsubLotVer
-            {
-                get { return this._MsubLotVer; }
-                set
-                {
-                    this._MsubLotVer = value;
-                    this.OnPropertyChanged("MsubLotVer");
-                }
-            }
-
-            private string _MsubLotState;
-            public string MsubLotState
-            {
-                get { return this._MsubLotState; }
-                set
-                {
-                    this._MsubLotState = value;
-                    this.OnPropertyChanged("MsubLotState");
-                }
-            }
-
-            private System.Nullable<short> _MsubLotSeq;
-            public System.Nullable<short> MsubLotSeq
-            {
-                get { return _MsubLotSeq; }
-                set
-                {
-                    _MsubLotSeq = value;
-                    OnPropertyChanged("MsubLotSeq");
-                }
-            }
-
-            private string _UomId;
-            public string UomId
-            {
-                get { return _UomId; }
-                set
-                {
-                    _UomId = value;
-                    OnPropertyChanged("UomId");
-                }
-            }
-
-            private string _TareUomId;
-            public string TareUomId
-            {
-                get { return _TareUomId; }
-                set
-                {
-                    _TareUomId = value;
-                    OnPropertyChanged("TareUomId");
-                }
-            }
-
-            //private string _MsubLotBcd;
-            //public string MsubLotBcd
-            //{
-            //    get { return _MsubLotBcd; }
-            //    set
-            //    {
-            //        _MsubLotBcd = value;
-            //        OnPropertyChanged("MsubLotBcd");
-            //    }
-            //}
         }
     }
+
+    /// <summary>
+    /// 저울 현재값 배경색 ( yellow : 범위 벗어남, green : 적합 )
+    /// </summary>
+    //public class CheckWeightBoolBurshConverter : IValueConverter
+    //{
+    //    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    //    {
+    //        if (value != null && value is bool)
+    //        {
+    //            bool validationResult = (bool)value;
+    //            if (validationResult)
+    //                return new SolidColorBrush(Colors.Green);
+
+    //        }
+
+    //        return new SolidColorBrush(Colors.Yellow);
+    //    }
+
+    //    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
 
 }

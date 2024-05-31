@@ -185,7 +185,7 @@ namespace 보령
                                 _BR_BRS_SEL_ProductionOrderCustomValue.INDATAs.Add(new BR_BRS_SEL_ProductionOrderCustomValue.INDATA
                                 {
                                     POID = _mainWnd.CurrentOrder.ProductionOrderID,
-                                    OPSGNAME = "조제",
+                                    OPSGNAME = "조제 및 여과",
                                     POCDID = "FIT_RESULT"
                                 });
 
@@ -223,7 +223,7 @@ namespace 보령
                                     }
                                 }
 
-                                if(_mainWnd.CurrentOrder.OrderProcessSegmentName.Equals("조제"))
+                                if(_mainWnd.CurrentOrder.OrderProcessSegmentName.Equals("조제 및 여과"))
                                 {
                                     isLotNoEnable = true;
                                     isFitCountEnable = true;
@@ -385,7 +385,7 @@ namespace 보령
                             }
                             
                             // 조제에서만 기록 하도록 개발
-                            if ("조제".Equals(_mainWnd.CurrentOrder.OrderProcessSegmentName))
+                            if ("조제 및 여과".Equals(_mainWnd.CurrentOrder.OrderProcessSegmentName))
                             {
                                 _BR_BRS_REG_ProductionOrderCustomValue.INDATAs.Clear();
 
@@ -442,7 +442,7 @@ namespace 보령
                             }
 
                             // 조제에서만 하위 지시문에 기록값을 기록하고 적부 판단하도록 진행
-                            if ("조제".Equals(_mainWnd.CurrentOrder.OrderProcessSegmentName))
+                            if ("조제 및 여과".Equals(_mainWnd.CurrentOrder.OrderProcessSegmentName))
                             {
                                 var outputValues = InstructionModel.GetResultReceiver(_mainWnd.CurrentInstruction, _mainWnd.Instructions);
                                 outputValues[0].Raw.ACTVAL = curFitCount.ToString();

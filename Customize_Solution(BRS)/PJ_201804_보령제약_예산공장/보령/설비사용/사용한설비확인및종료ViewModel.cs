@@ -24,7 +24,7 @@ namespace 보령
         public 사용한설비확인및종료ViewModel()
         {
             _BR_BRS_SEL_EquipmentStatus_PROC_OPSG = new BR_BRS_SEL_EquipmentStatus_PROC_OPSG();
-            _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI = new BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI();
+            _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION = new BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION();
         }
         #endregion
         #region [BizRule]
@@ -40,13 +40,13 @@ namespace 보령
             }
         }
         // 설비의 생산완료 및 JOB 종료
-        private BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI;
-        public BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI
+        private BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION;
+        public BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION
         {  
-            get { return _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI; }
+            get { return _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION; }
             set
             {
-                _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI = value;
+                _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION = value;
                 NotifyPropertyChanged();
             }
         }
@@ -171,8 +171,8 @@ namespace 보령
                             string userid = AuthRepositoryViewModel.GetUserIDByFunctionCode("EM_BRS_EquipmentAction_PROCEND");
                             userid = !string.IsNullOrWhiteSpace(userid) ? userid : AuthRepositoryViewModel.Instance.LoginedUserID;
 
-                            _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI.INDATAs.Clear();
-                            _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI.PARAMDATAs.Clear();
+                            _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION.INDATAs.Clear();
+                            _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION.PARAMDATAs.Clear();
 
                             string eqptList = string.Empty;
                             
@@ -180,7 +180,7 @@ namespace 보령
                             {
                                 if (item.SELFLAG)
                                 {
-                                    _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI.INDATAs.Add(new BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI.INDATA
+                                    _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION.INDATAs.Add(new BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION.INDATA
                                     {
                                         LANGID = AuthRepositoryViewModel.Instance.LangID,
                                         USER = userid,
@@ -214,12 +214,12 @@ namespace 보령
                             }
                             
                             bool BRExecuteFlag = false; // 설비사용종료 비즈룰이 실행된 경우 true
-                            if (_BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI.INDATAs.Count > 0)
+                            if (_BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION.INDATAs.Count > 0)
                             {
-                                if (await _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI.Execute() == true)
+                                if (await _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION.Execute() == true)
                                     BRExecuteFlag = true;
                                 else
-                                    throw _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI.Exception;
+                                    throw _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION.Exception;
                             }
 
                             // 김진수 매니저 요청. 설비들 각각 종료하는 시간이 다름. 지시문이 기록되어 있으면 지시문 기록 정보에 추가로 기록 가능하도록 변경 요청

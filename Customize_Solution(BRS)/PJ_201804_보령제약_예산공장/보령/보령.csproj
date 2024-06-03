@@ -1750,7 +1750,8 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>xcopy /R /Y "$(TargetPath)" "$(ProjectDir)..\LGCNS.iPharmMES.SUI\ClientBin"</PostBuildEvent>
+    <PostBuildEvent>xcopy /R /Y "$(TargetPath)" "$(ProjectDir)..\LGCNS.iPharmMES.SUI\ClientBin"
+xcopy /R /Y "$(TargetPath)" "$(ProjectDir)..\Debug.SUI.OOB\ClientBin"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

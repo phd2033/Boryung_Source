@@ -22,20 +22,22 @@ using System.Collections.ObjectModel;
 
 namespace 보령
 {
-    public class 정제체크마스터조회_입력ViewModel : ViewModelBase
+    public class 정제체크마스터입력ViewModel : ViewModelBase
     {
         #region [Property]
-        public 정제체크마스터조회_입력ViewModel()
+        public 정제체크마스터입력ViewModel()
         {
             _BR_PHR_SEL_CODE = new BR_PHR_SEL_CODE();
             //_BR_BRS_GET_Selector_Check_Master = new BR_BRS_GET_Selector_Check_Master();
             _BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit = new BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit();
+            _BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD = new BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD();
             _IPCResultSections = new IPCResultSection.OUTDATACollection();
             _IPC_RESULTS = new ObservableCollection<EACH_INDATA>();
+            _IPC_STANDARDS = new ObservableCollection<EACH_INDATA>();
 
         }
 
-        정제체크마스터조회_입력 _mainWnd;
+        정제체크마스터입력 _mainWnd;
 
         private IPCResultSection.OUTDATACollection _IPCResultSections;
         public IPCResultSection.OUTDATACollection IPCResultSections
@@ -58,7 +60,16 @@ namespace 보령
                 OnPropertyChanged("IPC_RESULTS");
             }
         }
-
+        private ObservableCollection<EACH_INDATA> _IPC_STANDARDS;
+        public ObservableCollection<EACH_INDATA> IPC_STANDARDS
+        {
+            get { return _IPC_STANDARDS; }
+            set
+            {
+                _IPC_STANDARDS = value;
+                OnPropertyChanged("IPC_STANDARDS");
+            }
+        }
         private string _EQPTID;
         public string EQPTID
         {
@@ -200,27 +211,124 @@ namespace 보령
                 this.OnPropertyChanged("MAX_RESULT_HARDNESS");
             }
         }
-
-
+        private DateTime _AVG_DTTM;
+        public DateTime AVG_DTTM
+        {
+            get { return this._AVG_DTTM; }
+            set
+            {
+                this._AVG_DTTM = value;
+                this.OnPropertyChanged("AVG_DTTM");
+            }
+        }
+        private String _AVG_STD_WEIGHT;
+        public String AVG_STD_WEIGHT
+        {
+            get { return this._AVG_STD_WEIGHT; }
+            set
+            {
+                this._AVG_STD_WEIGHT = value;
+                this.OnPropertyChanged("AVG_STD_WEIGHT");
+            }
+        }
+        private String _MIN_STD_WEIGHT;
+        public String MIN_STD_WEIGHT
+        {
+            get { return this._MIN_STD_WEIGHT; }
+            set
+            {
+                this._MIN_STD_WEIGHT = value;
+                this.OnPropertyChanged("MIN_STD_WEIGHT");
+            }
+        }
+        private String _MAX_STD_WEIGHT;
+        public String MAX_STD_WEIGHT
+        {
+            get { return this._MAX_STD_WEIGHT; }
+            set
+            {
+                this._MAX_STD_WEIGHT = value;
+                this.OnPropertyChanged("MAX_STD_WEIGHT");
+            }
+        }
+        private String _SD_STD_WEIGHT;
+        public String SD_STD_WEIGHT
+        {
+            get { return this._SD_STD_WEIGHT; }
+            set
+            {
+                this._SD_STD_WEIGHT = value;
+                this.OnPropertyChanged("SD_STD_WEIGHT");
+            }
+        }
+        private String _AVG_STD_THICKNESS;
+        public String AVG_STD_THICKNESS
+        {
+            get { return this._AVG_STD_THICKNESS; }
+            set
+            {
+                this._AVG_STD_THICKNESS = value;
+                this.OnPropertyChanged("AVG_STD_THICKNESS");
+            }
+        }
+        private String _MIN_STD_THICKNESS;
+        public String MIN_STD_THICKNESS
+        {
+            get { return this._MIN_STD_THICKNESS; }
+            set
+            {
+                this._MIN_STD_THICKNESS = value;
+                this.OnPropertyChanged("MIN_STD_THICKNESS");
+            }
+        }
+        private String _MAX_STD_THICKNESS;
+        public String MAX_STD_THICKNESS
+        {
+            get { return this._MAX_STD_THICKNESS; }
+            set
+            {
+                this._MAX_STD_THICKNESS = value;
+                this.OnPropertyChanged("MAX_STD_THICKNESS");
+            }
+        }
+        private String _AVG_STD_HARDNESS;
+        public String AVG_STD_HARDNESS
+        {
+            get { return this._AVG_STD_HARDNESS; }
+            set
+            {
+                this._AVG_STD_HARDNESS = value;
+                this.OnPropertyChanged("AVG_STD_HARDNESS");
+            }
+        }
+        private String _MIN_STD_HARDNESS;
+        public String MIN_STD_HARDNESS
+        {
+            get { return this._MIN_STD_HARDNESS; }
+            set
+            {
+                this._MIN_STD_HARDNESS = value;
+                this.OnPropertyChanged("MIN_STD_HARDNESS");
+            }
+        }
+        private String _MAX_STD_HARDNESS;
+        public String MAX_STD_HARDNESS
+        {
+            get { return this._MAX_STD_HARDNESS; }
+            set
+            {
+                this._MAX_STD_HARDNESS = value;
+                this.OnPropertyChanged("MAX_STD_HARDNESS");
+            }
+        }
 
         #endregion
 
         #region [Bizrule]
 
         private BR_PHR_SEL_CODE _BR_PHR_SEL_CODE;
-        /*
-        private BR_BRS_GET_Selector_Check_Master _BR_BRS_GET_Selector_Check_Master;
-        public BR_BRS_GET_Selector_Check_Master BR_BRS_GET_Selector_Check_Master
-        {
-            get { return _BR_BRS_GET_Selector_Check_Master; }
-            set
-            {
-                _BR_BRS_GET_Selector_Check_Master = value;
-                OnPropertyChanged("BR_BRS_GET_Selector_Check_Master");
-            }
-        }
-        */
         private BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit _BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit;
+        private BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD _BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD;
         #endregion
 
         #region [Command]
@@ -237,10 +345,10 @@ namespace 보령
                         {
                             CommandResults["LoadedCommandAsync"] = false;
                             CommandCanExecutes["LoadedCommandAsync"] = false;
-                            
-                            if (arg != null && arg is 정제체크마스터조회_입력)
+
+                            if (arg != null && arg is 정제체크마스터입력)
                             {
-                                _mainWnd = arg as 정제체크마스터조회_입력;
+                                _mainWnd = arg as 정제체크마스터입력;
                                 IsBusy = true;
                                 IPCResultSections.Clear();
                             }
@@ -248,13 +356,71 @@ namespace 보령
                             INPUT_ENABLE = true;
                             EQPTID_ENABLE = false;
 
+
+                            _BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD.INDATAs.Add(new BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD.INDATA()
+                            {
+                                POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID
+                            });
+
+                            if (await _BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD.Execute())
+                            {
+                                IPC_STANDARDS.Clear();
+                                foreach (var std in _BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD.OUTDATAs)
+                                {
+                                    switch (std.TIID)
+                                    {
+                                        case "IPC-030":
+                                            AVG_STD_HARDNESS = std.CSL != "" ? std.CSL : "N/A";
+                                            MIN_STD_HARDNESS = std.LSL != "" ? std.LSL : "N/A";
+                                            MAX_STD_HARDNESS = std.USL != "" ? std.USL : "N/A";
+                                            break;
+                                        case "IPC-027":
+                                            AVG_STD_THICKNESS = std.CSL != "" ? std.CSL : "N/A";
+                                            MIN_STD_THICKNESS = std.LSL != "" ? std.LSL : "N/A";
+                                            MAX_STD_THICKNESS = std.USL != "" ? std.USL : "N/A";
+                                            break;
+                                        case "IPC-026":
+                                            SD_STD_WEIGHT = std.CSL != "" ? std.CSL : "N/A";
+                                            break;
+                                        case "IPC-023":
+                                            AVG_STD_WEIGHT = std.CSL != "" ? std.CSL : "N/A";
+                                            MIN_STD_WEIGHT = std.LSL != "" ? std.LSL : "N/A";
+                                            MAX_STD_WEIGHT = std.USL != "" ? std.USL : "N/A";
+                                            break;
+                                        default:
+                                            break;
+
+                                    }
+                                }
+
+                                IPC_STANDARDS.Add(new EACH_INDATA()
+                                {
+                                    RSLT_AVG_WEIGHT = AVG_STD_WEIGHT,
+                                    RSLT_MIN_WEIGHT = MIN_STD_WEIGHT,
+                                    RSLT_MAX_WEIGHT = MAX_STD_WEIGHT,
+                                    RSLT_SD_WEIGHT = SD_STD_WEIGHT,
+                                    RSLT_AVG_THICKNESS = AVG_STD_THICKNESS,
+                                    RSLT_MIN_THICKNESS = MIN_STD_THICKNESS,
+                                    RSLT_MAX_THICKNESS = MAX_STD_THICKNESS,
+                                    RSLT_AVG_HARDNESS = AVG_STD_HARDNESS,
+                                    RSLT_MIN_HARDNESS = MIN_STD_HARDNESS,
+                                    RSLT_MAX_HARDNESS = MAX_STD_HARDNESS
+
+                                });
+
+                            }
+                            else
+                            {
+                                //throw new Exception(string.Format("IPC 기준 정보가 없습니다."));
+                            }
                             // 이전 기록 조회
                             if (_mainWnd.CurrentInstruction.Raw.ACTVAL == _mainWnd.TableTypeName && _mainWnd.CurrentInstruction.Raw.NOTE != null)
                             {
                                 DataSet ds = new DataSet();
                                 DataTable dt = new DataTable();
                                 var bytearray = _mainWnd.CurrentInstruction.Raw.NOTE;
-                                string xml = Encoding.UTF8.GetString(bytearray, 0, bytearray.Length);                                
+                                string xml = Encoding.UTF8.GetString(bytearray, 0, bytearray.Length);
 
                                 ds.ReadXmlFromString(xml);
                                 if (ds.Tables[0].TableName == "DATA")
@@ -264,50 +430,32 @@ namespace 보령
 
                                     for (int i = 0; i < dt.Rows.Count; i++)
                                     {
-                                        if (i < dt.Rows.Count -1)
+                                        if (i < dt.Rows.Count - 1)
                                         {
                                             _IPCResultSections.Add(new IPCResultSection.OUTDATA
                                             {
-                                                STRTDTTM = Convert.ToDateTime(dt.Rows[i]["점검일시"].ToString()),
-                                                AVG_WEIGHT = Convert.ToDecimal(dt.Rows[i]["평균질량"]),
-                                                MIN_WEIGHT = Convert.ToDecimal(dt.Rows[i]["개별최소질량"]),
-                                                MAX_WEIGHT = Convert.ToDecimal(dt.Rows[i]["개별최대질량"]),
-                                                SD_WEIGHT = Convert.ToDecimal(dt.Rows[i]["개별질량RSD"]),
-                                                AVG_THICKNESS = Convert.ToDecimal(dt.Rows[i]["평균두께"]),
-                                                MIN_THICKNESS = Convert.ToDecimal(dt.Rows[i]["최소두께"]),
-                                                MAX_THICKNESS = Convert.ToDecimal(dt.Rows[i]["최대두께"]),
-                                                AVG_HARDNESS = Convert.ToDecimal(dt.Rows[i]["평균경도"]),
-                                                MIN_HARDNESS = Convert.ToDecimal(dt.Rows[i]["최소경도"]),
-                                                MAX_HARDNESS = Convert.ToDecimal(dt.Rows[i]["최대경도"]),
+                                                STRTDTTM =  Convert.ToDateTime(dt.Rows[i]["점검일시"].ToString()),
+                                                AVG_WEIGHT = dt.Rows[i]["평균질량"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["평균질량"]),
+                                                MIN_WEIGHT = dt.Rows[i]["개별최소질량"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["개별최소질량"]),
+                                                MAX_WEIGHT = dt.Rows[i]["개별최대질량"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["개별최대질량"]),
+                                                SD_WEIGHT = dt.Rows[i]["개별질량RSD"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["개별질량RSD"]),
+                                                AVG_THICKNESS = dt.Rows[i]["평균두께"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["평균두께"]),
+                                                MIN_THICKNESS = dt.Rows[i]["최소두께"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["최소두께"]),
+                                                MAX_THICKNESS = dt.Rows[i]["최대두께"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["최대두께"]),
+                                                AVG_HARDNESS = dt.Rows[i]["평균경도"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["평균경도"]),
+                                                MIN_HARDNESS = dt.Rows[i]["최소경도"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["최소경도"]),
+                                                MAX_HARDNESS = dt.Rows[i]["최대경도"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["최대경도"]),
                                                 RowEditSec = "INS"
                                             });
                                         }
-                                        //2024.05.24 김도연 : 작업자가 평균 버튼을 눌러 확인할 수 있게 변경.(작업자의 실수를 줄이기 위함)
-                                        /* 
-                                        else
-                                        {
-                                            IPC_RESULTS.Add(new EACH_INDATA
-                                            {
-                                                RSLT_AVG_WEIGHT = Convert.ToDecimal(dt.Rows[i]["평균질량"]),
-                                                RSLT_MIN_WEIGHT = Convert.ToDecimal(dt.Rows[i]["개별최소질량"]),
-                                                RSLT_MAX_WEIGHT = Convert.ToDecimal(dt.Rows[i]["개별최대질량"]),
-                                                RSLT_SD_WEIGHT = Convert.ToDecimal(dt.Rows[i]["개별질량RSD"]),
-                                                RSLT_AVG_THICKNESS = Convert.ToDecimal(dt.Rows[i]["평균두께"]),
-                                                RSLT_MIN_THICKNESS = Convert.ToDecimal(dt.Rows[i]["최소두께"]),
-                                                RSLT_MAX_THICKNESS = Convert.ToDecimal(dt.Rows[i]["최대두께"]),
-                                                RSLT_AVG_HARDNESS = Convert.ToDecimal(dt.Rows[i]["평균경도"]),
-                                                RSLT_MIN_HARDNESS = Convert.ToDecimal(dt.Rows[i]["최소경도"]),
-                                                RSLT_MAX_HARDNESS = Convert.ToDecimal(dt.Rows[i]["최대경도"])
-                                            });
-                                        }
-                                        */
-                                        
+                                        //2024.05.24 김도연 : 화면에 평균을 띄우지 않음. 작업자가 평균 버튼을 눌러 확인할 수 있게 변경.(작업자의 실수를 줄이기 위함)
                                     }
                                 }
                             }
 
                             CommandResults["LoadedCommandAsync"] = true;
                         }
+
                         catch (Exception ex)
                         {
                             CommandResults["LoadedCommandAsync"] = false;
@@ -343,7 +491,7 @@ namespace 보령
 
                             CommandResults["InputEquipmentCommandAsync"] = false;
                             CommandCanExecutes["InputEquipmentCommandAsync"] = false;
-                            
+
                             // 설비 체크
                             _BR_PHR_SEL_CODE.INDATAs.Clear();
                             _BR_PHR_SEL_CODE.OUTDATAs.Clear();
@@ -418,6 +566,7 @@ namespace 보령
                             }
                             else
                             {
+                                AVG_DTTM = System.DateTime.Now;
                                 IPC_RESULTS.Clear();
                                 AVG_RESULT_WEIGHT = IPCResultSections[0].AVG_WEIGHT;
                                 MIN_RESULT_WEIGHT = IPCResultSections[0].MIN_WEIGHT;
@@ -430,19 +579,19 @@ namespace 보령
                                 MIN_RESULT_HARDNESS = IPCResultSections[0].MIN_HARDNESS;
                                 MAX_RESULT_HARDNESS = IPCResultSections[0].MAX_HARDNESS;
 
-                                for (int i = 1; i< IPCResultSections.Count; i++)
+                                for (int i = 1; i < IPCResultSections.Count; i++)
                                 {
 
                                     AVG_RESULT_WEIGHT += IPCResultSections[i].AVG_WEIGHT;
-                                    MIN_RESULT_WEIGHT = Math.Min(MIN_RESULT_WEIGHT,IPCResultSections[i].MIN_WEIGHT);
-                                    MAX_RESULT_WEIGHT = Math.Max(MAX_RESULT_WEIGHT,IPCResultSections[i].MAX_WEIGHT);
+                                    MIN_RESULT_WEIGHT = Math.Min(MIN_RESULT_WEIGHT, IPCResultSections[i].MIN_WEIGHT);
+                                    MAX_RESULT_WEIGHT = Math.Max(MAX_RESULT_WEIGHT, IPCResultSections[i].MAX_WEIGHT);
                                     SD_RESULT_WEIGHT += IPCResultSections[i].SD_WEIGHT;
                                     AVG_RESULT_THICKNESS += IPCResultSections[i].AVG_THICKNESS;
-                                    MIN_RESULT_THICKNESS = Math.Min(MIN_RESULT_THICKNESS,IPCResultSections[i].MIN_THICKNESS);
-                                    MAX_RESULT_THICKNESS = Math.Max(MAX_RESULT_THICKNESS,IPCResultSections[i].MAX_THICKNESS);
+                                    MIN_RESULT_THICKNESS = Math.Min(MIN_RESULT_THICKNESS, IPCResultSections[i].MIN_THICKNESS);
+                                    MAX_RESULT_THICKNESS = Math.Max(MAX_RESULT_THICKNESS, IPCResultSections[i].MAX_THICKNESS);
                                     AVG_RESULT_HARDNESS += IPCResultSections[i].AVG_HARDNESS;
-                                    MIN_RESULT_HARDNESS = Math.Min(MIN_RESULT_HARDNESS,IPCResultSections[i].MIN_HARDNESS);
-                                    MAX_RESULT_HARDNESS = Math.Max(MAX_RESULT_HARDNESS,IPCResultSections[i].MAX_HARDNESS);
+                                    MIN_RESULT_HARDNESS = Math.Min(MIN_RESULT_HARDNESS, IPCResultSections[i].MIN_HARDNESS);
+                                    MAX_RESULT_HARDNESS = Math.Max(MAX_RESULT_HARDNESS, IPCResultSections[i].MAX_HARDNESS);
                                 }
 
                                 int num = IPCResultSections.Count;
@@ -453,16 +602,17 @@ namespace 보령
 
                                 IPC_RESULTS.Add(new EACH_INDATA()
                                 {
-                                    RSLT_AVG_WEIGHT = AVG_RESULT_WEIGHT,
-                                    RSLT_MIN_WEIGHT = MIN_RESULT_WEIGHT,
-                                    RSLT_MAX_WEIGHT = MAX_RESULT_WEIGHT,
-                                    RSLT_SD_WEIGHT = SD_RESULT_WEIGHT,
-                                    RSLT_AVG_THICKNESS = AVG_RESULT_THICKNESS,
-                                    RSLT_MIN_THICKNESS = MIN_RESULT_THICKNESS,
-                                    RSLT_MAX_THICKNESS = MAX_RESULT_THICKNESS,
-                                    RSLT_AVG_HARDNESS = AVG_RESULT_HARDNESS,
-                                    RSLT_MIN_HARDNESS = MIN_RESULT_HARDNESS,
-                                    RSLT_MAX_HARDNESS = MAX_RESULT_HARDNESS
+                                    RSLT_AVG_DTTM = AVG_DTTM.ToString("yyyy-MM-dd HH:mm"),
+                                    RSLT_AVG_WEIGHT = AVG_RESULT_WEIGHT.ToString(),
+                                    RSLT_MIN_WEIGHT = MIN_RESULT_WEIGHT.ToString(),
+                                    RSLT_MAX_WEIGHT = MAX_RESULT_WEIGHT.ToString(),
+                                    RSLT_SD_WEIGHT = SD_RESULT_WEIGHT.ToString(),
+                                    RSLT_AVG_THICKNESS = AVG_RESULT_THICKNESS.ToString(),
+                                    RSLT_MIN_THICKNESS = MIN_RESULT_THICKNESS.ToString(),
+                                    RSLT_MAX_THICKNESS = MAX_RESULT_THICKNESS.ToString(),
+                                    RSLT_AVG_HARDNESS = AVG_RESULT_HARDNESS.ToString(),
+                                    RSLT_MIN_HARDNESS = MIN_RESULT_HARDNESS.ToString(),
+                                    RSLT_MAX_HARDNESS = MAX_RESULT_HARDNESS.ToString()
 
                                 });
 
@@ -488,7 +638,7 @@ namespace 보령
                 });
             }
         }
-      
+
         public ICommand ConfirmCommandAsync
         {
             get
@@ -505,7 +655,7 @@ namespace 보령
                             CommandCanExecutes["ConfirmCommandAsync"] = false;
 
                             //2024.05.27 김도연 : 평균 정보가 없을 때 기록이 안되도록 수정
-                            if (AVG_RESULT_WEIGHT==0)
+                            if (AVG_RESULT_WEIGHT == 0)
                             {
                                 throw new Exception(string.Format("평균 정보가 없습니다."));
                             }
@@ -536,8 +686,8 @@ namespace 보령
                                 if (await authHelper.ClickAsync(
                                     Common.enumCertificationType.Function,
                                     Common.enumAccessType.Create,
-                                    string.Format("정제체크마스터조회_입력"),
-                                    string.Format("정제체크마스터조회_입력"),
+                                    string.Format("정제체크마스터입력"),
+                                    string.Format("정제체크마스터입력"),
                                     false,
                                     "OM_ProductionOrder_SUI",
                                     _mainWnd.CurrentOrderInfo.EquipmentID, _mainWnd.CurrentOrderInfo.RecipeID, null) == false)
@@ -556,7 +706,7 @@ namespace 보령
                                     OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
                                     SMPQTY = 1,
                                     USERID = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI"),
-                                    STRTDTTM = System.DateTime.Now, // 고형제팀이랑 논의 후 전달준다고 하심.
+                                    STRTDTTM = AVG_DTTM,
                                     LOCATIONID = AuthRepositoryViewModel.Instance.RoomID,
                                     AVG_WEIGHT = AVG_RESULT_WEIGHT != 0 ? AVG_RESULT_WEIGHT.ToString() : "",
                                     MIN_WEIGHT = MIN_RESULT_WEIGHT != 0 ? MIN_RESULT_WEIGHT.ToString() : "",
@@ -629,7 +779,7 @@ namespace 보령
                                     //2024.05.24 김도연 : 지시문에 평균값 도출
                                     row = dt.NewRow();
                                     row["장비번호"] = "결과";
-                                    row["점검일시"] = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+                                    row["점검일시"] = AVG_DTTM != null ? AVG_DTTM.ToString("yyyy-MM-dd HH:mm") : ""; ;
                                     row["평균질량"] = AVG_RESULT_WEIGHT != 0 ? AVG_RESULT_WEIGHT.ToString() : "";
                                     row["개별최소질량"] = MIN_RESULT_WEIGHT != 0 ? MIN_RESULT_WEIGHT.ToString() : "";
                                     row["개별최대질량"] = MAX_RESULT_WEIGHT != 0 ? MAX_RESULT_WEIGHT.ToString() : "";
@@ -645,7 +795,7 @@ namespace 보령
                                     //2024.05.24 김도연 : EBR에 평균값 보이도록 데이터 input
                                     var rowEbr = dtEbr.NewRow();
                                     rowEbr["장비번호"] = EQPTID;
-                                    rowEbr["점검일시"] = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+                                    rowEbr["점검일시"] = AVG_DTTM != null ? AVG_DTTM.ToString("yyyy-MM-dd HH:mm") : ""; ;
                                     rowEbr["평균질량"] = AVG_RESULT_WEIGHT != 0 ? AVG_RESULT_WEIGHT.ToString() : "";
                                     rowEbr["개별최소질량"] = MIN_RESULT_WEIGHT != 0 ? MIN_RESULT_WEIGHT.ToString() : "";
                                     rowEbr["개별최대질량"] = MAX_RESULT_WEIGHT != 0 ? MAX_RESULT_WEIGHT.ToString() : "";
@@ -700,542 +850,549 @@ namespace 보령
             }
 
         }
-        
+
         #endregion
         #region User Define
         public class IPCResultSection : BizActorRuleBase
         {
-        public sealed partial class OUTDATACollection : BufferedObservableCollection<OUTDATA>
-        {
-        }
-        private OUTDATACollection _OUTDATAs;
-        [BizActorOutputSetAttribute()]
-        public OUTDATACollection OUTDATAs
-        {
-            get
+            public sealed partial class OUTDATACollection : BufferedObservableCollection<OUTDATA>
             {
-                return this._OUTDATAs;
             }
-        }
-        [BizActorOutputSetDefineAttribute(Order = "0")]
-        [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
-        public partial class OUTDATA : BizActorDataSetBase
-        {
-            public OUTDATA()
-            {
-                RowLoadedFlag = false;
-            }
-            private bool _RowLoadedFlag;
-            public bool RowLoadedFlag
+            private OUTDATACollection _OUTDATAs;
+            [BizActorOutputSetAttribute()]
+            public OUTDATACollection OUTDATAs
             {
                 get
                 {
-                    return this._RowLoadedFlag;
-                }
-                set
-                {
-                    this._RowLoadedFlag = value;
-                    this.OnPropertyChanged("_RowLoadedFlag");
+                    return this._OUTDATAs;
                 }
             }
-            private string _RowIndex;
-            public string RowIndex
+            [BizActorOutputSetDefineAttribute(Order = "0")]
+            [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
+            public partial class OUTDATA : BizActorDataSetBase
             {
-                get
+                public OUTDATA()
                 {
-                    return this._RowIndex;
+                    RowLoadedFlag = false;
                 }
-                set
+                private bool _RowLoadedFlag;
+                public bool RowLoadedFlag
                 {
-                    this._RowIndex = value;
-                    this.OnPropertyChanged("RowIndex");
-                }
-            }
-            private string _RowEditSec;
-            public string RowEditSec
-            {
-                get
-                {
-                    return this._RowEditSec;
-                }
-                set
-                {
-                    this._RowEditSec = value;
-                    this.OnPropertyChanged("RowEditSec");
-                }
-            }
-            private DateTime _STRTDTTM = DateTime.Now;
-            [BizActorOutputItemAttribute()]
-            public DateTime STRTDTTM
-            {
-                get
-                {
-                    return this._STRTDTTM;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    get
                     {
+                        return this._RowLoadedFlag;
                     }
-                    else
+                    set
                     {
-                        this._STRTDTTM = value;
-                        this.CheckIsOriginal("STRTDTTM", value);
-                        this.OnPropertyChanged("STRTDTTM");
-                        if (RowLoadedFlag)
+                        this._RowLoadedFlag = value;
+                        this.OnPropertyChanged("_RowLoadedFlag");
+                    }
+                }
+                private string _RowIndex;
+                public string RowIndex
+                {
+                    get
+                    {
+                        return this._RowIndex;
+                    }
+                    set
+                    {
+                        this._RowIndex = value;
+                        this.OnPropertyChanged("RowIndex");
+                    }
+                }
+                private string _RowEditSec;
+                public string RowEditSec
+                {
+                    get
+                    {
+                        return this._RowEditSec;
+                    }
+                    set
+                    {
+                        this._RowEditSec = value;
+                        this.OnPropertyChanged("RowEditSec");
+                    }
+                }
+                private DateTime _STRTDTTM = DateTime.Now;
+                [BizActorOutputItemAttribute()]
+                public DateTime STRTDTTM
+                {
+                    get
+                    {
+                        return this._STRTDTTM;
+                    }
+                    set
+                    {
+                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
                         {
-                            if (this.CheckIsOriginalRow())
+                        }
+                        else
+                        {
+                            this._STRTDTTM = value;
+                            this.CheckIsOriginal("STRTDTTM", value);
+                            this.OnPropertyChanged("STRTDTTM");
+                            if (RowLoadedFlag)
                             {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
+                                if (this.CheckIsOriginalRow())
+                                {
+                                    RowEditSec = "SEL";
+                                }
+                                else
+                                {
+                                    RowEditSec = "UPD";
+                                }
                             }
                         }
                     }
                 }
-            }
-            private decimal _AVG_WEIGHT;
-            [BizActorOutputItemAttribute()]
-            public decimal AVG_WEIGHT
-            {
-                get
+                private decimal _AVG_WEIGHT;
+                [BizActorOutputItemAttribute()]
+                public decimal AVG_WEIGHT
                 {
-                    return this._AVG_WEIGHT;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    get
                     {
+                        return this._AVG_WEIGHT;
                     }
-                    else
+                    set
                     {
-                        this._AVG_WEIGHT = value;
-                        this.CheckIsOriginal("AVG_WEIGHT", value);
-                        this.OnPropertyChanged("AVG_WEIGHT");
-                        if (RowLoadedFlag)
+                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
                         {
-                            if (this.CheckIsOriginalRow())
+                        }
+                        else
+                        {
+                            this._AVG_WEIGHT = value;
+                            this.CheckIsOriginal("AVG_WEIGHT", value);
+                            this.OnPropertyChanged("AVG_WEIGHT");
+                            if (RowLoadedFlag)
                             {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
+                                if (this.CheckIsOriginalRow())
+                                {
+                                    RowEditSec = "SEL";
+                                }
+                                else
+                                {
+                                    RowEditSec = "UPD";
+                                }
                             }
                         }
                     }
                 }
-            }
-            private decimal _MIN_WEIGHT;
-            [BizActorOutputItemAttribute()]
-            public decimal MIN_WEIGHT
-            {
-                get
+                private decimal _MIN_WEIGHT;
+                [BizActorOutputItemAttribute()]
+                public decimal MIN_WEIGHT
                 {
-                    return this._MIN_WEIGHT;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    get
                     {
+                        return this._MIN_WEIGHT;
                     }
-                    else
+                    set
                     {
-                        this._MIN_WEIGHT = value;
-                        this.CheckIsOriginal("MIN_WEIGHT", value);
-                        this.OnPropertyChanged("MIN_WEIGHT");
-                        if (RowLoadedFlag)
+                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
                         {
-                            if (this.CheckIsOriginalRow())
+                        }
+                        else
+                        {
+                            this._MIN_WEIGHT = value;
+                            this.CheckIsOriginal("MIN_WEIGHT", value);
+                            this.OnPropertyChanged("MIN_WEIGHT");
+                            if (RowLoadedFlag)
                             {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
+                                if (this.CheckIsOriginalRow())
+                                {
+                                    RowEditSec = "SEL";
+                                }
+                                else
+                                {
+                                    RowEditSec = "UPD";
+                                }
                             }
                         }
                     }
                 }
-            }
-            private decimal _MAX_WEIGHT;
-            [BizActorOutputItemAttribute()]
-            public decimal MAX_WEIGHT
-            {
-                get
+                private decimal _MAX_WEIGHT;
+                [BizActorOutputItemAttribute()]
+                public decimal MAX_WEIGHT
                 {
-                    return this._MAX_WEIGHT;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    get
                     {
+                        return this._MAX_WEIGHT;
                     }
-                    else
+                    set
                     {
-                        this._MAX_WEIGHT = value;
-                        this.CheckIsOriginal("MAX_WEIGHT", value);
-                        this.OnPropertyChanged("MAX_WEIGHT");
-                        if (RowLoadedFlag)
+                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
                         {
-                            if (this.CheckIsOriginalRow())
+                        }
+                        else
+                        {
+                            this._MAX_WEIGHT = value;
+                            this.CheckIsOriginal("MAX_WEIGHT", value);
+                            this.OnPropertyChanged("MAX_WEIGHT");
+                            if (RowLoadedFlag)
                             {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
+                                if (this.CheckIsOriginalRow())
+                                {
+                                    RowEditSec = "SEL";
+                                }
+                                else
+                                {
+                                    RowEditSec = "UPD";
+                                }
                             }
                         }
                     }
                 }
-            }
-            private decimal _SD_WEIGHT;
-            [BizActorOutputItemAttribute()]
-            public decimal SD_WEIGHT
-            {
-                get
+                private decimal _SD_WEIGHT;
+                [BizActorOutputItemAttribute()]
+                public decimal SD_WEIGHT
                 {
-                    return this._SD_WEIGHT;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    get
                     {
+                        return this._SD_WEIGHT;
                     }
-                    else
+                    set
                     {
-                        this._SD_WEIGHT = value;
-                        this.CheckIsOriginal("SD_WEIGHT", value);
-                        this.OnPropertyChanged("SD_WEIGHT");
-                        if (RowLoadedFlag)
+                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
                         {
-                            if (this.CheckIsOriginalRow())
+                        }
+                        else
+                        {
+                            this._SD_WEIGHT = value;
+                            this.CheckIsOriginal("SD_WEIGHT", value);
+                            this.OnPropertyChanged("SD_WEIGHT");
+                            if (RowLoadedFlag)
                             {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
+                                if (this.CheckIsOriginalRow())
+                                {
+                                    RowEditSec = "SEL";
+                                }
+                                else
+                                {
+                                    RowEditSec = "UPD";
+                                }
                             }
                         }
                     }
                 }
-            }
-            private decimal _AVG_THICKNESS;
-            [BizActorOutputItemAttribute()]
-            public decimal AVG_THICKNESS
-            {
-                get
+                private decimal _AVG_THICKNESS;
+                [BizActorOutputItemAttribute()]
+                public decimal AVG_THICKNESS
                 {
-                    return this._AVG_THICKNESS;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    get
                     {
+                        return this._AVG_THICKNESS;
                     }
-                    else
+                    set
                     {
-                        this._AVG_THICKNESS = value;
-                        this.CheckIsOriginal("AVG_THICKNESS", value);
-                        this.OnPropertyChanged("AVG_THICKNESS");
-                        if (RowLoadedFlag)
+                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
                         {
-                            if (this.CheckIsOriginalRow())
+                        }
+                        else
+                        {
+                            this._AVG_THICKNESS = value;
+                            this.CheckIsOriginal("AVG_THICKNESS", value);
+                            this.OnPropertyChanged("AVG_THICKNESS");
+                            if (RowLoadedFlag)
                             {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
+                                if (this.CheckIsOriginalRow())
+                                {
+                                    RowEditSec = "SEL";
+                                }
+                                else
+                                {
+                                    RowEditSec = "UPD";
+                                }
                             }
                         }
                     }
                 }
-            }
-            private decimal _MIN_THICKNESS;
-            [BizActorOutputItemAttribute()]
-            public decimal MIN_THICKNESS
-            {
-                get
+                private decimal _MIN_THICKNESS;
+                [BizActorOutputItemAttribute()]
+                public decimal MIN_THICKNESS
                 {
-                    return this._MIN_THICKNESS;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    get
                     {
+                        return this._MIN_THICKNESS;
                     }
-                    else
+                    set
                     {
-                        this._MIN_THICKNESS = value;
-                        this.CheckIsOriginal("MIN_THICKNESS", value);
-                        this.OnPropertyChanged("MIN_THICKNESS");
-                        if (RowLoadedFlag)
+                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
                         {
-                            if (this.CheckIsOriginalRow())
+                        }
+                        else
+                        {
+                            this._MIN_THICKNESS = value;
+                            this.CheckIsOriginal("MIN_THICKNESS", value);
+                            this.OnPropertyChanged("MIN_THICKNESS");
+                            if (RowLoadedFlag)
                             {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
+                                if (this.CheckIsOriginalRow())
+                                {
+                                    RowEditSec = "SEL";
+                                }
+                                else
+                                {
+                                    RowEditSec = "UPD";
+                                }
                             }
                         }
                     }
                 }
-            }
-            private decimal _MAX_THICKNESS;
-            [BizActorOutputItemAttribute()]
-            public decimal MAX_THICKNESS
-            {
-                get
+                private decimal _MAX_THICKNESS;
+                [BizActorOutputItemAttribute()]
+                public decimal MAX_THICKNESS
                 {
-                    return this._MAX_THICKNESS;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    get
                     {
+                        return this._MAX_THICKNESS;
                     }
-                    else
+                    set
                     {
-                        this._MAX_THICKNESS = value;
-                        this.CheckIsOriginal("MAX_THICKNESS", value);
-                        this.OnPropertyChanged("MAX_THICKNESS");
-                        if (RowLoadedFlag)
+                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
                         {
-                            if (this.CheckIsOriginalRow())
+                        }
+                        else
+                        {
+                            this._MAX_THICKNESS = value;
+                            this.CheckIsOriginal("MAX_THICKNESS", value);
+                            this.OnPropertyChanged("MAX_THICKNESS");
+                            if (RowLoadedFlag)
                             {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
+                                if (this.CheckIsOriginalRow())
+                                {
+                                    RowEditSec = "SEL";
+                                }
+                                else
+                                {
+                                    RowEditSec = "UPD";
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            private decimal _AVG_HARDNESS;
-            [BizActorOutputItemAttribute()]
-            public decimal AVG_HARDNESS
-            {
-                get
+                private decimal _AVG_HARDNESS;
+                [BizActorOutputItemAttribute()]
+                public decimal AVG_HARDNESS
                 {
-                    return this._AVG_HARDNESS;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    get
                     {
+                        return this._AVG_HARDNESS;
                     }
-                    else
+                    set
                     {
-                        this._AVG_HARDNESS = value;
-                        this.CheckIsOriginal("AVG_HARDNESS", value);
-                        this.OnPropertyChanged("AVG_HARDNESS");
-                        if (RowLoadedFlag)
+                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
                         {
-                            if (this.CheckIsOriginalRow())
+                        }
+                        else
+                        {
+                            this._AVG_HARDNESS = value;
+                            this.CheckIsOriginal("AVG_HARDNESS", value);
+                            this.OnPropertyChanged("AVG_HARDNESS");
+                            if (RowLoadedFlag)
                             {
-                                RowEditSec = "SEL";
+                                if (this.CheckIsOriginalRow())
+                                {
+                                    RowEditSec = "SEL";
+                                }
+                                else
+                                {
+                                    RowEditSec = "UPD";
+                                }
                             }
-                            else
+                        }
+                    }
+                }
+
+                private decimal _MIN_HARDNESS;
+                [BizActorOutputItemAttribute()]
+                public decimal MIN_HARDNESS
+                {
+                    get
+                    {
+                        return this._MIN_HARDNESS;
+                    }
+                    set
+                    {
+                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                        {
+                        }
+                        else
+                        {
+                            this._MIN_HARDNESS = value;
+                            this.CheckIsOriginal("MIN_HARDNESS", value);
+                            this.OnPropertyChanged("MIN_HARDNESS");
+                            if (RowLoadedFlag)
                             {
-                                RowEditSec = "UPD";
+                                if (this.CheckIsOriginalRow())
+                                {
+                                    RowEditSec = "SEL";
+                                }
+                                else
+                                {
+                                    RowEditSec = "UPD";
+                                }
+                            }
+                        }
+                    }
+                }
+                private decimal _MAX_HARDNESS;
+                [BizActorOutputItemAttribute()]
+                public decimal MAX_HARDNESS
+                {
+                    get
+                    {
+                        return this._MAX_HARDNESS;
+                    }
+                    set
+                    {
+                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                        {
+                        }
+                        else
+                        {
+                            this._MAX_HARDNESS = value;
+                            this.CheckIsOriginal("MAX_HARDNESS", value);
+                            this.OnPropertyChanged("MAX_HARDNESS");
+                            if (RowLoadedFlag)
+                            {
+                                if (this.CheckIsOriginalRow())
+                                {
+                                    RowEditSec = "SEL";
+                                }
+                                else
+                                {
+                                    RowEditSec = "UPD";
+                                }
                             }
                         }
                     }
                 }
             }
-
-            private decimal _MIN_HARDNESS;
-            [BizActorOutputItemAttribute()]
-            public decimal MIN_HARDNESS
+            public IPCResultSection()
             {
-                get
-                {
-                    return this._MIN_HARDNESS;
-                }
+                _OUTDATAs = new OUTDATACollection();
+            }
+        }
+
+        public class EACH_INDATA : BizActorDataSetBase
+        {
+
+            private String _RSLT_AVG_WEIGHT;
+            public String RSLT_AVG_WEIGHT
+            {
+                get { return _RSLT_AVG_WEIGHT; }
                 set
                 {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                    {
-                    }
-                    else
-                    {
-                        this._MIN_HARDNESS = value;
-                        this.CheckIsOriginal("MIN_HARDNESS", value);
-                        this.OnPropertyChanged("MIN_HARDNESS");
-                        if (RowLoadedFlag)
-                        {
-                            if (this.CheckIsOriginalRow())
-                            {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
-                            }
-                        }
-                    }
+                    _RSLT_AVG_WEIGHT = value;
+                    OnPropertyChanged("RSLT_AVG_WEIGHT");
                 }
             }
-            private decimal _MAX_HARDNESS;
-            [BizActorOutputItemAttribute()]
-            public decimal MAX_HARDNESS
+            private String _RSLT_MIN_WEIGHT;
+            public String RSLT_MIN_WEIGHT
             {
-                get
-                {
-                    return this._MAX_HARDNESS;
-                }
+                get { return _RSLT_MIN_WEIGHT; }
                 set
                 {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                    {
-                    }
-                    else
-                    {
-                        this._MAX_HARDNESS = value;
-                        this.CheckIsOriginal("MAX_HARDNESS", value);
-                        this.OnPropertyChanged("MAX_HARDNESS");
-                        if (RowLoadedFlag)
-                        {
-                            if (this.CheckIsOriginalRow())
-                            {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
-                            }
-                        }
-                    }
+                    _RSLT_MIN_WEIGHT = value;
+                    OnPropertyChanged("RSLT_MIN_WEIGHT");
                 }
-              }
             }
-        public IPCResultSection()
-        {
-            _OUTDATAs = new OUTDATACollection();
-        }
-    }
- 
-    public class EACH_INDATA : BizActorDataSetBase
-    {
+            private String _RSLT_MAX_WEIGHT;
+            public String RSLT_MAX_WEIGHT
+            {
+                get { return _RSLT_MAX_WEIGHT; }
+                set
+                {
+                    _RSLT_MAX_WEIGHT = value;
+                    OnPropertyChanged("RSLT_MAX_WEIGHT");
+                }
+            }
+            private String _RSLT_SD_WEIGHT;
+            public String RSLT_SD_WEIGHT
+            {
+                get { return _RSLT_SD_WEIGHT; }
+                set
+                {
+                    _RSLT_SD_WEIGHT = value;
+                    OnPropertyChanged("RSLT_SD_WEIGHT");
+                }
+            }
+            private String _RSLT_AVG_THICKNESS;
+            public String RSLT_AVG_THICKNESS
+            {
+                get { return _RSLT_AVG_THICKNESS; }
+                set
+                {
+                    _RSLT_AVG_THICKNESS = value;
+                    OnPropertyChanged("RSLT_AVG_THICKNESS");
+                }
+            }
+            private String _RSLT_MIN_THICKNESS;
+            public String RSLT_MIN_THICKNESS
+            {
+                get { return _RSLT_MIN_THICKNESS; }
+                set
+                {
+                    _RSLT_MIN_THICKNESS = value;
+                    OnPropertyChanged("RSLT_MIN_THICKNESS");
+                }
 
-        private decimal _RSLT_AVG_WEIGHT;
-        public decimal RSLT_AVG_WEIGHT
-        {
-            get { return _RSLT_AVG_WEIGHT; }
-            set
-            {
-                _RSLT_AVG_WEIGHT = value;
-                OnPropertyChanged("RSLT_AVG_WEIGHT");
             }
-        }
-        private decimal _RSLT_MIN_WEIGHT;
-        public decimal RSLT_MIN_WEIGHT
-        {
-            get { return _RSLT_MIN_WEIGHT; }
-            set
+            private String _RSLT_MAX_THICKNESS;
+            public String RSLT_MAX_THICKNESS
             {
-                _RSLT_MIN_WEIGHT = value;
-                OnPropertyChanged("RSLT_MIN_WEIGHT");
-            }
-        }
-        private decimal _RSLT_MAX_WEIGHT;
-        public decimal RSLT_MAX_WEIGHT
-        {
-            get { return _RSLT_MAX_WEIGHT; }
-            set
-            {
-                _RSLT_MAX_WEIGHT = value;
-                OnPropertyChanged("RSLT_MAX_WEIGHT");
-            }
-        }
-        private decimal _RSLT_SD_WEIGHT;
-        public decimal RSLT_SD_WEIGHT
-        {
-            get { return _RSLT_SD_WEIGHT; }
-            set
-            {
-                _RSLT_SD_WEIGHT = value;
-                OnPropertyChanged("RSLT_SD_WEIGHT");
-            }
-        }
-        private decimal _RSLT_AVG_THICKNESS;
-        public decimal RSLT_AVG_THICKNESS
-        {
-            get { return _RSLT_AVG_THICKNESS; }
-            set
-            {
-                _RSLT_AVG_THICKNESS = value;
-                OnPropertyChanged("RSLT_AVG_THICKNESS");
-            }
-        }
-        private decimal _RSLT_MIN_THICKNESS;
-        public decimal RSLT_MIN_THICKNESS
-        {
-            get { return _RSLT_MIN_THICKNESS; }
-            set
-            {
-                _RSLT_MIN_THICKNESS = value;
-                OnPropertyChanged("RSLT_MIN_THICKNESS");
-            }
+                get { return _RSLT_MAX_THICKNESS; }
+                set
+                {
+                    _RSLT_MAX_THICKNESS = value;
+                    OnPropertyChanged("RSLT_MAX_THICKNESS");
+                }
 
-        }
-        private decimal _RSLT_MAX_THICKNESS;
-        public decimal RSLT_MAX_THICKNESS
-        {
-            get { return _RSLT_MAX_THICKNESS; }
-            set
-            {
-                _RSLT_MAX_THICKNESS = value;
-                OnPropertyChanged("RSLT_MAX_THICKNESS");
             }
+            private String _RSLT_AVG_HARDNESS;
+            public String RSLT_AVG_HARDNESS
+            {
+                get { return _RSLT_AVG_HARDNESS; }
+                set
+                {
+                    _RSLT_AVG_HARDNESS = value;
+                    OnPropertyChanged("RSLT_AVG_HARDNESS");
+                }
 
-        }
-        private decimal _RSLT_AVG_HARDNESS;
-        public decimal RSLT_AVG_HARDNESS
-        {
-            get { return _RSLT_AVG_HARDNESS; }
-            set
-            {
-                _RSLT_AVG_HARDNESS = value;
-                OnPropertyChanged("RSLT_AVG_HARDNESS");
             }
+            private String _RSLT_MIN_HARDNESS;
+            public String RSLT_MIN_HARDNESS
+            {
+                get { return _RSLT_MIN_HARDNESS; }
+                set
+                {
+                    _RSLT_MIN_HARDNESS = value;
+                    OnPropertyChanged("RSLT_MIN_HARDNESS");
+                }
 
-        }
-        private decimal _RSLT_MIN_HARDNESS;
-        public decimal RSLT_MIN_HARDNESS
-        {
-            get { return _RSLT_MIN_HARDNESS; }
-            set
-            {
-                _RSLT_MIN_HARDNESS = value;
-                OnPropertyChanged("RSLT_MIN_HARDNESS");
             }
-
-        }
-        private decimal _RSLT_MAX_HARDNESS;
-        public decimal RSLT_MAX_HARDNESS
-        {
-            get { return _RSLT_MAX_HARDNESS; }
-            set
+            private String _RSLT_MAX_HARDNESS;
+            public String RSLT_MAX_HARDNESS
             {
-                _RSLT_MAX_HARDNESS = value;
-                OnPropertyChanged("RSLT_MAX_HARDNESS");
+                get { return _RSLT_MAX_HARDNESS; }
+                set
+                {
+                    _RSLT_MAX_HARDNESS = value;
+                    OnPropertyChanged("RSLT_MAX_HARDNESS");
+                }
+            }
+            private String _RSLT_AVG_DTTM;
+            public String RSLT_AVG_DTTM
+            {
+                get { return _RSLT_AVG_DTTM; }
+                set
+                {
+                    _RSLT_AVG_DTTM = value;
+                    OnPropertyChanged("RSLT_AVG_DTTM");
+                }
             }
         }
-    }
         #endregion
-   }     
+    }
 }
-
-
-

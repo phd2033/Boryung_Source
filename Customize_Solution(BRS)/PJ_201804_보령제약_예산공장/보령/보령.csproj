@@ -204,6 +204,7 @@
     <Compile Include="Model.Access\공정검사\BR_BRS_REG_ProductionOrderTestResult.Access.cs" />
     <Compile Include="Model.Access\공정검사\BR_BRS_SEL_ProductionOrderIPCResult.Access.cs" />
     <Compile Include="Model.Access\공정검사\BR_BRS_SEL_ProductionOrderIPCStandard.Access.cs" />
+    <Compile Include="Model.Access\공정검사\BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD.Access.cs" />
     <Compile Include="Model.Access\레시피확인\BR_BRS_SEL_EquipmentRecipe.Access.cs" />
     <Compile Include="Model.Access\레시피확인\BR_BRS_SEL_EquipmentRecipeStepType.Access.cs" />
     <Compile Include="Model.Access\레시피확인\BR_BRS_SEL_EquipmentRecipe_TAG_ACTVAL.Access.cs" />
@@ -871,6 +872,10 @@
       <DependentUpon>칭량실적확인WMS전송.xaml</DependentUpon>
     </Compile>
     <Compile Include="WMS\칭량실적확인WMS전송ViewModel.cs" />
+    <Compile Include="정제체크마스터\정제체크마스터입력.xaml.cs">
+      <DependentUpon>정제체크마스터입력.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="정제체크마스터\정제체크마스터입력ViewModel.cs" />
     <Compile Include="정제체크마스터\정제체크마스터조회_수정ViewModel.cs" />
     <Compile Include="정제체크마스터\정제체크마스터조회_수정.xaml.cs">
       <DependentUpon>정제체크마스터조회_수정.xaml</DependentUpon>
@@ -879,10 +884,6 @@
       <DependentUpon>정제체크마스터조회.xaml</DependentUpon>
     </Compile>
     <Compile Include="정제체크마스터\정제체크마스터조회ViewModel.cs" />
-    <Compile Include="정제체크마스터\정제체크마스터조회_입력.xaml.cs">
-      <DependentUpon>정제체크마스터조회_입력.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="정제체크마스터\정제체크마스터조회_입력ViewModel.cs" />
     <Compile Include="주사제\공정검사\AQL검사기록.xaml.cs">
       <DependentUpon>AQL검사기록.xaml</DependentUpon>
     </Compile>
@@ -1558,15 +1559,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="정제체크마스터\정제체크마스터입력.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="정제체크마스터\정제체크마스터조회_수정.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="정제체크마스터\정제체크마스터조회.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="정제체크마스터\정제체크마스터조회_입력.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1751,7 +1752,8 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PostBuildEvent>xcopy /R /Y "$(TargetPath)" "$(ProjectDir)..\LGCNS.iPharmMES.SUI\ClientBin"
-xcopy /R /Y "$(TargetPath)" "$(ProjectDir)..\Debug.SUI.OOB\ClientBin"</PostBuildEvent>
+xcopy /R /Y "$(TargetPath)" "$(ProjectDir)..\Debug.SUI.OOB\ClientBin"
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

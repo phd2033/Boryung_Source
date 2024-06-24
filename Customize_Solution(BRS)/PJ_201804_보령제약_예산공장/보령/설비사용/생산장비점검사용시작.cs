@@ -111,6 +111,10 @@ namespace 보령
                     }
                 }
             }
+            else
+            {
+                throw new Exception(string.Format("생산시작 할 장비가 없습니다"));
+            }
 
             if (await bizRule.Execute() == false) throw bizRule.Exception;
 

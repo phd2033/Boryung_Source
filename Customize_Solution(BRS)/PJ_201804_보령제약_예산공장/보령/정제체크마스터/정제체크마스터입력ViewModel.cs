@@ -495,7 +495,7 @@ namespace 보령
                             // 설비 체크
                             _BR_PHR_SEL_CODE.INDATAs.Clear();
                             _BR_PHR_SEL_CODE.OUTDATAs.Clear();
-                            if (String.IsNullOrWhiteSpace(EQPTID))
+                            if (String.IsNullOrWhiteSpace(EQPTID) && String.IsNullOrWhiteSpace(EQPTNAME))
                             {
                                 throw new Exception(string.Format("타정기 정보를 입력하십시오."));
                             }
@@ -560,7 +560,7 @@ namespace 보령
                             CommandResults["AVGCommandAsync"] = false;
                             CommandCanExecutes["AVGCommandAsync"] = false;
 
-                            if (String.IsNullOrWhiteSpace(EQPTID))
+                            if (String.IsNullOrWhiteSpace(EQPTID) && String.IsNullOrWhiteSpace(EQPTNAME))
                             {
                                 throw new Exception(string.Format("타정기 정보를 입력하십시오."));
                             }
@@ -596,9 +596,15 @@ namespace 보령
 
                                 int num = IPCResultSections.Count;
                                 AVG_RESULT_WEIGHT = Math.Round((AVG_RESULT_WEIGHT / num), 2);
+                                MIN_RESULT_WEIGHT = Math.Round(MIN_RESULT_WEIGHT, 2);
+                                MAX_RESULT_WEIGHT = Math.Round(MAX_RESULT_WEIGHT, 2);
                                 SD_RESULT_WEIGHT = Math.Round((SD_RESULT_WEIGHT / num), 2);
                                 AVG_RESULT_THICKNESS = Math.Round((AVG_RESULT_THICKNESS / num), 2);
+                                MIN_RESULT_THICKNESS = Math.Round(MIN_RESULT_THICKNESS, 2);
+                                MAX_RESULT_THICKNESS = Math.Round(MAX_RESULT_THICKNESS, 2);
                                 AVG_RESULT_HARDNESS = Math.Round((AVG_RESULT_HARDNESS / num), 2);
+                                MIN_RESULT_HARDNESS = Math.Round(MIN_RESULT_HARDNESS, 2);
+                                MAX_RESULT_HARDNESS = Math.Round(MAX_RESULT_HARDNESS, 2);
 
                                 IPC_RESULTS.Add(new EACH_INDATA()
                                 {

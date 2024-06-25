@@ -10,6 +10,7 @@
     xmlns:local="clr-namespace:보령"
     xmlns:ShopFloorUI="clr-namespace:ShopFloorUI;assembly=ShopFloorUI.Common"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
     xmlns:icommon="clr-namespace:LGCNS.iPharmMES.Common;assembly=LGCNS.iPharmMES.Common"
     xmlns:icontrol="clr-namespace:LGCNS.iPharmMES.Controls;assembly=LGCNS.iPharmMES.Controls"
     xmlns:controlsLib="clr-namespace:LGCNS.EZMES.ControlsLib;assembly=LGCNS.EZMES.ControlsLib"
@@ -109,22 +110,79 @@
 
                 <Grid x:Name="IPCResultSection" Grid.Row="2" Margin="5">
                     <ezmes:CNSDataGrid x:Name="dgCheckMasterIPCResult" IsRowAdd="True" IsRowDelete="True" IsEditMode="True" IsEditSection="True" IsRowNumber="False"
-                                    HeadersVisibility="Column" ItemsSource="{Binding IPCResultSections}" Margin="0,130,0,51">
+                                    HeadersVisibility="Column" ItemsSource="{Binding IPCResultSections}" Margin="0,130,0,51" FontFamily="Portable User Interface" ScrollViewer.VerticalScrollBarVisibility="Visible">
                         <ezmes:CNSDataGrid.DataColumns>
                             <ezmes:DataColumn HeadName="점검 일시" HeaderWidth="135" DataField = "STRTDTTM" ColumnType ="DateTime" HorizontalAlignment="Center"/>
-                            <ezmes:DataColumn HeadName="평균질량" HeaderWidth="94" DataField = "AVG_WEIGHT" ColumnType ="TextBox"/>
-                            <ezmes:DataColumn HeadName="개개질량(최소)" HeaderWidth="94" DataField = "MIN_WEIGHT" ColumnType ="TextBox"/>
-                            <ezmes:DataColumn HeadName="개개질량(최대)" HeaderWidth="94" DataField = "MAX_WEIGHT" ColumnType ="TextBox"/>
-                            <ezmes:DataColumn HeadName="개별질량RSD" HeaderWidth="94" DataField ="SD_WEIGHT" ColumnType ="TextBox"/>
-
-                            <ezmes:DataColumn HeadName="두께(평균)" HeaderWidth="94" DataField = "AVG_THICKNESS" ColumnType ="TextBox"/>
-                            <ezmes:DataColumn HeadName="두께(최소)" HeaderWidth="94" DataField = "MIN_THICKNESS" ColumnType ="TextBox"/>
-                            <ezmes:DataColumn HeadName="두께(최대)" HeaderWidth="94" DataField = "MAX_THICKNESS" ColumnType ="TextBox"/>
-
-                            <ezmes:DataColumn HeadName="경도(평균)" HeaderWidth="94" DataField = "AVG_HARDNESS" ColumnType ="TextBox"/>
-                            <ezmes:DataColumn HeadName="경도(최소)" HeaderWidth="94" DataField = "MIN_HARDNESS" ColumnType ="TextBox"/>
-                            <ezmes:DataColumn HeadName="경도(최대)" HeaderWidth="94" DataField = "MAX_HARDNESS" ColumnType ="TextBox"/>
-
+                            <ezmes:DataColumn HeadName="평균질량" HeaderWidth="94" DataField = "AVG_WEIGHT" ColumnType ="Template">
+                                <ezmes:DataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ShopFloorUI:KeyPadType Value="{Binding AVG_WEIGHT, Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </ezmes:DataColumn.CellTemplate>
+                            </ezmes:DataColumn>
+                            <ezmes:DataColumn HeadName="개개질량(최소)" HeaderWidth="94" DataField = "MIN_WEIGHT" ColumnType ="Template">
+                                <ezmes:DataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ShopFloorUI:KeyPadType Value="{Binding MIN_WEIGHT, Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </ezmes:DataColumn.CellTemplate>
+                            </ezmes:DataColumn>
+                            <ezmes:DataColumn HeadName="개개질량(최대)" HeaderWidth="94" DataField = "MAX_WEIGHT" ColumnType ="Template">
+                                <ezmes:DataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ShopFloorUI:KeyPadType Value="{Binding MAX_WEIGHT, Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </ezmes:DataColumn.CellTemplate>
+                            </ezmes:DataColumn>
+                            <ezmes:DataColumn HeadName="개별질량RSD" HeaderWidth="94" DataField ="SD_WEIGHT" ColumnType ="Template">
+                                <ezmes:DataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ShopFloorUI:KeyPadType Value="{Binding SD_WEIGHT, Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </ezmes:DataColumn.CellTemplate>
+                            </ezmes:DataColumn>
+                            <ezmes:DataColumn HeadName="두께(평균)" HeaderWidth="94" DataField = "AVG_THICKNESS" ColumnType ="Template">
+                                <ezmes:DataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ShopFloorUI:KeyPadType Value="{Binding AVG_THICKNESS, Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </ezmes:DataColumn.CellTemplate>
+                            </ezmes:DataColumn>
+                            <ezmes:DataColumn HeadName="두께(최소)" HeaderWidth="94" DataField = "MIN_THICKNESS" ColumnType ="Template">
+                                <ezmes:DataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ShopFloorUI:KeyPadType Value="{Binding MIN_THICKNESS, Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </ezmes:DataColumn.CellTemplate>
+                            </ezmes:DataColumn>
+                            <ezmes:DataColumn HeadName="두께(최대)" HeaderWidth="94" DataField = "MAX_THICKNESS" ColumnType ="Template">
+                                <ezmes:DataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ShopFloorUI:KeyPadType Value="{Binding MAX_THICKNESS, Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </ezmes:DataColumn.CellTemplate>
+                            </ezmes:DataColumn>
+                            <ezmes:DataColumn HeadName="경도(평균)" HeaderWidth="94" DataField = "AVG_HARDNESS" ColumnType ="Template">
+                                <ezmes:DataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ShopFloorUI:KeyPadType Value="{Binding AVG_HARDNESS, Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </ezmes:DataColumn.CellTemplate>
+                            </ezmes:DataColumn>
+                            <ezmes:DataColumn HeadName="경도(최소)" HeaderWidth="94" DataField = "MIN_HARDNESS" ColumnType ="Template">
+                                <ezmes:DataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ShopFloorUI:KeyPadType Value="{Binding MIN_HARDNESS, Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </ezmes:DataColumn.CellTemplate>
+                            </ezmes:DataColumn>
+                            <ezmes:DataColumn HeadName="경도(최대)" HeaderWidth="94" DataField = "MAX_HARDNESS" ColumnType ="Template" >
+                                    <ezmes:DataColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ShopFloorUI:KeyPadType Value="{Binding MAX_HARDNESS, Mode=TwoWay}"/>
+                                        </DataTemplate>
+                                    </ezmes:DataColumn.CellTemplate>
+                            </ezmes:DataColumn>
                         </ezmes:CNSDataGrid.DataColumns>
                     </ezmes:CNSDataGrid>
                 </Grid>

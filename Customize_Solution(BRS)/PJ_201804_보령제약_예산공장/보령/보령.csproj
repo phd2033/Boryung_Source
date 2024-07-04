@@ -449,6 +449,10 @@
       <DependentUpon>공정검사결과입력.xaml</DependentUpon>
     </Compile>
     <Compile Include="공정검사\Popup\공정검사결과입력ViewModel.cs" />
+    <Compile Include="공정검사\캡슐개별질량세팅.cs" />
+    <Compile Include="공정검사\캡슐개별질량세팅.xaml.cs">
+      <DependentUpon>캡슐개별질량세팅.xaml</DependentUpon>
+    </Compile>
     <Compile Include="공정검사\경도측정.xaml.cs">
       <DependentUpon>경도측정.xaml</DependentUpon>
     </Compile>
@@ -473,6 +477,10 @@
       <DependentUpon>선별공정불량확인.xaml</DependentUpon>
     </Compile>
     <Compile Include="공정검사\선별공정불량확인ViewModel.cs" />
+    <Compile Include="공정검사\캡슐개별질량확인.xaml.cs">
+      <DependentUpon>캡슐개별질량확인.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="공정검사\캡슐개별질량확인ViewModel.cs" />
     <Compile Include="공정검사\타정IPC_두께경도.xaml.cs">
       <DependentUpon>타정IPC_두께경도.xaml</DependentUpon>
     </Compile>
@@ -1147,6 +1155,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="공정검사\캡슐개별질량세팅.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="공정검사\경도측정.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1170,6 +1182,10 @@
     <Page Include="공정검사\선별공정불량확인.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="공정검사\캡슐개별질량확인.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="공정검사\타정IPC_두께경도.xaml">
       <Generator>MSBuild:Compile</Generator>

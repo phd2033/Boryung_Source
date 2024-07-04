@@ -320,7 +320,36 @@ namespace 보령
                 this.OnPropertyChanged("MAX_STD_HARDNESS");
             }
         }
-
+        private bool _ZERO_FLAG;
+        public bool ZERO_FLAG
+        {
+            get { return _ZERO_FLAG; }
+            set
+            {
+                _ZERO_FLAG = value;
+                OnPropertyChanged("ZERO_FLAG");
+            }
+        }
+        private bool _IPC_FLAG;
+        public bool IPC_FLAG
+        {
+            get { return _IPC_FLAG; }
+            set
+            {
+                _IPC_FLAG = value;
+                OnPropertyChanged("IPC_FLAG");
+            }
+        }
+        private bool _HARDNESS_FLAG;
+        public bool HARDNESS_FLAG
+        {
+            get { return _HARDNESS_FLAG; }
+            set
+            {
+                _HARDNESS_FLAG = value;
+                OnPropertyChanged("HARDNESS_FLAG");
+            }
+        }
         #endregion
 
         #region [Bizrule]
@@ -354,6 +383,7 @@ namespace 보령
 
                             INPUT_ENABLE = true;
                             EQPTID_ENABLE = false;
+                            IPC_FLAG = true;
 
 
                             _BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD.INDATAs.Add(new BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD.INDATA()
@@ -373,6 +403,7 @@ namespace 보령
                                             AVG_STD_HARDNESS = std.CSL != "" ? std.CSL : "N/A";
                                             MIN_STD_HARDNESS = std.LSL != "" ? std.LSL : "N/A";
                                             MAX_STD_HARDNESS = std.USL != "" ? std.USL : "N/A";
+                                            if (AVG_STD_HARDNESS == "N/A" & MIN_STD_HARDNESS == "N/A" & MAX_STD_HARDNESS == "N/A") { IPC_FLAG = false; }
                                             break;
                                         case "IPC-027":
                                             AVG_STD_THICKNESS = std.CSL != "" ? std.CSL : "N/A";
@@ -434,7 +465,7 @@ namespace 보령
                                         {
                                             _IPCResultSections.Add(new IPCResultSection.OUTDATA
                                             {
-                                                STRTDTTM =  Convert.ToDateTime(dt.Rows[i]["점검일시"].ToString()),
+                                                STRTDTTM = Convert.ToDateTime(dt.Rows[i]["점검일시"].ToString()),
                                                 AVG_WEIGHT = dt.Rows[i]["평균질량"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["평균질량"]),
                                                 MIN_WEIGHT = dt.Rows[i]["개별최소질량"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["개별최소질량"]),
                                                 MAX_WEIGHT = dt.Rows[i]["개별최대질량"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["개별최대질량"]),
@@ -556,6 +587,8 @@ namespace 보령
                         try
                         {
                             IsBusy = true;
+                            ZERO_FLAG = false;
+                            HARDNESS_FLAG = false;
 
                             CommandResults["AVGCommandAsync"] = false;
                             CommandCanExecutes["AVGCommandAsync"] = false;
@@ -568,57 +601,113 @@ namespace 보령
                             {
                                 AVG_DTTM = System.DateTime.Now;
                                 IPC_RESULTS.Clear();
-                                AVG_RESULT_WEIGHT = IPCResultSections[0].AVG_WEIGHT;
+                                AVG_RESULT_WEIGHT = 0;
                                 MIN_RESULT_WEIGHT = IPCResultSections[0].MIN_WEIGHT;
                                 MAX_RESULT_WEIGHT = IPCResultSections[0].MAX_WEIGHT;
-                                SD_RESULT_WEIGHT = IPCResultSections[0].SD_WEIGHT;
-                                AVG_RESULT_THICKNESS = IPCResultSections[0].AVG_THICKNESS;
+                                SD_RESULT_WEIGHT = 0;
+                                AVG_RESULT_THICKNESS = 0;
                                 MIN_RESULT_THICKNESS = IPCResultSections[0].MIN_THICKNESS;
                                 MAX_RESULT_THICKNESS = IPCResultSections[0].MAX_THICKNESS;
-                                AVG_RESULT_HARDNESS = IPCResultSections[0].AVG_HARDNESS;
+                                AVG_RESULT_HARDNESS = 0;
                                 MIN_RESULT_HARDNESS = IPCResultSections[0].MIN_HARDNESS;
                                 MAX_RESULT_HARDNESS = IPCResultSections[0].MAX_HARDNESS;
 
-                                for (int i = 1; i < IPCResultSections.Count; i++)
+                                //원형
+                                if (IPC_FLAG.Equals(true))
                                 {
+                                    foreach (var ipc in IPCResultSections)
+                                    {
+                                        //2024.07.01 김도연 : 0 값이 있는지 확인
+                                        if (ipc.AVG_WEIGHT == 0 | ipc.MIN_WEIGHT == 0 | ipc.MAX_WEIGHT == 0 | ipc.SD_WEIGHT == 0 | ipc.AVG_THICKNESS == 0 | ipc.MIN_THICKNESS == 0 |
+                                         ipc.MAX_THICKNESS == 0 | ipc.AVG_HARDNESS == 0 | ipc.MIN_HARDNESS == 0 | ipc.MAX_HARDNESS == 0)
+                                        {
+                                            ZERO_FLAG = true;
+                                        }
+                                        AVG_RESULT_WEIGHT += ipc.AVG_WEIGHT;
+                                        MIN_RESULT_WEIGHT = Math.Min(MIN_RESULT_WEIGHT, ipc.MIN_WEIGHT);
+                                        MAX_RESULT_WEIGHT = Math.Max(MAX_RESULT_WEIGHT, ipc.MAX_WEIGHT);
+                                        SD_RESULT_WEIGHT += ipc.SD_WEIGHT;
+                                        AVG_RESULT_THICKNESS += ipc.AVG_THICKNESS;
+                                        MIN_RESULT_THICKNESS = Math.Min(MIN_RESULT_THICKNESS, ipc.MIN_THICKNESS);
+                                        MAX_RESULT_THICKNESS = Math.Max(MAX_RESULT_THICKNESS, ipc.MAX_THICKNESS);
+                                        AVG_RESULT_HARDNESS += ipc.AVG_HARDNESS;
+                                        MIN_RESULT_HARDNESS = Math.Min(MIN_RESULT_HARDNESS, ipc.MIN_HARDNESS);
+                                        MAX_RESULT_HARDNESS = Math.Max(MAX_RESULT_HARDNESS, ipc.MAX_HARDNESS);
+                                    }
 
-                                    AVG_RESULT_WEIGHT += IPCResultSections[i].AVG_WEIGHT;
-                                    MIN_RESULT_WEIGHT = Math.Min(MIN_RESULT_WEIGHT, IPCResultSections[i].MIN_WEIGHT);
-                                    MAX_RESULT_WEIGHT = Math.Max(MAX_RESULT_WEIGHT, IPCResultSections[i].MAX_WEIGHT);
-                                    SD_RESULT_WEIGHT += IPCResultSections[i].SD_WEIGHT;
-                                    AVG_RESULT_THICKNESS += IPCResultSections[i].AVG_THICKNESS;
-                                    MIN_RESULT_THICKNESS = Math.Min(MIN_RESULT_THICKNESS, IPCResultSections[i].MIN_THICKNESS);
-                                    MAX_RESULT_THICKNESS = Math.Max(MAX_RESULT_THICKNESS, IPCResultSections[i].MAX_THICKNESS);
-                                    AVG_RESULT_HARDNESS += IPCResultSections[i].AVG_HARDNESS;
-                                    MIN_RESULT_HARDNESS = Math.Min(MIN_RESULT_HARDNESS, IPCResultSections[i].MIN_HARDNESS);
-                                    MAX_RESULT_HARDNESS = Math.Max(MAX_RESULT_HARDNESS, IPCResultSections[i].MAX_HARDNESS);
+                                    //2024.07.01 김도연 : 값이 0으로 되어있는 경우, 진행을 멈추고 안내 팝업창을 띄움. 
+                                    if (ZERO_FLAG.Equals(true))
+                                    {
+                                        if (await OnMessageAsync("입력값 중 0이 있습니다. 진행하시겠습니까?", true) == false)
+                                        {
+                                            return;
+                                        }
+                                    }
+                                    
+                                }
+                                //비원형
+                                else
+                                {
+                                    foreach (var ipc in IPCResultSections)
+                                    {
+                                        //2024.07.01 김도연 : 경도를 제외한 입력값 중 0 값이 있는지 확인
+                                        if (ipc.AVG_WEIGHT == 0 | ipc.MIN_WEIGHT == 0 | ipc.MAX_WEIGHT == 0 | ipc.SD_WEIGHT == 0 | ipc.AVG_THICKNESS == 0 | ipc.MIN_THICKNESS == 0 |
+                                         ipc.MAX_THICKNESS == 0)
+                                        {
+                                            ZERO_FLAG = true;
+                                        }
+                                        //2024.07.02 김도연 : 작업자가 경도를 입력했는지 확인
+                                        if (ipc.AVG_HARDNESS > 0 | ipc.MIN_HARDNESS > 0 | ipc.MAX_HARDNESS > 0)
+                                        {
+                                            HARDNESS_FLAG = true;
+                                        }
+
+                                        AVG_RESULT_WEIGHT += ipc.AVG_WEIGHT;
+                                        MIN_RESULT_WEIGHT = Math.Min(MIN_RESULT_WEIGHT, ipc.MIN_WEIGHT);
+                                        MAX_RESULT_WEIGHT = Math.Max(MAX_RESULT_WEIGHT, ipc.MAX_WEIGHT);
+                                        SD_RESULT_WEIGHT += ipc.SD_WEIGHT;
+                                        AVG_RESULT_THICKNESS += ipc.AVG_THICKNESS;
+                                        MIN_RESULT_THICKNESS = Math.Min(MIN_RESULT_THICKNESS, ipc.MIN_THICKNESS);
+                                        MAX_RESULT_THICKNESS = Math.Max(MAX_RESULT_THICKNESS, ipc.MAX_THICKNESS);
+                                        AVG_RESULT_HARDNESS += ipc.AVG_HARDNESS;
+                                        MIN_RESULT_HARDNESS = Math.Min(MIN_RESULT_HARDNESS, ipc.MIN_HARDNESS);
+                                        MAX_RESULT_HARDNESS = Math.Max(MAX_RESULT_HARDNESS, ipc.MAX_HARDNESS);
+
+                                    }
+
+                                    //2024.07.01 김도연 : 값이 0으로 되어있는 경우, 진행을 멈추고 안내 팝업창을 띄움. 
+                                    if (ZERO_FLAG.Equals(true))
+                                    {
+                                        if (await OnMessageAsync("경도를 제외한 입력값 중 0이 있습니다. 진행하시겠습니까?", true) == false)
+                                        {
+                                            return;
+                                        }
+                                    }
+
+                                    //2024.07.01 김도연 : 비원형 제품인데 작업자가 실수로 값을 입력했을 때, 안내 팝업창을 띄움.
+                                    if (HARDNESS_FLAG.Equals(true))
+                                    {
+                                        if (await OnMessageAsync("경도를 사용하지 않는 제품입니다.\n경도(평균), 경도(최소), 경도(최대) 값을 확인 부탁드립니다.\n계속 진행하시겠습니까?", true) == false)
+                                        {
+                                            return;
+                                        }
+                                    }
                                 }
 
                                 int num = IPCResultSections.Count;
-                                AVG_RESULT_WEIGHT = Math.Round((AVG_RESULT_WEIGHT / num), 2);
-                                MIN_RESULT_WEIGHT = Math.Round(MIN_RESULT_WEIGHT, 2);
-                                MAX_RESULT_WEIGHT = Math.Round(MAX_RESULT_WEIGHT, 2);
-                                SD_RESULT_WEIGHT = Math.Round((SD_RESULT_WEIGHT / num), 2);
-                                AVG_RESULT_THICKNESS = Math.Round((AVG_RESULT_THICKNESS / num), 2);
-                                MIN_RESULT_THICKNESS = Math.Round(MIN_RESULT_THICKNESS, 2);
-                                MAX_RESULT_THICKNESS = Math.Round(MAX_RESULT_THICKNESS, 2);
-                                AVG_RESULT_HARDNESS = Math.Round((AVG_RESULT_HARDNESS / num), 2);
-                                MIN_RESULT_HARDNESS = Math.Round(MIN_RESULT_HARDNESS, 2);
-                                MAX_RESULT_HARDNESS = Math.Round(MAX_RESULT_HARDNESS, 2);
-
                                 IPC_RESULTS.Add(new EACH_INDATA()
                                 {
                                     RSLT_AVG_DTTM = AVG_DTTM.ToString("yyyy-MM-dd HH:mm"),
-                                    RSLT_AVG_WEIGHT = AVG_RESULT_WEIGHT.ToString(),
-                                    RSLT_MIN_WEIGHT = MIN_RESULT_WEIGHT.ToString(),
-                                    RSLT_MAX_WEIGHT = MAX_RESULT_WEIGHT.ToString(),
-                                    RSLT_SD_WEIGHT = SD_RESULT_WEIGHT.ToString(),
-                                    RSLT_AVG_THICKNESS = AVG_RESULT_THICKNESS.ToString(),
-                                    RSLT_MIN_THICKNESS = MIN_RESULT_THICKNESS.ToString(),
-                                    RSLT_MAX_THICKNESS = MAX_RESULT_THICKNESS.ToString(),
-                                    RSLT_AVG_HARDNESS = AVG_RESULT_HARDNESS.ToString(),
-                                    RSLT_MIN_HARDNESS = MIN_RESULT_HARDNESS.ToString(),
-                                    RSLT_MAX_HARDNESS = MAX_RESULT_HARDNESS.ToString()
+                                    RSLT_AVG_WEIGHT = String.Format("{0:0.00}", Math.Round((AVG_RESULT_WEIGHT / num), 2)),
+                                    RSLT_MIN_WEIGHT = String.Format("{0:0.00}", Math.Round(MIN_RESULT_WEIGHT, 2)),
+                                    RSLT_MAX_WEIGHT = String.Format("{0:0.00}", Math.Round(MAX_RESULT_WEIGHT, 2)),
+                                    RSLT_SD_WEIGHT = String.Format("{0:0.00}", Math.Round((SD_RESULT_WEIGHT / num), 2)),
+                                    RSLT_AVG_THICKNESS = String.Format("{0:0.00}", Math.Round((AVG_RESULT_THICKNESS / num), 2)),
+                                    RSLT_MIN_THICKNESS = String.Format("{0:0.00}", Math.Round(MIN_RESULT_THICKNESS, 2)),
+                                    RSLT_MAX_THICKNESS = String.Format("{0:0.00}", Math.Round(MAX_RESULT_THICKNESS, 2)),
+                                    RSLT_AVG_HARDNESS = String.Format("{0:0.00}", Math.Round((AVG_RESULT_HARDNESS / num), 2)),
+                                    RSLT_MIN_HARDNESS = String.Format("{0:0.00}", Math.Round(MIN_RESULT_HARDNESS, 2)),
+                                    RSLT_MAX_HARDNESS = String.Format("{0:0.00}", Math.Round(MAX_RESULT_HARDNESS, 2))
 
                                 });
 
@@ -661,7 +750,7 @@ namespace 보령
                             CommandCanExecutes["ConfirmCommandAsync"] = false;
 
                             //2024.05.27 김도연 : 평균 정보가 없을 때 기록이 안되도록 수정
-                            if (AVG_RESULT_WEIGHT == 0)
+                            if (IPC_RESULTS.Count == 0)
                             {
                                 throw new Exception(string.Format("평균 정보가 없습니다."));
                             }
@@ -700,7 +789,7 @@ namespace 보령
                                 {
                                     throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                 }
-                                
+
                                 // BR_BRS_REG_IPC_CHECKMASTER_MULTI IPC 결과 테이블에 저장
                                 _BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit.INDATAs.Clear();
 
@@ -713,16 +802,16 @@ namespace 보령
                                     USERID = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI"),
                                     STRTDTTM = AVG_DTTM,
                                     LOCATIONID = AuthRepositoryViewModel.Instance.RoomID,
-                                    AVG_WEIGHT = AVG_RESULT_WEIGHT != 0 ? AVG_RESULT_WEIGHT.ToString() : "",
-                                    MIN_WEIGHT = MIN_RESULT_WEIGHT != 0 ? MIN_RESULT_WEIGHT.ToString() : "",
-                                    MAX_WEIGHT = MAX_RESULT_WEIGHT != 0 ? MAX_RESULT_WEIGHT.ToString() : "",
-                                    SD_WEIGHT = SD_RESULT_WEIGHT != 0 ? SD_RESULT_WEIGHT.ToString() : "",
-                                    AVG_THICKNESS = AVG_RESULT_THICKNESS != 0 ? AVG_RESULT_THICKNESS.ToString() : "",
-                                    MIN_THICKNESS = MIN_RESULT_THICKNESS != 0 ? MIN_RESULT_THICKNESS.ToString() : "",
-                                    MAX_THICKNESS = MAX_RESULT_THICKNESS != 0 ? MAX_RESULT_THICKNESS.ToString() : "",
-                                    AVG_HARDNESS = AVG_RESULT_HARDNESS != 0 ? AVG_RESULT_HARDNESS.ToString() : "",
-                                    MIN_HARDNESS = MIN_RESULT_HARDNESS != 0 ? MIN_RESULT_HARDNESS.ToString() : "",
-                                    MAX_HARDNESS = MAX_RESULT_HARDNESS != 0 ? MAX_RESULT_HARDNESS.ToString() : ""
+                                    AVG_WEIGHT = IPC_RESULTS[0].RSLT_AVG_WEIGHT,
+                                    MIN_WEIGHT = IPC_RESULTS[0].RSLT_MIN_WEIGHT,
+                                    MAX_WEIGHT = IPC_RESULTS[0].RSLT_MAX_WEIGHT,
+                                    SD_WEIGHT = IPC_RESULTS[0].RSLT_SD_WEIGHT,
+                                    AVG_THICKNESS = IPC_RESULTS[0].RSLT_AVG_THICKNESS,
+                                    MIN_THICKNESS = IPC_RESULTS[0].RSLT_MIN_THICKNESS,
+                                    MAX_THICKNESS = IPC_RESULTS[0].RSLT_MAX_THICKNESS,
+                                    AVG_HARDNESS = IPC_RESULTS[0].RSLT_AVG_HARDNESS,
+                                    MIN_HARDNESS = IPC_RESULTS[0].RSLT_MIN_HARDNESS,
+                                    MAX_HARDNESS = IPC_RESULTS[0].RSLT_MAX_HARDNESS
                                 });
 
 
@@ -767,16 +856,16 @@ namespace 보령
                                         row = dt.NewRow();
                                         row["장비번호"] = EQPTID;
                                         row["점검일시"] = rowdata.STRTDTTM != null ? rowdata.STRTDTTM.ToString("yyyy-MM-dd HH:mm") : "";
-                                        row["평균질량"] = rowdata.AVG_WEIGHT != 0 ? rowdata.AVG_WEIGHT.ToString() : "";
-                                        row["개별최소질량"] = rowdata.MIN_WEIGHT != 0 ? rowdata.MIN_WEIGHT.ToString() : "";
-                                        row["개별최대질량"] = rowdata.MAX_WEIGHT != 0 ? rowdata.MAX_WEIGHT.ToString() : "";
-                                        row["개별질량RSD"] = rowdata.SD_WEIGHT != 0 ? rowdata.SD_WEIGHT.ToString() : "";
-                                        row["평균두께"] = rowdata.AVG_THICKNESS != 0 ? rowdata.AVG_THICKNESS.ToString() : "";
-                                        row["최소두께"] = rowdata.MIN_THICKNESS != 0 ? rowdata.MIN_THICKNESS.ToString() : "";
-                                        row["최대두께"] = rowdata.MAX_THICKNESS != 0 ? rowdata.MAX_THICKNESS.ToString() : "";
-                                        row["평균경도"] = rowdata.AVG_HARDNESS != 0 ? rowdata.AVG_HARDNESS.ToString() : "";
-                                        row["최소경도"] = rowdata.MIN_HARDNESS != 0 ? rowdata.MIN_HARDNESS.ToString() : "";
-                                        row["최대경도"] = rowdata.MAX_HARDNESS != 0 ? rowdata.MAX_HARDNESS.ToString() : "";
+                                        row["평균질량"] = rowdata.AVG_WEIGHT.ToString();
+                                        row["개별최소질량"] = rowdata.MIN_WEIGHT.ToString();
+                                        row["개별최대질량"] = rowdata.MAX_WEIGHT.ToString();
+                                        row["개별질량RSD"] = rowdata.SD_WEIGHT.ToString();
+                                        row["평균두께"] = rowdata.AVG_THICKNESS.ToString();
+                                        row["최소두께"] = rowdata.MIN_THICKNESS.ToString();
+                                        row["최대두께"] = rowdata.MAX_THICKNESS.ToString();
+                                        row["평균경도"] = rowdata.AVG_HARDNESS.ToString();
+                                        row["최소경도"] = rowdata.MIN_HARDNESS.ToString();
+                                        row["최대경도"] = rowdata.MAX_HARDNESS.ToString();
 
                                         dt.Rows.Add(row);
                                     }
@@ -785,48 +874,48 @@ namespace 보령
                                     row = dt.NewRow();
                                     row["장비번호"] = "결과";
                                     row["점검일시"] = AVG_DTTM != null ? AVG_DTTM.ToString("yyyy-MM-dd HH:mm") : ""; ;
-                                    row["평균질량"] = AVG_RESULT_WEIGHT != 0 ? AVG_RESULT_WEIGHT.ToString() : "";
-                                    row["개별최소질량"] = MIN_RESULT_WEIGHT != 0 ? MIN_RESULT_WEIGHT.ToString() : "";
-                                    row["개별최대질량"] = MAX_RESULT_WEIGHT != 0 ? MAX_RESULT_WEIGHT.ToString() : "";
-                                    row["개별질량RSD"] = SD_RESULT_WEIGHT != 0 ? SD_RESULT_WEIGHT.ToString() : "";
-                                    row["평균두께"] = AVG_RESULT_THICKNESS != 0 ? AVG_RESULT_THICKNESS.ToString() : "";
-                                    row["최소두께"] = MIN_RESULT_THICKNESS != 0 ? MIN_RESULT_THICKNESS.ToString() : "";
-                                    row["최대두께"] = MAX_RESULT_THICKNESS != 0 ? MAX_RESULT_THICKNESS.ToString() : "";
-                                    row["평균경도"] = AVG_RESULT_HARDNESS != 0 ? AVG_RESULT_HARDNESS.ToString() : "";
-                                    row["최소경도"] = MIN_RESULT_HARDNESS != 0 ? MIN_RESULT_HARDNESS.ToString() : "";
-                                    row["최대경도"] = MAX_RESULT_HARDNESS != 0 ? MAX_RESULT_HARDNESS.ToString() : "";
+                                    row["평균질량"] = IPC_RESULTS[0].RSLT_AVG_WEIGHT;
+                                    row["개별최소질량"] = IPC_RESULTS[0].RSLT_MIN_WEIGHT;
+                                    row["개별최대질량"] = IPC_RESULTS[0].RSLT_MAX_WEIGHT;
+                                    row["개별질량RSD"] = IPC_RESULTS[0].RSLT_SD_WEIGHT;
+                                    row["평균두께"] = IPC_RESULTS[0].RSLT_AVG_THICKNESS;
+                                    row["최소두께"] = IPC_RESULTS[0].RSLT_MIN_THICKNESS;
+                                    row["최대두께"] = IPC_RESULTS[0].RSLT_MAX_THICKNESS;
+                                    row["평균경도"] = IPC_RESULTS[0].RSLT_AVG_HARDNESS;
+                                    row["최소경도"] = IPC_RESULTS[0].RSLT_MIN_HARDNESS;
+                                    row["최대경도"] = IPC_RESULTS[0].RSLT_MAX_HARDNESS;
                                     dt.Rows.Add(row);
 
                                     //2024.06.27 김도연 : EBR에 기준값 보이도록 데이터 input
                                     var rowEbr_STD = dtEbr.NewRow();
                                     rowEbr_STD["장비번호"] = "";
                                     rowEbr_STD["점검일시"] = "기준";
-                                    rowEbr_STD["평균질량"] = IPC_STANDARDS[0].RSLT_AVG_WEIGHT;
-                                    rowEbr_STD["개별최소질량"] = IPC_STANDARDS[0].RSLT_MIN_WEIGHT;
-                                    rowEbr_STD["개별최대질량"] = IPC_STANDARDS[0].RSLT_MAX_WEIGHT;
-                                    rowEbr_STD["개별질량RSD"] = IPC_STANDARDS[0].RSLT_SD_WEIGHT;
-                                    rowEbr_STD["평균두께"] = IPC_STANDARDS[0].RSLT_AVG_THICKNESS;
-                                    rowEbr_STD["최소두께"] = IPC_STANDARDS[0].RSLT_MIN_THICKNESS;
-                                    rowEbr_STD["최대두께"] = IPC_STANDARDS[0].RSLT_MAX_THICKNESS;
-                                    rowEbr_STD["평균경도"] = IPC_STANDARDS[0].RSLT_AVG_HARDNESS;
-                                    rowEbr_STD["최소경도"] = IPC_STANDARDS[0].RSLT_MIN_HARDNESS;
-                                    rowEbr_STD["최대경도"] = IPC_STANDARDS[0].RSLT_MAX_HARDNESS;
+                                    rowEbr_STD["평균질량"] = IPC_STANDARDS[0].RSLT_AVG_WEIGHT.ToString();
+                                    rowEbr_STD["개별최소질량"] = IPC_STANDARDS[0].RSLT_MIN_WEIGHT.ToString();
+                                    rowEbr_STD["개별최대질량"] = IPC_STANDARDS[0].RSLT_MAX_WEIGHT.ToString();
+                                    rowEbr_STD["개별질량RSD"] = IPC_STANDARDS[0].RSLT_SD_WEIGHT.ToString();
+                                    rowEbr_STD["평균두께"] = IPC_STANDARDS[0].RSLT_AVG_THICKNESS.ToString();
+                                    rowEbr_STD["최소두께"] = IPC_STANDARDS[0].RSLT_MIN_THICKNESS.ToString();
+                                    rowEbr_STD["최대두께"] = IPC_STANDARDS[0].RSLT_MAX_THICKNESS.ToString();
+                                    rowEbr_STD["평균경도"] = IPC_STANDARDS[0].RSLT_AVG_HARDNESS.ToString();
+                                    rowEbr_STD["최소경도"] = IPC_STANDARDS[0].RSLT_MIN_HARDNESS.ToString();
+                                    rowEbr_STD["최대경도"] = IPC_STANDARDS[0].RSLT_MAX_HARDNESS.ToString();
                                     dtEbr.Rows.Add(rowEbr_STD);
 
                                     //2024.05.24 김도연 : EBR에 평균값 보이도록 데이터 input
                                     var rowEbr_AVG = dtEbr.NewRow();
                                     rowEbr_AVG["장비번호"] = EQPTID;
                                     rowEbr_AVG["점검일시"] = AVG_DTTM != null ? AVG_DTTM.ToString("yyyy-MM-dd HH:mm") : ""; ;
-                                    rowEbr_AVG["평균질량"] = AVG_RESULT_WEIGHT != 0 ? AVG_RESULT_WEIGHT.ToString() : "";
-                                    rowEbr_AVG["개별최소질량"] = MIN_RESULT_WEIGHT != 0 ? MIN_RESULT_WEIGHT.ToString() : "";
-                                    rowEbr_AVG["개별최대질량"] = MAX_RESULT_WEIGHT != 0 ? MAX_RESULT_WEIGHT.ToString() : "";
-                                    rowEbr_AVG["개별질량RSD"] = SD_RESULT_WEIGHT != 0 ? SD_RESULT_WEIGHT.ToString() : "";
-                                    rowEbr_AVG["평균두께"] = AVG_RESULT_THICKNESS != 0 ? AVG_RESULT_THICKNESS.ToString() : "";
-                                    rowEbr_AVG["최소두께"] = MIN_RESULT_THICKNESS != 0 ? MIN_RESULT_THICKNESS.ToString() : "";
-                                    rowEbr_AVG["최대두께"] = MAX_RESULT_THICKNESS != 0 ? MAX_RESULT_THICKNESS.ToString() : "";
-                                    rowEbr_AVG["평균경도"] = AVG_RESULT_HARDNESS != 0 ? AVG_RESULT_HARDNESS.ToString() : "";
-                                    rowEbr_AVG["최소경도"] = MIN_RESULT_HARDNESS != 0 ? MIN_RESULT_HARDNESS.ToString() : "";
-                                    rowEbr_AVG["최대경도"] = MAX_RESULT_HARDNESS != 0 ? MAX_RESULT_HARDNESS.ToString() : "";
+                                    rowEbr_AVG["평균질량"] = IPC_RESULTS[0].RSLT_AVG_WEIGHT;
+                                    rowEbr_AVG["개별최소질량"] = IPC_RESULTS[0].RSLT_MIN_WEIGHT;
+                                    rowEbr_AVG["개별최대질량"] = IPC_RESULTS[0].RSLT_MAX_WEIGHT;
+                                    rowEbr_AVG["개별질량RSD"] = IPC_RESULTS[0].RSLT_SD_WEIGHT;
+                                    rowEbr_AVG["평균두께"] = IPC_RESULTS[0].RSLT_AVG_THICKNESS;
+                                    rowEbr_AVG["최소두께"] = IPC_RESULTS[0].RSLT_MIN_THICKNESS;
+                                    rowEbr_AVG["최대두께"] = IPC_RESULTS[0].RSLT_MAX_THICKNESS;
+                                    rowEbr_AVG["평균경도"] = IPC_RESULTS[0].RSLT_AVG_HARDNESS;
+                                    rowEbr_AVG["최소경도"] = IPC_RESULTS[0].RSLT_MIN_HARDNESS;
+                                    rowEbr_AVG["최대경도"] = IPC_RESULTS[0].RSLT_MAX_HARDNESS;
                                     dtEbr.Rows.Add(rowEbr_AVG);
 
                                     var xml = BizActorRuleBase.CreateXMLStream(ds);

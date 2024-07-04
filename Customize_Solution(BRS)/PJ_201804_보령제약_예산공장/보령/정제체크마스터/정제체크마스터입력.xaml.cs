@@ -16,15 +16,14 @@ using System.Windows.Shapes;
 namespace 보령
 {
     [ShopFloorCustomHidden]
-     public partial class 정제체크마스터입력 : ShopFloorCustomWindow
+    public partial class 정제체크마스터입력 : ShopFloorCustomWindow
     {
 
         public override string TableTypeName
         {
             get { return "TABLE,정제체크마스터입력"; }
         }
-
-
+        
         public 정제체크마스터입력()
         {
             InitializeComponent();
@@ -33,6 +32,6 @@ namespace 보령
         private void btnCancel_Click(object sender, EventArgs e)
         {
             DialogResult = false;
-        }       
+        }
     }
 }

@@ -87,7 +87,7 @@
                                 Style="{Binding Source={StaticResource BtnDefault}}" VerticalAlignment="Bottom"
                                 HorizontalAlignment="Right" Command="{Binding InputEquipmentCommandAsync}" Height="50" Margin="0,0,10,2" Width="95"/>
                 </Grid>
-                
+
                 <Grid x:Name="IPC_CheckMaster" Grid.Row="1" Margin="0,0,0,10">
                     <sdk:Label Grid.Column="0" Content="[IPC 기준 정보]"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="512,54,495,308" />
                     <c1:C1DataGrid Grid.Row="0" AutoGenerateColumns="False"
@@ -177,11 +177,11 @@
                                 </ezmes:DataColumn.CellTemplate>
                             </ezmes:DataColumn>
                             <ezmes:DataColumn HeadName="경도(최대)" HeaderWidth="94" DataField = "MAX_HARDNESS" ColumnType ="Template" >
-                                    <ezmes:DataColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <ShopFloorUI:KeyPadType Value="{Binding MAX_HARDNESS, Mode=TwoWay}"/>
-                                        </DataTemplate>
-                                    </ezmes:DataColumn.CellTemplate>
+                                <ezmes:DataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ShopFloorUI:KeyPadType Value="{Binding MAX_HARDNESS, Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </ezmes:DataColumn.CellTemplate>
                             </ezmes:DataColumn>
                         </ezmes:CNSDataGrid.DataColumns>
                     </ezmes:CNSDataGrid>
@@ -214,9 +214,9 @@
 
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <Button x:Name="btnAVG" Content="평균" Style="{Binding Source={StaticResource BtnDefault}}" Command="{Binding AVGCommandAsync}" Height="39" Width="89"/>
-                    <Button x:Name="btnRecord" Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource R}, FallbackValue= '기록'}" 
+                    <Button x:Name="btnRecord" Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue= '기록'}" 
                             Style="{Binding Source={StaticResource BtnDefault}}" Command="{Binding ConfirmCommandAsync}" Height="39" Width="89"/>
-                    <Button x:Name="btnCacel" Content="{Binding W[CUICloseButtonText], Source={StaticResource R}, FallbackValue= '취소'}"
+                    <Button x:Name="btnCacel" Content="{Binding W[CUICloseButtonText], Source={StaticResource VM}, FallbackValue= '취소'}"
                             Style="{Binding Source={StaticResource BtnDefault}}"
                             Click="btnCancel_Click" Height="39" Width="89"/>
                 </StackPanel>

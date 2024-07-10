@@ -94,8 +94,8 @@
                     </sdk:Label>
                     <sdk:Label Grid.Row="2" Content="{Binding LowerWeight}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold"/>
                 </Grid>
-                <Rectangle Grid.Row="4" Grid.ColumnSpan="4" Canvas.ZIndex="1" Fill="Transparent" Margin="0,0,0,20"/>
-                <c1:C1DataGrid Grid.Row="4" Grid.ColumnSpan="4"
+                <Rectangle Grid.Row="4" Grid.ColumnSpan="3" Canvas.ZIndex="1" Fill="Transparent" Margin="0,0,0,20"/>
+                    <c1:C1DataGrid Grid.Row="4" Grid.ColumnSpan="4"
                        Canvas.ZIndex="0"
                        x:Name="dgProductionOutput" 
                        SelectionMode="SingleRow"
@@ -108,16 +108,16 @@
                        AlternatingRowBackground="White"
                        RowBackground="White"
                        ItemsSource="{Binding FilteredComponents, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                    <c1:C1DataGrid.Columns>
-                        <c1:DataGridTextColumn  Header="시험번호" Binding="{Binding Path=MLOTID}" HeaderStyle="{StaticResource HeaderStyle}"/>
-                        <c1:DataGridTextColumn  Header="원료배치번호" Width="150" Binding="{Binding Path=MSUBLOTID}" IsReadOnly="True" HorizontalAlignment="Center" HeaderStyle="{StaticResource HeaderStyle}"/>
-                        <c1:DataGridTextColumn  Header="No" Width="40"  Binding="{Binding Path=SEQ}" IsReadOnly="True" HorizontalAlignment="Center" HeaderStyle="{StaticResource HeaderStyle}"/>
-                        <c1:DataGridTextColumn  Header="단위"  Width="50"  Binding="{Binding Path=UOMNAME}" IsReadOnly="True" HorizontalAlignment="Center" HeaderStyle="{StaticResource HeaderStyle}"/>
-                        <c1:DataGridTextColumn  Header="출고량"  Width="80"  Binding="{Binding Path=MSUBLOTQTY, StringFormat='0.##0'}" IsReadOnly="True" HorizontalAlignment="Right" HeaderStyle="{StaticResource HeaderStyle}"/>
-                        <c1:DataGridTextColumn  Header="실제투입량"  Width="80"  Binding="{Binding Path=REALQTY, StringFormat='0.##0'}" IsReadOnly="True" HorizontalAlignment="Right" HeaderStyle="{StaticResource HeaderStyle}"/>
-                        <c1:DataGridTextColumn  Header="상태"  Width="55" Binding="{Binding Path=CHECK}" IsReadOnly="True" HorizontalAlignment="Center" HeaderStyle="{StaticResource HeaderStyle}"/>
-                    </c1:C1DataGrid.Columns>
-                </c1:C1DataGrid>
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridTextColumn  Header="시험번호" Binding="{Binding Path=MLOTID}" HeaderStyle="{StaticResource HeaderStyle}"/>
+                            <c1:DataGridTextColumn  Header="원료배치번호" Width="150" Binding="{Binding Path=MSUBLOTID}" IsReadOnly="True" HorizontalAlignment="Center" HeaderStyle="{StaticResource HeaderStyle}"/>
+                            <c1:DataGridTextColumn  Header="No" Width="40"  Binding="{Binding Path=SEQ}" IsReadOnly="True" HorizontalAlignment="Center" HeaderStyle="{StaticResource HeaderStyle}"/>
+                            <c1:DataGridTextColumn  Header="단위"  Width="50"  Binding="{Binding Path=UOMNAME}" IsReadOnly="True" HorizontalAlignment="Center" HeaderStyle="{StaticResource HeaderStyle}"/>
+                            <c1:DataGridTextColumn  Header="출고량"  Width="80"  Binding="{Binding Path=MSUBLOTQTY, StringFormat='0.##0'}" IsReadOnly="True" HorizontalAlignment="Right" HeaderStyle="{StaticResource HeaderStyle}"/>
+                            <c1:DataGridTextColumn  Header="실제투입량"  Width="80"  Binding="{Binding Path=REALQTY, StringFormat='0.##0'}" IsReadOnly="True" HorizontalAlignment="Right" HeaderStyle="{StaticResource HeaderStyle}"/>
+                            <c1:DataGridTextColumn  Header="상태"  Width="55" Binding="{Binding Path=CHECK}" IsReadOnly="True" HorizontalAlignment="Center" HeaderStyle="{StaticResource HeaderStyle}"/>
+                        </c1:C1DataGrid.Columns>
+                    </c1:C1DataGrid>
                 <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>

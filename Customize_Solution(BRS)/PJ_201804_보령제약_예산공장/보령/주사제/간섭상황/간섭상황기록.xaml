@@ -1,0 +1,56 @@
+﻿<ShopFloorUI:ShopFloorCustomWindow 
+    x:Class="보령.간섭상황기록" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit ="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:보령"
+    xmlns:ShopFloorUI="clr-namespace:ShopFloorUI;assembly=ShopFloorUI.Common"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
+    xmlns:icommon="clr-namespace:LGCNS.iPharmMES.Common;assembly=LGCNS.iPharmMES.Common"
+    xmlns:icontrol="clr-namespace:LGCNS.iPharmMES.Controls;assembly=LGCNS.iPharmMES.Controls"
+    xmlns:controlsLib="clr-namespace:LGCNS.EZMES.ControlsLib;assembly=LGCNS.EZMES.ControlsLib"
+    xmlns:vsm="clr-namespace:System.Windows;assembly=System.Windows"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:ezmes="clr-namespace:LGCNS.EZMES.ControlsLib;assembly=LGCNS.EZMES.ControlsLib"
+    Width="1200" Height="400"
+    Title="간섭상황기록" x:Name="Main">
+    <ShopFloorUI:ShopFloorCustomWindow.Resources>
+        <local:간섭상황기록ViewModel x:Name="VM"/>
+    </ShopFloorUI:ShopFloorCustomWindow.Resources>
+    <toolkit:BusyIndicator Name="BusyIn" IsBusy="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged}" DataContext="{Binding Source={StaticResource VM}}">
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded">
+                <i:InvokeCommandAction Command="{Binding LoadedCommandAsync}" CommandParameter="{Binding ElementName=Main}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <Grid x:Name="MainSection">
+                <ezmes:CNSDataGrid x:Name="InferenceSituation" IsRowAdd="True" IsRowDelete="True" IsEditMode="True" IsEditSection="True" IsRowNumber="False"
+                                    HeadersVisibility="Column" ItemsSource="{Binding InterferSituations}"  ScrollViewer.VerticalScrollBarVisibility="Visible">
+                    <ezmes:CNSDataGrid.DataColumns>
+                        <ezmes:DataColumn HeadName="No." HeaderWidth="40" DataField = "NO" ValueDataField="KEY" DisplayMemberPath="KEY" SelectedValuePath="KEY" ColumnType="ComboBox"  ReadOnly="False"
+                                          ItemsSource="{Binding COMBOItems, Mode=TwoWay}" HorizontalAlignment="Center"/>
+                        <ezmes:DataColumn HeadName="간섭내용" HeaderWidth="125" DataField = "CONTENTS" ValueDataField="KEY" DisplayMemberPath="CONTENT" SelectedValuePath="KEY" ColumnType="ComboBox"  ReadOnly="False"
+                                          ItemsSource="{Binding COMBOItems, Mode=TwoWay}" HorizontalAlignment="Center"/>
+                        <ezmes:DataColumn HeadName="조치사항" HeaderWidth="300" DataField = "ACTION" ValueDataField="KEY" DisplayMemberPath="ACT" SelectedValuePath="KEY" ColumnType="ComboBox"  ReadOnly="False"
+                                          ItemsSource="{Binding COMBOItems, Mode=TwoWay}" HorizontalAlignment="Center"/>
+                        <ezmes:DataColumn HeadName="Module" HeaderWidth="60" DataField = "MODULE" ColumnType ="ComboBox" HorizontalAlignment="Center"/>
+                        <ezmes:DataColumn HeadName="폐기수량" HeaderWidth="60" DataField = "DISPOSAL" ColumnType ="TextBox" HorizontalAlignment="Center"/>
+                        <ezmes:DataColumn HeadName="발생시각" HeaderWidth="100" DataField = "STRTDTTM" ColumnType ="DateTime" HorizontalAlignment="Center"/>
+                        <ezmes:DataColumn HeadName="완료시각" HeaderWidth="100" DataField = "ENDDTTM" ColumnType ="DateTime" HorizontalAlignment="Center"/>
+                        <ezmes:DataColumn HeadName="비고" HeaderWidth="100" DataField = "NOTE" ColumnType ="TextBox" HorizontalAlignment="Center"/>
+                    </ezmes:CNSDataGrid.DataColumns>
+                </ezmes:CNSDataGrid>
+            </Grid>
+        </Grid>
+    </toolkit:BusyIndicator>
+</ShopFloorUI:ShopFloorCustomWindow>

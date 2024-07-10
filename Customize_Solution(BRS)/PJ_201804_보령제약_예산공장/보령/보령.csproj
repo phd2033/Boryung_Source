@@ -892,6 +892,10 @@
       <DependentUpon>정제체크마스터조회.xaml</DependentUpon>
     </Compile>
     <Compile Include="정제체크마스터\정제체크마스터조회ViewModel.cs" />
+    <Compile Include="주사제\간섭상황\간섭상황기록.xaml.cs">
+      <DependentUpon>간섭상황기록.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="주사제\간섭상황\간섭상황기록ViewModel.cs" />
     <Compile Include="주사제\공정검사\AQL검사기록.xaml.cs">
       <DependentUpon>AQL검사기록.xaml</DependentUpon>
     </Compile>
@@ -1587,6 +1591,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="주사제\간섭상황\간섭상황기록.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="주사제\공정검사\AQL검사기록.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1768,7 +1776,8 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PostBuildEvent>xcopy /R /Y "$(TargetPath)" "$(ProjectDir)..\LGCNS.iPharmMES.SUI\ClientBin"
-xcopy /R /Y "$(TargetPath)" "$(ProjectDir)..\Debug.SUI.OOB\ClientBin"</PostBuildEvent>
+xcopy /R /Y "$(TargetPath)" "$(ProjectDir)..\Debug.SUI.OOB\ClientBin"
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

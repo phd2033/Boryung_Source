@@ -2,23 +2,11 @@
 using LGCNS.iPharmMES.Common;
 using ShopFloorUI;
 using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using System.Collections.Generic;
-using C1.Silverlight.Imaging;
-using System.Windows.Media.Imaging;
-using System.Threading.Tasks;
-using System.IO;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Collections.ObjectModel;
+using LGCNS.iPharmMES.Recipe.Common;
 
 namespace 보령
 {
@@ -37,6 +25,8 @@ namespace 보령
         }
 
         정제체크마스터입력 _mainWnd;
+
+        private string _comment = string.Empty;
 
         private IPCResultSection.OUTDATACollection _IPCResultSections;
         public IPCResultSection.OUTDATACollection IPCResultSections
@@ -110,106 +100,6 @@ namespace 보령
                 OnPropertyChanged("EQPTID_ENABLE");
             }
         }
-        private decimal _AVG_RESULT_WEIGHT;
-        public decimal AVG_RESULT_WEIGHT
-        {
-            get { return this._AVG_RESULT_WEIGHT; }
-            set
-            {
-                this._AVG_RESULT_WEIGHT = value;
-                this.OnPropertyChanged("AVG_RESULT_WEIGHT");
-            }
-        }
-        private decimal _MIN_RESULT_WEIGHT;
-        public decimal MIN_RESULT_WEIGHT
-        {
-            get { return this._MIN_RESULT_WEIGHT; }
-            set
-            {
-                this._MIN_RESULT_WEIGHT = value;
-                this.OnPropertyChanged("MIN_RESULT_WEIGHT");
-            }
-        }
-        private decimal _MAX_RESULT_WEIGHT;
-        public decimal MAX_RESULT_WEIGHT
-        {
-            get { return this._MAX_RESULT_WEIGHT; }
-            set
-            {
-                this._MAX_RESULT_WEIGHT = value;
-                this.OnPropertyChanged("MAX_RESULT_WEIGHT");
-            }
-        }
-        private decimal _SD_RESULT_WEIGHT;
-        public decimal SD_RESULT_WEIGHT
-        {
-            get { return this._SD_RESULT_WEIGHT; }
-            set
-            {
-                this._SD_RESULT_WEIGHT = value;
-                this.OnPropertyChanged("SD_RESULT_WEIGHT");
-            }
-        }
-        private decimal _AVG_RESULT_THICKNESS;
-        public decimal AVG_RESULT_THICKNESS
-        {
-            get { return this._AVG_RESULT_THICKNESS; }
-            set
-            {
-                this._AVG_RESULT_THICKNESS = value;
-                this.OnPropertyChanged("AVG_RESULT_THICKNESS");
-            }
-        }
-        private decimal _MIN_RESULT_THICKNESS;
-        public decimal MIN_RESULT_THICKNESS
-        {
-            get { return this._MIN_RESULT_THICKNESS; }
-            set
-            {
-                this._MIN_RESULT_THICKNESS = value;
-                this.OnPropertyChanged("MIN_RESULT_THICKNESS");
-            }
-        }
-        private decimal _MAX_RESULT_THICKNESS;
-        public decimal MAX_RESULT_THICKNESS
-        {
-            get { return this._MAX_RESULT_THICKNESS; }
-            set
-            {
-                this._MAX_RESULT_THICKNESS = value;
-                this.OnPropertyChanged("MAX_RESULT_THICKNESS");
-            }
-        }
-        private decimal _AVG_RESULT_HARDNESS;
-        public decimal AVG_RESULT_HARDNESS
-        {
-            get { return this._AVG_RESULT_HARDNESS; }
-            set
-            {
-                this._AVG_RESULT_HARDNESS = value;
-                this.OnPropertyChanged("AVG_RESULT_HARDNESS");
-            }
-        }
-        private decimal _MIN_RESULT_HARDNESS;
-        public decimal MIN_RESULT_HARDNESS
-        {
-            get { return this._MIN_RESULT_HARDNESS; }
-            set
-            {
-                this._MIN_RESULT_HARDNESS = value;
-                this.OnPropertyChanged("MIN_RESULT_HARDNESS");
-            }
-        }
-        private decimal _MAX_RESULT_HARDNESS;
-        public decimal MAX_RESULT_HARDNESS
-        {
-            get { return this._MAX_RESULT_HARDNESS; }
-            set
-            {
-                this._MAX_RESULT_HARDNESS = value;
-                this.OnPropertyChanged("MAX_RESULT_HARDNESS");
-            }
-        }
         private DateTime _AVG_DTTM;
         public DateTime AVG_DTTM
         {
@@ -218,116 +108,6 @@ namespace 보령
             {
                 this._AVG_DTTM = value;
                 this.OnPropertyChanged("AVG_DTTM");
-            }
-        }
-        private String _AVG_STD_WEIGHT;
-        public String AVG_STD_WEIGHT
-        {
-            get { return this._AVG_STD_WEIGHT; }
-            set
-            {
-                this._AVG_STD_WEIGHT = value;
-                this.OnPropertyChanged("AVG_STD_WEIGHT");
-            }
-        }
-        private String _MIN_STD_WEIGHT;
-        public String MIN_STD_WEIGHT
-        {
-            get { return this._MIN_STD_WEIGHT; }
-            set
-            {
-                this._MIN_STD_WEIGHT = value;
-                this.OnPropertyChanged("MIN_STD_WEIGHT");
-            }
-        }
-        private String _MAX_STD_WEIGHT;
-        public String MAX_STD_WEIGHT
-        {
-            get { return this._MAX_STD_WEIGHT; }
-            set
-            {
-                this._MAX_STD_WEIGHT = value;
-                this.OnPropertyChanged("MAX_STD_WEIGHT");
-            }
-        }
-        private String _SD_STD_WEIGHT;
-        public String SD_STD_WEIGHT
-        {
-            get { return this._SD_STD_WEIGHT; }
-            set
-            {
-                this._SD_STD_WEIGHT = value;
-                this.OnPropertyChanged("SD_STD_WEIGHT");
-            }
-        }
-        private String _AVG_STD_THICKNESS;
-        public String AVG_STD_THICKNESS
-        {
-            get { return this._AVG_STD_THICKNESS; }
-            set
-            {
-                this._AVG_STD_THICKNESS = value;
-                this.OnPropertyChanged("AVG_STD_THICKNESS");
-            }
-        }
-        private String _MIN_STD_THICKNESS;
-        public String MIN_STD_THICKNESS
-        {
-            get { return this._MIN_STD_THICKNESS; }
-            set
-            {
-                this._MIN_STD_THICKNESS = value;
-                this.OnPropertyChanged("MIN_STD_THICKNESS");
-            }
-        }
-        private String _MAX_STD_THICKNESS;
-        public String MAX_STD_THICKNESS
-        {
-            get { return this._MAX_STD_THICKNESS; }
-            set
-            {
-                this._MAX_STD_THICKNESS = value;
-                this.OnPropertyChanged("MAX_STD_THICKNESS");
-            }
-        }
-        private String _AVG_STD_HARDNESS;
-        public String AVG_STD_HARDNESS
-        {
-            get { return this._AVG_STD_HARDNESS; }
-            set
-            {
-                this._AVG_STD_HARDNESS = value;
-                this.OnPropertyChanged("AVG_STD_HARDNESS");
-            }
-        }
-        private String _MIN_STD_HARDNESS;
-        public String MIN_STD_HARDNESS
-        {
-            get { return this._MIN_STD_HARDNESS; }
-            set
-            {
-                this._MIN_STD_HARDNESS = value;
-                this.OnPropertyChanged("MIN_STD_HARDNESS");
-            }
-        }
-        private String _MAX_STD_HARDNESS;
-        public String MAX_STD_HARDNESS
-        {
-            get { return this._MAX_STD_HARDNESS; }
-            set
-            {
-                this._MAX_STD_HARDNESS = value;
-                this.OnPropertyChanged("MAX_STD_HARDNESS");
-            }
-        }
-        private bool _ZERO_FLAG;
-        public bool ZERO_FLAG
-        {
-            get { return _ZERO_FLAG; }
-            set
-            {
-                _ZERO_FLAG = value;
-                OnPropertyChanged("ZERO_FLAG");
             }
         }
         private bool _IPC_FLAG;
@@ -340,14 +120,14 @@ namespace 보령
                 OnPropertyChanged("IPC_FLAG");
             }
         }
-        private bool _HARDNESS_FLAG;
-        public bool HARDNESS_FLAG
+        private bool _KeepGoing = false;
+        public bool KeepGoing
         {
-            get { return _HARDNESS_FLAG; }
+            get { return _KeepGoing; }
             set
             {
-                _HARDNESS_FLAG = value;
-                OnPropertyChanged("HARDNESS_FLAG");
+                _KeepGoing = value;
+                OnPropertyChanged("KeepGoing");
             }
         }
         #endregion
@@ -395,6 +175,17 @@ namespace 보령
                             if (await _BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD.Execute())
                             {
                                 IPC_STANDARDS.Clear();
+                                String AVG_STD_HARDNESS = "";
+                                String MIN_STD_HARDNESS = "";
+                                String MAX_STD_HARDNESS = "";
+                                String AVG_STD_THICKNESS = "";
+                                String MIN_STD_THICKNESS = "";
+                                String MAX_STD_THICKNESS = "";
+                                String SD_STD_WEIGHT = "";
+                                String AVG_STD_WEIGHT = "";
+                                String MIN_STD_WEIGHT = "";
+                                String MAX_STD_WEIGHT = "";
+
                                 foreach (var std in _BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD.OUTDATAs)
                                 {
                                     switch (std.TIID)
@@ -587,8 +378,10 @@ namespace 보령
                         try
                         {
                             IsBusy = true;
-                            ZERO_FLAG = false;
-                            HARDNESS_FLAG = false;
+                            bool ZERO_FLAG = false;
+                            bool HARDNESS_FLAG = false;
+                            int count = 0;
+                            string VAL_MES = "";
 
                             CommandResults["AVGCommandAsync"] = false;
                             CommandCanExecutes["AVGCommandAsync"] = false;
@@ -601,28 +394,33 @@ namespace 보령
                             {
                                 AVG_DTTM = System.DateTime.Now;
                                 IPC_RESULTS.Clear();
-                                AVG_RESULT_WEIGHT = 0;
-                                MIN_RESULT_WEIGHT = IPCResultSections[0].MIN_WEIGHT;
-                                MAX_RESULT_WEIGHT = IPCResultSections[0].MAX_WEIGHT;
-                                SD_RESULT_WEIGHT = 0;
-                                AVG_RESULT_THICKNESS = 0;
-                                MIN_RESULT_THICKNESS = IPCResultSections[0].MIN_THICKNESS;
-                                MAX_RESULT_THICKNESS = IPCResultSections[0].MAX_THICKNESS;
-                                AVG_RESULT_HARDNESS = 0;
-                                MIN_RESULT_HARDNESS = IPCResultSections[0].MIN_HARDNESS;
-                                MAX_RESULT_HARDNESS = IPCResultSections[0].MAX_HARDNESS;
+                                decimal AVG_RESULT_WEIGHT = 0;
+                                decimal MIN_RESULT_WEIGHT = IPCResultSections[0].MIN_WEIGHT;
+                                decimal MAX_RESULT_WEIGHT = IPCResultSections[0].MAX_WEIGHT;
+                                decimal SD_RESULT_WEIGHT = 0;
+                                decimal AVG_RESULT_THICKNESS = 0;
+                                decimal MIN_RESULT_THICKNESS = IPCResultSections[0].MIN_THICKNESS;
+                                decimal MAX_RESULT_THICKNESS = IPCResultSections[0].MAX_THICKNESS;
+                                decimal AVG_RESULT_HARDNESS = 0;
+                                decimal MIN_RESULT_HARDNESS = IPCResultSections[0].MIN_HARDNESS;
+                                decimal MAX_RESULT_HARDNESS = IPCResultSections[0].MAX_HARDNESS;
 
+                                
                                 //원형
                                 if (IPC_FLAG.Equals(true))
                                 {
                                     foreach (var ipc in IPCResultSections)
                                     {
+                                        count++;
                                         //2024.07.01 김도연 : 0 값이 있는지 확인
                                         if (ipc.AVG_WEIGHT == 0 | ipc.MIN_WEIGHT == 0 | ipc.MAX_WEIGHT == 0 | ipc.SD_WEIGHT == 0 | ipc.AVG_THICKNESS == 0 | ipc.MIN_THICKNESS == 0 |
                                          ipc.MAX_THICKNESS == 0 | ipc.AVG_HARDNESS == 0 | ipc.MIN_HARDNESS == 0 | ipc.MAX_HARDNESS == 0)
                                         {
                                             ZERO_FLAG = true;
                                         }
+
+                                        VAL_MES += Validation(ipc,count);
+
                                         AVG_RESULT_WEIGHT += ipc.AVG_WEIGHT;
                                         MIN_RESULT_WEIGHT = Math.Min(MIN_RESULT_WEIGHT, ipc.MIN_WEIGHT);
                                         MAX_RESULT_WEIGHT = Math.Max(MAX_RESULT_WEIGHT, ipc.MAX_WEIGHT);
@@ -643,13 +441,49 @@ namespace 보령
                                             return;
                                         }
                                     }
-                                    
+
+                                    if (VAL_MES != "")
+                                    {
+                                        if (await OnMessageAsync(VAL_MES, true))
+                                        {
+                                            var authHelper = new iPharmAuthCommandHelper();
+                                            authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_Deviation");
+
+                                            enumRoleType inspectorRole = enumRoleType.ROLE001;
+                                            if (await authHelper.ClickAsync(
+                                                    Common.enumCertificationType.Role,
+                                                    Common.enumAccessType.Create,
+                                                    "기록값 변경 시 코멘트 작성 필요합니다. ",
+                                                    "양품수량 기록값 변경",
+                                                    true,
+                                                    "OM_ProductionOrder_Deviation",
+                                                    "",
+                                                    this._mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
+                                                    this._mainWnd.CurrentInstruction.Raw.DVTPASSYN == "Y" ? enumRoleType.ROLE001.ToString() : inspectorRole.ToString()) == false)
+                                            {
+                                                return;
+                                            }
+
+                                            _mainWnd.CurrentInstruction.Raw.DVTFCYN = "Y";
+                                            _mainWnd.CurrentInstruction.Raw.DVTCONFIRMUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Deviation");
+
+                                            KeepGoing = true;
+
+                                            _comment = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_Deviation");
+                                        }
+                                        else
+                                        {
+                                            return;
+                                        }
+                                    }
+
                                 }
                                 //비원형
                                 else
                                 {
                                     foreach (var ipc in IPCResultSections)
                                     {
+                                        count++;
                                         //2024.07.01 김도연 : 경도를 제외한 입력값 중 0 값이 있는지 확인
                                         if (ipc.AVG_WEIGHT == 0 | ipc.MIN_WEIGHT == 0 | ipc.MAX_WEIGHT == 0 | ipc.SD_WEIGHT == 0 | ipc.AVG_THICKNESS == 0 | ipc.MIN_THICKNESS == 0 |
                                          ipc.MAX_THICKNESS == 0)
@@ -661,6 +495,8 @@ namespace 보령
                                         {
                                             HARDNESS_FLAG = true;
                                         }
+
+                                        VAL_MES += Validation(ipc, count);
 
                                         AVG_RESULT_WEIGHT += ipc.AVG_WEIGHT;
                                         MIN_RESULT_WEIGHT = Math.Min(MIN_RESULT_WEIGHT, ipc.MIN_WEIGHT);
@@ -688,6 +524,41 @@ namespace 보령
                                     if (HARDNESS_FLAG.Equals(true))
                                     {
                                         if (await OnMessageAsync("경도를 사용하지 않는 제품입니다.\n경도(평균), 경도(최소), 경도(최대) 값을 확인 부탁드립니다.\n계속 진행하시겠습니까?", true) == false)
+                                        {
+                                            return;
+                                        }
+                                    }
+
+                                    if (VAL_MES != "")
+                                    {
+                                        if (await OnMessageAsync(VAL_MES, true))
+                                        {
+                                            var authHelper = new iPharmAuthCommandHelper();
+                                            authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_Deviation");
+
+                                            enumRoleType inspectorRole = enumRoleType.ROLE001;
+                                            if (await authHelper.ClickAsync(
+                                                    Common.enumCertificationType.Role,
+                                                    Common.enumAccessType.Create,
+                                                    "기록값 변경 시 코멘트 작성 필요합니다. ",
+                                                    "양품수량 기록값 변경",
+                                                    true,
+                                                    "OM_ProductionOrder_Deviation",
+                                                    "",
+                                                    this._mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
+                                                    this._mainWnd.CurrentInstruction.Raw.DVTPASSYN == "Y" ? enumRoleType.ROLE001.ToString() : inspectorRole.ToString()) == false)
+                                            {
+                                                return;
+                                            }
+
+                                            _mainWnd.CurrentInstruction.Raw.DVTFCYN = "Y";
+                                            _mainWnd.CurrentInstruction.Raw.DVTCONFIRMUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Deviation");
+
+                                            KeepGoing = true;
+
+                                            _comment = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_Deviation");
+                                        }
+                                        else
                                         {
                                             return;
                                         }
@@ -732,6 +603,42 @@ namespace 보령
                         CommandCanExecutes["AVGCommandAsync"] : (CommandCanExecutes["AVGCommandAsync"] = true);
                 });
             }
+        }
+
+        public string Validation(IPCResultSection.OUTDATA ipc, int count)
+        {
+            string message = "";
+
+            if (IPC_STANDARDS[0].RSLT_MIN_WEIGHT != "N/A" & IPC_STANDARDS[0].RSLT_MAX_WEIGHT != "N/A")
+            {
+                if (ipc.AVG_WEIGHT < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_WEIGHT) | ipc.AVG_WEIGHT > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_WEIGHT) |
+                   ipc.MIN_WEIGHT < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_WEIGHT) | ipc.MIN_WEIGHT > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_WEIGHT) |
+                   ipc.MAX_WEIGHT < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_WEIGHT) | ipc.MAX_WEIGHT > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_WEIGHT))
+                {
+                    message += count.ToString() + "행 : 질량 값 중 기준 값을 넘은 값이 존재합니다.\n";
+                }
+            }
+            if (IPC_STANDARDS[0].RSLT_MIN_THICKNESS != "N/A" & IPC_STANDARDS[0].RSLT_MAX_THICKNESS != "N/A")
+            {
+                if (ipc.AVG_THICKNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_THICKNESS) | ipc.AVG_THICKNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_THICKNESS) |
+                    ipc.MIN_THICKNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_THICKNESS) | ipc.MIN_THICKNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_THICKNESS) |
+                    ipc.MAX_THICKNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_THICKNESS) | ipc.MAX_THICKNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_THICKNESS))
+                {
+                    message += count.ToString() + "행 : 두께 값 중 기준 값을 넘은 값이 존재합니다.\n";
+                }
+            }
+            if (IPC_STANDARDS[0].RSLT_MIN_HARDNESS != "N/A" & IPC_STANDARDS[0].RSLT_MAX_HARDNESS != "N/A")
+            {
+                if (ipc.AVG_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS) | ipc.AVG_HARDNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_HARDNESS) |
+                    ipc.MIN_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS) | ipc.MIN_HARDNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_HARDNESS) |
+                    ipc.MAX_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS) | ipc.MAX_HARDNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_HARDNESS))
+                {
+                    message += count.ToString() + "행 : 경도 값 중 기준 값을 넘은 값이 존재합니다.\n";
+                }
+            }
+
+            return message;
+
         }
 
         public ICommand ConfirmCommandAsync
@@ -928,6 +835,33 @@ namespace 보령
                                     if (result != enumInstructionRegistErrorType.Ok)
                                     {
                                         throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
+                                    }
+
+                                    if (KeepGoing)
+                                    {
+                                        var bizrule = new BR_PHR_REG_InstructionComment();
+
+                                        bizrule.IN_Comments.Add(
+                                            new BR_PHR_REG_InstructionComment.IN_Comment
+                                            {
+                                                POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                                OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                                COMMENTTYPE = "CM008",
+                                                COMMENT = _comment
+                                            }
+                                            );
+                                        bizrule.IN_IntructionResults.Add(
+                                            new BR_PHR_REG_InstructionComment.IN_IntructionResult
+                                            {
+                                                RECIPEISTGUID = _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
+                                                ACTIVITYID = _mainWnd.CurrentInstruction.Raw.ACTIVITYID,
+                                                IRTGUID = _mainWnd.CurrentInstruction.Raw.IRTGUID,
+                                                IRTRSTGUID = _mainWnd.CurrentInstruction.Raw.IRTRSTGUID,
+                                                IRTSEQ = (int)_mainWnd.CurrentInstruction.Raw.IRTSEQ
+                                            }
+                                            );
+
+                                        await bizrule.Execute();
                                     }
 
                                     if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;

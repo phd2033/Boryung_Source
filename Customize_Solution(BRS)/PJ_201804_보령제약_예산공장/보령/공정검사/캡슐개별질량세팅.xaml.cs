@@ -38,10 +38,5 @@ namespace 보령
         {
             DialogResult = false;
         }
-        
-        private void Confirm_Click(object sender, RoutedEventArgs e)
-        {
-            (LayoutRoot.DataContext as 조제FIT결과ViewModel).isConfirmInput();
-        }
     }
 }

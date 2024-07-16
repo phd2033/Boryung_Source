@@ -27,8 +27,8 @@ namespace 보령
 
         #region [Property]
 
-        private ObservableCollection<standardInfo> standardInfoList;
-        public ObservableCollection<standardInfo> _standardInfoList
+        private ObservableCollection<standardInfo> _standardInfoList;
+        public ObservableCollection<standardInfo> standardInfoList
         {
             get { return _standardInfoList; }
             set
@@ -93,18 +93,15 @@ namespace 보령
                             if (arg != null && arg is 캡슐개별질량세팅)
                             {
                                 _mainWnd = arg as 캡슐개별질량세팅;
-
-                                var paramInsts = InstructionModel.GetParameterSender(_mainWnd.CurrentInstruction, _mainWnd.Instructions);
-
-                                if (paramInsts.Count > 0)
+                                
+                                if (string.IsNullOrEmpty(_mainWnd.CurrentInstruction.Raw.TARGETVAL))
                                 {
-                                    if (string.IsNullOrEmpty(paramInsts[0].Raw.TARGETVAL))
-                                    {
-                                        OnMessage("기준정보가 등록되지 않았습니다.");
-                                        return;
-                                    }
-
-                                    targetStandard = paramInsts[0].Raw.TARGETVAL;
+                                    OnMessage("기준정보가 등록되지 않았습니다.");
+                                    return;
+                                }
+                                else
+                                {
+                                    targetStandard = _mainWnd.CurrentInstruction.Raw.TARGETVAL;
                                 }
                             }
                             IsBusy = false;
@@ -149,8 +146,9 @@ namespace 보령
                             standardInfoList.Add(new standardInfo
                             {
                                 targetStandard = Convert.ToDecimal(targetStandard),
-                                minStandard = MathExt.Ceiling((Convert.ToDecimal(inPutStandard) * (1 - (Convert.ToDecimal(targetStandard))) / 100), 2),
-                                maxStandard = MathExt.Floor((Convert.ToDecimal(inPutStandard) * (1 + (Convert.ToDecimal(targetStandard))) / 100), 2)
+                                minStandard = MathExt.Ceiling((Convert.ToDecimal(inPutStandard) * (1 - (Convert.ToDecimal(targetStandard) / 100))), 2),
+                                inputStandard = inPutStandard,
+                                maxStandard = MathExt.Floor((Convert.ToDecimal(inPutStandard) * (1 + (Convert.ToDecimal(targetStandard) / 100))), 2)
                             });
                             
                             IsBusy = false;
@@ -386,7 +384,7 @@ namespace 보령
                 }
             }
 
-            private decimal _inputStandard;
+            private string _inputStandard;
             public string inputStandard
             {
                 get { return string.Format("{0:#,0}", _inputStandard); }
@@ -398,12 +396,12 @@ namespace 보령
                         if (chk < 0)
                             OnMessage("입력한 값이 음수 입니다.");
 
-                        _inputStandard = chk;
+                        _inputStandard = chk.ToString();
                     }
                     else
                         OnMessage("입력한 내용이 숫자형이 아닙니다.");
 
-                    OnPropertyChanged("PICKINGQTY");
+                    OnPropertyChanged("inPutStandard");
                 }
             }
 

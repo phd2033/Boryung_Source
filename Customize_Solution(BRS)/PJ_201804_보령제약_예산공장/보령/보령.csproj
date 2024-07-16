@@ -450,7 +450,7 @@
       <DependentUpon>공정검사결과입력.xaml</DependentUpon>
     </Compile>
     <Compile Include="공정검사\Popup\공정검사결과입력ViewModel.cs" />
-    <Compile Include="공정검사\캡슐개별질량세팅.cs" />
+    <Compile Include="공정검사\캡슐개별질량세팅ViewModel.cs" />
     <Compile Include="공정검사\캡슐개별질량세팅.xaml.cs">
       <DependentUpon>캡슐개별질량세팅.xaml</DependentUpon>
     </Compile>

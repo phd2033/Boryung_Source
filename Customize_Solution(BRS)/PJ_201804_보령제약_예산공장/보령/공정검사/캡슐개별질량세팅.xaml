@@ -15,9 +15,9 @@
     xmlns:ShopFloorUI="clr-namespace:ShopFloorUI;assembly=ShopFloorUI.Common"
     xmlns:local="clr-namespace:보령"
     x:Name="Main" Title="캡슐개별질량세팅"
-    Height="200" Width="400">
+    Height="200" Width="420">
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
-        <local:두께측정ViewModel x:Key="VM"/>
+        <local:캡슐개별질량세팅ViewModel x:Key="VM"/>
         <Style x:Key="LabelStyle" TargetType="sdk:Label">
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -37,7 +37,7 @@
     <toolkit:BusyIndicator Background="White" IsBusy="{Binding IsBusy}" DataContext="{Binding Source={StaticResource VM}}">
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="Loaded">
-                <i:InvokeCommandAction Command="{Binding LoadedCommand}"
+                <i:InvokeCommandAction Command="{Binding LoadCommandAsync}"
                                        CommandParameter="{Binding ElementName=Main}" />
             </i:EventTrigger>
         </i:Interaction.Triggers>
@@ -77,7 +77,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <sdk:Label Grid.Column="0" Grid.Row="1" Content="기준값" Style="{Binding Source={StaticResource LabelStyle}}"/>
-                    <ShopFloorUI:NumericKeyPadType Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" x:Name="txtStandard" Value="{Binding Path=inPutStandard, Mode=OneWay}"/>
+                    <ShopFloorUI:NumericKeyPadType Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" x:Name="txtStandard" Value="{Binding Path=inPutStandard, Mode=TwoWay}" Format="#.#"/>
                     <Button Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="1" Content="입력" Command="{Binding ConfirmCommandAsync}" Margin="1,3"/>
                 </Grid>
                 
@@ -85,10 +85,10 @@
                                x:Name="dgWeighing" CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False" ScrollBarStyle="{Binding Source={StaticResource gdScroll}}"
                                ItemsSource="{Binding standardInfoList}">
                     <c1:C1DataGrid.Columns>
-                        <c1:DataGridTextColumn Binding="{Binding Path=MIN}" Width="100" Header="기준값(%)" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        <c1:DataGridTextColumn Binding="{Binding Path=MIN}" Width="100" Header="하한값" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        <c1:DataGridTextColumn Binding="{Binding Path=STANDARD}" Width="100" Header="입력값" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <c1:DataGridTextColumn Binding="{Binding Path=MAX}" Width="100" Header="상한값" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn Binding="{Binding Path=targetStandard}" Width="100" Header="기준값(%)" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <c1:DataGridTextColumn Binding="{Binding Path=minStandard}" Width="100" Header="하한값" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <c1:DataGridTextColumn Binding="{Binding Path=inputStandard}" Width="100" Header="입력값" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn Binding="{Binding Path=maxStandard}" Width="100" Header="상한값" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </c1:C1DataGrid.Columns>
                 </c1:C1DataGrid>
             </Grid>

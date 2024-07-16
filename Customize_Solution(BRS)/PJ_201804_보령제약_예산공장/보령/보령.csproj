@@ -225,6 +225,7 @@
     <Compile Include="Model.Access\반제품\BR_BRS_SEL_ProductionOrderOutput_Emtpy_Vessel.Access.cs" />
     <Compile Include="Model.Access\반제품\BR_BRS_SEL_ProductionOrderOutput_LoadedPallet.Access.cs" />
     <Compile Include="Model.Access\반제품\BR_BRS_SEL_ProductionOrderOutput_State.Access..cs" />
+    <Compile Include="Model.Access\반제품\BR_BRS_SEL_ProductionOrderOutput_State_Info.Access.cs" />
     <Compile Include="Model.Access\반제품\BR_BRS_SEL_ProductionOrder_HALB.Access.cs" />
     <Compile Include="Model.Access\반제품\BR_BRS_UPD_MaterialSubLot_ChangeQCStateExpiryDate.Access.cs" />
     <Compile Include="Model.Access\설비\BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION.Access.cs" />
@@ -505,6 +506,10 @@
       <DependentUpon>반제품Pallet적재.xaml</DependentUpon>
     </Compile>
     <Compile Include="반제품\반제품Pallet적재ViewModel.cs" />
+    <Compile Include="반제품\반제품보관정보확인.xaml.cs">
+      <DependentUpon>반제품보관정보확인.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="반제품\반제품보관정보확인ViewModel.cs" />
     <Compile Include="반제품\캡슐선별반제품생성ViewModel.cs" />
     <Compile Include="반제품\캡슐선별반제품생성.xaml.cs">
       <DependentUpon>캡슐선별반제품생성.xaml</DependentUpon>
@@ -1214,6 +1219,10 @@
     <Page Include="반제품\반제품Pallet적재.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="반제품\반제품보관정보확인.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="반제품\캡슐선별반제품생성.xaml">
       <SubType>Designer</SubType>

@@ -50,6 +50,17 @@ namespace 보령
             }
         }
 
+        private bool _isEnable;
+        public bool isEnable
+        {
+            get { return _isEnable; }
+            set
+            {
+                _isEnable = value;
+                OnPropertyChanged("isEnable");
+            }
+        }
+
         private string _inPutStandard;
         public string inPutStandard
         {
@@ -61,8 +72,6 @@ namespace 보령
             }
         }
         
-        public DataTable _dt = new DataTable();
-
         #endregion
 
         #region [Constructor]
@@ -103,6 +112,8 @@ namespace 보령
                                 {
                                     targetStandard = _mainWnd.CurrentInstruction.Raw.TARGETVAL;
                                 }
+
+                                isEnable = true;
                             }
                             IsBusy = false;
 
@@ -150,7 +161,9 @@ namespace 보령
                                 inputStandard = inPutStandard,
                                 maxStandard = MathExt.Floor((Convert.ToDecimal(inPutStandard) * (1 + (Convert.ToDecimal(targetStandard) / 100))), 2)
                             });
-                            
+
+                            isEnable = false;
+
                             IsBusy = false;
                             
                             CommandResults["ConfirmCommandAsync"] = true;
@@ -216,13 +229,13 @@ namespace 보령
                             var dt = new DataTable("DATA");
                             ds.Tables.Add(dt);
 
-                            dt.Columns.Add(new DataColumn("기준값(%)"));
+                            dt.Columns.Add(new DataColumn("기준값"));
                             dt.Columns.Add(new DataColumn("하한값"));
                             dt.Columns.Add(new DataColumn("입력값"));
                             dt.Columns.Add(new DataColumn("상한값"));
 
                             DataRow row = dt.NewRow();
-                            row["기준값(%)"] = standardInfoList[0].targetStandard;
+                            row["기준값"] = standardInfoList[0].targetStandard;
                             row["하한값"] = standardInfoList[0].minStandard;
                             row["입력값"] = standardInfoList[0].inputStandard;
                             row["상한값"] = standardInfoList[0].maxStandard;

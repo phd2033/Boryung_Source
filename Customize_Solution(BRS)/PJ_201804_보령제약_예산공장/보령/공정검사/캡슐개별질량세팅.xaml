@@ -78,17 +78,17 @@
                     </Grid.ColumnDefinitions>
                     <sdk:Label Grid.Column="0" Grid.Row="1" Content="기준값" Style="{Binding Source={StaticResource LabelStyle}}"/>
                     <ShopFloorUI:NumericKeyPadType Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" x:Name="txtStandard" Value="{Binding Path=inPutStandard, Mode=TwoWay}" Format="#.#"/>
-                    <Button Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="1" Content="입력" Command="{Binding ConfirmCommandAsync}" Margin="1,3"/>
+                    <Button Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="1" Content="입력" Command="{Binding ConfirmCommandAsync}" IsEnabled="{Binding isEnable}"  Margin="1,3"/>
                 </Grid>
                 
                 <c1:C1DataGrid Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="5" HeadersVisibility="Column" AutoGenerateColumns="False"
                                x:Name="dgWeighing" CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False" ScrollBarStyle="{Binding Source={StaticResource gdScroll}}"
                                ItemsSource="{Binding standardInfoList}">
                     <c1:C1DataGrid.Columns>
-                        <c1:DataGridTextColumn Binding="{Binding Path=targetStandard}" Width="100" Header="기준값(%)" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        <c1:DataGridTextColumn Binding="{Binding Path=minStandard}" Width="100" Header="하한값" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        <c1:DataGridTextColumn Binding="{Binding Path=inputStandard}" Width="100" Header="입력값" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <c1:DataGridTextColumn Binding="{Binding Path=maxStandard}" Width="100" Header="상한값" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn Binding="{Binding Path=targetStandard}" Width="100" Header="기준값(%)" VerticalAlignment="Center" HorizontalAlignment="Center" Format="#.#"/>
+                        <c1:DataGridTextColumn Binding="{Binding Path=minStandard}" Width="100" Header="하한값" VerticalAlignment="Center" HorizontalAlignment="Center" Format="#.#" />
+                        <c1:DataGridTextColumn Binding="{Binding Path=inputStandard}" Width="100" Header="입력값" VerticalAlignment="Center" HorizontalAlignment="Center" Format="#.#"/>
+                        <c1:DataGridTextColumn Binding="{Binding Path=maxStandard}" Width="100" Header="상한값" VerticalAlignment="Center" HorizontalAlignment="Center" Format="#.#"/>
                     </c1:C1DataGrid.Columns>
                 </c1:C1DataGrid>
             </Grid>

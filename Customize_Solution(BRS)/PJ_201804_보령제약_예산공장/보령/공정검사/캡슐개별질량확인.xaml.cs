@@ -21,26 +21,17 @@ namespace 보령
         }
         public override string TableTypeName
         {
-            get { return "TABLE,캡슐개별질량세팅"; }
+            get { return "TABLE,캡슐개별질량확인"; }
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
         }
-
-        private void Main_Closed(object sender, EventArgs e)
-        {
-            this.DialogResult = true;
-        }
+        
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
-        }
-
-        private void Confirm_Click(object sender, RoutedEventArgs e)
-        {
-            (LayoutRoot.DataContext as 조제FIT결과ViewModel).isConfirmInput();
         }
     }
 }

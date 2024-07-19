@@ -154,12 +154,14 @@ namespace 보령
 
                             if (string.IsNullOrEmpty(inPutStandard)) return;
 
+                            int precision = 0;
+                            
                             standardInfoList.Add(new standardInfo
                             {
                                 targetStandard = Convert.ToDecimal(targetStandard),
-                                minStandard = MathExt.Ceiling((Convert.ToDecimal(inPutStandard) * (1 - (Convert.ToDecimal(targetStandard) / 100))), 2),
+                                minStandard = MathExt.Ceiling((Convert.ToDecimal(inPutStandard) * (1 - (Convert.ToDecimal(targetStandard) / 100))), 1).ToString(),
                                 inputStandard = inPutStandard,
-                                maxStandard = MathExt.Floor((Convert.ToDecimal(inPutStandard) * (1 + (Convert.ToDecimal(targetStandard) / 100))), 2)
+                                maxStandard = MathExt.Floor((Convert.ToDecimal(inPutStandard) * (1 + (Convert.ToDecimal(targetStandard) / 100))), 1).ToString()
                             });
 
                             isEnable = false;
@@ -376,23 +378,23 @@ namespace 보령
 
         public class standardInfo : BizActorDataSetBase
         {
-            private decimal _minStandard;
-            public decimal minStandard
+            private string _minStandard;
+            public string minStandard
             {
-                get { return _minStandard; }
+                get { return string.Format("{0:#,0}", _minStandard); }
                 set
                 {
-                    _minStandard = value;
+                    _minStandard = string.Format("{0:#,0}", value);
                     OnPropertyChanged("minStandard");
                 }
             }
-            private decimal _maxStandard;
-            public decimal maxStandard
+            private string _maxStandard;
+            public string maxStandard
             {
-                get { return _maxStandard; }
+                get { return string.Format("{0:#,0}", _maxStandard); }
                 set
                 {
-                    _maxStandard = value;
+                    _maxStandard = string.Format("{0:#,0}", value);
                     OnPropertyChanged("maxStandard");
                 }
             }

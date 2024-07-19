@@ -85,10 +85,10 @@
                                x:Name="dgWeighing" CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False" ScrollBarStyle="{Binding Source={StaticResource gdScroll}}"
                                ItemsSource="{Binding standardInfoList}">
                     <c1:C1DataGrid.Columns>
-                        <c1:DataGridTextColumn Binding="{Binding Path=targetStandard}" Width="100" Header="기준값(%)" VerticalAlignment="Center" HorizontalAlignment="Center" Format="#.#"/>
-                        <c1:DataGridTextColumn Binding="{Binding Path=minStandard}" Width="100" Header="하한값" VerticalAlignment="Center" HorizontalAlignment="Center" Format="#.#" />
-                        <c1:DataGridTextColumn Binding="{Binding Path=inputStandard}" Width="100" Header="입력값" VerticalAlignment="Center" HorizontalAlignment="Center" Format="#.#"/>
-                        <c1:DataGridTextColumn Binding="{Binding Path=maxStandard}" Width="100" Header="상한값" VerticalAlignment="Center" HorizontalAlignment="Center" Format="#.#"/>
+                        <c1:DataGridTextColumn Binding="{Binding Path=targetStandard}" Width="100" Header="기준값(%)" VerticalAlignment="Center" HorizontalAlignment="Center" Format="#0.0"/>
+                        <c1:DataGridTextColumn Binding="{Binding Path=minStandard}" Width="100" Header="하한값" VerticalAlignment="Center" HorizontalAlignment="Center" Format="#0.0" />
+                        <c1:DataGridTextColumn Binding="{Binding Path=inputStandard}" Width="100" Header="입력값" VerticalAlignment="Center" HorizontalAlignment="Center" Format="#0.0"/>
+                        <c1:DataGridTextColumn Binding="{Binding Path=maxStandard}" Width="100" Header="상한값" VerticalAlignment="Center" HorizontalAlignment="Center" Format="#0.0"/>
                     </c1:C1DataGrid.Columns>
                 </c1:C1DataGrid>
             </Grid>

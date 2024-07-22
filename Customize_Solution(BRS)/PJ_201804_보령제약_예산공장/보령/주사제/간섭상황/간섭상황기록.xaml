@@ -22,34 +22,76 @@
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
         <local:간섭상황기록ViewModel x:Name="VM"/>
     </ShopFloorUI:ShopFloorCustomWindow.Resources>
-    <toolkit:BusyIndicator Name="BusyIn" IsBusy="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged}" DataContext="{Binding Source={StaticResource VM}}">
+    <toolkit:BusyIndicator Name="BusyIndicator" IsBusy="{Binding IsBusy, Mode=TwoWay}" DataContext="{Binding Source={StaticResource VM}}">
+        <!--IsBusy="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged}"-->
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="Loaded">
                 <i:InvokeCommandAction Command="{Binding LoadedCommandAsync}" CommandParameter="{Binding ElementName=Main}" />
             </i:EventTrigger>
         </i:Interaction.Triggers>
-        <Grid>
+        <Grid Margin="0,6,0,-6">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
-            <Grid x:Name="MainSection">
-                <ezmes:CNSDataGrid x:Name="InferenceSituation" IsRowAdd="True" IsRowDelete="True" IsEditMode="True" IsEditSection="True" IsRowNumber="False"
-                                    HeadersVisibility="Column" ItemsSource="{Binding InterferSituations}"  ScrollViewer.VerticalScrollBarVisibility="Visible">
-                    <ezmes:CNSDataGrid.DataColumns>
-                        <ezmes:DataColumn HeadName="No." HeaderWidth="40" DataField = "NO" ValueDataField="KEY" DisplayMemberPath="KEY" SelectedValuePath="KEY" ColumnType="ComboBox"  ReadOnly="False"
-                                          ItemsSource="{Binding COMBOItems, Mode=TwoWay}" HorizontalAlignment="Center"/>
-                        <ezmes:DataColumn HeadName="간섭내용" HeaderWidth="125" DataField = "CONTENTS" ValueDataField="KEY" DisplayMemberPath="CONTENT" SelectedValuePath="KEY" ColumnType="ComboBox"  ReadOnly="False"
-                                          ItemsSource="{Binding COMBOItems, Mode=TwoWay}" HorizontalAlignment="Center"/>
-                        <ezmes:DataColumn HeadName="조치사항" HeaderWidth="300" DataField = "ACTION" ValueDataField="KEY" DisplayMemberPath="ACT" SelectedValuePath="KEY" ColumnType="ComboBox"  ReadOnly="False"
-                                          ItemsSource="{Binding COMBOItems, Mode=TwoWay}" HorizontalAlignment="Center"/>
-                        <ezmes:DataColumn HeadName="Module" HeaderWidth="60" DataField = "MODULE" ColumnType ="ComboBox" HorizontalAlignment="Center"/>
-                        <ezmes:DataColumn HeadName="폐기수량" HeaderWidth="60" DataField = "DISPOSAL" ColumnType ="TextBox" HorizontalAlignment="Center"/>
-                        <ezmes:DataColumn HeadName="발생시각" HeaderWidth="100" DataField = "STRTDTTM" ColumnType ="DateTime" HorizontalAlignment="Center"/>
-                        <ezmes:DataColumn HeadName="완료시각" HeaderWidth="100" DataField = "ENDDTTM" ColumnType ="DateTime" HorizontalAlignment="Center"/>
-                        <ezmes:DataColumn HeadName="비고" HeaderWidth="100" DataField = "NOTE" ColumnType ="TextBox" HorizontalAlignment="Center"/>
-                    </ezmes:CNSDataGrid.DataColumns>
-                </ezmes:CNSDataGrid>
+            <Grid x:Name="MainSection" Grid.RowSpan="2" Height="368">
+                <sdk:Label Content="NO." Height="Auto" FontSize="12" Foreground ="White" Background="#FF333333" Margin="0,7,1143,336" HorizontalContentAlignment="Center"/>
+                <TextBox Name="NoText" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" Margin="0,32,1143,311" Text="{Binding NO}" TextAlignment="Center"/>
+                <sdk:Label Content="간섭내용" Height="Auto" FontSize="12" Foreground ="White" Background="#FF333333" Margin="45,7,802,336" HorizontalContentAlignment="Center"/>
+                <ComboBox Name="cboInterferContent" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" ItemsSource="{Binding BR_PHR_SEL_CommonCode.OUTDATAs}" 
+                          DisplayMemberPath="CMCDNAME" HorizontalContentAlignment="Center" SelectedItem="{Binding CboCommon, Mode=TwoWay}" Margin="45,32,802,311">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SectionChangedCmbCommand}"  CommandParameter="{Binding SelectedItem, ElementName=cboInterferContent}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+                <sdk:Label Content="간섭구분" Height="Auto" FontSize="12" Foreground ="White" Background="#FF333333" Margin="386,7,722,336" HorizontalContentAlignment="Center"/>
+                <TextBox x:Name="DivisionText" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" Margin="386,32,722,311" Text="{Binding DIVISION}" TextAlignment="Center"/>
+                <sdk:Label Content="Module" Height="Auto" FontSize="12" Foreground ="White" Background="#FF333333" Margin="466,7,632,336" HorizontalContentAlignment="Center"/>
+                <ComboBox x:Name="cbobModule" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" HorizontalContentAlignment="Center" Margin="466,32,632,311" Loaded="Module_Loaded" SelectedItem="{Binding MODULE, Mode=TwoWay}"/>
+                <sdk:Label Content="폐기수량" Height="Auto" FontSize="12" Foreground ="White" Background="#FF333333" Margin="556,7,572,336" HorizontalContentAlignment="Center"/>
+                <TextBox x:Name="DisposalText" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" Margin="556,32,572,311" Text="{Binding DISPOSAL, Mode=TwoWay}" TextAlignment="Center"/>
+                <sdk:Label Content="발생시각" Height="Auto" FontSize="12" Foreground ="White" Background="#FF333333" Margin="616,7,372,336" HorizontalContentAlignment="Center"/>
+                <c1:C1DateTimePicker x:Name="StrtDate" DateTime="{Binding STRTDTTM,Mode=TwoWay}" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" Margin="616,32,407,311" DateFormat="Short" TimeIncrement="00:01:00" TimeFormat="Custom" CustomTimeFormat="HH:mm:ss"/>
+                <ShopFloorUI:NumericKeyPadType x:Name="kpdStrtTime" ShowButtons="False" Margin="781,32,372,311" Width="35" Value="{Binding KeyPadStrtTIme, Mode=TwoWay}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="ValueChanged">
+                            <i:InvokeCommandAction Command="{Binding FromTimeChangedCommandAsync}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ShopFloorUI:NumericKeyPadType>
+                <sdk:Label Content="완료시각" Height="Auto" FontSize="12" Foreground ="White" Background="#FF333333" Margin="816,7,172,336" HorizontalContentAlignment="Center"/>
+                <c1:C1DateTimePicker x:Name="cbobTy_Copy4" DateTime="{Binding ENDDTTM,Mode=TwoWay}" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" Margin="816,32,207,311" DateFormat="Short" TimeIncrement="00:01:00" TimeFormat="Custom" CustomTimeFormat="HH:mm:ss"/>
+                <ShopFloorUI:NumericKeyPadType x:Name="kpdEndTime" ShowButtons="False" Margin="981,32,172,311" Width="35" Value="{Binding KeyPadEndTIme, Mode=TwoWay}" RenderTransformOrigin="3.779,6.346">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="ValueChanged">
+                            <i:InvokeCommandAction Command="{Binding ToTimeChangedCommandAsync}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ShopFloorUI:NumericKeyPadType>
+                <sdk:Label Content="비고" Height="Auto" FontSize="12" Foreground ="White" Background="#FF333333" Margin="1016,7,66,336" HorizontalContentAlignment="Center"/>
+                <TextBox x:Name="CommentText" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" Margin="1016,32,66,311" Text="{Binding NOTE, Mode=TwoWay}"/>
+                <Button Content="Add" Name="btnAdd" Command="{Binding AddInterferCommandAsync}" Height="Auto" Width="Auto" FontSize="12" Margin="1127,7,0,311"/>
+            </Grid>
+            <Grid  Grid.RowSpan="2" Margin="0,-10,0,0" Height="378" VerticalAlignment="Top">
+                <c1:C1DataGrid x:Name="MainDataGrid" HeadersVisibility="None" SelectionMode="SingleRow"
+                               AutoGenerateColumns="False" CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False" CanUserResizeRows="False"
+                               MouseLeftButtonUp="MainDataGrid_MouseLeftButtonUp"
+                               ItemsSource="{Binding ListInterfer}" Margin="0,85,0,0" Height="217" VerticalAlignment="Top">
+                    <c1:C1DataGrid.Columns>
+                        <c1:DataGridCheckBoxColumn Header="선택" Binding="{Binding Path=SELFLAG}" HorizontalAlignment="Center" Width="0.5*"/>
+                        <c1:DataGridTextColumn Header="No." Binding="{Binding Path=SEQ}" HorizontalAlignment="Center" Width="2*"/>
+                        <c1:DataGridTextColumn Header="간섭내용" Binding="{Binding Path=SITUATION}"  HorizontalAlignment="Center" Width="2*"/>
+                        <c1:DataGridTextColumn Header="조치사항" Binding="{Binding Path=GUBUN}" HorizontalAlignment="Center" Width="2*"/>
+                        <c1:DataGridTextColumn Header="Module" Binding="{Binding Path=MODULENO}" HorizontalAlignment="Center" Width="2*"/>
+                        <c1:DataGridTextColumn Header="폐기수량" Binding="{Binding Path=DISPOSEQTY}" HorizontalAlignment="Center" Width="2*"/>
+                        <c1:DataGridTextColumn Header="발생시각" Binding="{Binding Path=STDTTM}" HorizontalAlignment="Center" Width="2*"/>
+                        <c1:DataGridTextColumn Header="완료시각" Binding="{Binding Path=EDDTTM}" HorizontalAlignment="Center" Width="2*"/>
+                        <c1:DataGridTextColumn Header="비고" Binding="{Binding Path=COMMENT}" HorizontalAlignment="Center" Width="2*"/>
+                    </c1:C1DataGrid.Columns>
+                </c1:C1DataGrid>
+                <Button Content="Delete" Command="{Binding popQryBtnCommand}" Height="Auto" Width="Auto" FontSize="12" Margin="403,318,710,10"/>
             </Grid>
         </Grid>
     </toolkit:BusyIndicator>

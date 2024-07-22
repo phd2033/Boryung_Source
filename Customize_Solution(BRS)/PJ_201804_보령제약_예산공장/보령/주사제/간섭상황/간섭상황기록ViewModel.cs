@@ -19,6 +19,7 @@ using System.IO;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using LGCNS.iPharmMES.Recipe.Common;
 
 namespace 보령
@@ -28,35 +29,152 @@ namespace 보령
         #region [Property]
         public 간섭상황기록ViewModel()
         {
-            _InterferSituations = new InterferSituation.OUTDATACollection();
-
+            _BR_PHR_SEL_CommonCode = new BR_PHR_SEL_CommonCode();
+            _ListInterfer = new ObservableCollection<InterferSituation>();
         }
 
         간섭상황기록 _mainWnd;
 
-        private InterferSituation.OUTDATACollection _InterferSituations;
-        public InterferSituation.OUTDATACollection InterferSituations
+        private decimal _NO;
+        public decimal NO
         {
-            get { return this._InterferSituations; }
+            get { return _NO; }
             set
             {
-                this._InterferSituations = value;
-                this.OnPropertyChanged("InterferSituations");
+                _NO = value;
+                OnPropertyChanged("NO");
             }
         }
-        private List<TimeCombobox> _COMBOItems;
-        public List<TimeCombobox> COMBOItems
+        private string _CONTENTS;
+        public string CONTENTS
         {
-            get { return _COMBOItems; }
+            get { return _CONTENTS; }
             set
             {
-                _COMBOItems = value;
-                OnPropertyChanged("COMBOItems");
+                _CONTENTS = value;
+                OnPropertyChanged("CONTENTS");
+            }
+        }
+        private string _DIVISION;
+        public string DIVISION
+        {
+            get { return _DIVISION; }
+            set
+            {
+                _DIVISION = value;
+                OnPropertyChanged("DIVISION");
+            }
+        }
+        private string _MODULE;
+        public string MODULE
+        {
+            get { return _MODULE; }
+            set
+            {
+                _MODULE = value;
+                OnPropertyChanged("MODULE");
+            }
+        }
+        private int _DISPOSAL;
+        public int DISPOSAL
+        {
+            get { return _DISPOSAL; }
+            set
+            {
+                _DISPOSAL = value;
+                OnPropertyChanged("DISPOSAL");
+            }
+        }
+        private DateTime _STRTDTTM;
+        public DateTime STRTDTTM
+        {
+            get { return _STRTDTTM; }
+            set
+            {
+                _STRTDTTM = value;
+                if (_STRTDTTM != null) this.KeyPadStrtTIme = String.Format("{0:HHmmss}", _STRTDTTM);
+                OnPropertyChanged("STRTDTTM");
+            }
+        }
+        private DateTime _ENDDTTM;
+        public DateTime ENDDTTM
+        {
+            get { return _ENDDTTM; }
+            set
+            {
+                _ENDDTTM = value;
+                if (_ENDDTTM != null) this.KeyPadEndTIme = String.Format("{0:HHmmss}", _ENDDTTM);
+                OnPropertyChanged("ENDDTTM");
+            }
+        }
+        private string _NOTE;
+        public string NOTE
+        {
+            get { return _NOTE; }
+            set
+            {
+                _NOTE = value;
+                OnPropertyChanged("NOTE");
+            }
+        }
+
+        string _KeyPadStrtTIme;
+        public string KeyPadStrtTIme
+        {
+            get { return _KeyPadStrtTIme; }
+            set
+            {
+                _KeyPadStrtTIme = value;
+                OnPropertyChanged("KeyPadStrtTIme");
+            }
+        }
+        string _KeyPadEndTIme;
+        public string KeyPadEndTIme
+        {
+            get { return _KeyPadEndTIme; }
+            set
+            {
+                _KeyPadEndTIme = value;
+                OnPropertyChanged("KeyPadEndTIme");
+            }
+        }
+
+        //간섭상황기록List
+        private ObservableCollection<InterferSituation> _ListInterfer;
+        public ObservableCollection<InterferSituation> ListInterfer
+        {
+            get { return _ListInterfer; }
+            set
+            {
+                _ListInterfer = value;
+                OnPropertyChanged("ListInterfer");
+            }
+        }
+
+        private BR_PHR_SEL_CommonCode.OUTDATA _CboCommon;
+        public BR_PHR_SEL_CommonCode.OUTDATA CboCommon
+        {
+            get { return _CboCommon; }
+            set
+            {
+                _CboCommon = value;
+                OnPropertyChanged("CboCommon");
             }
         }
         #endregion
 
         #region [Bizrule]
+        private BR_PHR_SEL_CommonCode _BR_PHR_SEL_CommonCode;
+        public BR_PHR_SEL_CommonCode BR_PHR_SEL_CommonCode
+        {
+            get { return _BR_PHR_SEL_CommonCode; }
+            set
+            {
+                _BR_PHR_SEL_CommonCode = value;
+                OnPropertyChanged("BR_PHR_SEL_CommonCode");
+            }
+        }
+
         #endregion
 
 
@@ -71,19 +189,36 @@ namespace 보령
                     {
                         try
                         {
+                            IsBusy = true;
+
                             CommandResults["LoadedCommandAsync"] = false;
                             CommandCanExecutes["LoadedCommandAsync"] = false;
 
                             if (arg != null && arg is 간섭상황기록)
                             {
                                 _mainWnd = arg as 간섭상황기록;
-                                IsBusy = true;
-                                //IPCResultSections.Clear();
 
-                                COMBOItems = SetComboBox(_COMBOItems);
+                                STRTDTTM = (await AuthRepositoryViewModel.GetDBDateTimeNow()).AddHours(-1);
+                                ENDDTTM = await AuthRepositoryViewModel.GetDBDateTimeNow();
+
+                                _BR_PHR_SEL_CommonCode.INDATAs.Clear();
+                                _BR_PHR_SEL_CommonCode.OUTDATAs.Clear();
+                                _BR_PHR_SEL_CommonCode.INDATAs.Add(new BR_PHR_SEL_CommonCode.INDATA
+                                {
+                                    LANGID = AuthRepositoryViewModel.Instance.LangID,
+                                    CMCDTYPE = "BRS_INTERFER_SITUATION"
+                                });
+
+                                //COMBOItems = SetComboBox(_COMBOItems);
+
+                                if (await _BR_PHR_SEL_CommonCode.Execute() == false)
+                                {
+                                    return;
+                                }
+                                foreach (var item in _BR_PHR_SEL_CommonCode.OUTDATAs)
+                                {
+                                }
                             }
-
-
 
                             CommandResults["LoadedCommandAsync"] = true;
                         }
@@ -107,390 +242,304 @@ namespace 보령
                 });
             }
         }
-        #endregion
-        #region User Define
-        private List<TimeCombobox> SetComboBox(List<TimeCombobox> cur)
+        public ICommand AddInterferCommandAsync
         {
-            cur = cur ?? new List<TimeCombobox>();
-            cur.Clear();
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["AddInterferCommandAsync"].EnterAsync())
+                    {
+                        try
+                        {
+                            IsBusy = true;
 
-            cur.Add(new TimeCombobox
-            {
-                KEY = "1",
-                CONTENT = "환경모니터링",
-                ACT = "환경모니터링을 수행한다."
-            });
-            cur.Add(new TimeCombobox
-            {
-                KEY = "2",
-                CONTENT = "라인 Set-up",
-                ACT = "1) 충전기와 충전 라인을 세팅한다. 2)여과 라인을 세팅한다."
-            });
-            cur.Add(new TimeCombobox
-            {
-                KEY = "3",
-                CONTENT = "고무전 공급",
-                ACT = "모듈 1번 고무전부에 적재된 고무전을 Hopper에 공급한다."
-            });
-            cur.Add(new TimeCombobox
-            {
-                KEY = "4",
-                CONTENT = "Vial Reject용 무균 PE bag 교체",
-                ACT = "Rejected vial로 가득 찬 무균 PE bag 들어올려 꺼낸 후 새로운 PE bag으로 교체한다."
-            });
-            cur.Add(new TimeCombobox
-            {
-                KEY = "5",
-                CONTENT = "바이알 넘어짐 (Empty)",
-                ACT = "핀셋을 이용해 제건한다."
-            });
+                            CommandResults["AddInterferCommandAsync"] = false;
+                            CommandCanExecutes["AddInterferCommandAsync"] = false;
+                            ///
+                            ListInterfer.Add(new InterferSituation
+                            {
+                                SEQ = NO,
+                                SITUATION = CONTENTS,
+                                GUBUN = DIVISION,
+                                MODULENO = MODULE,
+                                DISPOSEQTY = DISPOSAL,
+                                STDTTM = String.Format("{0:yyyy-MM-dd HH:mm:ss}", STRTDTTM),
+                                EDDTTM = String.Format("{0:yyyy-MM-dd HH:mm:ss}", ENDDTTM),
+                                COMMENT = NOTE
 
-            return cur;
-        }
-        public class TimeCombobox
-        {
-            private string _KEY;
-            public string KEY
-            {
-                get { return _KEY; }
-                set { _KEY = value; }
-            }
-            private string _CONTENT;
-            public string CONTENT
-            {
-                get { return _CONTENT; }
-                set { _CONTENT = value; }
-            }
-            private string _ACT;
-            public string ACT
-            {
-                get { return _ACT; }
-                set { _ACT = value; }
+                            });
+                            foreach(var i in ListInterfer)
+                            {
+
+                            }
+
+                            ///
+
+                            CommandResults["AddInterferCommandAsync"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["AddInterferCommandAsync"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["AddInterferCommandAsync"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("AddInterferCommandAsync") ?
+                        CommandCanExecutes["AddInterferCommandAsync"] : (CommandCanExecutes["AddInterferCommandAsync"] = true);
+                });
             }
         }
-        public class InterferSituation : BizActorRuleBase
+
+        public ICommand SectionChangedCmbCommand
         {
-            public sealed partial class OUTDATACollection : BufferedObservableCollection<OUTDATA>
+            get
             {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["SectionChangedCmbCommand"].EnterAsync())
+                    {
+                        try
+                        {
+                            IsBusy = true;
+
+                            CommandResults["SectionChangedCmbCommand"] = false;
+                            CommandCanExecutes["SectionChangedCmbCommand"] = false;
+
+                            ///
+                            if (arg != null && arg is BR_PHR_SEL_CommonCode.OUTDATA)
+                            {
+                                CboCommon = arg as BR_PHR_SEL_CommonCode.OUTDATA;
+                                DIVISION = CboCommon.ATTRIBUTE1;
+                                NO = Convert.ToDecimal(CboCommon.CMCODE);
+                                CONTENTS = CboCommon.CMCDNAME;
+                            }
+                            ///
+
+                            CommandResults["SectionChangedCmbCommand"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["SectionChangedCmbCommand"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["SectionChangedCmbCommand"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("SectionChangedCmbCommand") ?
+                        CommandCanExecutes["SectionChangedCmbCommand"] : (CommandCanExecutes["SectionChangedCmbCommand"] = true);
+                });
             }
-            private OUTDATACollection _OUTDATAs;
-            [BizActorOutputSetAttribute()]
-            public OUTDATACollection OUTDATAs
+        }
+
+        public ICommand FromTimeChangedCommandAsync
+        {
+            get
             {
-                get
+                return new AsyncCommandBase(async arg =>
                 {
-                    return this._OUTDATAs;
-                }
+                    using (await AwaitableLocks["FromTimeChangedCommandAsync"].EnterAsync())
+                    {
+                        try
+                        {
+                            IsBusy = true;
+
+                            CommandResults["FromTimeChangedCommandAsync"] = false;
+                            CommandCanExecutes["FromTimeChangedCommandAsync"] = false;
+
+                            ///
+
+                            var formats = new[] { "yyyyMMddHHmmss" };
+                            DateTime dtRtn;
+
+                            if (!DateTime.TryParseExact(String.Format("{0:yyyyMMdd}{1:D6}", this.STRTDTTM, Convert.ToInt32(this.KeyPadStrtTIme)), formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out dtRtn))
+                            {
+                                OnMessage("잘못된 시간 형식입니다! 발생시각을 정확하게 입력하세요.");
+                                return;
+                            }
+
+                            this.STRTDTTM = dtRtn;
+
+                            ///
+
+                            CommandResults["FromTimeChangedCommandAsync"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["FromTimeChangedCommandAsync"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["FromTimeChangedCommandAsync"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("FromTimeChangedCommandAsync") ?
+                        CommandCanExecutes["FromTimeChangedCommandAsync"] : (CommandCanExecutes["FromTimeChangedCommandAsync"] = true);
+                });
             }
-            [BizActorOutputSetDefineAttribute(Order = "0")]
-            [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
-            public partial class OUTDATA : BizActorDataSetBase
+        }
+
+        public ICommand ToTimeChangedCommandAsync
+        {
+            get
             {
-                public OUTDATA()
+                return new AsyncCommandBase(async arg =>
                 {
-                    RowLoadedFlag = false;
-                }
-                private bool _RowLoadedFlag;
-                public bool RowLoadedFlag
-                {
-                    get
+                    using (await AwaitableLocks["ToTimeChangedCommandAsync"].EnterAsync())
                     {
-                        return this._RowLoadedFlag;
-                    }
-                    set
-                    {
-                        this._RowLoadedFlag = value;
-                        this.OnPropertyChanged("_RowLoadedFlag");
-                    }
-                }
-                private string _RowIndex;
-                public string RowIndex
-                {
-                    get
-                    {
-                        return this._RowIndex;
-                    }
-                    set
-                    {
-                        this._RowIndex = value;
-                        this.OnPropertyChanged("RowIndex");
-                    }
-                }
-                private string _RowEditSec;
-                public string RowEditSec
-                {
-                    get
-                    {
-                        return this._RowEditSec;
-                    }
-                    set
-                    {
-                        this._RowEditSec = value;
-                        this.OnPropertyChanged("RowEditSec");
-                    }
-                }
-                private int _NO = 0;
-                [BizActorOutputItemAttribute()]
-                public int NO
-                {
-                    get
-                    {
-                        return this._NO;
-                    }
-                    set
-                    {
-                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                        try
                         {
-                        }
-                        else
-                        {
-                            this._NO = value;
-                            this.CheckIsOriginal("NO", value);
-                            this.OnPropertyChanged("NO");
-                            if (RowLoadedFlag)
+                            IsBusy = true;
+
+                            CommandResults["ToTimeChangedCommandAsync"] = false;
+                            CommandCanExecutes["ToTimeChangedCommandAsync"] = false;
+
+                            ///
+
+                            var formats = new[] { "yyyyMMddHHmmss" };
+                            DateTime dtRtn;
+
+                            if (!DateTime.TryParseExact(String.Format("{0:yyyyMMdd}{1:D6}", this.ENDDTTM, Convert.ToInt32(this.KeyPadEndTIme)), formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out dtRtn))
                             {
-                                if (this.CheckIsOriginalRow())
-                                {
-                                    RowEditSec = "SEL";
-                                }
-                                else
-                                {
-                                    RowEditSec = "UPD";
-                                }
+                                OnMessage("잘못된 시간 형식입니다! 완료시각을 정확하게 입력하세요.");
+                                return;
                             }
+
+                            this.ENDDTTM = dtRtn;
+
+                            ///
+
+                            CommandResults["ToTimeChangedCommandAsync"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["ToTimeChangedCommandAsync"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["ToTimeChangedCommandAsync"] = true;
+
+                            IsBusy = false;
                         }
                     }
-                }
-                private string _CONTENTS;
-                [BizActorOutputItemAttribute()]
-                public string CONTENTS
+                }, arg =>
                 {
-                    get
-                    {
-                        return this._CONTENTS;
-                    }
-                    set
-                    {
-                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                        {
-                        }
-                        else
-                        {
-                            this._CONTENTS = value;
-                            this.CheckIsOriginal("CONTENTS", value);
-                            this.OnPropertyChanged("CONTENTS");
-                            if (RowLoadedFlag)
-                            {
-                                if (this.CheckIsOriginalRow())
-                                {
-                                    RowEditSec = "SEL";
-                                }
-                                else
-                                {
-                                    RowEditSec = "UPD";
-                                }
-                            }
-                        }
-                    }
-                }
-                private string _ACTION;
-                [BizActorOutputItemAttribute()]
-                public string ACTION
-                {
-                    get
-                    {
-                        return this._ACTION;
-                    }
-                    set
-                    {
-                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                        {
-                        }
-                        else
-                        {
-                            this._ACTION = value;
-                            this.CheckIsOriginal("ACTION", value);
-                            this.OnPropertyChanged("ACTION");
-                            if (RowLoadedFlag)
-                            {
-                                if (this.CheckIsOriginalRow())
-                                {
-                                    RowEditSec = "SEL";
-                                }
-                                else
-                                {
-                                    RowEditSec = "UPD";
-                                }
-                            }
-                        }
-                    }
-                }
-                private int _MODULE;
-                [BizActorOutputItemAttribute()]
-                public int MODULE
-                {
-                    get
-                    {
-                        return this._MODULE;
-                    }
-                    set
-                    {
-                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                        {
-                        }
-                        else
-                        {
-                            this._MODULE = value;
-                            this.CheckIsOriginal("MODULE", value);
-                            this.OnPropertyChanged("MODULE");
-                            if (RowLoadedFlag)
-                            {
-                                if (this.CheckIsOriginalRow())
-                                {
-                                    RowEditSec = "SEL";
-                                }
-                                else
-                                {
-                                    RowEditSec = "UPD";
-                                }
-                            }
-                        }
-                    }
-                }
-                private int _DISPOSAL;
-                [BizActorOutputItemAttribute()]
-                public int DISPOSAL
-                {
-                    get
-                    {
-                        return this._DISPOSAL;
-                    }
-                    set
-                    {
-                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                        {
-                        }
-                        else
-                        {
-                            this._DISPOSAL = value;
-                            this.CheckIsOriginal("DISPOSAL", value);
-                            this.OnPropertyChanged("DISPOSAL");
-                            if (RowLoadedFlag)
-                            {
-                                if (this.CheckIsOriginalRow())
-                                {
-                                    RowEditSec = "SEL";
-                                }
-                                else
-                                {
-                                    RowEditSec = "UPD";
-                                }
-                            }
-                        }
-                    }
-                }
-                private DateTime _STRTDTTM;
-                [BizActorOutputItemAttribute()]
-                public DateTime STRTDTTM
-                {
-                    get
-                    {
-                        return this._STRTDTTM;
-                    }
-                    set
-                    {
-                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                        {
-                        }
-                        else
-                        {
-                            this._STRTDTTM = value;
-                            this.CheckIsOriginal("STRTDTTM", value);
-                            this.OnPropertyChanged("STRTDTTM");
-                            if (RowLoadedFlag)
-                            {
-                                if (this.CheckIsOriginalRow())
-                                {
-                                    RowEditSec = "SEL";
-                                }
-                                else
-                                {
-                                    RowEditSec = "UPD";
-                                }
-                            }
-                        }
-                    }
-                }
-                private DateTime _ENDDTTM;
-                [BizActorOutputItemAttribute()]
-                public DateTime ENDDTTM
-                {
-                    get
-                    {
-                        return this._ENDDTTM;
-                    }
-                    set
-                    {
-                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                        {
-                        }
-                        else
-                        {
-                            this._ENDDTTM = value;
-                            this.CheckIsOriginal("ENDDTTM", value);
-                            this.OnPropertyChanged("ENDDTTM");
-                            if (RowLoadedFlag)
-                            {
-                                if (this.CheckIsOriginalRow())
-                                {
-                                    RowEditSec = "SEL";
-                                }
-                                else
-                                {
-                                    RowEditSec = "UPD";
-                                }
-                            }
-                        }
-                    }
-                }
-                private string _NOTE;
-                [BizActorOutputItemAttribute()]
-                public string NOTE
-                {
-                    get
-                    {
-                        return this._NOTE;
-                    }
-                    set
-                    {
-                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                        {
-                        }
-                        else
-                        {
-                            this._NOTE = value;
-                            this.CheckIsOriginal("NOTE", value);
-                            this.OnPropertyChanged("NOTE");
-                            if (RowLoadedFlag)
-                            {
-                                if (this.CheckIsOriginalRow())
-                                {
-                                    RowEditSec = "SEL";
-                                }
-                                else
-                                {
-                                    RowEditSec = "UPD";
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            public InterferSituation()
-            {
-                _OUTDATAs = new OUTDATACollection();
+                    return CommandCanExecutes.ContainsKey("ToTimeChangedCommandAsync") ?
+                        CommandCanExecutes["ToTimeChangedCommandAsync"] : (CommandCanExecutes["ToTimeChangedCommandAsync"] = true);
+                });
             }
         }
         #endregion
+        #region User Define
+        public class InterferSituation : ViewModelBase
+        {
+            private decimal _SEQ;
+            public decimal SEQ
+            {
+                get { return _SEQ; }
+                set
+                {
+                    _SEQ = value;
+                    OnPropertyChanged("SEQ");
+                }
+            }
+
+            private string _SITUATION;
+            public string SITUATION
+            {
+                get { return _SITUATION; }
+                set
+                {
+                    _SITUATION = value;
+                    OnPropertyChanged("SITUATION");
+                }
+            }
+
+            private string _GUBUN;
+            public string GUBUN
+            {
+                get { return _GUBUN; }
+                set
+                {
+                    _GUBUN = value;
+                    OnPropertyChanged("GUBUN");
+                }
+            }
+
+            private string _MODULENO;
+            public string MODULENO
+            {
+                get { return _MODULENO; }
+                set
+                {
+                    _MODULENO = value;
+                    OnPropertyChanged("MODULENO");
+                }
+            }
+            private decimal _DISPOSEQTY;
+            public decimal DISPOSEQTY
+            {
+                get { return _DISPOSEQTY; }
+                set
+                {
+                    _DISPOSEQTY = value;
+                    OnPropertyChanged("DISPOSEQTY");
+                }
+            }
+
+            private string _STDTTM;
+            public string STDTTM
+            {
+                get { return _STDTTM; }
+                set
+                {
+                    _STDTTM = value;
+                    OnPropertyChanged("STDTTM");
+                }
+            }
+
+            private string _EDDTTM;
+            public string EDDTTM
+            {
+                get { return _EDDTTM; }
+                set
+                {
+                    _EDDTTM = value;
+                    OnPropertyChanged("EDDTTM");
+                }
+            }
+
+            private string _COMMENT;
+            public string COMMENT
+            {
+                get { return _COMMENT; }
+                set
+                {
+                    _COMMENT = value;
+                    OnPropertyChanged("COMMENT");
+                }
+            }
+        }
+        #endregion
+
     }
 }

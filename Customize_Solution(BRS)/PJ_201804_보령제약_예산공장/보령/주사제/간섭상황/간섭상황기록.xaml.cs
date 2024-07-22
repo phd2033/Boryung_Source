@@ -22,15 +22,33 @@ namespace 보령
         {
             get { return "TABLE,간섭상황기록"; }
         }
-
         public 간섭상황기록()
         {
             InitializeComponent();
         }
-
         private void btnCancel_Click(object sender, EventArgs e)
         {
             DialogResult = false;
+        }
+        private void MainDataGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (this.MainDataGrid.SelectedItem != null)
+            {
+                BR_BRS_SEL_EquipmentStatus_PROC_OPSG.OUTDATA tar = this.MainDataGrid.SelectedItem as BR_BRS_SEL_EquipmentStatus_PROC_OPSG.OUTDATA;
+                tar.SELFLAG = !tar.SELFLAG;
+
+                this.MainDataGrid.SelectedItem = null;
+                this.MainDataGrid.Refresh();
+            }
+        }
+
+        private void Module_Loaded(object sender, RoutedEventArgs e)
+        {
+            cbobModule.Items.Add("1 Module");
+            cbobModule.Items.Add("2 Module");
+            cbobModule.Items.Add("3 Module");
+            cbobModule.Items.Add("4 Module");
+            cbobModule.Items.Add("5 Module");
         }
 
     }

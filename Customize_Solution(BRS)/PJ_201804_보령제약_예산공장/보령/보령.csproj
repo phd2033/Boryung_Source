@@ -926,6 +926,21 @@
     </Compile>
     <Compile Include="주사제\공정검사\조제FIT결과ViewModel.cs" />
     <Compile Include="주사제\공정검사\중요간섭상황기록ViewModel.cs" />
+    <Compile Include="주사제\무균공정시트\무균공정시작시간기록.xaml.cs">
+      <DependentUpon>무균공정시작시간기록.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="주사제\무균공정시트\무균공정시작시간기록ViewModel.cs" />
+    <Compile Include="주사제\무균공정시트\무균공정시트조회.xaml.cs">
+      <DependentUpon>무균공정시트조회.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="주사제\무균공정시트\무균공정시트조회ViewModel.cs" />
+    <Compile Include="주사제\무균공정시트\무균공정종료시간기록.xaml.cs">
+      <DependentUpon>무균공정종료시간기록.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="주사제\무균공정시트\무균공정종료시간기록ViewModel.cs" />
+    <Compile Include="주사제\무균공정시트\무균공정시간Popup.xaml.cs">
+      <DependentUpon>무균공정시간Popup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="주사제\반제품\SVP반제품생성.xaml.cs">
       <DependentUpon>SVP반제품생성.xaml</DependentUpon>
     </Compile>
@@ -1631,6 +1646,22 @@
     <Page Include="주사제\공정검사\중요간섭상황기록.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="주사제\무균공정시트\무균공정시작시간기록.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="주사제\무균공정시트\무균공정시트조회.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="주사제\무균공정시트\무균공정종료시간기록.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="주사제\무균공정시트\무균공정시간Popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="주사제\반제품\SVP반제품생성.xaml">
       <Generator>MSBuild:Compile</Generator>

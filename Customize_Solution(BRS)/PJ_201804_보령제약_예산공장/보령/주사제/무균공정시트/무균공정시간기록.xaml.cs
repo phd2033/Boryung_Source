@@ -15,16 +15,16 @@ using System.Windows.Data;
 
 namespace 보령
 {
-    [Description("무균공정종료시간기록")]
-    public partial class 무균공정종료시간기록 : ShopFloorCustomWindow
+    [Description("무균공정시간기록")]
+    public partial class 무균공정시간기록 : ShopFloorCustomWindow
     {
-        public 무균공정종료시간기록()
+        public 무균공정시간기록()
         {
             InitializeComponent();
         }
         public override string TableTypeName
         {
-            get { return "TABLE,무균공정시작시간기록"; }
+            get { return "TABLE,무균공정시간기록"; }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -50,19 +50,27 @@ namespace 보령
                 return null;
             }
         }
-
+        
         private void c1pkrFromTime_GotFocus(object sender, RoutedEventArgs e)
         {
-            var popup = new 무균공정시간Popup();
-
-            popup.resTime = c1pkrFromTime.DateTime.HasValue ? c1pkrFromTime.DateTime.Value : DateTime.Now;
-            popup.Closed += (s1, e1) =>
+            try
             {
-                if (popup.DialogResult.HasValue && popup.DialogResult.Value)
-                    c1pkrFromTime.DateTime = Convert.ToDateTime(c1pkrFromDate.DateTime.Value.ToString("yyyy-MM-dd") + popup.resTime.ToString(" HH:mm:ss"));
-            };
+                var popup = new 무균공정시간Popup();
 
-            popup.Show();
+                popup.resTime = c1pkrFromTime.DateTime.HasValue ? c1pkrFromTime.DateTime.Value : DateTime.Now;
+                popup.Closed += (s1, e1) =>
+                {
+                    if (popup.DialogResult.HasValue && popup.DialogResult.Value)
+                        //c1pkrFromTime.DateTime = Convert.ToDateTime((this.DataContext as 무균공정시작시간기록ViewModel).FromDt.ToString("yyyy-MM-dd") + popup.resTime.ToString(" HH:mm:ss"));
+                    c1pkrFromTime.DateTime = Convert.ToDateTime(c1pkrFromDate.DateTime.Value.ToString("yyyy-MM-dd") + popup.resTime.ToString(" HH:mm:ss"));
+                };
+
+                popup.Show();
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
         }
     }
 }

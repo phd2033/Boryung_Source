@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace 보령
 {
-    
+
     /// <summary>
     /// summary of BR_BRS_REG_SVP_ASEPTIC_PROCESS
     /// </summary>
@@ -22,7 +22,7 @@ namespace 보령
                 return this._INDATAs;
             }
         }
-        [BizActorInputSetDefineAttribute(Order="0")]
+        [BizActorInputSetDefineAttribute(Order = "0")]
         [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
         public partial class INDATA : BizActorDataSetBase
         {
@@ -229,13 +229,73 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<System.DateTime> _INSDTTM;
-            [BizActorInputItemAttribute()]
-            public System.Nullable<System.DateTime> INSDTTM
+        }
+        public sealed partial class HISDATACollection : BufferedObservableCollection<HISDATA>
+        {
+        }
+        private HISDATACollection _HISDATAs;
+        [BizActorOutputSetAttribute()]
+        public HISDATACollection HISDATAs
+        {
+            get
+            {
+                return this._HISDATAs;
+            }
+        }
+        [BizActorOutputSetDefineAttribute(Order = "0")]
+        [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
+        public partial class HISDATA : BizActorDataSetBase
+        {
+            public HISDATA()
+            {
+                RowLoadedFlag = false;
+            }
+            private bool _RowLoadedFlag;
+            public bool RowLoadedFlag
             {
                 get
                 {
-                    return this._INSDTTM;
+                    return this._RowLoadedFlag;
+                }
+                set
+                {
+                    this._RowLoadedFlag = value;
+                    this.OnPropertyChanged("_RowLoadedFlag");
+                }
+            }
+            private string _RowIndex;
+            public string RowIndex
+            {
+                get
+                {
+                    return this._RowIndex;
+                }
+                set
+                {
+                    this._RowIndex = value;
+                    this.OnPropertyChanged("RowIndex");
+                }
+            }
+            private string _RowEditSec;
+            public string RowEditSec
+            {
+                get
+                {
+                    return this._RowEditSec;
+                }
+                set
+                {
+                    this._RowEditSec = value;
+                    this.OnPropertyChanged("RowEditSec");
+                }
+            }
+            private string _TRANSID;
+            [BizActorOutputItemAttribute()]
+            public string TRANSID
+            {
+                get
+                {
+                    return this._TRANSID;
                 }
                 set
                 {
@@ -244,9 +304,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._INSDTTM = value;
-                        this.CheckIsOriginal("INSDTTM", value);
-                        this.OnPropertyChanged("INSDTTM");
+                        this._TRANSID = value;
+                        this.CheckIsOriginal("TRANSID", value);
+                        this.OnPropertyChanged("TRANSID");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -267,6 +327,7 @@ namespace 보령
             RuleName = "BR_BRS_REG_SVP_ASEPTIC_PROCESS";
             BizName = "BR_BRS_REG_SVP_ASEPTIC_PROCESS";
             _INDATAs = new INDATACollection();
+            _HISDATAs = new HISDATACollection();
         }
     }
 }

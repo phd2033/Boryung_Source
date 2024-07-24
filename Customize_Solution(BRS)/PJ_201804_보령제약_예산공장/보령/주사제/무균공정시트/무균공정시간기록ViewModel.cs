@@ -25,15 +25,15 @@ using LGCNS.iPharmMES.Recipe.Common;
 
 namespace 보령
 {
-    public class 무균공정시작시간기록ViewModel : ViewModelBase
+    public class 무균공정시간기록ViewModel : ViewModelBase
     {
         #region [Property]
-        public 무균공정시작시간기록ViewModel()
+        public 무균공정시간기록ViewModel()
         {
             _BR_BRS_REG_SVP_ASEPTIC_PROCESS = new 보령.BR_BRS_REG_SVP_ASEPTIC_PROCESS();
         }
 
-        무균공정시작시간기록 _mainWnd;
+        무균공정시간기록 _mainWnd;
 
         DateTime _fromDt;
         public DateTime FromDt
@@ -89,9 +89,9 @@ namespace 보령
                             CommandResults["LoadedCommandAsync"] = false;
                             CommandCanExecutes["LoadedCommandAsync"] = false;
 
-                            if (arg != null && arg is 무균공정시작시간기록)
+                            if (arg != null && arg is 무균공정시간기록)
                             {
-                                _mainWnd = arg as 무균공정시작시간기록;
+                                _mainWnd = arg as 무균공정시간기록;
 
                                 FromDt = await AuthRepositoryViewModel.GetDBDateTimeNow();
 
@@ -165,20 +165,20 @@ namespace 보령
                                 }
                             }
                             
-                            string user = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI");
-
                             //XML 생성. 비즈룰 INDATA생성
                             DataSet ds = new DataSet();
                             DataTable dt = new DataTable("DATA");
                             ds.Tables.Add(dt);
 
-                            dt.Columns.Add(new DataColumn("Pallet번호"));
-                            dt.Columns.Add(new DataColumn("수량"));
-                            
+                            dt.Columns.Add(new DataColumn("기록타입"));
+                            dt.Columns.Add(new DataColumn("시각"));
+                            dt.Columns.Add(new DataColumn("작업자"));
+
                             var row = dt.NewRow();
 
                             row["기록타입"] = TargetVal ?? "";
-                            row["기록시간"] = FromDt.ToString("yyyy-MM-dd HH:mm:ss");
+                            row["시각"] = FromDt.ToString("yyyy-MM-dd HH:mm:ss");
+                            row["작업자"] = AuthRepositoryViewModel.Instance.LoginedUserID ?? "";
                             dt.Rows.Add(row);
 
                             _BR_BRS_REG_SVP_ASEPTIC_PROCESS.INDATAs.Add(new BR_BRS_REG_SVP_ASEPTIC_PROCESS.INDATA
@@ -188,7 +188,6 @@ namespace 보령
                                 GUBUN = _mainWnd.CurrentInstruction.Raw.TARGETVAL,
                                 TARGETVAL = _fromDt.ToString("yyyy-MM-dd HH:mm:ss"),
                                 INSUSER = AuthRepositoryViewModel.Instance.LoginedUserID,
-                                INSDTTM = await AuthRepositoryViewModel.GetDBDateTimeNow()
                             });
 
                             if (await _BR_BRS_REG_SVP_ASEPTIC_PROCESS.Execute())

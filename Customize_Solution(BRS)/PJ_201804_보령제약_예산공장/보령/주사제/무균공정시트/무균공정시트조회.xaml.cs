@@ -10,19 +10,19 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Windows.Navigation;
+using ShopFloorUI;
 
-namespace 보령.주사제.무균공정시트
+namespace 보령
 {
-    public partial class 무균공정시트조회 : Page
+    public partial class 무균공정시트조회 : ShopFloorCustomWindow
     {
         public 무균공정시트조회()
         {
             InitializeComponent();
         }
-
-        // 사용자가 이 페이지를 탐색할 때 실행됩니다.
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        public override string TableTypeName
         {
+            get { return "TABLE,무균공정시트조회"; }
         }
 
     }

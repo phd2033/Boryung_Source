@@ -8,11 +8,16 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using LGCNS.iPharmMES.Common;
 
-namespace 보령.주사제.무균공정시트
+namespace 보령
 {
-    public class 무균공정시트조회ViewModel
+    public class 무균공정시트조회ViewModel : ViewModelBase
     {
+        public 무균공정시트조회ViewModel()
+        {
+        }
 
+        무균공정시트조회 _mainWnd;
     }
 }

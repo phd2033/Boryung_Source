@@ -45,6 +45,17 @@ namespace 보령
             }
         }
 
+        private string _TargetVal;
+        public string TargetVal
+        {
+            get { return _TargetVal; }
+            set
+            {
+                _TargetVal = value;
+                OnPropertyChanged("TargetVal");
+            }
+        }
+
         #endregion
 
         #region [Bizrule]
@@ -70,6 +81,19 @@ namespace 보령
                             if (arg != null && arg is 무균공정시작시간기록)
                             {
                                 _mainWnd = arg as 무균공정시작시간기록;
+
+                                FromDt = await AuthRepositoryViewModel.GetDBDateTimeNow();
+
+                                string targetVal = _mainWnd.CurrentInstruction.Raw.TARGETVAL;
+
+                                if(string.IsNullOrEmpty(targetVal))
+                                {
+                                    OnMessage("레시피 정보가 누락되었습니다. Target 정보 확인이 필요합니다.");
+                                    return;
+                                }
+
+                                TargetVal = targetVal;
+
                             }
 
                             CommandResults["LoadedCommandAsync"] = true;
@@ -94,7 +118,98 @@ namespace 보령
                 });
             }
         }
-        
+
+        public ICommand ConfirmCommandAsync
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["ConfirmCommandAsync"].EnterAsync())
+                    {
+                        try
+                        {
+                            IsBusy = true;
+
+                            CommandResults["ConfirmCommandAsync"] = false;
+                            CommandCanExecutes["ConfirmCommandAsync"] = false;
+
+                            ///
+
+                            var authHelper = new iPharmAuthCommandHelper();
+                            if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN == "Y" && _mainWnd.CurrentInstruction.PhaseState.Equals("COMP"))
+                            {
+                                authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+
+                                if (await authHelper.ClickAsync(
+                                    Common.enumCertificationType.Function,
+                                    Common.enumAccessType.Create,
+                                    string.Format("기록값을 변경합니다."),
+                                    string.Format("기록값 변경"),
+                                    true,
+                                    "OM_ProductionOrder_SUI",
+                                    "", _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID, null) == false)
+                                {
+                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                }
+                            }
+                            
+                            string user = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI");
+
+                            //XML 생성. 비즈룰 INDATA생성
+                            DataSet ds = new DataSet();
+                            DataTable dt = new DataTable("DATA");
+                            ds.Tables.Add(dt);
+
+                            dt.Columns.Add(new DataColumn("Pallet번호"));
+                            dt.Columns.Add(new DataColumn("수량"));
+                            
+                            var row = dt.NewRow();
+
+                            row["기록타입"] = TargetVal ?? "";
+                            row["기록시간"] = FromDt.ToString("yyyy-MM-dd HH:mm:ss");
+                            dt.Rows.Add(row);
+
+                            //if (await _BR_BRS_REG_ProductionOrderOutput_Vessel_STRT.Execute())
+                            //{
+                            //    var xml = BizActorRuleBase.CreateXMLStream(ds);
+                            //    var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
+
+                            //    _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
+                            //    _mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
+
+                            //    var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction, true);
+                            //    if (result != enumInstructionRegistErrorType.Ok)
+                            //    {
+                            //        throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
+                            //    }
+
+                            //    if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
+                            //    else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
+                            //}
+                            ///
+
+                            CommandResults["ConfirmCommandAsync"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["ConfirmCommandAsync"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["ConfirmCommandAsync"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("ConfirmCommandAsync") ?
+                        CommandCanExecutes["ConfirmCommandAsync"] : (CommandCanExecutes["ConfirmCommandAsync"] = true);
+                });
+            }
+        }
         #endregion
         #region User Define
         #endregion

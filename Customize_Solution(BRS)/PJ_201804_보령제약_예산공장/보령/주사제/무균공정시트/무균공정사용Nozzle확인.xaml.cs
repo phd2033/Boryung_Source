@@ -15,17 +15,12 @@ using System.Windows.Data;
 
 namespace 보령
 {
-    [Description("무균공정시트조회")]
-    public partial class 무균공정시트조회 : ShopFloorCustomWindow
+    [Description("무균공정사용Nozzle확인")]
+    public partial class 무균공정사용Nozzle확인 : ShopFloorCustomWindow
     {
-        public 무균공정시트조회()
+        public 무균공정사용Nozzle확인()
         {
             InitializeComponent();
         }
-        public override string TableTypeName
-        {
-            get { return "TABLE,무균공정시트조회"; }
-        }
-
     }
 }

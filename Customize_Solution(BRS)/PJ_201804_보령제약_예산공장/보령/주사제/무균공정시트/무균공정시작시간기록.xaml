@@ -48,7 +48,7 @@
                 
                 <TextBlock Grid.Row="0" Grid.Column="1"  Text="기록타입" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 0 10 0" FontSize="14" />
                 <TextBox Grid.Row="0" Grid.Column="2"  VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0 0 10 0" FontSize="14" Height="35" Padding="5"
-                         Text="{Binding txtEQPTID, Mode=TwoWay}"/>
+                         Text="{Binding TargetVal, Mode=TwoWay}" IsReadOnly="True"/>
 
                 <TextBlock Grid.Row="0" Grid.Column="3"  Text="기록시간 " VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 0 10 0" FontSize="14" />
                 <c1:C1DateTimePicker x:Name="c1pkrFromDate" Grid.Row="0" Grid.Column="4" 

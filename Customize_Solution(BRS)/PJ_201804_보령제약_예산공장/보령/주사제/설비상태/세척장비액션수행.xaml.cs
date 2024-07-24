@@ -52,7 +52,6 @@ namespace 보령
             {
                 if (popup.DialogResult.HasValue && popup.DialogResult.Value)
                 {
-                    //c1pkrFromTime.DateTime = Convert.ToDateTime((this.DataContext as 세척장비액션수행ViewModel).FromDt.ToString("yyyy-MM-dd") + popup.resTime.ToString(" HH:mm:ss"));
                     c1pkrFromTime.DateTime = Convert.ToDateTime(c1pkrFromDate.DateTime.Value.ToString("yyyy-MM-dd") + popup.resTime.ToString(" HH:mm:ss"));
                 }
             };

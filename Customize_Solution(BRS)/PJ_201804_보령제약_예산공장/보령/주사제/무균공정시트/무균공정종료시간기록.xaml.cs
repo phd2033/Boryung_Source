@@ -59,7 +59,7 @@ namespace 보령
             popup.Closed += (s1, e1) =>
             {
                 if (popup.DialogResult.HasValue && popup.DialogResult.Value)
-                    c1pkrFromTime.DateTime = Convert.ToDateTime((this.DataContext as 무균공정시작시간기록ViewModel).FromDt.ToString("yyyy-MM-dd") + popup.resTime.ToString(" HH:mm:ss"));
+                    c1pkrFromTime.DateTime = Convert.ToDateTime(c1pkrFromDate.DateTime.Value.ToString("yyyy-MM-dd") + popup.resTime.ToString(" HH:mm:ss"));
             };
 
             popup.Show();

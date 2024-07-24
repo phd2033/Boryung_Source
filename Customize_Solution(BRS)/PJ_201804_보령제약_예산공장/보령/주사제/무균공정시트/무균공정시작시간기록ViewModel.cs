@@ -30,6 +30,7 @@ namespace 보령
         #region [Property]
         public 무균공정시작시간기록ViewModel()
         {
+            _BR_BRS_REG_SVP_ASEPTIC_PROCESS = new 보령.BR_BRS_REG_SVP_ASEPTIC_PROCESS();
         }
 
         무균공정시작시간기록 _mainWnd;
@@ -56,6 +57,16 @@ namespace 보령
             }
         }
 
+        private BR_BRS_REG_SVP_ASEPTIC_PROCESS _BR_BRS_REG_SVP_ASEPTIC_PROCESS;
+        public BR_BRS_REG_SVP_ASEPTIC_PROCESS BR_BRS_REG_SVP_ASEPTIC_PROCESS
+        {
+            get { return _BR_BRS_REG_SVP_ASEPTIC_PROCESS; }
+            set
+            {
+                _BR_BRS_REG_SVP_ASEPTIC_PROCESS = value;
+                NotifyPropertyChanged();
+            }
+        }
         #endregion
 
         #region [Bizrule]
@@ -170,25 +181,35 @@ namespace 보령
                             row["기록시간"] = FromDt.ToString("yyyy-MM-dd HH:mm:ss");
                             dt.Rows.Add(row);
 
-                            //if (await _BR_BRS_REG_ProductionOrderOutput_Vessel_STRT.Execute())
-                            //{
-                            //    var xml = BizActorRuleBase.CreateXMLStream(ds);
-                            //    var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
+                            _BR_BRS_REG_SVP_ASEPTIC_PROCESS.INDATAs.Add(new BR_BRS_REG_SVP_ASEPTIC_PROCESS.INDATA
+                            {
+                                POID = _mainWnd.CurrentOrder.OrderID,
+                                OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                GUBUN = _mainWnd.CurrentInstruction.Raw.TARGETVAL,
+                                TARGETVAL = _fromDt.ToString("yyyy-MM-dd HH:mm:ss"),
+                                INSUSER = AuthRepositoryViewModel.Instance.LoginedUserID,
+                                INSDTTM = await AuthRepositoryViewModel.GetDBDateTimeNow()
+                            });
 
-                            //    _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
-                            //    _mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
+                            if (await _BR_BRS_REG_SVP_ASEPTIC_PROCESS.Execute())
+                            {
+                                var xml = BizActorRuleBase.CreateXMLStream(ds);
+                                var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
 
-                            //    var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction, true);
-                            //    if (result != enumInstructionRegistErrorType.Ok)
-                            //    {
-                            //        throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
-                            //    }
+                                _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
+                                _mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
 
-                            //    if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
-                            //    else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
-                            //}
-                            ///
+                                var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction, true);
+                                if (result != enumInstructionRegistErrorType.Ok)
+                                {
+                                    throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
+                                }
 
+                                if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
+                                else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
+                            }
+
+                            IsBusy = false;
                             CommandResults["ConfirmCommandAsync"] = true;
                         }
                         catch (Exception ex)

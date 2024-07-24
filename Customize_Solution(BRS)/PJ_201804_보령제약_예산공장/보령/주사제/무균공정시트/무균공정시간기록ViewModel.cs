@@ -30,7 +30,7 @@ namespace 보령
         #region [Property]
         public 무균공정시간기록ViewModel()
         {
-            _BR_BRS_REG_SVP_ASEPTIC_PROCESS = new 보령.BR_BRS_REG_SVP_ASEPTIC_PROCESS();
+            _BR_BRS_REG_SVP_ASEPTIC_PROCESS = new BR_BRS_REG_SVP_ASEPTIC_PROCESS();
         }
 
         무균공정시간기록 _mainWnd;
@@ -231,6 +231,7 @@ namespace 보령
             }
         }
         #endregion
+
         #region User Define
         #endregion
 

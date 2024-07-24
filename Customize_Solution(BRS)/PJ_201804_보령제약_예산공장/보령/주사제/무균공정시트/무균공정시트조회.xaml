@@ -108,7 +108,7 @@
         <Border VerticalAlignment="Center" HorizontalAlignment="Center"  Margin="5,406,0,-9" Grid.ColumnSpan="2" Width="883" Height="71" Background="#FFEBEEEE"/>
         <Button Content="기록" Margin="256,421,133.164,7" Width="100" Height="40"/>
         <Button Content="기록없음" Width="100" Margin="394,421,394,7" Height="40" Grid.ColumnSpan="2"/>
-        <Button Content="취소" Width="100" Click="Button_Click" Margin="43.836,421,256,7" Height="40" Grid.Column="1"/>
+        <Button Content="취소" Width="100" Margin="43.836,421,256,7" Height="40" Grid.Column="1"/>
 
 
     </Grid>

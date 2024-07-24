@@ -22,5 +22,10 @@ namespace 보령
         {
             InitializeComponent();
         }
+        public override string TableTypeName
+        {
+            get { return "TABLE,무균공정사용Nozzle확인"; }
+        }
+
     }
 }

@@ -134,10 +134,10 @@ namespace 보령
                             CommandCanExecutes["ConfirmCommandAsync"] = false;
 
                             //이미지 저장시 서명화면으로 인해 이미지가 잘 안보임. 그에 따른 이미지 데이터만 먼저 생성해 놓도록 함.
-                            Brush background = _mainWnd.PrintArea.Background;
-                            _mainWnd.PrintArea.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0xD6, 0xD4, 0xD4));
-                            _mainWnd.PrintArea.BorderThickness = new System.Windows.Thickness(1);
-                            _mainWnd.PrintArea.Background = new SolidColorBrush(Colors.White);
+                            Brush background = _mainWnd.PrintArea1.Background;
+                            _mainWnd.PrintArea1.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0xD6, 0xD4, 0xD4));
+                            _mainWnd.PrintArea1.BorderThickness = new System.Windows.Thickness(1);
+                            _mainWnd.PrintArea1.Background = new SolidColorBrush(Colors.White);
 
                             _mainWnd.CurrentInstruction.Raw.NOTE = imageToByteArray();
                             _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
@@ -198,7 +198,7 @@ namespace 보령
         {
             try
             {
-                C1Bitmap bitmap = new C1Bitmap(new WriteableBitmap(_mainWnd.PrintArea, null));
+                C1Bitmap bitmap = new C1Bitmap(new WriteableBitmap(_mainWnd.PrintArea1, null));
                 System.IO.Stream stream = bitmap.GetStream(C1.Silverlight.Imaging.ImageFormat.Png, true);
 
                 int len = (int)stream.Seek(0, SeekOrigin.End);

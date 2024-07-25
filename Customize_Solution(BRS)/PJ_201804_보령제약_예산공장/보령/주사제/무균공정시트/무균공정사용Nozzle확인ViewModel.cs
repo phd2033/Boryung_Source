@@ -216,7 +216,13 @@ namespace 보령
                             {
                                 BizRullParamAdd("Nozzle4");
                             }
+                            if (_BR_BRS_REG_SVP_ASEPTIC_PROCESS.INDATAs.Count == 0)
+                            {
+                                OnMessage("사용한 Nozzle을 선택해 주세요.");
+                                IsBusy = false;
 
+                                return;
+                            }
                             if (await _BR_BRS_REG_SVP_ASEPTIC_PROCESS.Execute())
                             {
                                 var xml = BizActorRuleBase.CreateXMLStream(ds);

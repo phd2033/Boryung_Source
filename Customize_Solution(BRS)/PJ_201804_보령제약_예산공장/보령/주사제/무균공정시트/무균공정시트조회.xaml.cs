@@ -26,6 +26,19 @@ namespace 보령
         {
             get { return "TABLE,무균공정시트조회"; }
         }
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = false;
+        }
 
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = false;
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            (this.LayoutRoot.DataContext as 무균공정시트조회ViewModel).ConfirmCommandAsync.Execute(null);
+        }
     }
 }

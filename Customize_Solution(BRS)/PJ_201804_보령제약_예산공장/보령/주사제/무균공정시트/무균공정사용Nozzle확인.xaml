@@ -44,13 +44,13 @@
                 </Grid.ColumnDefinitions>
                 <TextBox x:Name="NOZZLE" Text="충전노즐 사용" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" UseLayoutRounding="False" Background="#FFEBEEEE" Padding="50,15,15,15" BorderBrush="Black" Margin="0,0,712.418,0" CaretBrush="Black" />
                 <TextBox x:Name="Nozzle1" Text="Nozzle 1" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" UseLayoutRounding="False" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="10,15,5,0" BorderBrush="Black" Width="100" Margin="175.582,0,0,0"/>
-                <CheckBox x:Name="Nozzle1Check"  UseLayoutRounding="False" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,19,560,21"/>
+                <CheckBox x:Name="Nozzle1Check" IsChecked="{Binding Path=Nozzle1Check, Mode=TwoWay}" UseLayoutRounding="False" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,19,560,21"/>
                 <TextBox x:Name="Nozzle2" Text="Nozzle 2" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" UseLayoutRounding="False" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="10,15,5,0" VerticalAlignment="Bottom" BorderBrush="Black" Margin="354.746,0,0,0" Width="100" Height="56"/>
-                <CheckBox x:Name="Nozzle2Check"  UseLayoutRounding="False" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="487,19,381,21" RenderTransformOrigin="-6.75,-0.152"/>
+                <CheckBox x:Name="Nozzle2Check" IsChecked="{Binding Path=Nozzle2Check, Mode=TwoWay}" UseLayoutRounding="False" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="487,19,381,21" RenderTransformOrigin="-6.75,-0.152"/>
                 <TextBox x:Name="Nozzle3" Text="Nozzle 3" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" UseLayoutRounding="False" Height="56" Width="100" HorizontalAlignment="Left" Background="#FFEBEEEE"  Padding="10,15,5,0" BorderBrush="Black" Margin="534,0,0,0"/>
-                <CheckBox x:Name="Nozzle3Check" UseLayoutRounding="False" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="9.15,0.536" Margin="666,19,202,21"/>
+                <CheckBox x:Name="Nozzle3Check" IsChecked="{Binding Path=Nozzle3Check, Mode=TwoWay}" UseLayoutRounding="False" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="9.15,0.536" Margin="666,19,202,21"/>
                 <TextBox x:Name="Nozzle4" Text="Nozzle 4 " FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" UseLayoutRounding="False" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="10,15,5,0" BorderBrush="Black" Margin="713,0,0,0" Width="100"/>
-                <CheckBox x:Name="Nozzle4Check" UseLayoutRounding="False" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,19,25,21"/>
+                <CheckBox x:Name="Nozzle4Check" IsChecked="{Binding Path=Nozzle4Check, Mode=TwoWay}" UseLayoutRounding="False" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,19,25,21"/>
             </Grid>
             <Grid HorizontalAlignment="Center" Grid.ColumnSpan="2" Width="888" Background="#FFEBEEEE" Margin="0,56,0,0">
                 <StackPanel Orientation="Horizontal" Margin="325,6,325,4">

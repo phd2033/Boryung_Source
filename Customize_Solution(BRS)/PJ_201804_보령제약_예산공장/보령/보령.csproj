@@ -936,10 +936,14 @@
       <DependentUpon>무균공정시간기록.xaml</DependentUpon>
     </Compile>
     <Compile Include="주사제\무균공정시트\무균공정시간기록ViewModel.cs" />
-    <Compile Include="주사제\무균공정시트\무균공정시트조회.xaml.cs">
-      <DependentUpon>무균공정시트조회.xaml</DependentUpon>
+    <Compile Include="주사제\무균공정시트\무균공정시트조회_동결.xaml.cs">
+      <DependentUpon>무균공정시트조회_동결.xaml</DependentUpon>
     </Compile>
-    <Compile Include="주사제\무균공정시트\무균공정시트조회ViewModel.cs" />
+    <Compile Include="주사제\무균공정시트\무균공정시트조회_동결ViewModel.cs" />
+    <Compile Include="주사제\무균공정시트\무균공정시트조회_액상.xaml.cs">
+      <DependentUpon>무균공정시트조회_액상.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="주사제\무균공정시트\무균공정시트조회_액상ViewModel.cs" />
     <Compile Include="주사제\무균공정시트\무균공정시간Popup.xaml.cs">
       <DependentUpon>무균공정시간Popup.xaml</DependentUpon>
     </Compile>
@@ -1657,7 +1661,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="주사제\무균공정시트\무균공정시트조회.xaml">
+    <Page Include="주사제\무균공정시트\무균공정시트조회_동결.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="주사제\무균공정시트\무균공정시트조회_액상.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

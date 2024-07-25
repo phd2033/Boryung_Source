@@ -15,16 +15,16 @@ using System.Windows.Data;
 
 namespace 보령
 {
-    [Description("무균공정시트조회")]
-    public partial class 무균공정시트조회 : ShopFloorCustomWindow
+    [Description("무균공정시트조회_액상")]
+    public partial class 무균공정시트조회_액상 : ShopFloorCustomWindow
     {
-        public 무균공정시트조회()
+        public 무균공정시트조회_액상()
         {
             InitializeComponent();
         }
         public override string TableTypeName
         {
-            get { return "TABLE,무균공정시트조회"; }
+            get { return "TABLE,무균공정시트조회_액상"; }
         }
         private void btnCancel_Click(object sender, EventArgs e)
         {
@@ -38,7 +38,7 @@ namespace 보령
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            (this.LayoutRoot.DataContext as 무균공정시트조회ViewModel).ConfirmCommandAsync.Execute(null);
+            (this.LayoutRoot.DataContext as 무균공정시트조회_액상ViewModel).ConfirmCommandAsync.Execute(null);
         }
     }
 }

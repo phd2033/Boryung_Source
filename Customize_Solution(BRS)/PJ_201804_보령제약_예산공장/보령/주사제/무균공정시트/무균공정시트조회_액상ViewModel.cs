@@ -25,15 +25,15 @@ using LGCNS.iPharmMES.Recipe.Common;
 
 namespace 보령
 {
-    public class 무균공정시트조회ViewModel : ViewModelBase
+    public class 무균공정시트조회_액상ViewModel : ViewModelBase
     {
         #region [Property]
-        public 무균공정시트조회ViewModel()
+        public 무균공정시트조회_액상ViewModel()
         {
             _BR_BRS_REG_SVP_ASEPTIC_PROCESS = new BR_BRS_REG_SVP_ASEPTIC_PROCESS();
         }
 
-        무균공정시트조회 _mainWnd;
+        무균공정시트조회_액상 _mainWnd;
 
         DateTime _fromDt;
         public DateTime FromDt
@@ -89,9 +89,9 @@ namespace 보령
                             CommandResults["LoadedCommandAsync"] = false;
                             CommandCanExecutes["LoadedCommandAsync"] = false;
 
-                            if (arg != null && arg is 무균공정시트조회)
+                            if (arg != null && arg is 무균공정시트조회_액상)
                             {
-                                _mainWnd = arg as 무균공정시트조회;
+                                _mainWnd = arg as 무균공정시트조회_액상;
                                 
                             }
 

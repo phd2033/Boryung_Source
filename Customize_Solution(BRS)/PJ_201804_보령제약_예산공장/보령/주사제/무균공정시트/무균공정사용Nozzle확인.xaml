@@ -17,53 +17,48 @@
     xmlns:vsm="clr-namespace:System.Windows;assembly=System.Windows"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:ezmes="clr-namespace:LGCNS.EZMES.ControlsLib;assembly=LGCNS.EZMES.ControlsLib"
-    Width="900" Height="130"
+    Width="900" Height="150"
     Title="무균공정사용Nozzle확인" x:Name="Main">
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
         <local:무균공정사용Nozzle확인ViewModel x:Name="VM"/>
     </ShopFloorUI:ShopFloorCustomWindow.Resources>
     <toolkit:BusyIndicator Name="BusyIndicator" IsBusy="{Binding IsBusy, Mode=TwoWay}" DataContext="{Binding Source={StaticResource VM}}">
+        <!--IsBusy="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged}"-->
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="Loaded">
                 <i:InvokeCommandAction Command="{Binding LoadedCommandAsync}" CommandParameter="{Binding ElementName=Main}" />
             </i:EventTrigger>
         </i:Interaction.Triggers>
-        <Grid x:Name="LayoutRoot" Background="White">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+        <Grid x:Name="LayoutRoot" UseLayoutRounding="False" Background="White" Margin="0,-0.571,0,0.571">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="352*"/>
+                <ColumnDefinition Width="287*"/>
             </Grid.ColumnDefinitions>
-            
-            <TextBox x:Name="NOZZLE" Grid.Row="0" Grid.Column="0" Text="충전노즐 사용" FontSize="14" FontFamily="Malgun Gothic" Background="WhiteSmoke" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" />
-            <TextBox x:Name="Nozzle1" Grid.Row="0" Grid.Column="1" Text="Nozzle 1" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" />
-            <CheckBox x:Name="Nozzle1Check" Grid.Row="0" Grid.Column="2" />
-            <TextBox x:Name="Nozzle2" Grid.Row="0" Grid.Column="3" Text="Nozzle 2" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" />
-            <CheckBox x:Name="Nozzle2Check" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <TextBox x:Name="Nozzle3" Grid.Row="0" Grid.Column="5" Text="Nozzle 3" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" />
-            <CheckBox x:Name="Nozzle3Check" Grid.Row="0" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <TextBox x:Name="Nozzle4" Grid.Row="0" Grid.Column="7" Text="Nozzle 4 " FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" />
-            <CheckBox x:Name="Nozzle4Check" Grid.Row="0" Grid.Column="8" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            
-
-
-            <!--<Border VerticalAlignment="Top" HorizontalAlignment="Center" Grid.ColumnSpan="2" Width="888" Height="50" Background="#FFEBEEEE" Margin="0,48,0,0"/>-->
-            
-                <Button Content="기록" Grid.Row="1" Grid.Column="3" Command="{Binding ConfirmCommandAsync}" />                
-                <Button Content="취소" Grid.Row="1" Grid.Column="5" />
-            
-
-
+            <Grid Grid.Row="0" Grid.ColumnSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="56"/>
+                    <RowDefinition Height="44"/>
+                    <RowDefinition Height="0*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="NOZZLE" Text="충전노즐 사용" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" UseLayoutRounding="False" Background="#FFEBEEEE" Padding="50,15,15,15" BorderBrush="Black" Margin="0,0,712.418,0" CaretBrush="Black" />
+                <TextBox x:Name="Nozzle1" Text="Nozzle 1" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" UseLayoutRounding="False" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="10,15,5,0" BorderBrush="Black" Width="100" Margin="175.582,0,0,0"/>
+                <CheckBox x:Name="Nozzle1Check"  UseLayoutRounding="False" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,19,560,21"/>
+                <TextBox x:Name="Nozzle2" Text="Nozzle 2" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" UseLayoutRounding="False" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="10,15,5,0" VerticalAlignment="Bottom" BorderBrush="Black" Margin="354.746,0,0,0" Width="100" Height="56"/>
+                <CheckBox x:Name="Nozzle2Check"  UseLayoutRounding="False" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="487,19,381,21" RenderTransformOrigin="-6.75,-0.152"/>
+                <TextBox x:Name="Nozzle3" Text="Nozzle 3" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" UseLayoutRounding="False" Height="56" Width="100" HorizontalAlignment="Left" Background="#FFEBEEEE"  Padding="10,15,5,0" BorderBrush="Black" Margin="534,0,0,0"/>
+                <CheckBox x:Name="Nozzle3Check" UseLayoutRounding="False" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="9.15,0.536" Margin="666,19,202,21"/>
+                <TextBox x:Name="Nozzle4" Text="Nozzle 4 " FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" UseLayoutRounding="False" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="10,15,5,0" BorderBrush="Black" Margin="713,0,0,0" Width="100"/>
+                <CheckBox x:Name="Nozzle4Check" UseLayoutRounding="False" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,19,25,21"/>
+            </Grid>
+            <Grid HorizontalAlignment="Center" Grid.ColumnSpan="2" Width="888" Background="#FFEBEEEE" Margin="0,56,0,0">
+                <StackPanel Orientation="Horizontal" Margin="325,6,325,4">
+                    <Button Content="기록" Command="{Binding ConfirmCommandAsync}" Margin="10,5,0,5" Width="60"/>
+                    <Button Content="기록없음" Margin="20,5,0,5" Width="60"/>
+                    <Button Content="취소" Margin="20,5,0,5" Width="60"/>
+                </StackPanel>
+            </Grid>
         </Grid>
     </toolkit:BusyIndicator>
 </ShopFloorUI:ShopFloorCustomWindow>

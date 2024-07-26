@@ -26,5 +26,10 @@ namespace 보령
         {
             get { return "TABLE,무균공정시트조회_동결"; }
         }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = false;
+        }
     }
 }

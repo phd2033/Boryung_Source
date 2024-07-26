@@ -56,7 +56,7 @@
                 <StackPanel Orientation="Horizontal" Margin="325,6,325,4">
                     <Button Content="기록" Command="{Binding ConfirmCommandAsync}" Margin="10,5,0,5" Width="60"/>
                     <Button Content="기록없음" Margin="20,5,0,5" Width="60"/>
-                    <Button Content="취소" Margin="20,5,0,5" Width="60"/>
+                    <Button Content="취소" Margin="20,5,0,5" Width="60" Click="btnCancel_Click"/>
                 </StackPanel>
             </Grid>
         </Grid>

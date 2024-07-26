@@ -59,12 +59,12 @@
                         <ColumnDefinition Width="170"/>
                     </Grid.ColumnDefinitions>
                     <TextBox x:Name="DATE" Grid.Column="0" Grid.Row="0" Text="충전 일자" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" Padding="4" IsReadOnly="True"/>
-                    <TextBox x:Name="DateText" Grid.Column="1" Grid.Row="0" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="2" Margin="0,0,88,0" IsReadOnly="True"/>
+                    <TextBox x:Name="DateText" Grid.Column="1" Grid.Row="0" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="2" Margin="0,0,88,0" IsReadOnly="True" HorizontalAlignment="Right" Width="252"/>
 
                     <TextBox x:Name="UL_DATE" Grid.Column="2" Grid.Row="0" Text="Unloading 일자" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" Grid.ColumnSpan="2" Margin="79,0" IsReadOnly="True"/>
                     <TextBox x:Name="UL_DateText" Grid.Column="3" Grid.Row="0" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="2" Margin="89,0,9,0" IsReadOnly="True"/>
 
-                    <TextBox x:Name="P_HOLD" Grid.Column="0" Grid.Row="1" Text="충전 멸균 물품 Holding Time&#10;(Autoclave)" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" Padding ="10,5,0,0" Background="#FFEBEEEE" IsReadOnly="True"/>
+                    <TextBox x:Name="P_HOLD" Grid.Column="0" Grid.Row="1" Text="충전 멸균 물품 Holding Time&#10;(Autoclave)" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" Padding ="10,5,0,0" Background="#FFEBEEEE" IsReadOnly="True" Height="45" VerticalAlignment="Top"/>
                     <TextBox x:Name="P_HoldTime" Grid.Column="1" Grid.Row="1" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True"/>
                     <TextBox x:Name="P_SumHoldTime" Grid.Column="4" Grid.Row="1" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True" Margin="0,0,9,0"/>
 
@@ -113,7 +113,7 @@
                     <TextBox x:Name="END" Grid.Column="3" Grid.Row="12" Text="측정 종료" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" Padding="8,3,0,0" IsReadOnly="True"/>
                     <TextBox x:Name="ENDText" Grid.Column="4" Grid.Row="12" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True" Margin="0,0,9,0"/>
 
-                    <TextBox x:Name="MONITORING" Grid.Column="0" Grid.Row="13" Text="미생물환경모니터링 (M1~M3)&#10;충전시 낙하균(S) 측정시간" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Padding="10,10,0,0" Background="#FFEBEEEE" Grid.RowSpan="2" IsReadOnly="True"/>
+                    <TextBox x:Name="MONITORING" Grid.Column="0" Grid.Row="13" Text="미생물환경모니터링 (M1~M5)&#10;충전시 낙하균(S) 측정시간" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Padding="10,10,0,0" Background="#FFEBEEEE" Grid.RowSpan="2" IsReadOnly="True"/>
                     <TextBox x:Name="First" Grid.Column="1" Grid.Row="13" Text="1st" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE"  Padding="0,5,0,0" Width="30" HorizontalAlignment="Left" IsReadOnly="True"/>
                     <TextBox x:Name="FirstText" Grid.Column="1" Grid.Row="13" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0" IsReadOnly="True"/>
                     <TextBox x:Name="Second" Grid.Column="2" Grid.Row="13" Text="2nd" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" Padding="0,5,0,0" Width="30" HorizontalAlignment="Left" IsReadOnly="True"/>
@@ -161,10 +161,9 @@
                 </Grid>
             </Border>
             <Grid HorizontalAlignment="Center" Width="888" Background="#FFEBEEEE" Margin="0,526,0,0">
-                <StackPanel Orientation="Horizontal" Margin="270,0">
-                    <Button Content="기록" Command="{Binding ConfirmCommandAsync}" Margin="10,0,0,0" Width="80" Height="35"/>
-                    <Button Content="기록없음" Margin="45,0,0,0" Width="80" Height="35"/>
-                    <Button Content="취소" Margin="45,0,0,0" Width="80" Height="35"/>
+                <StackPanel Orientation="Horizontal" Margin="320,0">
+                    <Button Content="기록" Command="{Binding ConfirmCommandAsync}" Margin="20,0,0,0" Width="80" Height="35"/>
+                    <Button Content="취소" Margin="60,0,0,0" Width="80" Height="35" Click="btnCancel_Click"/>
                 </StackPanel>
             </Grid>
         </Grid>

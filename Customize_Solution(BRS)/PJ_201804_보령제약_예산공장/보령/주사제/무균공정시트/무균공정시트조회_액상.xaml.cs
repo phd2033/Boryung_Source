@@ -30,15 +30,5 @@ namespace 보령
         {
             DialogResult = false;
         }
-
-        private void btnClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = false;
-        }
-
-        private void btnSave_Click(object sender, RoutedEventArgs e)
-        {
-            (this.LayoutRoot.DataContext as 무균공정시트조회_액상ViewModel).ConfirmCommandAsync.Execute(null);
-        }
     }
 }

@@ -30,10 +30,5 @@ namespace 보령
         {
             DialogResult = false;
         }
-
-        private void btnClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = false;
-        }
     }
 }

@@ -185,6 +185,8 @@ namespace 보령
                             {
                                 POID = _mainWnd.CurrentOrder.OrderID,
                                 OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                RECIPEISTGUID = _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
+                                IRTRSTGUID = _mainWnd.CurrentInstruction.Raw.IRTRSTGUID,
                                 GUBUN = _mainWnd.CurrentInstruction.Raw.TARGETVAL,
                                 TARGETVAL = _fromDt.ToString("yyyy-MM-dd HH:mm:ss"),
                                 INSUSER = AuthRepositoryViewModel.Instance.LoginedUserID,

@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace 보령
+namespace LGCNS.iPharmMES.Common
 {
 
     /// <summary>
@@ -119,6 +119,70 @@ namespace 보령
                         this._OPSGGUID = value;
                         this.CheckIsOriginal("OPSGGUID", value);
                         this.OnPropertyChanged("OPSGGUID");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _RECIPEISTGUID;
+            [BizActorInputItemAttribute()]
+            public string RECIPEISTGUID
+            {
+                get
+                {
+                    return this._RECIPEISTGUID;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._RECIPEISTGUID = value;
+                        this.CheckIsOriginal("RECIPEISTGUID", value);
+                        this.OnPropertyChanged("RECIPEISTGUID");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _IRTRSTGUID;
+            [BizActorInputItemAttribute()]
+            public string IRTRSTGUID
+            {
+                get
+                {
+                    return this._IRTRSTGUID;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._IRTRSTGUID = value;
+                        this.CheckIsOriginal("IRTRSTGUID", value);
+                        this.OnPropertyChanged("IRTRSTGUID");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())

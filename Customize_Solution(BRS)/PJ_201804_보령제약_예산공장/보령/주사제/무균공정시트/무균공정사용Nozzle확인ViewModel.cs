@@ -270,6 +270,10 @@ namespace 보령
             {
                 POID = _mainWnd.CurrentOrder.OrderID,
                 OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                RECIPEISTGUID = _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
+                ACTIVITYID = _mainWnd.CurrentInstruction.Raw.ACTIVITYID,
+                IRTGUID = _mainWnd.CurrentInstruction.Raw.IRTGUID,
+                IRTSEQ = _mainWnd.CurrentInstruction.Raw.IRTSEQ,
                 GUBUN = gubun,
                 TARGETVAL = Nozzle1Check.ToString(),
                 INSUSER = AuthRepositoryViewModel.Instance.LoginedUserID,

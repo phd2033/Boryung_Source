@@ -29,7 +29,7 @@
             </i:EventTrigger>
         </i:Interaction.Triggers>
         <Grid x:Name="LayoutRoot" UseLayoutRounding="False">
-            <Border x:Name="PrintArea1"  Grid.Row="0" BorderBrush="#FFD6D4D4" BorderThickness="3" Margin="0,0,0,54">
+            <Border x:Name="PrintArea"  Grid.Row="0" BorderBrush="#FFD6D4D4" BorderThickness="3" Margin="0,0,0,60">
                 <Grid Grid.Row="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="27"/>
@@ -48,95 +48,95 @@
                         <RowDefinition Height="27"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="180"/>
-                        <ColumnDefinition Width="177"/>
-                        <ColumnDefinition Width="177"/>
-                        <ColumnDefinition Width="177"/>
-                        <ColumnDefinition Width="177"/>
+                        <ColumnDefinition Width="214"/>
+                        <ColumnDefinition Width="168"/>
+                        <ColumnDefinition Width="168"/>
+                        <ColumnDefinition Width="168"/>
+                        <ColumnDefinition Width="168"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox x:Name="DATE" Grid.Column="0" Grid.Row="0" Text="충전 일자" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" Padding="4"/>
-                    <TextBox x:Name="DateText" Grid.Column="1" Grid.Row="0" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="4" Margin="0,0,6,0"/>
+                    <TextBox x:Name="DATE" Grid.Column="0" Grid.Row="0" Text="충전 일자" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" Padding="4" IsReadOnly="True"/>
+                    <TextBox x:Name="DateText" Grid.Column="1" Grid.Row="0" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="4" Margin="0,0,6,0" IsReadOnly="True"/>
 
-                    <TextBox x:Name="P_HOLD" Grid.Column="0" Grid.Row="1" Text="충전 멸균 물품 Holding Time&#10;(Autoclave)" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Padding="10,11,15,15" Background="#FFEBEEEE"/>
-                    <TextBox x:Name="P_HoldTime" Grid.Column="1" Grid.Row="1" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3"/>
-                    <TextBox x:Name="P_SumHoldTime" Grid.Column="4" Grid.Row="1" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center"/>
+                    <TextBox x:Name="P_HOLD" Grid.Column="0" Grid.Row="1" Text="충전 멸균 물품 Holding Time&#10;(Autoclave)" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Padding ="10,8,0,0" Background="#FFEBEEEE" IsReadOnly="True"/>
+                    <TextBox x:Name="P_HoldTime" Grid.Column="1" Grid.Row="1" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True"/>
+                    <TextBox x:Name="P_SumHoldTime" Grid.Column="4" Grid.Row="1" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True"/>
 
-                    <TextBox x:Name="I_HOLD" Grid.Column="0" Grid.Row="2" Text="Isolator 훈증 Holding Time" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Background="#FFEBEEEE" Padding="10,5,0,0"/>
-                    <TextBox x:Name="I_HoldTime" Grid.Column="1" Grid.Row="2" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3"/>
-                    <TextBox x:Name="I_SumHoldTime" Grid.Column="4" Grid.Row="2" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center"/>
+                    <TextBox x:Name="I_HOLD" Grid.Column="0" Grid.Row="2" Text="Isolator 훈증 Holding Time" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Background="#FFEBEEEE" Padding="10,2,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="I_HoldTime" Grid.Column="1" Grid.Row="2" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True"/>
+                    <TextBox x:Name="I_SumHoldTime" Grid.Column="4" Grid.Row="2" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True"/>
 
+                    <TextBox x:Name="SET" Grid.Column="0" Grid.Row="3" Text="세팅 작업시간" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Padding="5,15,0,0" Background="#FFEBEEEE" Margin="0,0,124,0" Grid.RowSpan="2" IsReadOnly="True"/>
+                    <TextBox x:Name="SET_STRT" Grid.Column="0" Grid.Row="3" Text="셋팅 시작" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" Margin="90,0,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="SET_STRTTIME" Grid.Column="1" Grid.Row="3" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True"/>
+                    <TextBox x:Name="SET_SUMSTRTIME" Grid.Column="4" Grid.Row="3" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True"/>
 
-                    <TextBox x:Name="SET" Grid.Column="0" Grid.Row="3" Text="세팅 작업시간" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Padding="10,20,0,0" Background="#FFEBEEEE" Margin="0,0,90,0" Grid.RowSpan="2"/>
-                    <TextBox x:Name="SET_STRT" Grid.Column="0" Grid.Row="3" Text="셋팅 시작" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" Padding="4,5,0,0" Margin="90,0,0,0"/>
-                    <TextBox x:Name="SET_STRTTIME" Grid.Column="1" Grid.Row="3" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3"/>
-                    <TextBox x:Name="SET_SUMSTRTIME" Grid.Column="4" Grid.Row="3" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center"/>
+                    <TextBox x:Name="SET_END" Grid.Column="0" Grid.Row="4" Text="셋팅 종료" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" Margin="90,0,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="SET_ENDTIME" Grid.Column="1" Grid.Row="4" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True"/>
+                    <TextBox x:Name="SET_SUMENDTIME" Grid.Column="4" Grid.Row="4" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True"/>
 
-                    <TextBox x:Name="SET_END" Grid.Column="0" Grid.Row="4" Text="셋팅 종료" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" Padding="4,5,0,0" Margin="90,0,0,0" />
-                    <TextBox x:Name="SET_ENDTIME" Grid.Column="1" Grid.Row="4" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" />
-                    <TextBox x:Name="SET_SUMENDTIME" Grid.Column="4" Grid.Row="4" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center"/>
+                    <TextBox x:Name="STABLE" Grid.Column="0" Grid.Row="5" Text="안정화" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Background="#FFEBEEEE" Padding="10,3,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="STABLETIME" Grid.Column="1" Grid.Row="5" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True"/>
+                    <TextBox x:Name="SUMSTABLETIME" Grid.Column="4" Grid.Row="5" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True"/>
 
-                    <TextBox x:Name="STABLE" Grid.Column="0" Grid.Row="5" Text="안정화" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Background="#FFEBEEEE" Padding="10,5,0,0"/>
-                    <TextBox x:Name="STABLETIME" Grid.Column="1" Grid.Row="5" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3"/>
-                    <TextBox x:Name="SUMSTABLETIME" Grid.Column="4" Grid.Row="5" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center"/>
+                    <TextBox x:Name="Fill" Grid.Column="0" Grid.Row="6" Text="충전시간" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Background="#FFEBEEEE" Padding="10,3,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="FillTIME" Grid.Column="1" Grid.Row="6" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True"/>
+                    <TextBox x:Name="SUMFILLTIME" Grid.Column="4" Grid.Row="6" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True"/>
 
-                    <TextBox x:Name="Fill" Grid.Column="0" Grid.Row="6" Text="충전시간" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Background="#FFEBEEEE" Padding="10,5,0,0"/>
-                    <TextBox x:Name="FillTIME" Grid.Column="1" Grid.Row="6" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3"/>
-                    <TextBox x:Name="SUMFILLTIME" Grid.Column="4" Grid.Row="6" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center"/>
+                    <TextBox x:Name="ASEPTIC" Grid.Column="0" Grid.Row="7" Text="무균 공정 시간" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Background="#FFEBEEEE" Padding="10,3,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="ASEPTICTIME" Grid.Column="1" Grid.Row="7" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True"/>
+                    <TextBox x:Name="SUMASEPTICTIME" Grid.Column="4" Grid.Row="7" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True"/>
 
-                    <TextBox x:Name="ASEPTIC" Grid.Column="0" Grid.Row="7" Text="무균 공정 시간" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Background="#FFEBEEEE" Padding="10,5,0,0"/>
-                    <TextBox x:Name="ASEPTICTIME" Grid.Column="1" Grid.Row="7" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3"/>
-                    <TextBox x:Name="SUMASEPTICTIME" Grid.Column="4" Grid.Row="7" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center"/>
+                    <TextBox x:Name="USER" Grid.Column="0" Grid.Row="8" Text="무균 공정에 참여한 모든 작업자" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Background="#FFEBEEEE" Padding="10,3,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="USERLIST" Grid.Column="1" Grid.Row="8" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="0,0.001,0,-0.001" UseLayoutRounding="False" Grid.ColumnSpan="4" IsReadOnly="True"/>
 
-                    <TextBox x:Name="USER" Grid.Column="0" Grid.Row="8" Text="무균 공정에 참여한 모든 작업자" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Background="#FFEBEEEE" Padding="10,5,0,0"/>
-                    <TextBox x:Name="USERLIST" Grid.Column="1" Grid.Row="8" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="0,0.001,0,-0.001" UseLayoutRounding="False" Grid.ColumnSpan="4"/>
+                    <TextBox x:Name="PARTICLE" Grid.Column="0" Grid.Row="9" Text="실시간 파티클 모니터링 측정시간" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Background="#FFEBEEEE" Padding="10,3,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="STRT" Grid.Column="1" Grid.Row="9" Text="측정 시작" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" Padding="10,3,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="STRTText" Grid.Column="2" Grid.Row="9" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True"/>
+                    <TextBox x:Name="END" Grid.Column="3" Grid.Row="9" Text="측정 종료" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" Padding="10,3,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="ENDText" Grid.Column="4" Grid.Row="9" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True"/>
 
-                    <TextBox x:Name="PARTICLE" Grid.Column="0" Grid.Row="9" Text="실시간 파티클 모니터링 측정시간" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Background="#FFEBEEEE" Padding="10,5,0,0"/>
-                    <TextBox x:Name="STRT" Grid.Column="1" Grid.Row="9" Text="측정 시작" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" Padding="10,5,0,0"/>
-                    <TextBox x:Name="STRTText" Grid.Column="2" Grid.Row="9" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center"/>
-                    <TextBox x:Name="END" Grid.Column="3" Grid.Row="9" Text="측정 종료" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" Padding="10,5,0,0"/>
-                    <TextBox x:Name="ENDText" Grid.Column="4" Grid.Row="9" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center"/>
+                    <TextBox x:Name="MONITORING" Grid.Column="0" Grid.Row="10" Text="미생물환경모니터링 (M1~M3)&#10;충전시 낙하균(S) 측정시간" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Padding="10,10,0,0" Background="#FFEBEEEE" Grid.RowSpan="2" IsReadOnly="True"/>
+                    <TextBox x:Name="First" Grid.Column="1" Grid.Row="10" Text="1st" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE"  Padding="0,5,0,0" Width="30" HorizontalAlignment="Left" IsReadOnly="True"/>
+                    <TextBox x:Name="FirstText" Grid.Column="1" Grid.Row="10" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="Second" Grid.Column="2" Grid.Row="10" Text="2nd" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" Padding="0,5,0,0" Width="30" HorizontalAlignment="Left" IsReadOnly="True"/>
+                    <TextBox x:Name="SecondText" Grid.Column="2" Grid.Row="10" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="Third" Grid.Column="3" Grid.Row="10" Text="3rd" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Width="30" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="0,5,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="ThirdText" Grid.Column="3" Grid.Row="10" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="Fourth" Grid.Column="4" Grid.Row="10" Text="4th" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Width="30" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="0,5,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="FourthText" Grid.Column="4" Grid.Row="10" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="Fifth" Grid.Column="1" Grid.Row="11" Text="5th" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Width="30" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="0,5,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="FifthText" Grid.Column="1" Grid.Row="11" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="Sixth" Grid.Column="2" Grid.Row="11" Text="6th" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE"  Padding="0,5,0,0" Margin="0,0,138,0" IsReadOnly="True"/>
+                    <TextBox x:Name="SixthText" Grid.Column="2" Grid.Row="11" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="Seventh" Grid.Column="3" Grid.Row="11" Text="7th" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Width="30" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="0,5,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="SeventhText" Grid.Column="3" Grid.Row="11" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="Eighth" Grid.Column="4" Grid.Row="11" Text="8th" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Width="30" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="0,5,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="EighthText" Grid.Column="4" Grid.Row="11" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0" IsReadOnly="True"/>
 
-                    <TextBox x:Name="MONITORING" Grid.Column="0" Grid.Row="10" Text="미생물환경모니터링 (M1~M3)&#10;충전시 낙하균(S) 측정시간" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Padding="10,15,0,0" Background="#FFEBEEEE" Grid.RowSpan="2"/>
-                    <TextBox x:Name="First" Grid.Column="1" Grid.Row="10" Text="1st" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE"  Padding="0,5,0,0" Width="30" HorizontalAlignment="Left"/>
-                    <TextBox x:Name="FirstText" Grid.Column="1" Grid.Row="10" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0"/>
-                    <TextBox x:Name="Second" Grid.Column="2" Grid.Row="10" Text="2nd" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" Padding="0,5,0,0" Width="30" HorizontalAlignment="Left"/>
-                    <TextBox x:Name="SecondText" Grid.Column="2" Grid.Row="10" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0"/>
-                    <TextBox x:Name="Third" Grid.Column="3" Grid.Row="10" Text="3rd" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Width="30" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="0,5,0,0"/>
-                    <TextBox x:Name="ThirdText" Grid.Column="3" Grid.Row="10" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0"/>
-                    <TextBox x:Name="Fourth" Grid.Column="4" Grid.Row="10" Text="4th" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Width="30" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="0,5,0,0"/>
-                    <TextBox x:Name="FourthText" Grid.Column="4" Grid.Row="10" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0"/>
-                    <TextBox x:Name="Fifth" Grid.Column="1" Grid.Row="11" Text="5th" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Width="30" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="0,5,0,0"/>
-                    <TextBox x:Name="FifthText" Grid.Column="1" Grid.Row="11" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0"/>
-                    <TextBox x:Name="Sixth" Grid.Column="2" Grid.Row="11" Text="6th" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE"  Padding="0,5,0,0" Margin="0,0,147,0"/>
-                    <TextBox x:Name="SixthText" Grid.Column="2" Grid.Row="11" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0"/>
-                    <TextBox x:Name="Seventh" Grid.Column="3" Grid.Row="11" Text="7th" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Width="30" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="0,5,0,0"/>
-                    <TextBox x:Name="SeventhText" Grid.Column="3" Grid.Row="11" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0"/>
-                    <TextBox x:Name="Eighth" Grid.Column="4" Grid.Row="11" Text="8th" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Width="30" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="0,5,0,0"/>
-                    <TextBox x:Name="EighthText" Grid.Column="4" Grid.Row="11" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0"/>
+                    <TextBox x:Name="VOLUMETRICAIR" Grid.Column="0" Grid.Row="12" Text="미생물 환경 모니터링 부유균(A) 측정시간" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Background="#FFEBEEEE" Padding="10,3,0,0" Grid.ColumnSpan="2" IsReadOnly="True"/>
+                    <TextBox x:Name="A1" Grid.Column="2" Grid.Row="12" Text="A1" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" HorizontalAlignment="Left" Width="30" Padding="0,5,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="A1Text" Grid.Column="2" Grid.Row="12" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="A2" Grid.Column="3" Grid.Row="12" Text="A2" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Width="30" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="0,5,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="A2Text" Grid.Column="3" Grid.Row="12" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="A3" Grid.Column="4" Grid.Row="12" Text="A3" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Width="30" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="0,5,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="A3Text" Grid.Column="4" Grid.Row="12" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0" IsReadOnly="True"/>
 
-                    <TextBox x:Name="VOLUMETRICAIR" Grid.Column="0" Grid.Row="12" Text="미생물 환경 모니터링 부유균(A) 측정시간" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Background="#FFEBEEEE" Padding="10,5,0,0" Grid.ColumnSpan="2"/>
-                    <TextBox x:Name="A1" Grid.Column="2" Grid.Row="12" Text="A1" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" HorizontalAlignment="Left" Width="30" Padding="0,5,0,0"/>
-                    <TextBox x:Name="A1Text" Grid.Column="2" Grid.Row="12" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0"/>
-                    <TextBox x:Name="A2" Grid.Column="3" Grid.Row="12" Text="A2" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Width="30" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="0,5,0,0"/>
-                    <TextBox x:Name="A2Text" Grid.Column="3" Grid.Row="12" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0"/>
-                    <TextBox x:Name="A3" Grid.Column="4" Grid.Row="12" Text="A3" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Width="30" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="0,5,0,0"/>
-                    <TextBox x:Name="A3Text" Grid.Column="4" Grid.Row="12" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0"/>
-
-                    <TextBox x:Name="NOZZLE" Grid.Column="0" Grid.Row="13" Text="충전노즐 사용" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Background="#FFEBEEEE" Padding="5,5,0,0"/>
-                    <TextBox x:Name="Nozzle1" Grid.Column="1" Grid.Row="13" Text="Nozzle 1" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Width="88.5" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="10,6,5,0"/>
-                    <CheckBox x:Name="Nozzle1Check" Grid.Column="1" Grid.Row="13" Margin="127,7,36,3"/>
-                    <TextBox x:Name="Nozzle2" Grid.Column="2" Grid.Row="13" Text="Nozzle 2" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Width="88.5" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="10,6,5,0"/>
-                    <CheckBox x:Name="Nozzle2Check" Grid.Column="2" Grid.Row="13" Margin="127,7,36,3"/>
-                    <TextBox x:Name="Nozzle3" Grid.Column="3" Grid.Row="13" Text="Nozzle 3" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Height="27" Width="88.5" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="10,7,5,0"/>
-                    <CheckBox x:Name="Nozzle3Check" Grid.Column="3" Grid.Row="13" Margin="127,7,36,3"/>
-                    <TextBox x:Name="Nozzle4" Grid.Column="4" Grid.Row="13" Text="Nozzle 4 " FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Height="27" Width="88.5" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="10,5,5,0"/>
-                    <CheckBox x:Name="Nozzle4Check" Grid.Column="4" Grid.Row="13" Margin="124,7,39,0" Height="17" VerticalAlignment="Top"/>
+                    <TextBox x:Name="NOZZLE" Grid.Column="0" Grid.Row="13" Text="충전노즐 사용" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Background="#FFEBEEEE" Padding="10,3,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name="Nozzle1" Grid.Column="1" Grid.Row="13" Text="Nozzle 1" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Width="88.5" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="10,3,5,0" IsReadOnly="True"/>
+                    <CheckBox x:Name="Nozzle1Check" Grid.Column="1" Grid.Row="13" Margin="120,6,28,4" IsEnabled="False"/>
+                    <TextBox x:Name="Nozzle2" Grid.Column="2" Grid.Row="13" Text="Nozzle 2" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Width="88.5" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="10,3,5,0" IsReadOnly="True"/>
+                    <CheckBox x:Name="Nozzle2Check" Grid.Column="2" Grid.Row="13" Margin="120,6,28,4" IsEnabled="False"/>
+                    <TextBox x:Name="Nozzle3" Grid.Column="3" Grid.Row="13" Text="Nozzle 3" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Height="27" Width="88.5" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="10,3,5,0" IsReadOnly="True"/>
+                    <CheckBox x:Name="Nozzle3Check" Grid.Column="3" Grid.Row="13" Margin="120,6,28,4" IsEnabled="False"/>
+                    <TextBox x:Name="Nozzle4" Grid.Column="4" Grid.Row="13" Text="Nozzle 4 " FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Height="27" Width="88.5" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="10,3,5,0" IsReadOnly="True"/>
+                    <CheckBox x:Name="Nozzle4Check" Grid.Column="4" Grid.Row="13" Margin="120,6,28,4" IsEnabled="False"/>
                 </Grid>
             </Border>
-            <Grid HorizontalAlignment="Center" Width="888" Background="#FFEBEEEE" Margin="-3,408,-3,0">
-                <StackPanel Orientation="Horizontal" Margin="325,6,325,4">
+            <Grid HorizontalAlignment="Center" Width="888" Background="#FFEBEEEE" Margin="0,408,0,0">
+                <StackPanel Orientation="Horizontal" Margin="270,6,270,4">
                     <Button Content="기록" Command="{Binding ConfirmCommandAsync}" Margin="15,4,0,4" Width="90"/>
-                    <Button Content="취소" Margin="30,4,0,4" Width="90"/>
+                    <Button Content="기록없음" Margin="25,4,0,4" Width="90"/>
+                    <Button Content="취소" Margin="25,4,0,4" Width="90"/>
                 </StackPanel>
             </Grid>
         </Grid>

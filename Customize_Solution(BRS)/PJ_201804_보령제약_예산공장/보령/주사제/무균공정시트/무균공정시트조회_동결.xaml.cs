@@ -26,6 +26,5 @@ namespace 보령
         {
             get { return "TABLE,무균공정시트조회_동결"; }
         }
-
     }
 }

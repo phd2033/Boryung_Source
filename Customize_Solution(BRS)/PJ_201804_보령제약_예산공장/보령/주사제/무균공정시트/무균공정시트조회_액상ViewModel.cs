@@ -30,7 +30,7 @@ namespace 보령
         #region [Property]
         public 무균공정시트조회_액상ViewModel()
         {
-            _BR_BRS_REG_SVP_ASEPTIC_PROCESS = new BR_BRS_REG_SVP_ASEPTIC_PROCESS();
+            _BR_BRS_SEL_SVP_ASEPTIC_PROCESS = new BR_BRS_SEL_SVP_ASEPTIC_PROCESS();
         }
 
         무균공정시트조회_액상 _mainWnd;
@@ -45,31 +45,582 @@ namespace 보령
                 NotifyPropertyChanged();
             }
         }
-
-        private string _TargetVal;
-        public string TargetVal
+        /// <summary>
+        /// 충전노즐사용1
+        /// </summary>
+        private bool _Nozzle1Check;
+        public bool Nozzle1Check
         {
-            get { return _TargetVal; }
+            get { return _Nozzle1Check; }
             set
             {
-                _TargetVal = value;
-                OnPropertyChanged("TargetVal");
+                _Nozzle1Check = value;
+                OnPropertyChanged("Nozzle1Check");
+            }
+        }
+        /// <summary>
+        /// 충전노즐사용2
+        /// </summary>
+        private bool _Nozzle2Check;
+        public bool Nozzle2Check
+        {
+            get { return _Nozzle2Check; }
+            set
+            {
+                _Nozzle2Check = value;
+                OnPropertyChanged("Nozzle2Check");
+            }
+        }
+        /// <summary>
+        /// 충전노즐사용3
+        /// </summary>
+        private bool _Nozzle3Check;
+        public bool Nozzle3Check
+        {
+            get { return _Nozzle3Check; }
+            set
+            {
+                _Nozzle3Check = value;
+                OnPropertyChanged("Nozzle3Check");
+            }
+        }
+        /// <summary>
+        /// 충전노즐사용4
+        /// </summary>
+        private bool _Nozzle4Check;
+        public bool Nozzle4Check
+        {
+            get { return _Nozzle4Check; }
+            set
+            {
+                _Nozzle4Check = value;
+                OnPropertyChanged("Nozzle4Check");
             }
         }
 
-        private BR_BRS_REG_SVP_ASEPTIC_PROCESS _BR_BRS_REG_SVP_ASEPTIC_PROCESS;
-        public BR_BRS_REG_SVP_ASEPTIC_PROCESS BR_BRS_REG_SVP_ASEPTIC_PROCESS
+        /// <summary>
+        /// 충전시간
+        /// </summary>
+        private string _ChargDttm;
+        public string ChargDttm
         {
-            get { return _BR_BRS_REG_SVP_ASEPTIC_PROCESS; }
+            get { return _ChargDttm; }
             set
             {
-                _BR_BRS_REG_SVP_ASEPTIC_PROCESS = value;
-                NotifyPropertyChanged();
+                _ChargDttm = value;
+                OnPropertyChanged("ChargDttm");
             }
         }
+        /// <summary>
+        /// 언로딩시간
+        /// </summary>
+        private string _UnloadingDttm;
+        public string UnloadingDttm
+        {
+            get { return _UnloadingDttm; }
+            set
+            {
+                _UnloadingDttm = value;
+                OnPropertyChanged("UnloadingDttm");
+            }
+        }
+        /// <summary>
+        /// 충전 멸균 물품 Holding Time(Autoclave) 시간
+        /// </summary>
+        private string _AutoClaveHoldTime;
+        public string AutoClaveHoldTime
+        {
+            get { return _AutoClaveHoldTime; }
+            set
+            {
+                _AutoClaveHoldTime = value;
+                OnPropertyChanged("AutoClaveHoldTime");
+            }
+        }
+        /// <summary>
+        /// 충전 멸균 물품 Holding Time(Autoclave) 시간 합계
+        /// </summary>
+        private string _SumAutoClaveHoldTime;
+        public string SumAutoClaveHoldTime
+        {
+            get { return _SumAutoClaveHoldTime; }
+            set
+            {
+                _SumAutoClaveHoldTime = value;
+                OnPropertyChanged("SumAutoClaveHoldTime");
+            }
+        }
+        /// <summary>
+        /// Isolator 훈증 Holding Time
+        /// </summary>
+        private string _IsolatorHoldTime;
+        public string IsolatorHoldTime
+        {
+            get { return _IsolatorHoldTime; }
+            set
+            {
+                _IsolatorHoldTime = value;
+                OnPropertyChanged("IsolatorHoldTime");
+            }
+        }
+        /// <summary>
+        /// Isolator 훈증 Holding Time 합계
+        /// </summary>
+        private string _SumIsolatorHoldTime;
+        public string SumIsolatorHoldTime
+        {
+            get { return _SumIsolatorHoldTime; }
+            set
+            {
+                _SumIsolatorHoldTime = value;
+                OnPropertyChanged("SumIsolatorHoldTime");
+            }
+        }
+        /// <summary>
+        /// 세팅작업시간 - 시작시간
+        /// </summary>
+        private string _SetStartTime;
+        public string SetStartTime
+        {
+            get { return _SetStartTime; }
+            set
+            {
+                _SetStartTime = value;
+                OnPropertyChanged("SetStartTime");
+            }
+        }
+        /// <summary>
+        /// 세팅작업시간 - 종료시간
+        /// </summary>
+        private string _SetEndTime;
+        public string SetEndTime
+        {
+            get { return _SetEndTime; }
+            set
+            {
+                _SetEndTime = value;
+                OnPropertyChanged("SetEndTime");
+            }
+        }
+        /// <summary>
+        /// 세팅작업시간 - 합계
+        /// </summary>
+        private string _SumSetTime;
+        public string SumSetTime
+        {
+            get { return _SumSetTime; }
+            set
+            {
+                _SumSetTime = value;
+                OnPropertyChanged("SumSetTime");
+            }
+        }
+        /// <summary>
+        /// 안정화 시간
+        /// </summary>
+        private string _StableTime;
+        public string StableTime
+        {
+            get { return _StableTime; }
+            set
+            {
+                _StableTime = value;
+                OnPropertyChanged("StableTime");
+            }
+        }
+        /// <summary>
+        /// 안정화시간 합계 (min으로 계산 필요)
+        /// </summary>
+        private string _SumStableTime;
+        public string SumStableTime
+        {
+            get { return _SumStableTime; }
+            set
+            {
+                _SumStableTime = value;
+                OnPropertyChanged("SumStableTime");
+            }
+        }
+        /// <summary>
+        /// 충전시간
+        /// </summary>
+        private string _FillTIME;
+        public string FillTIME
+        {
+            get { return _FillTIME; }
+            set
+            {
+                _FillTIME = value;
+                OnPropertyChanged("FillTIME");
+            }
+        }
+        /// <summary>
+        /// 충전시간 - 합계
+        /// </summary>
+        private string _SumFillTIME;
+        public string SumFillTIME
+        {
+            get { return _SumFillTIME; }
+            set
+            {
+                _SumFillTIME = value;
+                OnPropertyChanged("SumFillTIME");
+            }
+        }
+        /// <summary>
+        /// 무균공정시간
+        /// </summary>
+        private string _AsepticTime;
+        public string AsepticTime
+        {
+            get { return _AsepticTime; }
+            set
+            {
+                _AsepticTime = value;
+                OnPropertyChanged("AsepticTime");
+            }
+        }
+        /// <summary>
+        /// 무균공정시간 - 합계
+        /// </summary>
+        private string _SumAsepticTime;
+        public string SumAsepticTime
+        {
+            get { return _SumAsepticTime; }
+            set
+            {
+                _SumAsepticTime = value;
+                OnPropertyChanged("SumAsepticTime");
+            }
+        }
+        /// <summary>
+        /// 동결건조 SIP Holding Time
+        /// </summary>
+        private string _DryHoldTime;
+        public string DryHoldTime
+        {
+            get { return _DryHoldTime; }
+            set
+            {
+                _DryHoldTime = value;
+                OnPropertyChanged("DryHoldTime");
+            }
+        }
+        /// <summary>
+        /// 동결건조 SIP Holding Time - 합계
+        /// </summary>
+        private string _SumDryHoldTime;
+        public string SumDryHoldTime
+        {
+            get { return _SumDryHoldTime; }
+            set
+            {
+                _SumDryHoldTime = value;
+                OnPropertyChanged("SumDryHoldTime");
+            }
+        }
+        /// <summary>
+        /// 동결건조 시간
+        /// </summary>
+        private string _FreezeTime;
+        public string FreezeTime
+        {
+            get { return _FreezeTime; }
+            set
+            {
+                _FreezeTime = value;
+                OnPropertyChanged("FreezeTime");
+            }
+        }
+        /// <summary>
+        /// 동결건조 시간 - 합계
+        /// </summary>
+        private string _SumFreezeTime;
+        public string SumFreezeTime
+        {
+            get { return _SumFreezeTime; }
+            set
+            {
+                _SumFreezeTime = value;
+                OnPropertyChanged("SumFreezeTime");
+            }
+        }
+        /// <summary>
+        /// 밀전 후 Holding Time
+        /// </summary>
+        private string _BlockTime;
+        public string BlockTime
+        {
+            get { return _BlockTime; }
+            set
+            {
+                _BlockTime = value;
+                OnPropertyChanged("BlockTime");
+            }
+        }
+        /// <summary>
+        /// 밀전 후 Holding Time - 합계
+        /// </summary>
+        private string _SumBlockTime;
+        public string SumBlockTime
+        {
+            get { return _SumBlockTime; }
+            set
+            {
+                _SumBlockTime = value;
+                OnPropertyChanged("SumBlockTime");
+            }
+        }
+        /// <summary>
+        /// 무균 공정에 참여한 모든 작업자
+        /// </summary>
+        private string _WorkUserId;
+        public string WorkUserId
+        {
+            get { return _WorkUserId; }
+            set
+            {
+                _WorkUserId = value;
+                OnPropertyChanged("WorkUserId");
+            }
+        }
+        /// <summary>
+        /// 실시간 파티클 모니터링 측정시간 - 측정 시작
+        /// </summary>
+        private string _PMSStartDttm;
+        public string PMSStartDttm
+        {
+            get { return _PMSStartDttm; }
+            set
+            {
+                _PMSStartDttm = value;
+                OnPropertyChanged("PMSStartDttm");
+            }
+        }
+        /// <summary>
+        /// 실시간 파티클 모니터링 측정시간 - 측정 종료
+        /// </summary>
+        private string _PMSEndDttm;
+        public string PMSEndDttm
+        {
+            get { return _PMSEndDttm; }
+            set
+            {
+                _PMSEndDttm = value;
+                OnPropertyChanged("PMSEndDttm");
+            }
+        }
+        /// <summary>
+        /// 미생물환경모니터링 (M1~M5)&#10;충전시 낙하균(S) 측정시간 1번째
+        /// </summary>
+        private string _DropGermsFirst;
+        public string DropGermsFirst
+        {
+            get { return _DropGermsFirst; }
+            set
+            {
+                _DropGermsFirst = value;
+                OnPropertyChanged("DropGermsFirst");
+            }
+        }
+        /// <summary>
+        /// 미생물환경모니터링 (M1~M5)&#10;충전시 낙하균(S) 측정시간 2번째
+        /// </summary>
+        private string _DropGermsSecond;
+        public string DropGermsSecond
+        {
+            get { return _DropGermsSecond; }
+            set
+            {
+                _DropGermsSecond = value;
+                OnPropertyChanged("DropGermsSecond");
+            }
+        }
+        /// <summary>
+        /// 미생물환경모니터링 (M1~M5)&#10;충전시 낙하균(S) 측정시간 3번째
+        /// </summary>
+        private string _DropGermsThird;
+        public string DropGermsThird
+        {
+            get { return _DropGermsThird; }
+            set
+            {
+                _DropGermsThird = value;
+                OnPropertyChanged("DropGermsThird");
+            }
+        }
+        /// <summary>
+        /// 미생물환경모니터링 (M1~M5)&#10;충전시 낙하균(S) 측정시간 4번째
+        /// </summary>
+        private string _DropGermsFourth;
+        public string DropGermsFourth
+        {
+            get { return _DropGermsFourth; }
+            set
+            {
+                _DropGermsFourth = value;
+                OnPropertyChanged("DropGermsFourth");
+            }
+        }
+        /// <summary>
+        /// 미생물환경모니터링 (M1~M5)&#10;충전시 낙하균(S) 측정시간 6번째
+        /// </summary>
+        private string _DropGermsFifth;
+        public string DropGermsFifth
+        {
+            get { return _DropGermsFifth; }
+            set
+            {
+                _DropGermsFifth = value;
+                OnPropertyChanged("DropGermsFifth");
+            }
+        }
+        /// <summary>
+        /// 미생물환경모니터링 (M1~M5)&#10;충전시 낙하균(S) 측정시간 6번째
+        /// </summary>
+        private string _DropGermsSixth;
+        public string DropGermsSixth
+        {
+            get { return _DropGermsSixth; }
+            set
+            {
+                _DropGermsSixth = value;
+                OnPropertyChanged("DropGermsSixth");
+            }
+        }
+
+        /// <summary>
+        /// 미생물환경모니터링 (M1~M5)&#10;충전시 낙하균(S) 측정시간 7번째
+        /// </summary>
+        private string _DropGermsSeventh;
+        public string DropGermsSeventh
+        {
+            get { return _DropGermsSeventh; }
+            set
+            {
+                _DropGermsSeventh = value;
+                OnPropertyChanged("DropGermsSeventh");
+            }
+        }
+        /// <summary>
+        /// 미생물환경모니터링 (M1~M5)&#10;충전시 낙하균(S) 측정시간 8번째
+        /// </summary>
+        private string _DropGermsEighth;
+        public string DropGermsEighth
+        {
+            get { return _DropGermsEighth; }
+            set
+            {
+                _DropGermsEighth = value;
+                OnPropertyChanged("DropGermsEighth");
+            }
+        }
+        /// <summary>
+        /// 미생물 환경 모니터링 부유균(A) 측정시간 1번째
+        /// </summary>
+        private string _microbeA1;
+        public string microbeA1
+        {
+            get { return _microbeA1; }
+            set
+            {
+                _microbeA1 = value;
+                OnPropertyChanged("microbeA1");
+            }
+        }
+        /// <summary>
+        /// 미생물 환경 모니터링 부유균(A) 측정시간 2번째
+        /// </summary>
+        private string _microbeA2;
+        public string microbeA2
+        {
+            get { return _microbeA2; }
+            set
+            {
+                _microbeA2 = value;
+                OnPropertyChanged("microbeA2");
+            }
+        }
+        /// <summary>
+        /// 미생물 환경 모니터링 부유균(A) 측정시간 3번째
+        /// </summary>
+        private string _microbeA3;
+        public string microbeA3
+        {
+            get { return _microbeA3; }
+            set
+            {
+                _microbeA3 = value;
+                OnPropertyChanged("microbeA3");
+            }
+        }
+        /// <summary>
+        /// 미생물 환경 모니터링 (M4,M5)&#10;언로딩시 낙하균(S) 측정시간 1번째
+        /// </summary>
+        private string _MicrobeUnloadingFirst;
+        public string MicrobeUnloadingFirst
+        {
+            get { return _MicrobeUnloadingFirst; }
+            set
+            {
+                _MicrobeUnloadingFirst = value;
+                OnPropertyChanged("MicrobeUnloadingFirst");
+            }
+        }
+        /// <summary>
+        /// 미생물 환경 모니터링 (M4,M5)&#10;언로딩시 낙하균(S) 측정시간 2번째
+        /// </summary>
+        private string _MicrobeUnloadingSecond;
+        public string MicrobeUnloadingSecond
+        {
+            get { return _MicrobeUnloadingSecond; }
+            set
+            {
+                _MicrobeUnloadingSecond = value;
+                OnPropertyChanged("MicrobeUnloadingSecond");
+            }
+        }
+        /// <summary>
+        /// 미생물 환경 모니터링 (M4,M5)&#10;언로딩시 낙하균(S) 측정시간 3번째
+        /// </summary>
+        private string _MicrobeUnloadingThird;
+        public string MicrobeUnloadingThird
+        {
+            get { return _MicrobeUnloadingThird; }
+            set
+            {
+                _MicrobeUnloadingThird = value;
+                OnPropertyChanged("MicrobeUnloadingThird");
+            }
+        }
+        /// <summary>
+        /// 미생물 환경 모니터링 (M4,M5)&#10;언로딩시 낙하균(S) 측정시간 4번째
+        /// </summary>
+        private string _MicrobeUnloadingFourth;
+        public string MicrobeUnloadingFourth
+        {
+            get { return _MicrobeUnloadingFourth; }
+            set
+            {
+                _MicrobeUnloadingFourth = value;
+                OnPropertyChanged("MicrobeUnloadingFourth");
+            }
+        }
+
         #endregion
 
         #region [Bizrule]
+
+        private BR_BRS_SEL_SVP_ASEPTIC_PROCESS _BR_BRS_SEL_SVP_ASEPTIC_PROCESS;
+        public BR_BRS_SEL_SVP_ASEPTIC_PROCESS BR_BRS_SEL_SVP_ASEPTIC_PROCESS
+        {
+            get { return _BR_BRS_SEL_SVP_ASEPTIC_PROCESS; }
+            set
+            {
+                _BR_BRS_SEL_SVP_ASEPTIC_PROCESS = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         #endregion
 
@@ -92,9 +643,19 @@ namespace 보령
                             if (arg != null && arg is 무균공정시트조회_액상)
                             {
                                 _mainWnd = arg as 무균공정시트조회_액상;
-                                
+
+                                _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.INDATAs.Add(new BR_BRS_SEL_SVP_ASEPTIC_PROCESS.INDATA
+                                {
+                                    POID = _mainWnd.CurrentOrder.OrderID
+                                });
+
+                                if (await _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.Execute() && _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs.Count > 0)
+                                {
+                                    valueMapping();
+                                }
                             }
 
+                            IsBusy = false;
                             CommandResults["LoadedCommandAsync"] = true;
                         }
 
@@ -140,7 +701,7 @@ namespace 보령
                             _mainWnd.PrintArea.Background = new SolidColorBrush(Colors.White);
 
                             _mainWnd.CurrentInstruction.Raw.NOTE = imageToByteArray();
-                            _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
+                            _mainWnd.CurrentInstruction.Raw.ACTVAL = "Image attached";
 
                             var authHelper = new iPharmAuthCommandHelper();
                             if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN == "Y" && _mainWnd.CurrentInstruction.PhaseState.Equals("COMP"))
@@ -194,6 +755,59 @@ namespace 보령
         #endregion
 
         #region User Define
+        public void valueMapping()
+        {
+            try
+            {
+                ChargDttm = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].ChargDttm;
+                UnloadingDttm = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].UnloadingDttm;
+                AutoClaveHoldTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].AutoClaveHoldTime;
+                SumAutoClaveHoldTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SUMAUTOCLAVEHOLDTIME;
+                IsolatorHoldTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].IsolatorHoldTime;
+                SumIsolatorHoldTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SUMISOLATORHOLDTIME;
+                SetStartTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SetStartTime;
+                SetEndTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SetEndTime;
+                SumSetTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SUMSETTIME;
+                StableTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].StableTime;
+                SumStableTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SUMSTABLETIME;
+                FillTIME = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].FillTIME;
+                SumFillTIME = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SumFillTIME;
+                AsepticTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].AsepticTime;
+                SumAsepticTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SumAsepticTime;
+                DryHoldTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].DryHoldTime;
+                SumDryHoldTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SumDryHoldTime;
+                FreezeTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].FreezeTime;
+                SumFreezeTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SumFreezeTime;
+                BlockTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].BlockTime;
+                SumBlockTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SumBlockTime;
+                WorkUserId = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].WORKUSERID;
+                PMSStartDttm = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].PMSStartDttm;
+                PMSEndDttm = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].PMSEndDttm;
+                DropGermsFirst = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].DropGermsFirst;
+                DropGermsSecond = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].DropGermsSecond;
+                DropGermsThird = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].DropGermsThird;
+                DropGermsFourth = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].DropGermsFourth;
+                DropGermsFifth = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].DropGermsFifth;
+                DropGermsSixth = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].DropGermsSixth;
+                DropGermsSeventh = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].DropGermsSeventh;
+                DropGermsEighth = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].DropGermsEighth;
+                microbeA1 = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].microbeA1;
+                microbeA2 = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].microbeA2;
+                microbeA3 = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].microbeA3;
+                Nozzle1Check = Convert.ToBoolean(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].Nozzle1Check);
+                Nozzle2Check = Convert.ToBoolean(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].Nozzle2Check);
+                Nozzle3Check = Convert.ToBoolean(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].Nozzle3Check);
+                Nozzle4Check = Convert.ToBoolean(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].Nozzle4Check);
+                MicrobeUnloadingFirst = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].MicrobeUnloadingFirst;
+                MicrobeUnloadingSecond = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].MicrobeUnloadingSecond;
+                MicrobeUnloadingThird = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].MicrobeUnloadingThird;
+                MicrobeUnloadingFourth = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].MicrobeUnloadingFourth;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public byte[] imageToByteArray()
         {
             try

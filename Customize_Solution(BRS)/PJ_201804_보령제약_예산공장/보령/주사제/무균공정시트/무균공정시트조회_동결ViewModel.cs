@@ -92,16 +92,6 @@ namespace 보령
             }
         }
 
-        private BR_BRS_SEL_SVP_ASEPTIC_PROCESS _BR_BRS_SEL_SVP_ASEPTIC_PROCESS;
-        public BR_BRS_SEL_SVP_ASEPTIC_PROCESS BR_BRS_SEL_SVP_ASEPTIC_PROCESS
-        {
-            get { return _BR_BRS_SEL_SVP_ASEPTIC_PROCESS; }
-            set
-            {
-                _BR_BRS_SEL_SVP_ASEPTIC_PROCESS = value;
-                NotifyPropertyChanged();
-            }
-        }
         /// <summary>
         /// 충전시간
         /// </summary>
@@ -615,6 +605,17 @@ namespace 보령
 
         #region [Bizrule]
 
+        private BR_BRS_SEL_SVP_ASEPTIC_PROCESS _BR_BRS_SEL_SVP_ASEPTIC_PROCESS;
+        public BR_BRS_SEL_SVP_ASEPTIC_PROCESS BR_BRS_SEL_SVP_ASEPTIC_PROCESS
+        {
+            get { return _BR_BRS_SEL_SVP_ASEPTIC_PROCESS; }
+            set
+            {
+                _BR_BRS_SEL_SVP_ASEPTIC_PROCESS = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region [Command]
@@ -637,7 +638,6 @@ namespace 보령
                             {
                                 _mainWnd = arg as 무균공정시트조회_동결;
 
-
                                 _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.INDATAs.Add(new BR_BRS_SEL_SVP_ASEPTIC_PROCESS.INDATA
                                 {
                                     POID = _mainWnd.CurrentOrder.OrderID
@@ -649,6 +649,7 @@ namespace 보령
                                 }
                             }
 
+                            IsBusy = false;
                             CommandResults["LoadedCommandAsync"] = true;
                         }
 
@@ -694,7 +695,7 @@ namespace 보령
                             _mainWnd.PrintArea.Background = new SolidColorBrush(Colors.White);
 
                             _mainWnd.CurrentInstruction.Raw.NOTE = imageToByteArray();
-                            _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
+                            _mainWnd.CurrentInstruction.Raw.ACTVAL = "Image attached";
 
                             var authHelper = new iPharmAuthCommandHelper();
                             if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN == "Y" && _mainWnd.CurrentInstruction.PhaseState.Equals("COMP"))

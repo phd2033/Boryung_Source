@@ -17,7 +17,7 @@
     xmlns:vsm="clr-namespace:System.Windows;assembly=System.Windows"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:ezmes="clr-namespace:LGCNS.EZMES.ControlsLib;assembly=LGCNS.EZMES.ControlsLib"
-    Width="1040" Height="600"
+    Width="1060" Height="600"
     Title="무균공정시트조회_동결" x:Name="Main">
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
         <local:무균공정시트조회_동결ViewModel x:Name="VM"/>
@@ -53,15 +53,15 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="215"/>
-                        <ColumnDefinition Width="203"/>
-                        <ColumnDefinition Width="203"/>
-                        <ColumnDefinition Width="203"/>
-                        <ColumnDefinition Width="203"/>
+                        <ColumnDefinition Width="208"/>
+                        <ColumnDefinition Width="208"/>
+                        <ColumnDefinition Width="208"/>
+                        <ColumnDefinition Width="208"/>
                     </Grid.ColumnDefinitions>
                     <TextBox x:Name="DATE" Grid.Column="0" Grid.Row="0" Text="충전 일자" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" IsReadOnly="True"/>
-                    <TextBox x:Name="DateText" Text="{Binding ChargDttm}" Grid.Row="0" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="2" Margin="0,0,114,0" IsReadOnly="True" HorizontalAlignment="Right" Width="292" Grid.Column="1"/>
+                    <TextBox x:Name="DateText" Text="{Binding ChargDttm}" Grid.Row="0" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="2" Margin="0,0,119,0" IsReadOnly="True" HorizontalAlignment="Right" Width="297" Grid.Column="1"/>
 
-                    <TextBox x:Name="UL_DATE" Grid.Column="2" Grid.Row="0" Text="Unloading 일자" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" Margin="89,0,0,0" IsReadOnly="True" HorizontalAlignment="Left" Width="203" Grid.ColumnSpan="2"/>
+                    <TextBox x:Name="UL_DATE" Grid.Column="2" Grid.Row="0" Text="Unloading 일자" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" Margin="89,0,0,0" IsReadOnly="True" HorizontalAlignment="Left" Width="208" Grid.ColumnSpan="2"/>
                     <TextBox x:Name="UL_DateText" Text="{Binding UnloadingDttm}" Grid.Column="3" Grid.Row="0" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="2" Margin="88,0,0,0" IsReadOnly="True"/>
 
                     <TextBox x:Name="P_HOLD" Grid.Column="0" Grid.Row="1" Text="충전 멸균 물품 Holding Time&#10;(Autoclave)" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" Padding ="10,5,0,0" Background="#FFEBEEEE" IsReadOnly="True" Height="45" VerticalAlignment="Top"/>
@@ -123,7 +123,7 @@
                     <TextBox x:Name="FourthText" Text="{Binding DropGermsFourth}" Grid.Column="4" Grid.Row="13" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0" IsReadOnly="True" Padding="0,4,0,0"/>
                     <TextBox x:Name="Fifth" Grid.Column="1" Grid.Row="14" Text="5th" FontSize="11" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Width="30" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="3" IsReadOnly="True"/>
                     <TextBox x:Name="FifthText" Text="{Binding DropGermsFifth}" Grid.Column="1" Grid.Row="14" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0" IsReadOnly="True" Padding="0,4,0,0"/>
-                    <TextBox x:Name="Sixth" Grid.Column="2" Grid.Row="14" Text="6th" FontSize="11" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE"  Padding="0,5,0,0" Margin="0,0,173,0" IsReadOnly="True"/>
+                    <TextBox x:Name="Sixth" Grid.Column="2" Grid.Row="14" Text="6th" FontSize="11" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE"  Padding="0,5,0,0" Margin="0,0,178,0" IsReadOnly="True"/>
                     <TextBox x:Name="SixthText" Text="{Binding DropGermsSixth}" Grid.Column="2" Grid.Row="14" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0" IsReadOnly="True" Padding="0,4,0,0"/>
                     <TextBox x:Name="Seventh" Grid.Column="3" Grid.Row="14" Text="7th" FontSize="11" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Width="30" HorizontalAlignment="Left" Background="#FFEBEEEE" Padding="3" IsReadOnly="True"/>
                     <TextBox x:Name="SeventhText" Text="{Binding DropGermsSeventh}" Grid.Column="3" Grid.Row="14" FontSize="9" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="30,0,0,0" IsReadOnly="True" Padding="0,4,0,0"/>

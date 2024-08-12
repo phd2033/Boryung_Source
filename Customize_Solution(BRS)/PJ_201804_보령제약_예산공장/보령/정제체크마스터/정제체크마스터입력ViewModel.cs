@@ -421,11 +421,6 @@ namespace 보령
                         try
                         {
                             IsBusy = true;
-                            bool ZERO_FLAG = false;
-                            /*
-                            bool RSD_MSG = false;
-                            bool HARDNESS_FLAG = false;
-                            */
                             int count = 0;
                             string VAL_MES = "";
 
@@ -455,29 +450,6 @@ namespace 보령
                                 {
                                     count++;
 
-                                    /*
-                                    if(RSD_FLAG.Equals(false))
-                                    {
-                                        if (ipc.SD_WEIGHT > 0) { RSD_MSG = true; }
-                                    }else
-                                    {
-                                        if(ipc.SD_WEIGHT <= 0) { ZERO_FLAG = true;  }
-                                    }
-
-                                    if (CIRCLE_FLAG.Equals(false))
-                                    {
-                                        if (ipc.AVG_HARDNESS > 0 | ipc.MIN_HARDNESS > 0 | ipc.MAX_HARDNESS > 0) { HARDNESS_FLAG = true; }
-                                    }else
-                                    {
-                                        if (ipc.AVG_HARDNESS <= 0 | ipc.MIN_HARDNESS <= 0 | ipc.MAX_HARDNESS <= 0) { ZERO_FLAG = true; }
-                                    }
-                                    */
-                                    //2024.07.01 김도연 : 입력값 중 0 값이 있는지 확인
-                                    if (ipc.AVG_WEIGHT <= 0 | ipc.MIN_WEIGHT <= 0 | ipc.MAX_WEIGHT <= 0 | ipc.AVG_THICKNESS <= 0 | ipc.MIN_THICKNESS <= 0 | ipc.MAX_THICKNESS <= 0 | ZERO_FLAG == true)
-                                    {
-                                        ZERO_FLAG = true;
-                                    }
-
                                     VAL_MES += Validation(ipc, count);
 
                                     AVG_RESULT_WEIGHT += ipc.AVG_WEIGHT;
@@ -492,31 +464,7 @@ namespace 보령
                                     MAX_RESULT_HARDNESS = Math.Max(MAX_RESULT_HARDNESS, ipc.MAX_HARDNESS);
 
                                 }
-
-                                //2024.07.01 김도연 : 값이 0으로 되어있는 경우, 진행을 멈추고 안내 팝업창을 띄움. 
-                                if (ZERO_FLAG.Equals(true))
-                                {
-                                    if (await OnMessageAsync("입력값 중 0이 있습니다. 진행하시겠습니까?", true) == false)
-                                    {
-                                        return;
-                                    }
-                                }
-                                /*
-                                if (RSD_MSG.Equals(true))
-                                {
-                                    if (await OnMessageAsync("개별질량RSD를 입력하지 않는 제품입니다.\n개별질량RSD 값을 확인 부탁드립니다.\n계속 진행하시겠습니까?", true) == false)
-                                    {
-                                        return;
-                                    }
-                                }
-                                if (HARDNESS_FLAG.Equals(true))
-                                {
-                                    if (await OnMessageAsync("경도를 입력하지 않는 제품입니다.\n경도(평균), 경도(최소), 경도(최대) 값을 확인 부탁드립니다.\n계속 진행하시겠습니까?", true) == false)
-                                    {
-                                        return;
-                                    }
-                                }
-                                */
+                                
                                 if (VAL_MES != "")
                                 {
                                     VAL_MES += "계속 진행하시겠습니까?";
@@ -599,13 +547,30 @@ namespace 보령
             // 개별 질량 Validation
             if (IPC_STANDARDS[0].RSLT_MIN_WEIGHT != "N/A" & IPC_STANDARDS[0].RSLT_MAX_WEIGHT != "N/A")
             {
-                if (ipc.AVG_WEIGHT < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_WEIGHT) | ipc.MIN_WEIGHT < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_WEIGHT) | ipc.MAX_WEIGHT < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_WEIGHT))
+                if (ipc.AVG_WEIGHT < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_WEIGHT))
                 {
-                    message += count.ToString() + "행 : 개별최소질량의 기준 값보다 작습니다.\n";
+                    message += count.ToString() + "행 : 평균질량이 개별최소질량의 기준 값보다 작습니다.\n";
                 }
-                if (ipc.AVG_WEIGHT > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_WEIGHT) | ipc.MIN_WEIGHT > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_WEIGHT) | ipc.MAX_WEIGHT > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_WEIGHT))
+                if (ipc.MIN_WEIGHT < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_WEIGHT))
                 {
-                    message += count.ToString() + "행 : 개별최대질량의 기준 값보다 큽니다.\n";
+                    message += count.ToString() + "행 : 개별최소질량이 개별최소질량의 기준 값보다 작습니다.\n";
+                }
+                if (ipc.MAX_WEIGHT < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_WEIGHT))
+                {
+                    message += count.ToString() + "행 : 개별최대질량이 개별최소질량의 기준 값보다 작습니다.\n";
+                }
+
+                if (ipc.AVG_WEIGHT > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_WEIGHT))
+                {
+                    message += count.ToString() + "행 : 평균질량이 개별최대질량의 기준 값보다 큽니다.\n";
+                }
+                if (ipc.MIN_WEIGHT > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_WEIGHT))
+                {
+                    message += count.ToString() + "행 : 개별최소질량이 개별최대질량의 기준 값보다 큽니다.\n";
+                }
+                if (ipc.MAX_WEIGHT > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_WEIGHT))
+                {
+                    message += count.ToString() + "행 : 개별최대질량이 개별최대질량의 기준 값보다 큽니다.\n";
                 }
             }
             // 개별 질량 RSD Validation
@@ -619,13 +584,29 @@ namespace 보령
             // 두께 Validation
             if (IPC_STANDARDS[0].RSLT_MIN_THICKNESS != "N/A" & IPC_STANDARDS[0].RSLT_MAX_THICKNESS != "N/A")
             {
-                if (ipc.AVG_THICKNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_THICKNESS) | ipc.MIN_THICKNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_THICKNESS) | ipc.MAX_THICKNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_THICKNESS))
+                if (ipc.AVG_THICKNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_THICKNESS))
                 {
-                    message += count.ToString() + "행 : 최소두께의 기준 값보다 작습니다.\n";
+                    message += count.ToString() + "행 : 평균두께가 최소두께의 기준 값보다 작습니다.\n";
                 }
-                if (ipc.AVG_THICKNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_THICKNESS) | ipc.MIN_THICKNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_THICKNESS) | ipc.MAX_THICKNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_THICKNESS))
+                if (ipc.MIN_THICKNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_THICKNESS))
                 {
-                    message += count.ToString() + "행 : 최대두께의 기준 값보다 큽니다.\n";
+                    message += count.ToString() + "행 : 최소두께가 최소두께의 기준 값보다 작습니다.\n";
+                }
+                if (ipc.MAX_THICKNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_THICKNESS))
+                {
+                    message += count.ToString() + "행 : 최대두께가 최소두께의 기준 값보다 작습니다.\n";
+                }
+                if (ipc.AVG_THICKNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_THICKNESS))
+                {
+                    message += count.ToString() + "행 : 평균두께가 최대두께의 기준 값보다 큽니다.\n";
+                }
+                if (ipc.MIN_THICKNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_THICKNESS))
+                {
+                    message += count.ToString() + "행 : 최소두께가 최대두께의 기준 값보다 큽니다.\n";
+                }
+                if (ipc.MAX_THICKNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_THICKNESS))
+                {
+                    message += count.ToString() + "행 : 최대두께가 최대두께의 기준 값보다 큽니다.\n";
                 }
             }
             // 경도 Validation
@@ -633,11 +614,27 @@ namespace 보령
             {
                 if (ipc.AVG_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS) | ipc.MIN_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS) | ipc.MAX_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS))
                 {
-                    message += count.ToString() + "행 : 최소경도의 기준 값보다 작습니다.\n";
+                    message += count.ToString() + "행 : 평균경도가 최소경도의 기준 값보다 작습니다.\n";
                 }
-                if (ipc.AVG_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS) | ipc.MIN_HARDNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_HARDNESS) | ipc.MAX_HARDNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_HARDNESS))
+                if (ipc.MIN_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS))
                 {
-                    message += count.ToString() + "행 : 최대경도의 기준 값보다 큽니다.\n";
+                    message += count.ToString() + "행 : 최소경도가 최소경도의 기준 값보다 작습니다.\n";
+                }
+                if (ipc.MAX_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS))
+                {
+                    message += count.ToString() + "행 : 최대경도가 최소경도의 기준 값보다 작습니다.\n";
+                }
+                if (ipc.AVG_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS))
+                {
+                    message += count.ToString() + "행 : 평균경도가 최대경도의 기준 값보다 큽니다.\n";
+                }
+                if (ipc.MIN_HARDNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_HARDNESS))
+                {
+                    message += count.ToString() + "행 : 최소경도가 최대경도의 기준 값보다 큽니다.\n";
+                }
+                if (ipc.MAX_HARDNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_HARDNESS))
+                {
+                    message += count.ToString() + "행 : 최대경도가 최대경도의 기준 값보다 큽니다.\n";
                 }
             }
 

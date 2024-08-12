@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Collections.ObjectModel;
 using LGCNS.iPharmMES.Recipe.Common;
+using System.Windows;
 
 namespace 보령
 {
@@ -110,14 +111,44 @@ namespace 보령
                 this.OnPropertyChanged("AVG_DTTM");
             }
         }
-        private bool _IPC_FLAG;
-        public bool IPC_FLAG
+        private bool _CIRCLE_FLAG; // 비원형과 그외 구분
+        public bool CIRCLE_FLAG
         {
-            get { return _IPC_FLAG; }
+            get { return _CIRCLE_FLAG; }
             set
             {
-                _IPC_FLAG = value;
-                OnPropertyChanged("IPC_FLAG");
+                _CIRCLE_FLAG = value;
+                OnPropertyChanged("CIRCLE_FLAG");
+            }
+        }
+        private Visibility _CIRCLE_CHECK;
+        public Visibility CIRCLE_CHECK
+        {
+            get { return _CIRCLE_CHECK; }
+            set
+            {
+                _CIRCLE_CHECK = value;
+                OnPropertyChanged("CIRCLE_CHECK");
+            }
+        }
+        private bool _RSD_FLAG; // RSD 미입력 대상 구분
+        public bool RSD_FLAG
+        {
+            get { return _RSD_FLAG; }
+            set
+            {
+                _RSD_FLAG = value;
+                OnPropertyChanged("RSD_FLAG");
+            }
+        }
+        private Visibility _RSD_CHECK;
+        public Visibility RSD_CHECK
+        {
+            get { return _RSD_CHECK; }
+            set
+            {
+                _RSD_CHECK = value;
+                OnPropertyChanged("RSD_CHECK");
             }
         }
         private bool _KeepGoing = false;
@@ -163,7 +194,8 @@ namespace 보령
 
                             INPUT_ENABLE = true;
                             EQPTID_ENABLE = false;
-                            IPC_FLAG = true;
+                            CIRCLE_FLAG = true;
+                            RSD_FLAG = true;
 
 
                             _BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD.INDATAs.Add(new BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD.INDATA()
@@ -190,30 +222,43 @@ namespace 보령
                                 {
                                     switch (std.TIID)
                                     {
-                                        case "IPC-030":
-                                            AVG_STD_HARDNESS = std.CSL != "" ? std.CSL : "N/A";
-                                            MIN_STD_HARDNESS = std.LSL != "" ? std.LSL : "N/A";
-                                            MAX_STD_HARDNESS = std.USL != "" ? std.USL : "N/A";
-                                            if (AVG_STD_HARDNESS == "N/A" & MIN_STD_HARDNESS == "N/A" & MAX_STD_HARDNESS == "N/A") { IPC_FLAG = false; }
+                                        case "IPC-023": // 평균질량
+                                            AVG_STD_WEIGHT = std.CSL != "" ? std.CSL : "N/A";
                                             break;
-                                        case "IPC-027":
-                                            AVG_STD_THICKNESS = std.CSL != "" ? std.CSL : "N/A";
-                                            MIN_STD_THICKNESS = std.LSL != "" ? std.LSL : "N/A";
-                                            MAX_STD_THICKNESS = std.USL != "" ? std.USL : "N/A";
+                                        case "IPC-024": // 최소질량
+                                            MIN_STD_WEIGHT = std.LSL != "" ? std.LSL : "N/A";
                                             break;
-                                        case "IPC-026":
+                                        case "IPC-025": // 최대질량
+                                            MAX_STD_WEIGHT = std.USL != "" ? std.USL : "N/A";
+                                            break;
+                                        case "IPC-026": // 개별질량RSD
                                             SD_STD_WEIGHT = std.CSL != "" ? std.CSL : "N/A";
                                             break;
-                                        case "IPC-023":
-                                            AVG_STD_WEIGHT = std.CSL != "" ? std.CSL : "N/A";
-                                            MIN_STD_WEIGHT = std.LSL != "" ? std.LSL : "N/A";
-                                            MAX_STD_WEIGHT = std.USL != "" ? std.USL : "N/A";
+                                        case "IPC-027": // 평균두께
+                                            AVG_STD_THICKNESS = std.CSL != "" ? std.CSL : "N/A";
+                                            break;
+                                        case "IPC-028": // 최소두께
+                                            MIN_STD_THICKNESS = std.LSL != "" ? std.LSL : "N/A";
+                                            break;
+                                        case "IPC-029": // 최대두께
+                                            MAX_STD_THICKNESS = std.USL != "" ? std.USL : "N/A";
+                                            break;
+                                        case "IPC-030": // 평균경도
+                                            AVG_STD_HARDNESS = std.CSL != "" ? std.CSL : "N/A";
+                                            break;
+                                        case "IPC-031": //최소경도
+                                            MIN_STD_HARDNESS = std.LSL != "" ? std.LSL : "N/A";
+                                            break;
+                                        case "IPC-032": //최대경도
+                                            MAX_STD_HARDNESS = std.USL != "" ? std.USL : "N/A";
                                             break;
                                         default:
                                             break;
-
                                     }
                                 }
+
+                                if (SD_STD_WEIGHT == "N/A") { RSD_FLAG = false; RSD_CHECK = Visibility.Collapsed; } // RSD 미입력해야 될 경우
+                                if (AVG_STD_HARDNESS == "N/A" & MIN_STD_HARDNESS == "N/A" & MAX_STD_HARDNESS == "N/A") { CIRCLE_FLAG = false; CIRCLE_CHECK = Visibility.Collapsed; } // 경도 미입력해야 될 경우
 
                                 IPC_STANDARDS.Add(new EACH_INDATA()
                                 {
@@ -227,9 +272,7 @@ namespace 보령
                                     RSLT_AVG_HARDNESS = AVG_STD_HARDNESS,
                                     RSLT_MIN_HARDNESS = MIN_STD_HARDNESS,
                                     RSLT_MAX_HARDNESS = MAX_STD_HARDNESS
-
                                 });
-
                             }
                             else
                             {
@@ -379,7 +422,10 @@ namespace 보령
                         {
                             IsBusy = true;
                             bool ZERO_FLAG = false;
+                            /*
+                            bool RSD_MSG = false;
                             bool HARDNESS_FLAG = false;
+                            */
                             int count = 0;
                             string VAL_MES = "";
 
@@ -405,163 +451,105 @@ namespace 보령
                                 decimal MIN_RESULT_HARDNESS = IPCResultSections[0].MIN_HARDNESS;
                                 decimal MAX_RESULT_HARDNESS = IPCResultSections[0].MAX_HARDNESS;
 
-                                
-                                //원형
-                                if (IPC_FLAG.Equals(true))
+                                foreach (var ipc in IPCResultSections)
                                 {
-                                    foreach (var ipc in IPCResultSections)
+                                    count++;
+
+                                    /*
+                                    if(RSD_FLAG.Equals(false))
                                     {
-                                        count++;
-                                        //2024.07.01 김도연 : 0 값이 있는지 확인
-                                        if (ipc.AVG_WEIGHT == 0 | ipc.MIN_WEIGHT == 0 | ipc.MAX_WEIGHT == 0 | ipc.SD_WEIGHT == 0 | ipc.AVG_THICKNESS == 0 | ipc.MIN_THICKNESS == 0 |
-                                         ipc.MAX_THICKNESS == 0 | ipc.AVG_HARDNESS == 0 | ipc.MIN_HARDNESS == 0 | ipc.MAX_HARDNESS == 0)
-                                        {
-                                            ZERO_FLAG = true;
-                                        }
-
-                                        VAL_MES += Validation(ipc,count);
-
-                                        AVG_RESULT_WEIGHT += ipc.AVG_WEIGHT;
-                                        MIN_RESULT_WEIGHT = Math.Min(MIN_RESULT_WEIGHT, ipc.MIN_WEIGHT);
-                                        MAX_RESULT_WEIGHT = Math.Max(MAX_RESULT_WEIGHT, ipc.MAX_WEIGHT);
-                                        SD_RESULT_WEIGHT += ipc.SD_WEIGHT;
-                                        AVG_RESULT_THICKNESS += ipc.AVG_THICKNESS;
-                                        MIN_RESULT_THICKNESS = Math.Min(MIN_RESULT_THICKNESS, ipc.MIN_THICKNESS);
-                                        MAX_RESULT_THICKNESS = Math.Max(MAX_RESULT_THICKNESS, ipc.MAX_THICKNESS);
-                                        AVG_RESULT_HARDNESS += ipc.AVG_HARDNESS;
-                                        MIN_RESULT_HARDNESS = Math.Min(MIN_RESULT_HARDNESS, ipc.MIN_HARDNESS);
-                                        MAX_RESULT_HARDNESS = Math.Max(MAX_RESULT_HARDNESS, ipc.MAX_HARDNESS);
+                                        if (ipc.SD_WEIGHT > 0) { RSD_MSG = true; }
+                                    }else
+                                    {
+                                        if(ipc.SD_WEIGHT <= 0) { ZERO_FLAG = true;  }
                                     }
 
-                                    //2024.07.01 김도연 : 값이 0으로 되어있는 경우, 진행을 멈추고 안내 팝업창을 띄움. 
-                                    if (ZERO_FLAG.Equals(true))
+                                    if (CIRCLE_FLAG.Equals(false))
                                     {
-                                        if (await OnMessageAsync("입력값 중 0이 있습니다. 진행하시겠습니까?", true) == false)
-                                        {
-                                            return;
-                                        }
+                                        if (ipc.AVG_HARDNESS > 0 | ipc.MIN_HARDNESS > 0 | ipc.MAX_HARDNESS > 0) { HARDNESS_FLAG = true; }
+                                    }else
+                                    {
+                                        if (ipc.AVG_HARDNESS <= 0 | ipc.MIN_HARDNESS <= 0 | ipc.MAX_HARDNESS <= 0) { ZERO_FLAG = true; }
+                                    }
+                                    */
+                                    //2024.07.01 김도연 : 입력값 중 0 값이 있는지 확인
+                                    if (ipc.AVG_WEIGHT <= 0 | ipc.MIN_WEIGHT <= 0 | ipc.MAX_WEIGHT <= 0 | ipc.AVG_THICKNESS <= 0 | ipc.MIN_THICKNESS <= 0 | ipc.MAX_THICKNESS <= 0 | ZERO_FLAG == true)
+                                    {
+                                        ZERO_FLAG = true;
                                     }
 
-                                    if (VAL_MES != "")
-                                    {
-                                        if (await OnMessageAsync(VAL_MES, true))
-                                        {
-                                            var authHelper = new iPharmAuthCommandHelper();
-                                            authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_Deviation");
+                                    VAL_MES += Validation(ipc, count);
 
-                                            enumRoleType inspectorRole = enumRoleType.ROLE001;
-                                            if (await authHelper.ClickAsync(
-                                                    Common.enumCertificationType.Role,
-                                                    Common.enumAccessType.Create,
-                                                    "기록값 변경 시 코멘트 작성 필요합니다. ",
-                                                    "양품수량 기록값 변경",
-                                                    true,
-                                                    "OM_ProductionOrder_Deviation",
-                                                    "",
-                                                    this._mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
-                                                    this._mainWnd.CurrentInstruction.Raw.DVTPASSYN == "Y" ? enumRoleType.ROLE001.ToString() : inspectorRole.ToString()) == false)
-                                            {
-                                                return;
-                                            }
-
-                                            _mainWnd.CurrentInstruction.Raw.DVTFCYN = "Y";
-                                            _mainWnd.CurrentInstruction.Raw.DVTCONFIRMUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Deviation");
-
-                                            KeepGoing = true;
-
-                                            _comment = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_Deviation");
-                                        }
-                                        else
-                                        {
-                                            return;
-                                        }
-                                    }
+                                    AVG_RESULT_WEIGHT += ipc.AVG_WEIGHT;
+                                    MIN_RESULT_WEIGHT = Math.Min(MIN_RESULT_WEIGHT, ipc.MIN_WEIGHT);
+                                    MAX_RESULT_WEIGHT = Math.Max(MAX_RESULT_WEIGHT, ipc.MAX_WEIGHT);
+                                    SD_RESULT_WEIGHT += ipc.SD_WEIGHT;
+                                    AVG_RESULT_THICKNESS += ipc.AVG_THICKNESS;
+                                    MIN_RESULT_THICKNESS = Math.Min(MIN_RESULT_THICKNESS, ipc.MIN_THICKNESS);
+                                    MAX_RESULT_THICKNESS = Math.Max(MAX_RESULT_THICKNESS, ipc.MAX_THICKNESS);
+                                    AVG_RESULT_HARDNESS += ipc.AVG_HARDNESS;
+                                    MIN_RESULT_HARDNESS = Math.Min(MIN_RESULT_HARDNESS, ipc.MIN_HARDNESS);
+                                    MAX_RESULT_HARDNESS = Math.Max(MAX_RESULT_HARDNESS, ipc.MAX_HARDNESS);
 
                                 }
-                                //비원형
-                                else
+
+                                //2024.07.01 김도연 : 값이 0으로 되어있는 경우, 진행을 멈추고 안내 팝업창을 띄움. 
+                                if (ZERO_FLAG.Equals(true))
                                 {
-                                    foreach (var ipc in IPCResultSections)
+                                    if (await OnMessageAsync("입력값 중 0이 있습니다. 진행하시겠습니까?", true) == false)
                                     {
-                                        count++;
-                                        //2024.07.01 김도연 : 경도를 제외한 입력값 중 0 값이 있는지 확인
-                                        if (ipc.AVG_WEIGHT == 0 | ipc.MIN_WEIGHT == 0 | ipc.MAX_WEIGHT == 0 | ipc.SD_WEIGHT == 0 | ipc.AVG_THICKNESS == 0 | ipc.MIN_THICKNESS == 0 |
-                                         ipc.MAX_THICKNESS == 0)
-                                        {
-                                            ZERO_FLAG = true;
-                                        }
-                                        //2024.07.02 김도연 : 작업자가 경도를 입력했는지 확인
-                                        if (ipc.AVG_HARDNESS > 0 | ipc.MIN_HARDNESS > 0 | ipc.MAX_HARDNESS > 0)
-                                        {
-                                            HARDNESS_FLAG = true;
-                                        }
-
-                                        VAL_MES += Validation(ipc, count);
-
-                                        AVG_RESULT_WEIGHT += ipc.AVG_WEIGHT;
-                                        MIN_RESULT_WEIGHT = Math.Min(MIN_RESULT_WEIGHT, ipc.MIN_WEIGHT);
-                                        MAX_RESULT_WEIGHT = Math.Max(MAX_RESULT_WEIGHT, ipc.MAX_WEIGHT);
-                                        SD_RESULT_WEIGHT += ipc.SD_WEIGHT;
-                                        AVG_RESULT_THICKNESS += ipc.AVG_THICKNESS;
-                                        MIN_RESULT_THICKNESS = Math.Min(MIN_RESULT_THICKNESS, ipc.MIN_THICKNESS);
-                                        MAX_RESULT_THICKNESS = Math.Max(MAX_RESULT_THICKNESS, ipc.MAX_THICKNESS);
-                                        AVG_RESULT_HARDNESS += ipc.AVG_HARDNESS;
-                                        MIN_RESULT_HARDNESS = Math.Min(MIN_RESULT_HARDNESS, ipc.MIN_HARDNESS);
-                                        MAX_RESULT_HARDNESS = Math.Max(MAX_RESULT_HARDNESS, ipc.MAX_HARDNESS);
-
+                                        return;
                                     }
-
-                                    //2024.07.01 김도연 : 값이 0으로 되어있는 경우, 진행을 멈추고 안내 팝업창을 띄움. 
-                                    if (ZERO_FLAG.Equals(true))
+                                }
+                                /*
+                                if (RSD_MSG.Equals(true))
+                                {
+                                    if (await OnMessageAsync("개별질량RSD를 입력하지 않는 제품입니다.\n개별질량RSD 값을 확인 부탁드립니다.\n계속 진행하시겠습니까?", true) == false)
                                     {
-                                        if (await OnMessageAsync("경도를 제외한 입력값 중 0이 있습니다. 진행하시겠습니까?", true) == false)
+                                        return;
+                                    }
+                                }
+                                if (HARDNESS_FLAG.Equals(true))
+                                {
+                                    if (await OnMessageAsync("경도를 입력하지 않는 제품입니다.\n경도(평균), 경도(최소), 경도(최대) 값을 확인 부탁드립니다.\n계속 진행하시겠습니까?", true) == false)
+                                    {
+                                        return;
+                                    }
+                                }
+                                */
+                                if (VAL_MES != "")
+                                {
+                                    VAL_MES += "계속 진행하시겠습니까?";
+                                    if (await OnMessageAsync(VAL_MES, true))
+                                    {
+                                        var authHelper = new iPharmAuthCommandHelper();
+                                        authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_Deviation");
+
+                                        enumRoleType inspectorRole = enumRoleType.ROLE001;
+                                        if (await authHelper.ClickAsync(
+                                                Common.enumCertificationType.Role,
+                                                Common.enumAccessType.Create,
+                                                "기준에 부합하지 않는 값을 기록합니다. ",
+                                                "부합하지 않는 값 입력",
+                                                true,
+                                                "OM_ProductionOrder_Deviation",
+                                                "",
+                                                this._mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
+                                                this._mainWnd.CurrentInstruction.Raw.DVTPASSYN == "Y" ? enumRoleType.ROLE001.ToString() : inspectorRole.ToString()) == false)
                                         {
                                             return;
                                         }
+
+                                        _mainWnd.CurrentInstruction.Raw.DVTFCYN = "Y";
+                                        _mainWnd.CurrentInstruction.Raw.DVTCONFIRMUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Deviation");
+
+                                        KeepGoing = true;
+
+                                        _comment = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_Deviation");
                                     }
-
-                                    //2024.07.01 김도연 : 비원형 제품인데 작업자가 실수로 값을 입력했을 때, 안내 팝업창을 띄움.
-                                    if (HARDNESS_FLAG.Equals(true))
+                                    else
                                     {
-                                        if (await OnMessageAsync("경도를 사용하지 않는 제품입니다.\n경도(평균), 경도(최소), 경도(최대) 값을 확인 부탁드립니다.\n계속 진행하시겠습니까?", true) == false)
-                                        {
-                                            return;
-                                        }
-                                    }
-
-                                    if (VAL_MES != "")
-                                    {
-                                        if (await OnMessageAsync(VAL_MES, true))
-                                        {
-                                            var authHelper = new iPharmAuthCommandHelper();
-                                            authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_Deviation");
-
-                                            enumRoleType inspectorRole = enumRoleType.ROLE001;
-                                            if (await authHelper.ClickAsync(
-                                                    Common.enumCertificationType.Role,
-                                                    Common.enumAccessType.Create,
-                                                    "기록값 변경 시 코멘트 작성 필요합니다. ",
-                                                    "양품수량 기록값 변경",
-                                                    true,
-                                                    "OM_ProductionOrder_Deviation",
-                                                    "",
-                                                    this._mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
-                                                    this._mainWnd.CurrentInstruction.Raw.DVTPASSYN == "Y" ? enumRoleType.ROLE001.ToString() : inspectorRole.ToString()) == false)
-                                            {
-                                                return;
-                                            }
-
-                                            _mainWnd.CurrentInstruction.Raw.DVTFCYN = "Y";
-                                            _mainWnd.CurrentInstruction.Raw.DVTCONFIRMUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Deviation");
-
-                                            KeepGoing = true;
-
-                                            _comment = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_Deviation");
-                                        }
-                                        else
-                                        {
-                                            return;
-                                        }
+                                        return;
                                     }
                                 }
 
@@ -608,37 +596,52 @@ namespace 보령
         public string Validation(IPCResultSection.OUTDATA ipc, int count)
         {
             string message = "";
-
+            // 개별 질량 Validation
             if (IPC_STANDARDS[0].RSLT_MIN_WEIGHT != "N/A" & IPC_STANDARDS[0].RSLT_MAX_WEIGHT != "N/A")
             {
-                if (ipc.AVG_WEIGHT < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_WEIGHT) | ipc.AVG_WEIGHT > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_WEIGHT) |
-                   ipc.MIN_WEIGHT < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_WEIGHT) | ipc.MIN_WEIGHT > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_WEIGHT) |
-                   ipc.MAX_WEIGHT < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_WEIGHT) | ipc.MAX_WEIGHT > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_WEIGHT))
+                if (ipc.AVG_WEIGHT < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_WEIGHT) | ipc.MIN_WEIGHT < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_WEIGHT) | ipc.MAX_WEIGHT < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_WEIGHT))
                 {
-                    message += count.ToString() + "행 : 질량 값 중 기준 값을 넘은 값이 존재합니다.\n";
+                    message += count.ToString() + "행 : 개별최소질량의 기준 값보다 작습니다.\n";
+                }
+                if (ipc.AVG_WEIGHT > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_WEIGHT) | ipc.MIN_WEIGHT > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_WEIGHT) | ipc.MAX_WEIGHT > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_WEIGHT))
+                {
+                    message += count.ToString() + "행 : 개별최대질량의 기준 값보다 큽니다.\n";
                 }
             }
+            // 개별 질량 RSD Validation
+            if (IPC_STANDARDS[0].RSLT_SD_WEIGHT != "N/A")
+            {
+                if (ipc.SD_WEIGHT > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_SD_WEIGHT))
+                {
+                    message += count.ToString() + "행 : 개별질량RSD의 기준 값보다 큽니다.\n";
+                }
+            }
+            // 두께 Validation
             if (IPC_STANDARDS[0].RSLT_MIN_THICKNESS != "N/A" & IPC_STANDARDS[0].RSLT_MAX_THICKNESS != "N/A")
             {
-                if (ipc.AVG_THICKNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_THICKNESS) | ipc.AVG_THICKNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_THICKNESS) |
-                    ipc.MIN_THICKNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_THICKNESS) | ipc.MIN_THICKNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_THICKNESS) |
-                    ipc.MAX_THICKNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_THICKNESS) | ipc.MAX_THICKNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_THICKNESS))
+                if (ipc.AVG_THICKNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_THICKNESS) | ipc.MIN_THICKNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_THICKNESS) | ipc.MAX_THICKNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_THICKNESS))
                 {
-                    message += count.ToString() + "행 : 두께 값 중 기준 값을 넘은 값이 존재합니다.\n";
+                    message += count.ToString() + "행 : 최소두께의 기준 값보다 작습니다.\n";
+                }
+                if (ipc.AVG_THICKNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_THICKNESS) | ipc.MIN_THICKNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_THICKNESS) | ipc.MAX_THICKNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_THICKNESS))
+                {
+                    message += count.ToString() + "행 : 최대두께의 기준 값보다 큽니다.\n";
                 }
             }
+            // 경도 Validation
             if (IPC_STANDARDS[0].RSLT_MIN_HARDNESS != "N/A" & IPC_STANDARDS[0].RSLT_MAX_HARDNESS != "N/A")
             {
-                if (ipc.AVG_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS) | ipc.AVG_HARDNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_HARDNESS) |
-                    ipc.MIN_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS) | ipc.MIN_HARDNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_HARDNESS) |
-                    ipc.MAX_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS) | ipc.MAX_HARDNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_HARDNESS))
+                if (ipc.AVG_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS) | ipc.MIN_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS) | ipc.MAX_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS))
                 {
-                    message += count.ToString() + "행 : 경도 값 중 기준 값을 넘은 값이 존재합니다.\n";
+                    message += count.ToString() + "행 : 최소경도의 기준 값보다 작습니다.\n";
+                }
+                if (ipc.AVG_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS) | ipc.MIN_HARDNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_HARDNESS) | ipc.MAX_HARDNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_HARDNESS))
+                {
+                    message += count.ToString() + "행 : 최대경도의 기준 값보다 큽니다.\n";
                 }
             }
 
             return message;
-
         }
 
         public ICommand ConfirmCommandAsync
@@ -1213,7 +1216,6 @@ namespace 보령
                         }
                     }
                 }
-
                 private decimal _AVG_HARDNESS;
                 [BizActorOutputItemAttribute()]
                 public decimal AVG_HARDNESS

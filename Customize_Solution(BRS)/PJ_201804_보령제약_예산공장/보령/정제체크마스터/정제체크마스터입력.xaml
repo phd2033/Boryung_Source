@@ -137,7 +137,7 @@
                             <ezmes:DataColumn HeadName="개별질량RSD" HeaderWidth="94" DataField ="SD_WEIGHT" ColumnType ="Template">
                                 <ezmes:DataColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ShopFloorUI:KeyPadType Value="{Binding SD_WEIGHT, Mode=TwoWay}"/>
+                                        <ShopFloorUI:KeyPadType Value="{Binding SD_WEIGHT, Mode=TwoWay}" Visibility="{Binding DataContext.RSD_CHECK, RelativeSource = {RelativeSource AncestorType=toolkit:BusyIndicator}}"/>
                                     </DataTemplate>
                                 </ezmes:DataColumn.CellTemplate>
                             </ezmes:DataColumn>
@@ -165,21 +165,21 @@
                             <ezmes:DataColumn HeadName="경도(평균)" HeaderWidth="94" DataField = "AVG_HARDNESS" ColumnType ="Template">
                                 <ezmes:DataColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ShopFloorUI:KeyPadType Value="{Binding AVG_HARDNESS, Mode=TwoWay}"/>
+                                        <ShopFloorUI:KeyPadType Value="{Binding AVG_HARDNESS, Mode=TwoWay}" Visibility="{Binding DataContext.CIRCLE_CHECK, RelativeSource = {RelativeSource AncestorType=toolkit:BusyIndicator}}"/>
                                     </DataTemplate>
                                 </ezmes:DataColumn.CellTemplate>
                             </ezmes:DataColumn>
                             <ezmes:DataColumn HeadName="경도(최소)" HeaderWidth="94" DataField = "MIN_HARDNESS" ColumnType ="Template">
                                 <ezmes:DataColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ShopFloorUI:KeyPadType Value="{Binding MIN_HARDNESS, Mode=TwoWay}"/>
+                                        <ShopFloorUI:KeyPadType Value="{Binding MIN_HARDNESS, Mode=TwoWay}" Visibility="{Binding DataContext.CIRCLE_CHECK, RelativeSource = {RelativeSource AncestorType=toolkit:BusyIndicator}}"/>
                                     </DataTemplate>
                                 </ezmes:DataColumn.CellTemplate>
                             </ezmes:DataColumn>
                             <ezmes:DataColumn HeadName="경도(최대)" HeaderWidth="94" DataField = "MAX_HARDNESS" ColumnType ="Template" >
                                 <ezmes:DataColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ShopFloorUI:KeyPadType Value="{Binding MAX_HARDNESS, Mode=TwoWay}"/>
+                                        <ShopFloorUI:KeyPadType Value="{Binding MAX_HARDNESS, Mode=TwoWay}" Visibility="{Binding DataContext.CIRCLE_CHECK, RelativeSource = {RelativeSource AncestorType=toolkit:BusyIndicator}}"/>
                                     </DataTemplate>
                                 </ezmes:DataColumn.CellTemplate>
                             </ezmes:DataColumn>

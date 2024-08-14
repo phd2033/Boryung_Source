@@ -903,6 +903,7 @@
       <DependentUpon>간섭상황기록.xaml</DependentUpon>
     </Compile>
     <Compile Include="주사제\간섭상황\간섭상황기록ViewModel.cs" />
+    <Compile Include="주사제\간섭상황\간섭상황시간Popup.cs" />
     <Compile Include="주사제\공정검사\AQL검사기록.xaml.cs">
       <DependentUpon>AQL검사기록.xaml</DependentUpon>
     </Compile>
@@ -1622,6 +1623,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="주사제\간섭상황\간섭상황기록.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="주사제\간섭상황\간섭상황시간Popup.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

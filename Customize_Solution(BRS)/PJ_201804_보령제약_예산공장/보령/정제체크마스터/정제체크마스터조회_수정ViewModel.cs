@@ -673,7 +673,8 @@ namespace 보령
                                         MAX_THICKNESS = maxThick.ToString(),
                                         AVG_HARDNESS = avgHardness.ToString(),
                                         MIN_HARDNESS = minHardness.ToString(),
-                                        MAX_HARDNESS = maxHardness.ToString()
+                                        MAX_HARDNESS = maxHardness.ToString(),
+                                        UINAME = "정제체크마스터조회_수정"
                                         //2022.12.07 박희돈 직경 항목 삭제. QA팀 요청
                                         //AVG_DIAMETER = avgDiameter.ToString()
                                     });

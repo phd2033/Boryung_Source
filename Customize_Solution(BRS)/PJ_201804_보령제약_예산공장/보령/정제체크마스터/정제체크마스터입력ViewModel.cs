@@ -232,7 +232,7 @@ namespace 보령
                                             MAX_STD_WEIGHT = std.USL != "" ? std.USL : "N/A";
                                             break;
                                         case "IPC-026": // 개별질량RSD
-                                            SD_STD_WEIGHT = std.CSL != "" ? std.CSL : "N/A";
+                                            SD_STD_WEIGHT = std.USL != "" ? std.USL : "N/A";
                                             break;
                                         case "IPC-027": // 평균두께
                                             AVG_STD_THICKNESS = std.CSL != "" ? std.CSL : "N/A";
@@ -718,7 +718,8 @@ namespace 보령
                                     MAX_THICKNESS = IPC_RESULTS[0].RSLT_MAX_THICKNESS,
                                     AVG_HARDNESS = IPC_RESULTS[0].RSLT_AVG_HARDNESS,
                                     MIN_HARDNESS = IPC_RESULTS[0].RSLT_MIN_HARDNESS,
-                                    MAX_HARDNESS = IPC_RESULTS[0].RSLT_MAX_HARDNESS
+                                    MAX_HARDNESS = IPC_RESULTS[0].RSLT_MAX_HARDNESS,
+                                    UINAME = "정제체크마스터입력"
                                 });
 
 

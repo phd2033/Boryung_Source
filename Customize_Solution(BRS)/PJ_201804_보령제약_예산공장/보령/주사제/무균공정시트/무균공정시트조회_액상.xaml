@@ -58,32 +58,32 @@
                     <TextBox x:Name="DateText" Grid.Column="1" Grid.Row="0" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="4" IsReadOnly="True"/>
 
                     <TextBox x:Name="P_HOLD" Grid.Column="0" Grid.Row="1" Text="충전 멸균 물품 Holding Time&#10;(Autoclave)" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Padding ="10,8,0,0" Background="#FFEBEEEE" IsReadOnly="True"/>
-                    <TextBox x:Name="P_HoldTime" Text="{Binding AutoClaveHoldTime}" Grid.Column="1" Grid.Row="1" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True" Padding="15"/>
-                    <TextBox x:Name="P_SumHoldTime" Text="{Binding SumAutoClaveHoldTime}" Grid.Column="4" Grid.Row="1" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True" Padding="15"/>
+                    <TextBox x:Name="P_HoldTime" Text="{Binding AutoClaveHoldTime}" Grid.Column="1" Grid.Row="1" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True" Padding="15" Background="{Binding AutoDiff}" />
+                    <TextBox x:Name="P_SumHoldTime" Text="{Binding SumAutoClaveHoldTime}" Grid.Column="4" Grid.Row="1" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True" Padding="15" Background="{Binding AutoDiff}" />
 
                     <TextBox x:Name="I_HOLD" Grid.Column="0" Grid.Row="2" Text="Isolator 훈증 Holding Time" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Background="#FFEBEEEE" Padding="10,2,0,0" IsReadOnly="True"/>
-                    <TextBox x:Name="I_HoldTime" Text="{Binding IsolatorHoldTime}" Grid.Column="1" Grid.Row="2" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True"/>
-                    <TextBox x:Name="I_SumHoldTime" Text="{Binding SumIsolatorHoldTime}" Grid.Column="4" Grid.Row="2" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True"/>
+                    <TextBox x:Name="I_HoldTime" Text="{Binding IsolatorHoldTime}" Grid.Column="1" Grid.Row="2" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True" Background="{Binding IsolatorHoldDiff}" />
+                    <TextBox x:Name="I_SumHoldTime" Text="{Binding SumIsolatorHoldTime}" Grid.Column="4" Grid.Row="2" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True" Background="{Binding IsolatorHoldDiff}" />
 
                     <TextBox x:Name="SET" Grid.Column="0" Grid.Row="3" Text="세팅 작업시간" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Padding="5,15,0,0" Background="#FFEBEEEE" Margin="0,0,124,0" Grid.RowSpan="2" IsReadOnly="True"/>
                     <TextBox x:Name="SET_STRT" Grid.Column="0" Grid.Row="3" Text="셋팅 시작" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" Margin="90,0,0,0" IsReadOnly="True"/>
-                    <TextBox x:Name="SET_STRTTIME" Text="{Binding SetStartTime}" Grid.Column="1" Grid.Row="3" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True"/>
+                    <TextBox x:Name="SET_STRTTIME" Text="{Binding SetStartTime}" Grid.Column="1" Grid.Row="3" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True" Background="{Binding SetDiff}" />
 
                     <TextBox x:Name="SET_END" Grid.Column="0" Grid.Row="4" Text="셋팅 종료" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" Margin="90,0,0,0" IsReadOnly="True"/>
-                    <TextBox x:Name="SET_ENDTIME" Text="{Binding SetEndTime}" Grid.Column="1" Grid.Row="4" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True"/>
-                    <TextBox x:Name="SET_SUMTIME" Text="{Binding SumSetTime}" Grid.Column="4" Grid.Row="3" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True" Grid.RowSpan="2" Padding="17"/>
+                    <TextBox x:Name="SET_ENDTIME" Text="{Binding SetEndTime}" Grid.Column="1" Grid.Row="4" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True" Background="{Binding SetDiff}" />
+                    <TextBox x:Name="SET_SUMTIME" Text="{Binding SumSetTime}" Grid.Column="4" Grid.Row="3" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True" Grid.RowSpan="2" Padding="17" Background="{Binding SetDiff}" />
 
                     <TextBox x:Name="STABLE" Grid.Column="0" Grid.Row="5" Text="안정화" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Background="#FFEBEEEE" Padding="10,3,0,0" IsReadOnly="True"/>
-                    <TextBox x:Name="STABLETIME" Text="{Binding StableTime}" Grid.Column="1" Grid.Row="5" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True"/>
-                    <TextBox x:Name="SUMSTABLETIME" Text="{Binding SumStableTime}" Grid.Column="4" Grid.Row="5" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True"/>
+                    <TextBox x:Name="STABLETIME" Text="{Binding StableTime}" Grid.Column="1" Grid.Row="5" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True" Background="{Binding StableDiff}" />
+                    <TextBox x:Name="SUMSTABLETIME" Text="{Binding SumStableTime}" Grid.Column="4" Grid.Row="5" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True" Background="{Binding StableDiff}" />
 
                     <TextBox x:Name="Fill" Grid.Column="0" Grid.Row="6" Text="충전시간" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Background="#FFEBEEEE" Padding="10,3,0,0" IsReadOnly="True"/>
-                    <TextBox x:Name="FillTIME" Text="{Binding FillTIME}" Grid.Column="1" Grid.Row="6" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True"/>
-                    <TextBox x:Name="SUMFILLTIME" Text="{Binding SumFillTIME}" Grid.Column="4" Grid.Row="6" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True"/>
+                    <TextBox x:Name="FillTIME" Text="{Binding FillTIME}" Grid.Column="1" Grid.Row="6" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True" Background="{Binding FillDiff}" />
+                    <TextBox x:Name="SUMFILLTIME" Text="{Binding SumFillTIME}" Grid.Column="4" Grid.Row="6" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True" Background="{Binding FillDiff}" />
 
                     <TextBox x:Name="ASEPTIC" Grid.Column="0" Grid.Row="7" Text="무균 공정 시간" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Background="#FFEBEEEE" Padding="10,3,0,0" IsReadOnly="True"/>
-                    <TextBox x:Name="ASEPTICTIME" Text="{Binding AsepticTime}" Grid.Column="1" Grid.Row="7" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True"/>
-                    <TextBox x:Name="SUMASEPTICTIME" Text="{Binding SumAsepticTime}" Grid.Column="4" Grid.Row="7" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True"/>
+                    <TextBox x:Name="ASEPTICTIME" Text="{Binding AsepticTime}" Grid.Column="1" Grid.Row="7" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True" Background="{Binding AsepticDiff}" />
+                    <TextBox x:Name="SUMASEPTICTIME" Text="{Binding SumAsepticTime}" Grid.Column="4" Grid.Row="7" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" IsReadOnly="True" Background="{Binding AsepticDiff}" />
 
                     <TextBox x:Name="USER" Grid.Column="0" Grid.Row="8" Text="무균 공정에 참여한 모든 작업자" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Background="#FFEBEEEE" Padding="10,3,0,0" IsReadOnly="True"/>
                     <TextBox x:Name="USERLIST" Text="{Binding WorkUserId}" Grid.Column="1" Grid.Row="8" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Margin="0,0.001,0,-0.001" UseLayoutRounding="False" Grid.ColumnSpan="4" IsReadOnly="True"/>

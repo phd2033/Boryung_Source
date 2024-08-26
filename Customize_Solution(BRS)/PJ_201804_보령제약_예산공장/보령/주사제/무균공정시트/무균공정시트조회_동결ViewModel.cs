@@ -601,6 +601,108 @@ namespace 보령
             }
         }
 
+        #region [항목별 일탈여부 판단 파라미터]
+        private string _AutoDiff;
+        public string AutoDiff
+        {
+            get { return _AutoDiff; }
+            set
+            {
+                _AutoDiff = value;
+                OnPropertyChanged("AutoDiff");
+            }
+        }
+
+        private string _IsolatorHoldDiff;
+        public string IsolatorHoldDiff
+        {
+            get { return _IsolatorHoldDiff; }
+            set
+            {
+                _IsolatorHoldDiff = value;
+                OnPropertyChanged("IsolatorHoldDiff");
+            }
+        }
+
+        private string _SetDiff;
+        public string SetDiff
+        {
+            get { return _SetDiff; }
+            set
+            {
+                _SetDiff = value;
+                OnPropertyChanged("SetDiff");
+            }
+        }
+
+        private string _StableDiff;
+        public string StableDiff
+        {
+            get { return _StableDiff; }
+            set
+            {
+                _StableDiff = value;
+                OnPropertyChanged("StableDiff");
+            }
+        }
+
+        private string _FillDiff_FDR;
+        public string FillDiff_FDR
+        {
+            get { return _FillDiff_FDR; }
+            set
+            {
+                _FillDiff_FDR = value;
+                OnPropertyChanged("FillDiff_FDR");
+            }
+        }
+
+        private string _AsepticDiff_FDR;
+        public string AsepticDiff_FDR
+        {
+            get { return _AsepticDiff_FDR; }
+            set
+            {
+                _AsepticDiff_FDR = value;
+                OnPropertyChanged("AsepticDiff_FDR");
+            }
+        }
+
+        private string _DryHoldDiff;
+        public string DryHoldDiff
+        {
+            get { return _DryHoldDiff; }
+            set
+            {
+                _DryHoldDiff = value;
+                OnPropertyChanged("DryHoldDiff");
+            }
+        }
+
+        private string _FreezeDiff;
+        public string FreezeDiff
+        {
+            get { return _FreezeDiff; }
+            set
+            {
+                _FreezeDiff = value;
+                OnPropertyChanged("FreezeDiff");
+            }
+        }
+
+        private string _BlockDiff;
+        public string BlockDiff
+        {
+            get { return _BlockDiff; }
+            set
+            {
+                _BlockDiff = value;
+                OnPropertyChanged("BlockDiff");
+            }
+        }
+
+        #endregion [항목별 일탈여부 판단 파라미터]
+
         #endregion
 
         #region [Bizrule]
@@ -615,7 +717,7 @@ namespace 보령
                 NotifyPropertyChanged();
             }
         }
-
+        
         #endregion
 
         #region [Command]
@@ -637,15 +739,15 @@ namespace 보령
                             if (arg != null && arg is 무균공정시트조회_동결)
                             {
                                 _mainWnd = arg as 무균공정시트조회_동결;
-
+                                // 2024.08.14 박희돈 기록정보 조회
                                 _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.INDATAs.Add(new BR_BRS_SEL_SVP_ASEPTIC_PROCESS.INDATA
                                 {
                                     POID = _mainWnd.CurrentOrder.OrderID
                                 });
-
+                                // 2024.08.14 박희돈 조회정보 맵핑
                                 if (await _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.Execute() && _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs.Count > 0)
                                 {
-                                    valueMapping();
+                                    ValueMapping();
                                 }
                             }
 
@@ -684,9 +786,24 @@ namespace 보령
                         try
                         {
                             IsBusy = true;
+                            bool checkDeviation = false;
 
                             CommandResults["ConfirmCommandAsync"] = false;
                             CommandCanExecutes["ConfirmCommandAsync"] = false;
+
+                            if(!string.IsNullOrEmpty(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].AutoDiff) && _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].AutoDiff.ToString().Equals("Y")
+                               || !string.IsNullOrEmpty(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].IsolatorHoldDiff) && _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].IsolatorHoldDiff.ToString().Equals("Y")
+                               || !string.IsNullOrEmpty(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SETDiff) && _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SETDiff.ToString().Equals("Y")
+                               || !string.IsNullOrEmpty(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].StableDiff) && _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].StableDiff.ToString().Equals("Y")
+                               || !string.IsNullOrEmpty(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].FillDiff_FDR) && _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].FillDiff_FDR.ToString().Equals("Y")
+                               || !string.IsNullOrEmpty(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].AsepticDiff_FDR) && _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].AsepticDiff_FDR.ToString().Equals("Y")
+                               || !string.IsNullOrEmpty(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].DryHoldDiff) && _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].DryHoldDiff.ToString().Equals("Y")
+                               || !string.IsNullOrEmpty(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].FreezeDiff) && _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].FreezeDiff.ToString().Equals("Y")
+                               || !string.IsNullOrEmpty(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].BlockDiff) && _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].BlockDiff.ToString().Equals("Y")
+                               )
+                            {
+                                checkDeviation = true;
+                            }
 
                             //이미지 저장시 서명화면으로 인해 이미지가 잘 안보임.그에 따른 이미지 데이터만 먼저 생성해 놓도록 함.
                             Brush background = _mainWnd.PrintArea.Background;
@@ -698,27 +815,88 @@ namespace 보령
                             _mainWnd.CurrentInstruction.Raw.ACTVAL = "Image attached";
 
                             var authHelper = new iPharmAuthCommandHelper();
-                            if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN == "Y" && _mainWnd.CurrentInstruction.PhaseState.Equals("COMP"))
+
+                            if (checkDeviation)
                             {
-                                authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+                                if (await OnMessageAsync("입력값이 기준값을 벗어났습니다. 기록을 진행하시겟습니까?", true) == false) return;
+
+                                authHelper = new iPharmAuthCommandHelper();
+
+                                authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_Deviation");
+
+                                enumRoleType inspectorRole = enumRoleType.ROLE001;
+                                if (_mainWnd.Phase.CurrentPhase.INSPECTOR_ROLE != null && Enum.TryParse<enumRoleType>(_mainWnd.Phase.CurrentPhase.INSPECTOR_ROLE, out inspectorRole))
+                                {
+                                }
 
                                 if (await authHelper.ClickAsync(
-                                    Common.enumCertificationType.Function,
+                                    Common.enumCertificationType.Role,
                                     Common.enumAccessType.Create,
-                                    string.Format("기록값을 변경합니다."),
-                                    string.Format("기록값 변경"),
+                                    "기록값 일탈에 대해 서명후 기록을 진행합니다 ",
+                                    "Deviation Sign",
                                     true,
-                                    "OM_ProductionOrder_SUI",
-                                    "", _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID, null) == false)
+                                    "OM_ProductionOrder_Deviation",
+                                    "",
+                                    this._mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
+                                    this._mainWnd.CurrentInstruction.Raw.DVTPASSYN == "Y" ? enumRoleType.ROLE001.ToString() : inspectorRole.ToString()) == false)
                                 {
-                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                    return;
                                 }
+                                _mainWnd.CurrentInstruction.Raw.DVTFCYN = "Y";
+                                _mainWnd.CurrentInstruction.Raw.DVTCONFIRMUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Deviation");
                             }
+                            else
+                            {
+                                if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN == "Y" && _mainWnd.CurrentInstruction.PhaseState.Equals("COMP"))
+                                {
+                                    authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+
+                                    if (await authHelper.ClickAsync(
+                                        Common.enumCertificationType.Function,
+                                        Common.enumAccessType.Create,
+                                        string.Format("기록값을 변경합니다."),
+                                        string.Format("기록값 변경"),
+                                        true,
+                                        "OM_ProductionOrder_SUI",
+                                        "", _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID, null) == false)
+                                    {
+                                        throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                    }
+                                }
+                            }                            
 
                             var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction);
                             if (result != enumInstructionRegistErrorType.Ok)
                             {
                                 throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
+                            }
+
+                            if (checkDeviation)
+                            {
+
+                                var bizrule = new BR_PHR_REG_InstructionComment();
+
+                                bizrule.IN_Comments.Add(
+                                    new BR_PHR_REG_InstructionComment.IN_Comment
+                                    {
+                                        POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                        OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                        COMMENTTYPE = "CM008",
+                                        COMMENT = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_Deviation")
+                                    }
+                                    );
+                                bizrule.IN_IntructionResults.Add(
+                                    new BR_PHR_REG_InstructionComment.IN_IntructionResult
+                                    {
+                                        RECIPEISTGUID = _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
+                                        ACTIVITYID = _mainWnd.CurrentInstruction.Raw.ACTIVITYID,
+                                        IRTGUID = _mainWnd.CurrentInstruction.Raw.IRTGUID,
+                                        IRTRSTGUID = _mainWnd.CurrentInstruction.Raw.IRTRSTGUID,
+                                        IRTSEQ = (int)_mainWnd.CurrentInstruction.Raw.IRTSEQ
+                                    }
+                                    );
+
+                                await bizrule.Execute();
                             }
 
                             if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
@@ -751,7 +929,7 @@ namespace 보령
 
         #region User Define
 
-        public void valueMapping()
+        public void ValueMapping()
         {
             try
             {
@@ -759,23 +937,32 @@ namespace 보령
                 UnloadingDttm = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].UnloadingDttm;
                 AutoClaveHoldTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].AutoClaveHoldTime;
                 SumAutoClaveHoldTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SUMAUTOCLAVEHOLDTIME;
+                AutoDiff = !string.IsNullOrEmpty(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].AutoDiff) && _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].AutoDiff.ToString().Equals("Y") ? "Yellow" : "#FFEBEEEE";
                 IsolatorHoldTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].IsolatorHoldTime;
                 SumIsolatorHoldTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SUMISOLATORHOLDTIME;
+                IsolatorHoldDiff = !string.IsNullOrEmpty(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].IsolatorHoldDiff) &&_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].IsolatorHoldDiff.ToString().Equals("Y") ? "Yellow" : "#FFEBEEEE";
                 SetStartTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SetStartTime;
                 SetEndTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SetEndTime;
                 SumSetTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SUMSETTIME;
+                SetDiff = !string.IsNullOrEmpty(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SETDiff) && _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SETDiff.ToString().Equals("Y") ? "Yellow" : "#FFEBEEEE";
                 StableTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].StableTime;
                 SumStableTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SUMSTABLETIME;
-                FillTIME = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].FillTIME;
-                SumFillTIME = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SumFillTIME;
-                AsepticTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].AsepticTime;
-                SumAsepticTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SumAsepticTime;
+                StableDiff = !string.IsNullOrEmpty(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].StableDiff) && _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].StableDiff.ToString().Equals("Y") ? "Yellow" : "#FFEBEEEE";
+                FillTIME = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].FillTIME_FDR;
+                SumFillTIME = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SumFillTIME_FDR;
+                FillDiff_FDR = !string.IsNullOrEmpty(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].FillDiff_FDR) && _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].FillDiff_FDR.ToString().Equals("Y") ? "Yellow" : "#FFEBEEEE";
+                AsepticTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].AsepticTime_FDR;
+                SumAsepticTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SumAsepticTime_FDR;
+                AsepticDiff_FDR = !string.IsNullOrEmpty(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].AsepticDiff_FDR) && _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].AsepticDiff_FDR.ToString().Equals("Y") ? "Yellow" : "#FFEBEEEE";
                 DryHoldTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].DryHoldTime;
                 SumDryHoldTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SumDryHoldTime;
+                DryHoldDiff = !string.IsNullOrEmpty(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].DryHoldDiff) && _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].DryHoldDiff.ToString().Equals("Y") ? "Yellow" : "#FFEBEEEE";
                 FreezeTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].FreezeTime;
                 SumFreezeTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SumFreezeTime;
+                FreezeDiff = !string.IsNullOrEmpty(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].FreezeDiff) && _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].FreezeDiff.ToString().Equals("Y") ? "Yellow" : "#FFEBEEEE";
                 BlockTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].BlockTime;
                 SumBlockTime = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].SumBlockTime;
+                BlockDiff = !string.IsNullOrEmpty(_BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].BlockDiff) && _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].BlockDiff.ToString().Equals("Y") ? "Yellow" : "#FFEBEEEE";
                 WorkUserId = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].WORKUSERID;
                 PMSStartDttm = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].PMSStartDttm;
                 PMSEndDttm = _BR_BRS_SEL_SVP_ASEPTIC_PROCESS.OUTDATAs[0].PMSEndDttm;
@@ -804,7 +991,7 @@ namespace 보령
                 throw ex;
             }
         }
-
+        
         public byte[] imageToByteArray()
         {
             try

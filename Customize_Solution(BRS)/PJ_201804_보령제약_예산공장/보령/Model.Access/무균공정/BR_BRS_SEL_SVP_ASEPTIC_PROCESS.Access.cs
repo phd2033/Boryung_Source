@@ -385,6 +385,38 @@ namespace 보령
                     }
                 }
             }
+            private string _AutoDiff;
+            [BizActorOutputItemAttribute()]
+            public string AutoDiff
+            {
+                get
+                {
+                    return this._AutoDiff;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._AutoDiff = value;
+                        this.CheckIsOriginal("AutoDiff", value);
+                        this.OnPropertyChanged("AutoDiff");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
             private string _IsolatorHoldTime;
             [BizActorOutputItemAttribute()]
             public string IsolatorHoldTime
@@ -435,6 +467,38 @@ namespace 보령
                         this._SUMISOLATORHOLDTIME = value;
                         this.CheckIsOriginal("SUMISOLATORHOLDTIME", value);
                         this.OnPropertyChanged("SUMISOLATORHOLDTIME");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _IsolatorHoldDiff;
+            [BizActorOutputItemAttribute()]
+            public string IsolatorHoldDiff
+            {
+                get
+                {
+                    return this._IsolatorHoldDiff;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._IsolatorHoldDiff = value;
+                        this.CheckIsOriginal("IsolatorHoldDiff", value);
+                        this.OnPropertyChanged("IsolatorHoldDiff");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -545,6 +609,38 @@ namespace 보령
                     }
                 }
             }
+            private string _SETDiff;
+            [BizActorOutputItemAttribute()]
+            public string SETDiff
+            {
+                get
+                {
+                    return this._SETDiff;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._SETDiff = value;
+                        this.CheckIsOriginal("SETDiff", value);
+                        this.OnPropertyChanged("SETDiff");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
             private string _StableTime;
             [BizActorOutputItemAttribute()]
             public string StableTime
@@ -595,6 +691,38 @@ namespace 보령
                         this._SUMSTABLETIME = value;
                         this.CheckIsOriginal("SUMSTABLETIME", value);
                         this.OnPropertyChanged("SUMSTABLETIME");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _StableDiff;
+            [BizActorOutputItemAttribute()]
+            public string StableDiff
+            {
+                get
+                {
+                    return this._StableDiff;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._StableDiff = value;
+                        this.CheckIsOriginal("StableDiff", value);
+                        this.OnPropertyChanged("StableDiff");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -673,6 +801,134 @@ namespace 보령
                     }
                 }
             }
+            private string _FillDiff;
+            [BizActorOutputItemAttribute()]
+            public string FillDiff
+            {
+                get
+                {
+                    return this._FillDiff;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._FillDiff = value;
+                        this.CheckIsOriginal("FillDiff", value);
+                        this.OnPropertyChanged("FillDiff");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _FillTIME_FDR;
+            [BizActorOutputItemAttribute()]
+            public string FillTIME_FDR
+            {
+                get
+                {
+                    return this._FillTIME_FDR;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._FillTIME_FDR = value;
+                        this.CheckIsOriginal("FillTIME_FDR", value);
+                        this.OnPropertyChanged("FillTIME_FDR");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _SumFillTIME_FDR;
+            [BizActorOutputItemAttribute()]
+            public string SumFillTIME_FDR
+            {
+                get
+                {
+                    return this._SumFillTIME_FDR;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._SumFillTIME_FDR = value;
+                        this.CheckIsOriginal("SumFillTIME_FDR", value);
+                        this.OnPropertyChanged("SumFillTIME_FDR");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _FillDiff_FDR;
+            [BizActorOutputItemAttribute()]
+            public string FillDiff_FDR
+            {
+                get
+                {
+                    return this._FillDiff_FDR;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._FillDiff_FDR = value;
+                        this.CheckIsOriginal("FillDiff_FDR", value);
+                        this.OnPropertyChanged("FillDiff_FDR");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
             private string _AsepticTime;
             [BizActorOutputItemAttribute()]
             public string AsepticTime
@@ -723,6 +979,134 @@ namespace 보령
                         this._SumAsepticTime = value;
                         this.CheckIsOriginal("SumAsepticTime", value);
                         this.OnPropertyChanged("SumAsepticTime");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _AsepticDiff;
+            [BizActorOutputItemAttribute()]
+            public string AsepticDiff
+            {
+                get
+                {
+                    return this._AsepticDiff;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._AsepticDiff = value;
+                        this.CheckIsOriginal("AsepticDiff", value);
+                        this.OnPropertyChanged("AsepticDiff");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _AsepticTime_FDR;
+            [BizActorOutputItemAttribute()]
+            public string AsepticTime_FDR
+            {
+                get
+                {
+                    return this._AsepticTime_FDR;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._AsepticTime_FDR = value;
+                        this.CheckIsOriginal("AsepticTime_FDR", value);
+                        this.OnPropertyChanged("AsepticTime_FDR");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _SumAsepticTime_FDR;
+            [BizActorOutputItemAttribute()]
+            public string SumAsepticTime_FDR
+            {
+                get
+                {
+                    return this._SumAsepticTime_FDR;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._SumAsepticTime_FDR = value;
+                        this.CheckIsOriginal("SumAsepticTime_FDR", value);
+                        this.OnPropertyChanged("SumAsepticTime_FDR");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _AsepticDiff_FDR;
+            [BizActorOutputItemAttribute()]
+            public string AsepticDiff_FDR
+            {
+                get
+                {
+                    return this._AsepticDiff_FDR;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._AsepticDiff_FDR = value;
+                        this.CheckIsOriginal("AsepticDiff_FDR", value);
+                        this.OnPropertyChanged("AsepticDiff_FDR");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -801,6 +1185,38 @@ namespace 보령
                     }
                 }
             }
+            private string _DryHoldDiff;
+            [BizActorOutputItemAttribute()]
+            public string DryHoldDiff
+            {
+                get
+                {
+                    return this._DryHoldDiff;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._DryHoldDiff = value;
+                        this.CheckIsOriginal("DryHoldDiff", value);
+                        this.OnPropertyChanged("DryHoldDiff");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
             private string _FreezeTime;
             [BizActorOutputItemAttribute()]
             public string FreezeTime
@@ -865,6 +1281,38 @@ namespace 보령
                     }
                 }
             }
+            private string _FreezeDiff;
+            [BizActorOutputItemAttribute()]
+            public string FreezeDiff
+            {
+                get
+                {
+                    return this._FreezeDiff;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._FreezeDiff = value;
+                        this.CheckIsOriginal("FreezeDiff", value);
+                        this.OnPropertyChanged("FreezeDiff");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
             private string _BlockTime;
             [BizActorOutputItemAttribute()]
             public string BlockTime
@@ -915,6 +1363,38 @@ namespace 보령
                         this._SumBlockTime = value;
                         this.CheckIsOriginal("SumBlockTime", value);
                         this.OnPropertyChanged("SumBlockTime");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _BlockDiff;
+            [BizActorOutputItemAttribute()]
+            public string BlockDiff
+            {
+                get
+                {
+                    return this._BlockDiff;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._BlockDiff = value;
+                        this.CheckIsOriginal("BlockDiff", value);
+                        this.OnPropertyChanged("BlockDiff");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())

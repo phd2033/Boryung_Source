@@ -30,18 +30,6 @@ namespace 보령
         {
             DialogResult = false;
         }
-        private void MainDataGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (this.MainDataGrid.SelectedItem != null)
-            {
-                BR_BRS_SEL_EquipmentStatus_PROC_OPSG.OUTDATA tar = this.MainDataGrid.SelectedItem as BR_BRS_SEL_EquipmentStatus_PROC_OPSG.OUTDATA;
-                tar.SELFLAG = !tar.SELFLAG;
-
-                this.MainDataGrid.SelectedItem = null;
-                this.MainDataGrid.Refresh();
-            }
-        }
-
         private void Module_Loaded(object sender, RoutedEventArgs e)
         {
             cbobModule.Items.Add("1 Module");
@@ -50,6 +38,44 @@ namespace 보령
             cbobModule.Items.Add("4 Module");
             cbobModule.Items.Add("5 Module");
         }
+        private void StrtTime_GotFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var popup = new 간섭상황시간Popup();
 
+                popup.resTime = StrtTime.DateTime.HasValue ? StrtTime.DateTime.Value : DateTime.Now;
+                popup.Closed += (s1, e1) =>
+                {
+                    if (popup.DialogResult.HasValue && popup.DialogResult.Value)
+                        StrtTime.DateTime = Convert.ToDateTime(StrtDate.DateTime.Value.ToString("yyyy-MM-dd") + popup.resTime.ToString(" HH:mm:ss"));
+                };
+
+                popup.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void EndTime_GotFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var popup = new 간섭상황시간Popup();
+
+                popup.resTime = EndTime.DateTime.HasValue ? EndTime.DateTime.Value : DateTime.Now;
+                popup.Closed += (s1, e1) =>
+                {
+                    if (popup.DialogResult.HasValue && popup.DialogResult.Value)
+                        EndTime.DateTime = Convert.ToDateTime(EndDate.DateTime.Value.ToString("yyyy-MM-dd") + popup.resTime.ToString(" HH:mm:ss"));
+                };
+                popup.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

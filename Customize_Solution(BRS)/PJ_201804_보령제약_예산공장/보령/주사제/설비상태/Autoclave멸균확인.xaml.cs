@@ -9,20 +9,21 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using System.Windows.Navigation;
+using ShopFloorUI;
+using C1.Silverlight.DataGrid;
+using System.ComponentModel;
 
-namespace 보령.주사제.설비상태
+namespace 보령
 {
-    public partial class Autoclave멸균확인 : Page
+    public partial class Autoclave멸균확인 : ShopFloorCustomWindow
     {
         public Autoclave멸균확인()
         {
             InitializeComponent();
         }
-
-        // 사용자가 이 페이지를 탐색할 때 실행됩니다.
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void btnCancel_Click(object sender, EventArgs e)
         {
+            DialogResult = false;
         }
 
     }

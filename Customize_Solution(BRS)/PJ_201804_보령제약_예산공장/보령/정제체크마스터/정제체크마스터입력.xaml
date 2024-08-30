@@ -110,7 +110,7 @@
 
                 <Grid x:Name="IPCResultSection" Grid.Row="2" Margin="5">
                     <ezmes:CNSDataGrid x:Name="dgCheckMasterIPCResult" IsRowAdd="True" IsRowDelete="True" IsEditMode="True" IsEditSection="True" IsRowNumber="False"
-                                    HeadersVisibility="Column" ItemsSource="{Binding IPCResultSections}" Margin="0,130,0,51" FontFamily="Portable User Interface" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                                    HeadersVisibility="Column" ItemsSource="{Binding IPCResultSections}" Margin="0,130,0,51" ScrollViewer.VerticalScrollBarVisibility="Visible">
                         <ezmes:CNSDataGrid.DataColumns>
                             <ezmes:DataColumn HeadName="점검 일시" HeaderWidth="135" DataField = "STRTDTTM" ColumnType ="DateTime" HorizontalAlignment="Center"/>
                             <ezmes:DataColumn HeadName="평균질량" HeaderWidth="94" DataField = "AVG_WEIGHT" ColumnType ="Template">

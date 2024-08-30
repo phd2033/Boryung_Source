@@ -787,6 +787,10 @@
     <Compile Include="원료칭량\Popup\AllocationInfoPopup.xaml.cs">
       <DependentUpon>AllocationInfoPopup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="원료칭량\소분원료현장칭량.xaml.cs">
+      <DependentUpon>소분원료현장칭량.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="원료칭량\소분원료현장칭량ViewModel.cs" />
     <Compile Include="원료칭량\원료칭량확인및기록.xaml.cs">
       <DependentUpon>원료칭량확인및기록.xaml</DependentUpon>
     </Compile>
@@ -1515,6 +1519,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="원료칭량\Popup\AllocationInfoPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="원료칭량\소분원료현장칭량.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

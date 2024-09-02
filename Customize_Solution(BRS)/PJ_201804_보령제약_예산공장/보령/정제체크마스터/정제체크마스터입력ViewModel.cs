@@ -18,7 +18,7 @@ namespace 보령
         {
             _BR_PHR_SEL_CODE = new BR_PHR_SEL_CODE();
             _BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit = new BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit();
-            _BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD = new BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD();
+            _BR_BRS_SEL_ProductionOrderTestSpecification_STANDARD = new BR_BRS_SEL_ProductionOrderTestSpecification_STANDARD();
             _IPCResultSections = new IPCResultSection.OUTDATACollection();
             _IPC_RESULTS = new ObservableCollection<EACH_INDATA>();
             _IPC_STANDARDS = new ObservableCollection<EACH_INDATA>();
@@ -167,7 +167,7 @@ namespace 보령
 
         private BR_PHR_SEL_CODE _BR_PHR_SEL_CODE;
         private BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit _BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit;
-        private BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD _BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD;
+        private BR_BRS_SEL_ProductionOrderTestSpecification_STANDARD _BR_BRS_SEL_ProductionOrderTestSpecification_STANDARD;
         #endregion
 
         #region [Command]
@@ -198,13 +198,13 @@ namespace 보령
                             RSD_FLAG = true;
 
 
-                            _BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD.INDATAs.Add(new BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD.INDATA()
+                            _BR_BRS_SEL_ProductionOrderTestSpecification_STANDARD.INDATAs.Add(new BR_BRS_SEL_ProductionOrderTestSpecification_STANDARD.INDATA()
                             {
                                 POID = _mainWnd.CurrentOrder.ProductionOrderID,
                                 OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID
                             });
 
-                            if (await _BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD.Execute())
+                            if (await _BR_BRS_SEL_ProductionOrderTestSpecification_STANDARD.Execute())
                             {
                                 IPC_STANDARDS.Clear();
                                 String AVG_STD_HARDNESS = "";
@@ -218,7 +218,7 @@ namespace 보령
                                 String MIN_STD_WEIGHT = "";
                                 String MAX_STD_WEIGHT = "";
 
-                                foreach (var std in _BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD.OUTDATAs)
+                                foreach (var std in _BR_BRS_SEL_ProductionOrderTestSpecification_STANDARD.OUTDATAs)
                                 {
                                     switch (std.TIID)
                                     {
@@ -276,7 +276,7 @@ namespace 보령
                             }
                             else
                             {
-                                throw _BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD.Exception;
+                                throw _BR_BRS_SEL_ProductionOrderTestSpecification_STANDARD.Exception;
                             }
 
                             // 이전 기록 조회

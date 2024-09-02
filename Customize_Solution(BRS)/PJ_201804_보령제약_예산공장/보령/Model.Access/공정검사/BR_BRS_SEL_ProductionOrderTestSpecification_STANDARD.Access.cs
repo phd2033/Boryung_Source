@@ -6,9 +6,9 @@ namespace 보령
 {
     
     /// <summary>
-    /// summary of BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD
+    /// summary of BR_BRS_SEL_ProductionOrderTestSpecification_STANDARD
     /// </summary>
-    public partial class BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD : BizActorRuleBase
+    public partial class BR_BRS_SEL_ProductionOrderTestSpecification_STANDARD : BizActorRuleBase
     {
         public sealed partial class INDATACollection : BufferedObservableCollection<INDATA>
         {
@@ -322,10 +322,10 @@ namespace 보령
                 }
             }
         }
-        public BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD()
+        public BR_BRS_SEL_ProductionOrderTestSpecification_STANDARD()
         {
-            RuleName = "BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD";
-            BizName = "BR_PHR_SEL_ProductionOrderTestSpecification_STANDARD";
+            RuleName = "BR_BRS_SEL_ProductionOrderTestSpecification_STANDARD";
+            BizName = "BR_BRS_SEL_ProductionOrderTestSpecification_STANDARD";
             _INDATAs = new INDATACollection();
             _OUTDATAs = new OUTDATACollection();
         }

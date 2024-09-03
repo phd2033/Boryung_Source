@@ -64,11 +64,11 @@
 
             <Grid x:Name="UserList" Grid.Row="2">
                 <c1:C1DataGrid Grid.Row="2" HeadersVisibility="Column" Height="150" ItemsSource="{Binding UserList}" AutoGenerateColumns="False"
-                       CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False" CanUserResizeColumns="False" CanUserResizeRows="False"
+                       CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="True" CanUserResizeColumns="False" CanUserResizeRows="False"
                        HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible" ScrollMode="RealTime">
                     <c1:C1DataGrid.Columns>
-                        <c1:DataGridTextColumn Header="작업자ID" Binding="{Binding UserId}"/>
-                        <c1:DataGridTextColumn Header="작업자명" Binding="{Binding UserName}"/>
+                        <c1:DataGridTextColumn Header="작업자ID" Binding="{Binding USERID}"/>
+                        <c1:DataGridTextColumn Header="작업자명" Binding="{Binding USERNAME}"/>
                     </c1:C1DataGrid.Columns>
                 </c1:C1DataGrid>
             </Grid>

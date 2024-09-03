@@ -22,7 +22,8 @@ namespace 보령
         #region [Property]
         public 무균공정작업자입력ViewModel()
         {
-            _UserList = new ObservableCollection<ChargedContainer>();
+            _UserList = new ObservableCollection<UserContainer>();
+            _BR_PHR_SEL_PERSON = new BR_PHR_SEL_PERSON();
         }
 
         private 무균공정작업자입력 _mainWnd;
@@ -63,8 +64,8 @@ namespace 보령
             }
         }
 
-        private ObservableCollection<ChargedContainer> _UserList;
-        public ObservableCollection<ChargedContainer> UserList
+        private ObservableCollection<UserContainer> _UserList;
+        public ObservableCollection<UserContainer> UserList
         {
             get { return _UserList; }
             set
@@ -95,11 +96,32 @@ namespace 보령
                             {
                                 _mainWnd = arg as 무균공정작업자입력;
 
-                                OnPropertyChanged("IBCList");
+                                if(_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y")
+                                    && _mainWnd.CurrentInstruction.PhaseState.Equals("COMP")
+                                    && _mainWnd.CurrentInstruction.Raw.NOTE != null)
+                                {
+                                    var bytearray = _mainWnd.CurrentInstruction.Raw.NOTE;
+                                    string xml = Encoding.UTF8.GetString(bytearray, 0, bytearray.Length);
+                                    DataSet ds = new DataSet();
+                                    ds.ReadXmlFromString(xml);
+
+                                    if (ds.Tables.Count == 1 && ds.Tables[0].TableName == "DATA")
+                                    {
+                                        foreach (DataRow row in ds.Tables[0].Rows)
+                                        {
+                                            _UserList.Add(new UserContainer
+                                            {
+                                                USERID = row["작업자ID"] != null ? row["작업자ID"].ToString() : "",
+                                                USERNAME = row["작업자명"] != null ? row["작업자명"].ToString() : ""
+                                            });
+                                        }
+                                        OnPropertyChanged("UserList");
+                                    }
+                                }
+
+                                _mainWnd.txtUserId.Focus();
                             }
-
-                            _mainWnd.txtUserId.Focus();
-
+                            
                             CommandResults["LoadedCommandAsync"] = true;
                         }
 
@@ -163,14 +185,32 @@ namespace 보령
                             DataTable dt = new DataTable("DATA");
                             ds.Tables.Add(dt);
 
-                            dt.Columns.Add(new DataColumn("작업자"));
+                            dt.Columns.Add(new DataColumn("작업자ID"));
+                            dt.Columns.Add(new DataColumn("작업자명"));
 
                             var row = dt.NewRow();
-                            
-                            row["작업자"] = "";
-                            dt.Rows.Add(row);
+                            foreach (var item in _UserList)
+                            {
+                                row["작업자ID"] = item.USERID;
+                                row["작업자명"] = item.USERNAME;
+                                dt.Rows.Add(row);
+                            }
 
-                            
+                            var xml = BizActorRuleBase.CreateXMLStream(ds);
+                            var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
+
+                            _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
+                            _mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
+
+                            var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction, true);
+                            if (result != enumInstructionRegistErrorType.Ok)
+                            {
+                                throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
+                            }
+
+                            if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
+                            else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
+
                             IsBusy = false;
                             CommandResults["ConfirmCommandAsync"] = true;
                         }
@@ -223,8 +263,11 @@ namespace 보령
                         {
                             if (_BR_PHR_SEL_PERSON.OUTDATAs.Count > 0)
                             {
-                                UserId = _BR_PHR_SEL_PERSON.OUTDATAs[0].USERID;
-                                UserName = _BR_PHR_SEL_PERSON.OUTDATAs[0].USERNAME;
+                                _UserList.Add(new UserContainer
+                                {
+                                    USERID = _BR_PHR_SEL_PERSON.OUTDATAs[0].USERID,
+                                    USERNAME = _BR_PHR_SEL_PERSON.OUTDATAs[0].USERNAME
+                                });
                             }
                             else
                                 OnMessage("BIN 정보가 없습니다.");
@@ -249,7 +292,7 @@ namespace 보령
             }
         }
 
-        public class ChargedContainer : WIPContainer
+        public class UserContainer : WIPContainer
         {
             private string _USERID;
             public string USERID

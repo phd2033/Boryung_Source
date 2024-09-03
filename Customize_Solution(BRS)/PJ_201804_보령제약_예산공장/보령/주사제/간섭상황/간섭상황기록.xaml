@@ -84,7 +84,8 @@
                 <sdk:DataGrid x:Name="CheckDataGrid" HeadersVisibility="Column" AutoGenerateColumns="False"
                                ItemsSource="{Binding ListInterfer}" Height="210" VerticalAlignment="Top" Margin="10,10,10,-220">
                     <sdk:DataGrid.Columns>
-                        <sdk:DataGridCheckBoxColumn Header="선택" Binding="{Binding Path=CHK}" Width="2*" IsReadOnly="True"/>
+                        <sdk:DataGridCheckBoxColumn Header="선택" Binding="{Binding Path=CHK}" Width="2*"/>
+                        <sdk:DataGridTextColumn Header="INTERFERGUID" Binding="{Binding Path=INTERFERGUID}" Width="2*" IsReadOnly="True" Visibility="Collapsed"/>
                         <sdk:DataGridTextColumn Header="No." Binding="{Binding Path=SEQ}" Width="2*" IsReadOnly="True"/>
                         <sdk:DataGridTextColumn Header="간섭내용" Binding="{Binding Path=SITUATION}" Width="13*" IsReadOnly="True"/>
                         <sdk:DataGridTextColumn Header="간섭구분" Binding="{Binding Path=GUBUN}" Width="4*" IsReadOnly="True"/>

@@ -18,7 +18,6 @@ namespace 보령
         {
             _BR_PHR_SEL_CommonCode = new BR_PHR_SEL_CommonCode();
             _BR_BRS_REG_INTERFER_SITUATION = new BR_BRS_REG_INTERFER_SITUATION();
-            _BR_BRS_SEL_INTERFER_SITUATION = new BR_BRS_SEL_INTERFER_SITUATION();
             _BR_BRS_UPD_INTERFER_SITUATION_NOTUSE = new BR_BRS_UPD_INTERFER_SITUATION_NOTUSE();
             _ListInterfer = new ObservableCollection<InterferSituation>();
         }
@@ -142,7 +141,6 @@ namespace 보령
         }
 
         private BR_BRS_REG_INTERFER_SITUATION _BR_BRS_REG_INTERFER_SITUATION;
-        private BR_BRS_SEL_INTERFER_SITUATION _BR_BRS_SEL_INTERFER_SITUATION;
         private BR_BRS_UPD_INTERFER_SITUATION_NOTUSE _BR_BRS_UPD_INTERFER_SITUATION_NOTUSE;
         #endregion
 
@@ -190,53 +188,26 @@ namespace 보령
                                 var bytearray = _mainWnd.CurrentInstruction.Raw.NOTE;
                                 string xml = Encoding.UTF8.GetString(bytearray, 0, bytearray.Length);
 
-                                _BR_BRS_SEL_INTERFER_SITUATION.INDATAs.Clear();
-                                _BR_BRS_SEL_INTERFER_SITUATION.OUTDATAs.Clear();
-
                                 ds.ReadXmlFromString(xml);
-                                if (ds.Tables[0].TableName == "DATA")
+                                if (ds.Tables[1].TableName == "DATA2")
                                 {
-                                    dt = ds.Tables[0];
+                                    dt = ds.Tables[1];
 
                                     foreach (var info in dt.Rows)
-                                    {
-                                        _BR_BRS_SEL_INTERFER_SITUATION.INDATAs.Add(new BR_BRS_SEL_INTERFER_SITUATION.INDATA
+                                    {                                        
+                                        _ListInterfer.Add(new InterferSituation
                                         {
-                                            POID = _mainWnd.CurrentOrder.ProductionOrderID,
-                                            OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
-                                            RECIPEISTGUID = _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
-                                            ACTIVITYID = _mainWnd.CurrentInstruction.Raw.ACTIVITYID,
-                                            IRTGUID = _mainWnd.CurrentInstruction.Raw.IRTGUID,
-                                            IRTSEQ = Convert.ToInt32(_mainWnd.CurrentInstruction.Raw.IRTSEQ),
+                                            CHK = false,
+                                            INTERFERGUID = info["INTERFERGUID"].ToString(),
                                             SEQ = Convert.ToDecimal(info["NO"]),
-                                            CONTENTS = info["간섭내용"].ToString(),
+                                            SITUATION = info["간섭내용"].ToString(),
                                             GUBUN = info["간섭구분"].ToString(),
-                                            MODULE = info["Module"].ToString(),
+                                            MODULENO = info["Module"].ToString(),
                                             DISPOSEQTY = Convert.ToDecimal(info["폐기수량"]),
                                             STDTTM = Convert.ToDateTime(String.Format("{0:yyyy-MM-dd HH:mm:ss}", info["발생시각"].ToString())),
                                             EDDTTM = Convert.ToDateTime(String.Format("{0:yyyy-MM-dd HH:mm:ss}", info["완료시각"].ToString())),
-                                            COMMENT = info["비고"].ToString(),
-                                            INSUSER = AuthRepositoryViewModel.Instance.LoginedUserID,
+                                            COMMENT = info["비고"].ToString()
                                         });
-                                    }
-                                    if (await _BR_BRS_SEL_INTERFER_SITUATION.Execute())
-                                    {
-                                        foreach(var outdata in _BR_BRS_SEL_INTERFER_SITUATION.OUTDATAs)
-                                        {
-                                            _ListInterfer.Add(new InterferSituation
-                                            {
-                                                CHK = false,
-                                                INTERFERGUID = outdata.INTERFERGUID,
-                                                SEQ = Convert.ToDecimal(outdata.SEQ),
-                                                SITUATION = outdata.CONTENTS,
-                                                GUBUN = outdata.GUBUN,
-                                                MODULENO = outdata.MODULE,
-                                                DISPOSEQTY = Convert.ToDecimal(outdata.DISPOSEQTY),
-                                                STDTTM = Convert.ToDateTime(String.Format("{0:yyyy-MM-dd HH:mm:ss}", outdata.STDTTM.ToString())),
-                                                EDDTTM = Convert.ToDateTime(String.Format("{0:yyyy-MM-dd HH:mm:ss}", outdata.EDDTTM.ToString())),
-                                                COMMENT = outdata.COMMENT
-                                            });
-                                        }
                                     }
                                 }
                             }
@@ -279,7 +250,7 @@ namespace 보령
                             ListInterfer.Add(new InterferSituation
                             {
                                 CHK = false,
-                                INTERFERGUID = "",
+                                INTERFERGUID = Guid.NewGuid().ToString(),
                                 SEQ = NO,
                                 SITUATION = CONTENTS,
                                 GUBUN = DIVISION,
@@ -448,28 +419,30 @@ namespace 보령
                                         Common.enumAccessType.Create,
                                         string.Format("기록값을 변경합니다."),
                                         string.Format("기록값 변경"),
-                                        false,
+                                        true,
                                         "OM_ProductionOrder_SUI",
                                         "", _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID, null) == false)
                                 {
                                     throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                 }
                             }
-
-                            // 전자서명 후 BR 실행
-                            authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
-                            if (await authHelper.ClickAsync(
-                                Common.enumCertificationType.Function,
-                                Common.enumAccessType.Create,
-                                string.Format("간섭상황기록"),
-                                string.Format("간섭상황기록"),
-                                false,
-                                "OM_ProductionOrder_SUI",
-                                _mainWnd.CurrentOrderInfo.EquipmentID, _mainWnd.CurrentOrderInfo.RecipeID, null) == false)
+                            else
                             {
-                                throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                // 전자서명 후 BR 실행
+                                authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+                                if (await authHelper.ClickAsync(
+                                    Common.enumCertificationType.Function,
+                                    Common.enumAccessType.Create,
+                                    string.Format("간섭상황기록"),
+                                    string.Format("간섭상황기록"),
+                                    false,
+                                    "OM_ProductionOrder_SUI",
+                                    _mainWnd.CurrentOrderInfo.EquipmentID, _mainWnd.CurrentOrderInfo.RecipeID, null) == false)
+                                {
+                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                }
                             }
-
+                            
                             //2024.08.26 김도연 재기록 시, 기존 간섭상황을 삭제할 때 BizRule 실행. ISUSE 'N' -> 'Y'로 변경
                             if (_BR_BRS_UPD_INTERFER_SITUATION_NOTUSE.INDATAs.Count > 0)
                             {
@@ -490,7 +463,7 @@ namespace 보령
                                     ACTIVITYID = _mainWnd.CurrentInstruction.Raw.ACTIVITYID,
                                     IRTGUID = _mainWnd.CurrentInstruction.Raw.IRTGUID,
                                     IRTSEQ = Convert.ToInt32(_mainWnd.CurrentInstruction.Raw.IRTSEQ),
-                                    INTERFERGUID = item.INTERFERGUID != "" ? item.INTERFERGUID : "",
+                                    INTERFERGUID = item.INTERFERGUID,
                                     SEQ = item.SEQ,
                                     CONTENTS = item.SITUATION,
                                     GUBUN = item.GUBUN,
@@ -506,7 +479,9 @@ namespace 보령
                             {
                                 DataSet ds = new DataSet();
                                 DataTable dt = new DataTable("DATA");
+                                DataTable dt_interfer = new DataTable("DATA2");
                                 ds.Tables.Add(dt);
+                                ds.Tables.Add(dt_interfer);
 
                                 dt.Columns.Add(new DataColumn("NO"));
                                 dt.Columns.Add(new DataColumn("간섭내용"));
@@ -517,7 +492,18 @@ namespace 보령
                                 dt.Columns.Add(new DataColumn("완료시각"));
                                 dt.Columns.Add(new DataColumn("비고"));
 
+                                dt_interfer.Columns.Add(new DataColumn("NO"));
+                                dt_interfer.Columns.Add(new DataColumn("간섭내용"));
+                                dt_interfer.Columns.Add(new DataColumn("간섭구분"));
+                                dt_interfer.Columns.Add(new DataColumn("Module"));
+                                dt_interfer.Columns.Add(new DataColumn("폐기수량"));
+                                dt_interfer.Columns.Add(new DataColumn("발생시각"));
+                                dt_interfer.Columns.Add(new DataColumn("완료시각"));
+                                dt_interfer.Columns.Add(new DataColumn("비고"));
+                                dt_interfer.Columns.Add(new DataColumn("INTERFERGUID"));
+
                                 var row = dt.NewRow();
+                                var row_interfer = dt_interfer.NewRow();
                                 foreach (var rowdata in ListInterfer)
                                 {
                                     row = dt.NewRow();
@@ -531,6 +517,19 @@ namespace 보령
                                     row["비고"] = rowdata.COMMENT != null? rowdata.COMMENT : "";
 
                                     dt.Rows.Add(row);
+
+                                    row_interfer = dt_interfer.NewRow();
+                                    row_interfer["NO"] = rowdata.SEQ;
+                                    row_interfer["간섭내용"] = rowdata.SITUATION;
+                                    row_interfer["간섭구분"] = rowdata.GUBUN;
+                                    row_interfer["Module"] = rowdata.MODULENO;
+                                    row_interfer["폐기수량"] = rowdata.DISPOSEQTY;
+                                    row_interfer["발생시각"] = rowdata.STDTTM;
+                                    row_interfer["완료시각"] = rowdata.EDDTTM;
+                                    row_interfer["비고"] = rowdata.COMMENT != null ? rowdata.COMMENT : "";
+                                    row_interfer["INTERFERGUID"] = rowdata.INTERFERGUID;
+
+                                    dt_interfer.Rows.Add(row_interfer);
                                 }
 
                                 var xml = BizActorRuleBase.CreateXMLStream(ds);

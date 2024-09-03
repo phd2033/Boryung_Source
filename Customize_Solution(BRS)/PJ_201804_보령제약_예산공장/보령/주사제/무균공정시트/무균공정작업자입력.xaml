@@ -7,6 +7,7 @@
            xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
            xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
            xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+           xmlns:ezmes="clr-namespace:LGCNS.EZMES.ControlsLib;assembly=LGCNS.EZMES.ControlsLib"
            xmlns:local="clr-namespace:보령"
            xmlns:localctrl="clr-namespace:보령.UserControls"
            Width="400" Height="Auto"
@@ -62,15 +63,14 @@
                 </Grid.ColumnDefinitions>
             </Grid>
 
-            <Grid x:Name="UserList" Grid.Row="2">
-                <c1:C1DataGrid Grid.Row="2" HeadersVisibility="Column" Height="150" ItemsSource="{Binding UserList}" AutoGenerateColumns="False"
-                       CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="True" CanUserResizeColumns="False" CanUserResizeRows="False"
-                       HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible" ScrollMode="RealTime">
-                    <c1:C1DataGrid.Columns>
-                        <c1:DataGridTextColumn Header="작업자ID" Binding="{Binding USERID}"/>
-                        <c1:DataGridTextColumn Header="작업자명" Binding="{Binding USERNAME}"/>
-                    </c1:C1DataGrid.Columns>
-                </c1:C1DataGrid>
+            <Grid x:Name="UserList" Grid.Row="2" Height="192" VerticalAlignment="Top">
+                <ezmes:CNSDataGrid HeadersVisibility="Column" Height="150" ItemsSource="{Binding UserList}" 
+                                   IsRowAdd="False" IsRowDelete="True" IsEditMode="True" IsEditSection="True" IsRowNumber="False" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                    <ezmes:CNSDataGrid.DataColumns>
+                        <ezmes:DataColumn HeadName="작업자ID" HeaderWidth="193" DataField = "OperatorID" ColumnType ="TextBox"/>
+                        <ezmes:DataColumn HeadName="작업자명" HeaderWidth="193" DataField = "OperatorName" ColumnType ="TextBox"/>
+                    </ezmes:CNSDataGrid.DataColumns>
+                </ezmes:CNSDataGrid>
             </Grid>
         </Grid>
 

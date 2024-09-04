@@ -3,6 +3,7 @@ using LGCNS.iPharmMES.Common;
 using ShopFloorUI;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,12 +23,12 @@ namespace 보령
         #region [Property]
         public 무균공정작업자입력ViewModel()
         {
-            _UserList = new ObservableCollection<UserContainer>();
+            _UserContain = new UserContainer.OUTDATACollection();
             _BR_PHR_SEL_PERSON = new BR_PHR_SEL_PERSON();
         }
 
         private 무균공정작업자입력 _mainWnd;
-        
+
         private string _UserId;
         public string UserId
         {
@@ -49,6 +50,17 @@ namespace 보령
                 OnPropertyChanged("UserName");
             }
         }
+
+        private UserContainer.OUTDATACollection _UserContain;
+        public UserContainer.OUTDATACollection UserContain
+        {
+            get { return this._UserContain; }
+            set
+            {
+                this._UserContain = value;
+                this.OnPropertyChanged("UserContain");
+            }
+        }
         #endregion
 
         #region [BizRule]
@@ -63,17 +75,7 @@ namespace 보령
                 OnPropertyChanged("BR_PHR_SEL_PERSON");
             }
         }
-
-        private ObservableCollection<UserContainer> _UserList;
-        public ObservableCollection<UserContainer> UserList
-        {
-            get { return _UserList; }
-            set
-            {
-                _UserList = value;
-                OnPropertyChanged("UserList");
-            }
-        }
+        
         #endregion
 
         #region [Command]
@@ -96,7 +98,7 @@ namespace 보령
                             {
                                 _mainWnd = arg as 무균공정작업자입력;
 
-                                if(_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y")
+                                if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y")
                                     && _mainWnd.CurrentInstruction.PhaseState.Equals("COMP")
                                     && _mainWnd.CurrentInstruction.Raw.NOTE != null)
                                 {
@@ -109,10 +111,11 @@ namespace 보령
                                     {
                                         foreach (DataRow row in ds.Tables[0].Rows)
                                         {
-                                            _UserList.Add(new UserContainer
+                                            _UserContain.Add(new UserContainer.OUTDATA
                                             {
                                                 USERID = row["작업자ID"] != null ? row["작업자ID"].ToString() : "",
-                                                USERNAME = row["작업자명"] != null ? row["작업자명"].ToString() : ""
+                                                USERNAME = row["작업자명"] != null ? row["작업자명"].ToString() : "",
+                                                RowEditSec = "INS"
                                             });
                                         }
                                         OnPropertyChanged("UserList");
@@ -121,7 +124,7 @@ namespace 보령
 
                                 _mainWnd.txtUserId.Focus();
                             }
-                            
+
                             CommandResults["LoadedCommandAsync"] = true;
                         }
 
@@ -144,7 +147,7 @@ namespace 보령
                 });
             }
         }
-        
+
         public ICommand ComfirmCommandAsync
         {
             get
@@ -189,8 +192,9 @@ namespace 보령
                             dt.Columns.Add(new DataColumn("작업자명"));
 
                             var row = dt.NewRow();
-                            foreach (var item in _UserList)
+                            foreach (var item in UserContain)
                             {
+                                row = dt.NewRow();
                                 row["작업자ID"] = item.USERID;
                                 row["작업자명"] = item.USERNAME;
                                 dt.Rows.Add(row);
@@ -246,21 +250,21 @@ namespace 보령
                     {
                         CommandCanExecutes["CheckIBCInfoCommandAsync"] = false;
                         CommandResults["CheckIBCInfoCommandAsync"] = false;
-                        
+
                         UserId = arg as string;
 
                         _BR_PHR_SEL_PERSON.INDATAs.Clear();
                         _BR_PHR_SEL_PERSON.OUTDATAs.Clear();
 
-                        foreach(var item in _UserList)
-                        {
-                            if(UserId == item.USERID)
-                            {
-                                OnMessage("이미 등록된 작업자입니다.");
-                                CommandResults["CheckIBCInfoCommandAsync"] = true;
-                                return;
-                            }
-                        }
+                        //foreach (var item in _UserContain)
+                        //{
+                        //    if (UserId == item.USERID)
+                        //    {
+                        //        OnMessage("이미 등록된 작업자입니다.");
+                        //        CommandResults["CheckIBCInfoCommandAsync"] = true;
+                        //        return;
+                        //    }
+                        //}
 
                         _BR_PHR_SEL_PERSON.INDATAs.Add(new BR_PHR_SEL_PERSON.INDATA
                         {
@@ -271,12 +275,14 @@ namespace 보령
 
                         if (await _BR_PHR_SEL_PERSON.Execute())
                         {
+
                             if (_BR_PHR_SEL_PERSON.OUTDATAs.Count > 0)
                             {
-                                _UserList.Add(new UserContainer
+                                _UserContain.Add(new UserContainer.OUTDATA
                                 {
                                     USERID = _BR_PHR_SEL_PERSON.OUTDATAs[0].USERID,
-                                    USERNAME = _BR_PHR_SEL_PERSON.OUTDATAs[0].USERNAME
+                                    USERNAME = _BR_PHR_SEL_PERSON.OUTDATAs[0].USERNAME,
+                                    RowEditSec = "INS"
                                 });
                             }
                             else
@@ -302,29 +308,134 @@ namespace 보령
             }
         }
 
-        public class UserContainer : WIPContainer
+        public class UserContainer : BizActorRuleBase
         {
-            private string _USERID;
-            public string USERID
+            public sealed partial class OUTDATACollection : BufferedObservableCollection<OUTDATA>
             {
-                get { return this._USERID; }
-                set
+            }
+            private OUTDATACollection _OUTDATAs;
+            [BizActorOutputSetAttribute()]
+            public OUTDATACollection OUTDATAs
+            {
+                get
                 {
-                    this._USERID = value;
-                    this.OnPropertyChanged("USERID");
+                    return this._OUTDATAs;
                 }
             }
-            private string _USERNAME;
-            public string USERNAME
+            [BizActorOutputSetDefineAttribute(Order = "0")]
+            [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
+            public partial class OUTDATA : BizActorDataSetBase
             {
-                get { return this._USERNAME; }
-                set
+                public OUTDATA()
                 {
-                    this._USERNAME = value;
-                    this.OnPropertyChanged("USERNAME");
+                    RowLoadedFlag = false;
+                }
+                private bool _RowLoadedFlag;
+                public bool RowLoadedFlag
+                {
+                    get
+                    {
+                        return this._RowLoadedFlag;
+                    }
+                    set
+                    {
+                        this._RowLoadedFlag = value;
+                        this.OnPropertyChanged("_RowLoadedFlag");
+                    }
+                }
+                private string _RowIndex;
+                public string RowIndex
+                {
+                    get
+                    {
+                        return this._RowIndex;
+                    }
+                    set
+                    {
+                        this._RowIndex = value;
+                        this.OnPropertyChanged("RowIndex");
+                    }
+                }
+                private string _RowEditSec;
+                public string RowEditSec
+                {
+                    get
+                    {
+                        return this._RowEditSec;
+                    }
+                    set
+                    {
+                        this._RowEditSec = value;
+                        this.OnPropertyChanged("RowEditSec");
+                    }
+                }
+                private string _USERID;
+                [BizActorOutputItemAttribute()]
+                public string USERID
+                {
+                    get
+                    {
+                        return this._USERID;
+                    }
+                    set
+                    {
+                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                        {
+                        }
+                        else
+                        {
+                            this._USERID = value;
+                            this.CheckIsOriginal("USERID", value);
+                            this.OnPropertyChanged("USERID");
+                            if (RowLoadedFlag)
+                            {
+                                if (this.CheckIsOriginalRow())
+                                {
+                                    RowEditSec = "SEL";
+                                }
+                                else
+                                {
+                                    RowEditSec = "UPD";
+                                }
+                            }
+                        }
+                    }
+                }
+                private string _USERNAME;
+                [BizActorOutputItemAttribute()]
+                public string USERNAME
+                {
+                    get
+                    {
+                        return this._USERNAME;
+                    }
+                    set
+                    {
+                        if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                        {
+                        }
+                        else
+                        {
+                            this._USERNAME = value;
+                            this.CheckIsOriginal("USERNAME", value);
+                            this.OnPropertyChanged("USERNAME");
+                            if (RowLoadedFlag)
+                            {
+                                if (this.CheckIsOriginalRow())
+                                {
+                                    RowEditSec = "SEL";
+                                }
+                                else
+                                {
+                                    RowEditSec = "UPD";
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
-        #endregion
     }
+            #endregion
+     
 }

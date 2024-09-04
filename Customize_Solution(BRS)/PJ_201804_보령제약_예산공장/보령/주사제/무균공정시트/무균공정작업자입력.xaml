@@ -64,7 +64,7 @@
             </Grid>
 
             <Grid x:Name="UserList" Grid.Row="2" Height="192" VerticalAlignment="Top">
-                <ezmes:CNSDataGrid HeadersVisibility="Column" Height="150" ItemsSource="{Binding UserList}" 
+                <ezmes:CNSDataGrid HeadersVisibility="Column" Height="150" ItemsSource="{Binding UserContain}" 
                                    IsRowAdd="False" IsRowDelete="True" IsEditMode="True" IsEditSection="True" IsRowNumber="False" ScrollViewer.VerticalScrollBarVisibility="Visible">
                     <ezmes:CNSDataGrid.DataColumns>
                         <ezmes:DataColumn HeadName="작업자ID" HeaderWidth="193" DataField = "USERID" ColumnType ="TextBox"/>

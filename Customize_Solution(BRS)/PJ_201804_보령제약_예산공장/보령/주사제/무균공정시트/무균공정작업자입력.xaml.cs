@@ -22,7 +22,7 @@ namespace 보령
         }
         public override string TableTypeName
         {
-            get { return "TABLE,무균공정시간기록"; }
+            get { return "TABLE,무균공정작업자입력"; }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

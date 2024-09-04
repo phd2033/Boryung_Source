@@ -252,6 +252,16 @@ namespace 보령
                         _BR_PHR_SEL_PERSON.INDATAs.Clear();
                         _BR_PHR_SEL_PERSON.OUTDATAs.Clear();
 
+                        foreach(var item in _UserList)
+                        {
+                            if(UserId == item.USERID)
+                            {
+                                OnMessage("이미 등록된 작업자입니다.");
+                                CommandResults["CheckIBCInfoCommandAsync"] = true;
+                                return;
+                            }
+                        }
+
                         _BR_PHR_SEL_PERSON.INDATAs.Add(new BR_PHR_SEL_PERSON.INDATA
                         {
                             USERIUSE = "Y",

@@ -464,7 +464,7 @@ namespace 보령
                                     MAX_RESULT_HARDNESS = Math.Max(MAX_RESULT_HARDNESS, ipc.MAX_HARDNESS);
 
                                 }
-                                
+
                                 if (VAL_MES != "")
                                 {
                                     VAL_MES += "계속 진행하시겠습니까?";
@@ -488,12 +488,12 @@ namespace 보령
                                             return;
                                         }
 
-                                        _mainWnd.CurrentInstruction.Raw.DVTFCYN = "Y";
-                                        _mainWnd.CurrentInstruction.Raw.DVTCONFIRMUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Deviation");
+                                        //_mainWnd.CurrentInstruction.Raw.DVTFCYN = "Y";
+                                        //_mainWnd.CurrentInstruction.Raw.DVTCONFIRMUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Deviation");
 
-                                        KeepGoing = true;
+                                        //KeepGoing = true;
 
-                                        _comment = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_Deviation");
+                                        //_comment = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_Deviation");
                                     }
                                     else
                                     {
@@ -675,26 +675,27 @@ namespace 보령
                                             Common.enumAccessType.Create,
                                             string.Format("기록값을 변경합니다."),
                                             string.Format("기록값 변경"),
-                                            false,
+                                            true,
                                             "OM_ProductionOrder_SUI",
                                             "", _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID, null) == false)
                                     {
                                         throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                     }
-                                }
-
-                                // 전자서명 후 BR 실행
-                                authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
-                                if (await authHelper.ClickAsync(
-                                    Common.enumCertificationType.Function,
-                                    Common.enumAccessType.Create,
-                                    string.Format("정제체크마스터입력"),
-                                    string.Format("정제체크마스터입력"),
-                                    false,
-                                    "OM_ProductionOrder_SUI",
-                                    _mainWnd.CurrentOrderInfo.EquipmentID, _mainWnd.CurrentOrderInfo.RecipeID, null) == false)
+                                }else
                                 {
-                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                    // 전자서명 후 BR 실행
+                                    authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+                                    if (await authHelper.ClickAsync(
+                                        Common.enumCertificationType.Function,
+                                        Common.enumAccessType.Create,
+                                        string.Format("정제체크마스터입력"),
+                                        string.Format("정제체크마스터입력"),
+                                        false,
+                                        "OM_ProductionOrder_SUI",
+                                        _mainWnd.CurrentOrderInfo.EquipmentID, _mainWnd.CurrentOrderInfo.RecipeID, null) == false)
+                                    {
+                                        throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                    }
                                 }
 
                                 // BR_BRS_REG_IPC_CHECKMASTER_MULTI IPC 결과 테이블에 저장
@@ -838,32 +839,32 @@ namespace 보령
                                         throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
                                     }
 
-                                    if (KeepGoing)
-                                    {
-                                        var bizrule = new BR_PHR_REG_InstructionComment();
+                                    //if (KeepGoing)
+                                    //{
+                                    //    var bizrule = new BR_PHR_REG_InstructionComment();
 
-                                        bizrule.IN_Comments.Add(
-                                            new BR_PHR_REG_InstructionComment.IN_Comment
-                                            {
-                                                POID = _mainWnd.CurrentOrder.ProductionOrderID,
-                                                OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
-                                                COMMENTTYPE = "CM008",
-                                                COMMENT = _comment
-                                            }
-                                            );
-                                        bizrule.IN_IntructionResults.Add(
-                                            new BR_PHR_REG_InstructionComment.IN_IntructionResult
-                                            {
-                                                RECIPEISTGUID = _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
-                                                ACTIVITYID = _mainWnd.CurrentInstruction.Raw.ACTIVITYID,
-                                                IRTGUID = _mainWnd.CurrentInstruction.Raw.IRTGUID,
-                                                IRTRSTGUID = _mainWnd.CurrentInstruction.Raw.IRTRSTGUID,
-                                                IRTSEQ = (int)_mainWnd.CurrentInstruction.Raw.IRTSEQ
-                                            }
-                                            );
+                                    //    bizrule.IN_Comments.Add(
+                                    //        new BR_PHR_REG_InstructionComment.IN_Comment
+                                    //        {
+                                    //            POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                    //            OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                    //            COMMENTTYPE = "CM008",
+                                    //            COMMENT = _comment
+                                    //        }
+                                    //        );
+                                    //    bizrule.IN_IntructionResults.Add(
+                                    //        new BR_PHR_REG_InstructionComment.IN_IntructionResult
+                                    //        {
+                                    //            RECIPEISTGUID = _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
+                                    //            ACTIVITYID = _mainWnd.CurrentInstruction.Raw.ACTIVITYID,
+                                    //            IRTGUID = _mainWnd.CurrentInstruction.Raw.IRTGUID,
+                                    //            IRTRSTGUID = _mainWnd.CurrentInstruction.Raw.IRTRSTGUID,
+                                    //            IRTSEQ = (int)_mainWnd.CurrentInstruction.Raw.IRTSEQ
+                                    //        }
+                                    //        );
 
-                                        await bizrule.Execute();
-                                    }
+                                    //    await bizrule.Execute();
+                                    //}
 
                                     if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
                                     else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);

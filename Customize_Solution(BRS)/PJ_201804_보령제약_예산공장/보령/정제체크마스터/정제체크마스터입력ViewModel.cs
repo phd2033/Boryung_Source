@@ -487,13 +487,12 @@ namespace 보령
                                         {
                                             return;
                                         }
+                                        _mainWnd.CurrentInstruction.Raw.DVTFCYN = "Y";
+                                        _mainWnd.CurrentInstruction.Raw.DVTCONFIRMUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Deviation");
 
-                                        //_mainWnd.CurrentInstruction.Raw.DVTFCYN = "Y";
-                                        //_mainWnd.CurrentInstruction.Raw.DVTCONFIRMUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Deviation");
+                                        KeepGoing = true;
 
-                                        //KeepGoing = true;
-
-                                        //_comment = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_Deviation");
+                                        _comment = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_Deviation");
                                     }
                                     else
                                     {
@@ -612,7 +611,7 @@ namespace 보령
             // 경도 Validation
             if (IPC_STANDARDS[0].RSLT_MIN_HARDNESS != "N/A" & IPC_STANDARDS[0].RSLT_MAX_HARDNESS != "N/A")
             {
-                if (ipc.AVG_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS) | ipc.MIN_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS) | ipc.MAX_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS))
+                if (ipc.AVG_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS))
                 {
                     message += count.ToString() + "행 : 평균경도가 최소경도의 기준 값보다 작습니다.\n";
                 }
@@ -624,7 +623,7 @@ namespace 보령
                 {
                     message += count.ToString() + "행 : 최대경도가 최소경도의 기준 값보다 작습니다.\n";
                 }
-                if (ipc.AVG_HARDNESS < Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MIN_HARDNESS))
+                if (ipc.AVG_HARDNESS > Convert.ToDecimal(IPC_STANDARDS[0].RSLT_MAX_HARDNESS))
                 {
                     message += count.ToString() + "행 : 평균경도가 최대경도의 기준 값보다 큽니다.\n";
                 }
@@ -839,32 +838,33 @@ namespace 보령
                                         throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
                                     }
 
-                                    //if (KeepGoing)
-                                    //{
-                                    //    var bizrule = new BR_PHR_REG_InstructionComment();
+                                    if (KeepGoing)
+                                    {
+                                        var bizrule = new BR_PHR_REG_InstructionComment();
 
-                                    //    bizrule.IN_Comments.Add(
-                                    //        new BR_PHR_REG_InstructionComment.IN_Comment
-                                    //        {
-                                    //            POID = _mainWnd.CurrentOrder.ProductionOrderID,
-                                    //            OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
-                                    //            COMMENTTYPE = "CM008",
-                                    //            COMMENT = _comment
-                                    //        }
-                                    //        );
-                                    //    bizrule.IN_IntructionResults.Add(
-                                    //        new BR_PHR_REG_InstructionComment.IN_IntructionResult
-                                    //        {
-                                    //            RECIPEISTGUID = _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
-                                    //            ACTIVITYID = _mainWnd.CurrentInstruction.Raw.ACTIVITYID,
-                                    //            IRTGUID = _mainWnd.CurrentInstruction.Raw.IRTGUID,
-                                    //            IRTRSTGUID = _mainWnd.CurrentInstruction.Raw.IRTRSTGUID,
-                                    //            IRTSEQ = (int)_mainWnd.CurrentInstruction.Raw.IRTSEQ
-                                    //        }
-                                    //        );
+                                        bizrule.IN_Comments.Add(
+                                            new BR_PHR_REG_InstructionComment.IN_Comment
+                                            {
+                                                POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                                OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                                COMMENTTYPE = "CM008",
+                                                COMMENT = _comment,
+                                                INSUSER = _mainWnd.CurrentInstruction.Raw.DVTCONFIRMUSER
+                                            }
+                                            );
+                                        bizrule.IN_IntructionResults.Add(
+                                            new BR_PHR_REG_InstructionComment.IN_IntructionResult
+                                            {
+                                                RECIPEISTGUID = _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
+                                                ACTIVITYID = _mainWnd.CurrentInstruction.Raw.ACTIVITYID,
+                                                IRTGUID = _mainWnd.CurrentInstruction.Raw.IRTGUID,
+                                                IRTRSTGUID = _mainWnd.CurrentInstruction.Raw.IRTRSTGUID,
+                                                IRTSEQ = (int)_mainWnd.CurrentInstruction.Raw.IRTSEQ
+                                            }
+                                            );
 
-                                    //    await bizrule.Execute();
-                                    //}
+                                        await bizrule.Execute();
+                                    }
 
                                     if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
                                     else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);

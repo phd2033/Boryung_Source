@@ -253,6 +253,8 @@ namespace 보령
 
                         UserId = arg as string;
 
+                        if (string.IsNullOrEmpty(UserId)) return;
+
                         _BR_PHR_SEL_PERSON.INDATAs.Clear();
                         _BR_PHR_SEL_PERSON.OUTDATAs.Clear();
 
@@ -286,7 +288,7 @@ namespace 보령
                                 });
                             }
                             else
-                                OnMessage("BIN 정보가 없습니다.");
+                                OnMessage("사원 정보가 없습니다.");
                         }
 
                         CommandResults["CheckIBCInfoCommandAsync"] = true;

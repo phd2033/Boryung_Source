@@ -130,7 +130,8 @@
             <Grid HorizontalAlignment="Center" Width="1068" Background="#FFEBEEEE" Margin="0,382,0,0">
                 <StackPanel Orientation="Horizontal" Margin="320,15,320,10">
                     <Button Content="기록" Command="{Binding ConfirmCommandAsync}" Margin="80,4,0,8" Width="100"/>
-                    <Button Content="취소" Margin="80,4,0,8" Width="100" Click="btnCancel_Click"/>
+                    <Button x:Name="NoRecord" Content="기록없음" Width="100" Margin="20,4,0,8" Command="{Binding NoRecordConfirmCommand}"/>
+                    <Button Content="취소" Margin="20,4,0,8" Width="100" Click="btnCancel_Click"/>
                 </StackPanel>
             </Grid>
         </Grid>

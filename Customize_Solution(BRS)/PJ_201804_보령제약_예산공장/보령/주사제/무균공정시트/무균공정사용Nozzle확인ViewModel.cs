@@ -264,6 +264,97 @@ namespace 보령
             }
         }
 
+        public ICommand NoRecordConfirmCommand
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["NoRecordConfirmCommand"].EnterAsync())
+                    {
+                        try
+                        {
+                            IsBusy = true;
+
+                            CommandResults["NoRecordConfirmCommand"] = false;
+                            CommandCanExecutes["NoRecordConfirmCommand"] = false;
+
+                            // 전자서명
+                            iPharmAuthCommandHelper authHelper = new iPharmAuthCommandHelper();
+
+                            if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y") && _mainWnd.Phase.CurrentPhase.STATE.Equals("COMP")) // 값 수정
+                            {
+                                authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+
+                                if (await authHelper.ClickAsync(
+                                    Common.enumCertificationType.Function,
+                                    Common.enumAccessType.Create,
+                                    string.Format("기록값을 변경합니다."),
+                                    string.Format("기록값 변경"),
+                                    true,
+                                    "OM_ProductionOrder_SUI",
+                                    "", _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID, null) == false)
+                                {
+                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                }
+                            }
+
+
+                            //XML 생성. 비즈룰 INDATA생성
+                            DataSet ds = new DataSet();
+                            DataTable dt = new DataTable("DATA");
+                            ds.Tables.Add(dt);
+
+                            dt.Columns.Add(new DataColumn("Nozzle1"));
+                            dt.Columns.Add(new DataColumn("Nozzle2"));
+                            dt.Columns.Add(new DataColumn("Nozzle3"));
+                            dt.Columns.Add(new DataColumn("Nozzle4"));
+
+                            var row = dt.NewRow();
+
+                            row["Nozzle1"] = false;
+                            row["Nozzle2"] = false;
+                            row["Nozzle3"] = false;
+                            row["Nozzle4"] = false;
+                            dt.Rows.Add(row);
+
+                            var xml = BizActorRuleBase.CreateXMLStream(ds);
+                            var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
+
+                            _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
+                            _mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
+
+                            var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction, true);
+                            if (result != enumInstructionRegistErrorType.Ok)
+                            {
+                                throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
+                            }
+
+                            if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
+                            else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
+
+                            IsBusy = false;
+                            CommandResults["ConfirmCommandAsync"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["NoRecordConfirmCommand"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["NoRecordConfirmCommand"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("NoRecordConfirmCommand") ?
+                        CommandCanExecutes["NoRecordConfirmCommand"] : (CommandCanExecutes["NoRecordConfirmCommand"] = true);
+                });
+            }
+        }
         public void BizRullParamAdd(string gubun)
         {
             _BR_BRS_REG_SVP_ASEPTIC_PROCESS.INDATAs.Add(new BR_BRS_REG_SVP_ASEPTIC_PROCESS.INDATA

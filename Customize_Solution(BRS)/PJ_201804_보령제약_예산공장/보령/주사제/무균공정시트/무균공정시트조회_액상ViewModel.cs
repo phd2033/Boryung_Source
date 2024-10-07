@@ -930,6 +930,82 @@ namespace 보령
                 });
             }
         }
+        public ICommand NoRecordConfirmCommand
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["NoRecordConfirmCommand"].EnterAsync())
+                    {
+                        try
+                        {
+                            IsBusy = true;
+
+                            CommandResults["NoRecordConfirmCommand"] = false;
+                            CommandCanExecutes["NoRecordConfirmCommand"] = false;
+
+                            // 전자서명
+                            iPharmAuthCommandHelper authHelper = new iPharmAuthCommandHelper();
+
+                            if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y") && _mainWnd.Phase.CurrentPhase.STATE.Equals("COMP")) // 값 수정
+                            {
+                                authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+
+                                if (await authHelper.ClickAsync(
+                                    Common.enumCertificationType.Function,
+                                    Common.enumAccessType.Create,
+                                    string.Format("기록값을 변경합니다."),
+                                    string.Format("기록값 변경"),
+                                    true,
+                                    "OM_ProductionOrder_SUI",
+                                    "", _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID, null) == false)
+                                {
+                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                }
+                            }
+
+                            //이미지 저장시 서명화면으로 인해 이미지가 잘 안보임.그에 따른 이미지 데이터만 먼저 생성해 놓도록 함.
+                            Brush background = _mainWnd.PrintArea.Background;
+                            _mainWnd.PrintArea.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0xD6, 0xD4, 0xD4));
+                            _mainWnd.PrintArea.BorderThickness = new System.Windows.Thickness(1);
+                            _mainWnd.PrintArea.Background = new SolidColorBrush(Colors.White);
+
+                            _mainWnd.CurrentInstruction.Raw.NOTE = imageToByteArray();
+                            _mainWnd.CurrentInstruction.Raw.ACTVAL = "Image attached";
+
+                            var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction);
+                            if (result != enumInstructionRegistErrorType.Ok)
+                            {
+                                throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
+                            }
+
+                            if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
+                            else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
+
+                            IsBusy = false;
+                            CommandResults["ConfirmCommandAsync"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["NoRecordConfirmCommand"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["NoRecordConfirmCommand"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("NoRecordConfirmCommand") ?
+                        CommandCanExecutes["NoRecordConfirmCommand"] : (CommandCanExecutes["NoRecordConfirmCommand"] = true);
+                });
+            }
+        }
+
         #endregion
 
         #region User Define

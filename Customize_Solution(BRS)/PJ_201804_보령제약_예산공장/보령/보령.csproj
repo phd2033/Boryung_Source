@@ -146,6 +146,7 @@
     <Compile Include="DataModel\Container.cs" />
     <Compile Include="DataModel\IPCControlData.cs" />
     <Compile Include="DataModel\Weight.cs" />
+    <Compile Include="Model.Access\BR_BRS_UPD_EquipmentAction_ShopFloor_PROCSTRT_STERILE.Access.cs" />
     <Compile Include="LIMS\LIMS샘플링확인.xaml.cs">
       <DependentUpon>LIMS샘플링확인.xaml</DependentUpon>
     </Compile>
@@ -976,6 +977,8 @@
       <DependentUpon>Autoclave멸균확인.xaml</DependentUpon>
     </Compile>
     <Compile Include="주사제\설비상태\Autoclave멸균확인ViewModel.cs" />
+    <Compile Include="주사제\설비상태\멸균시작.cs" />
+    <Compile Include="주사제\설비상태\멸균종료.cs" />
     <Compile Include="주사제\설비상태\세척장비액션수행.xaml.cs">
       <DependentUpon>세척장비액션수행.xaml</DependentUpon>
     </Compile>

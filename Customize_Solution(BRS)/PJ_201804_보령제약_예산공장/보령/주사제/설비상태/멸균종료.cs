@@ -13,7 +13,7 @@ namespace 보령
     {
         public override async Task<object> ExecuteAsync(object arg)
         {
-            var bizRule = new BR_BRS_UPD_EquipmentAction_ShopFloor_PROCSTRT_STERILE();
+            var bizRule = new BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_STERILE();
 
             var inputValues = InstructionModel.GetParameterSender(this.CurrentInstruction, this.Instructions);
             var outputValues = InstructionModel.GetResultReceiver(this.CurrentInstruction, this.Instructions);
@@ -46,8 +46,8 @@ namespace 보령
             if (await authHelper.ClickAsync(
                 Common.enumCertificationType.Function,
                 Common.enumAccessType.Create,
-                string.Format("[{0}] 생산 시작 로그북 생성", eqptid),
-                string.Format("생산 시작 로그북 생성"),
+                string.Format("[{0}] 멸균 종료 로그북 생성", eqptid),
+                string.Format("멸균 종료 로그북 생성"),
                 false,
                 "EM_BRS_EquipmentAction_PROCSTART",
                 "", null, null) == false)
@@ -59,7 +59,7 @@ namespace 보령
             foreach (var item in inputValues)
             {
 
-                bizRule.INDATAs.Add(new BR_BRS_UPD_EquipmentAction_ShopFloor_PROCSTRT_STERILE.INDATA()
+                bizRule.INDATAs.Add(new BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_STERILE.INDATA()
                 {
                     //EQACNAME = "생산시작",
                     EQPTID = item.Raw.ACTVAL != null ? item.Raw.ACTVAL : item.Raw.EQPTID,
@@ -67,33 +67,11 @@ namespace 보령
                     LANGID = AuthRepositoryViewModel.Instance.LangID,
                     DTTM = null
                 });
-
-                bizRule.PARAMDATAs.Add(new BR_BRS_UPD_EquipmentAction_ShopFloor_PROCSTRT_STERILE.PARAMDATA()
-                {
-                    EQPAID = LGCNS.iPharmMES.Common.AuthRepositoryViewModel.GetSystemOptionValue("LOGBOOK_PRODUCTION_ORDER"),
-                    PAVAL = this.CurrentOrder.OrderID,
-                    EQPTID = item.Raw.ACTVAL != null ? item.Raw.ACTVAL : item.Raw.EQPTID,
-                    // EQSTID = "PD_EQSTPROC",
-                });
-                bizRule.PARAMDATAs.Add(new BR_BRS_UPD_EquipmentAction_ShopFloor_PROCSTRT_STERILE.PARAMDATA()
-                {
-                    EQPAID = LGCNS.iPharmMES.Common.AuthRepositoryViewModel.GetSystemOptionValue("LOGBOOK_PRODUCTION_BATCHNO"),
-                    PAVAL = this.CurrentOrder.BatchNo,
-                    EQPTID = item.Raw.ACTVAL != null ? item.Raw.ACTVAL : item.Raw.EQPTID,
-                    // EQSTID = "PD_EQSTPROC",
-                });
-                bizRule.PARAMDATAs.Add(new BR_BRS_UPD_EquipmentAction_ShopFloor_PROCSTRT_STERILE.PARAMDATA()
-                {
-                    EQPAID = LGCNS.iPharmMES.Common.AuthRepositoryViewModel.GetSystemOptionValue("LOGBOOK_PRODUCTION_PROCESS"),
-                    PAVAL = this.CurrentOrder.OrderProcessSegmentID,
-                    EQPTID = item.Raw.ACTVAL != null ? item.Raw.ACTVAL : item.Raw.EQPTID,
-                    //EQSTID = "PD_EQSTPROC",
-                });
             }
 
             if (await bizRule.Execute() == false) throw bizRule.Exception;
 
-            this.CurrentInstruction.Raw.ACTVAL = string.Format("[{0}] 생산 시작 로그북 자동생성", eqptid);
+            this.CurrentInstruction.Raw.ACTVAL = string.Format("[{0}] 멸균 종료 로그북 자동생성", eqptid);
 
             return outputValues;
         }

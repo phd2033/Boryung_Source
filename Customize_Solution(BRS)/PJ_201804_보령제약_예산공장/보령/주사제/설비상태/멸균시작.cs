@@ -46,8 +46,8 @@ namespace 보령
             if (await authHelper.ClickAsync(
                 Common.enumCertificationType.Function,
                 Common.enumAccessType.Create,
-                string.Format("[{0}] 생산 시작 로그북 생성", eqptid),
-                string.Format("생산 시작 로그북 생성"),
+                string.Format("[{0}] 멸균 시작 로그북 생성", eqptid),
+                string.Format("멸균 시작 로그북 생성"),
                 false,
                 "EM_BRS_EquipmentAction_PROCSTART",
                 "", null, null) == false)
@@ -93,7 +93,7 @@ namespace 보령
 
             if (await bizRule.Execute() == false) throw bizRule.Exception;
 
-            this.CurrentInstruction.Raw.ACTVAL = string.Format("[{0}] 생산 시작 로그북 자동생성", eqptid);
+            this.CurrentInstruction.Raw.ACTVAL = string.Format("[{0}] 멸균 시작 로그북 자동생성", eqptid);
 
             return outputValues;
         }

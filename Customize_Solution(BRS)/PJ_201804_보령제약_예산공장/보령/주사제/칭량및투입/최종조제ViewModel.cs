@@ -352,7 +352,7 @@ namespace 보령
                                     OPSGGUID = new Guid(_mainWnd.CurrentOrder.OrderProcessSegmentID)
                                 });
                                 //최종조제 정보가 있으면 소분버튼 비활성화.
-                                //2024.10.23 박희돈 벨킨주 2.5MG 1080095 오더에서 증량으로 인한 조제를 2번 함. 이에따라 2번째 조제에서는 이미 반제품이 생성되어있어 해당 로직 비활성 시킴.
+                                //2024.10.23 박희돈 벨킨주 2.5MG 1080095 오더에서 증량으로 인한 조제를 2번 함. 이에따라 2번째 조제에서는 이미 반제품이 생성되어있어 해당 로직 비활성 시킴. DEV-24-0901
                                 //if (await _BR_BRS_SEL_ProductionOrderOutputSubLot.Execute() == _BR_BRS_SEL_ProductionOrderOutputSubLot.OUTDATAs.Count > 0)
                                 //    DispensingbtnEnable = false;
                                 //else

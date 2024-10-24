@@ -8,7 +8,7 @@ using System.ComponentModel;
 
 namespace 보령
 {
-    [Description("멸균 시작 액션 수행")]
+    [Description("멸균 종료 액션 수행")]
     public class 멸균종료 : ShopFloorCustomClass
     {
         public override async Task<object> ExecuteAsync(object arg)

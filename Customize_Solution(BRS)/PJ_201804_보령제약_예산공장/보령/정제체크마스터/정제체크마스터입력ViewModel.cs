@@ -17,7 +17,7 @@ namespace 보령
         public 정제체크마스터입력ViewModel()
         {
             _BR_PHR_SEL_CODE = new BR_PHR_SEL_CODE();
-            _BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit = new BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit();
+            _BR_BRS_REG_IPC_CHECKMASTER_MULTI_GUBUN = new BR_BRS_REG_IPC_CHECKMASTER_MULTI_GUBUN();
             _BR_BRS_SEL_ProductionOrderTestSpecification_STANDARD = new BR_BRS_SEL_ProductionOrderTestSpecification_STANDARD();
             _IPCResultSections = new IPCResultSection.OUTDATACollection();
             _IPC_RESULTS = new ObservableCollection<EACH_INDATA>();
@@ -166,7 +166,7 @@ namespace 보령
         #region [Bizrule]
 
         private BR_PHR_SEL_CODE _BR_PHR_SEL_CODE;
-        private BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit _BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit;
+        private BR_BRS_REG_IPC_CHECKMASTER_MULTI_GUBUN _BR_BRS_REG_IPC_CHECKMASTER_MULTI_GUBUN;
         private BR_BRS_SEL_ProductionOrderTestSpecification_STANDARD _BR_BRS_SEL_ProductionOrderTestSpecification_STANDARD;
         #endregion
 
@@ -258,7 +258,14 @@ namespace 보령
                                 }
 
                                 if (SD_STD_WEIGHT == "N/A") { RSD_FLAG = false; RSD_CHECK = Visibility.Collapsed; } // RSD 미입력해야 될 경우
-                                if (AVG_STD_HARDNESS == "N/A" & MIN_STD_HARDNESS == "N/A" & MAX_STD_HARDNESS == "N/A") { CIRCLE_FLAG = false; CIRCLE_CHECK = Visibility.Collapsed; } // 경도 미입력해야 될 경우
+                                if (AVG_STD_HARDNESS == "" & MIN_STD_HARDNESS == "" & MAX_STD_HARDNESS == "")
+                                {
+                                    AVG_STD_HARDNESS = "N/A";
+                                    MIN_STD_HARDNESS = "N/A";
+                                    MAX_STD_HARDNESS = "N/A";
+                                    CIRCLE_FLAG = false;
+                                    CIRCLE_CHECK = Visibility.Collapsed;
+                                } // 경도 미입력해야 될 경우
 
                                 IPC_STANDARDS.Add(new EACH_INDATA()
                                 {
@@ -300,16 +307,16 @@ namespace 보령
                                             _IPCResultSections.Add(new IPCResultSection.OUTDATA
                                             {
                                                 STRTDTTM = Convert.ToDateTime(dt.Rows[i]["점검일시"].ToString()),
-                                                AVG_WEIGHT = dt.Rows[i]["평균질량"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["평균질량"]),
-                                                MIN_WEIGHT = dt.Rows[i]["개별최소질량"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["개별최소질량"]),
-                                                MAX_WEIGHT = dt.Rows[i]["개별최대질량"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["개별최대질량"]),
-                                                SD_WEIGHT = dt.Rows[i]["개별질량RSD"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["개별질량RSD"]),
-                                                AVG_THICKNESS = dt.Rows[i]["평균두께"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["평균두께"]),
-                                                MIN_THICKNESS = dt.Rows[i]["최소두께"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["최소두께"]),
-                                                MAX_THICKNESS = dt.Rows[i]["최대두께"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["최대두께"]),
-                                                AVG_HARDNESS = dt.Rows[i]["평균경도"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["평균경도"]),
-                                                MIN_HARDNESS = dt.Rows[i]["최소경도"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["최소경도"]),
-                                                MAX_HARDNESS = dt.Rows[i]["최대경도"].Equals("") ? 0 : Convert.ToDecimal(dt.Rows[i]["최대경도"]),
+                                                AVG_WEIGHT = Convert.ToDecimal(dt.Rows[i]["평균질량"]),
+                                                MIN_WEIGHT = Convert.ToDecimal(dt.Rows[i]["개별최소질량"]),
+                                                MAX_WEIGHT = Convert.ToDecimal(dt.Rows[i]["개별최대질량"]),
+                                                SD_WEIGHT = dt.Rows[i]["개별질량RSD"].Equals("N/A") ? 0 : Convert.ToDecimal(dt.Rows[i]["개별질량RSD"]),
+                                                AVG_THICKNESS = Convert.ToDecimal(dt.Rows[i]["평균두께"]),
+                                                MIN_THICKNESS = Convert.ToDecimal(dt.Rows[i]["최소두께"]),
+                                                MAX_THICKNESS = Convert.ToDecimal(dt.Rows[i]["최대두께"]),
+                                                AVG_HARDNESS = dt.Rows[i]["평균경도"].Equals("N/A") ? 0 : Convert.ToDecimal(dt.Rows[i]["평균경도"]),
+                                                MIN_HARDNESS = dt.Rows[i]["최소경도"].Equals("N/A") ? 0 : Convert.ToDecimal(dt.Rows[i]["최소경도"]),
+                                                MAX_HARDNESS = dt.Rows[i]["최대경도"].Equals("N/A") ? 0 : Convert.ToDecimal(dt.Rows[i]["최대경도"]),
                                                 RowEditSec = "INS"
                                             });
                                         }
@@ -501,22 +508,79 @@ namespace 보령
                                 }
 
                                 int num = IPCResultSections.Count;
-                                IPC_RESULTS.Add(new EACH_INDATA()
+                                
+                                if(RSD_FLAG.Equals(false) & CIRCLE_FLAG.Equals(false))
                                 {
-                                    RSLT_AVG_DTTM = AVG_DTTM.ToString("yyyy-MM-dd HH:mm"),
-                                    RSLT_AVG_WEIGHT = String.Format("{0:0.00}", Math.Round((AVG_RESULT_WEIGHT / num), 2)),
-                                    RSLT_MIN_WEIGHT = String.Format("{0:0.00}", Math.Round(MIN_RESULT_WEIGHT, 2)),
-                                    RSLT_MAX_WEIGHT = String.Format("{0:0.00}", Math.Round(MAX_RESULT_WEIGHT, 2)),
-                                    RSLT_SD_WEIGHT = String.Format("{0:0.00}", Math.Round((SD_RESULT_WEIGHT / num), 2)),
-                                    RSLT_AVG_THICKNESS = String.Format("{0:0.00}", Math.Round((AVG_RESULT_THICKNESS / num), 2)),
-                                    RSLT_MIN_THICKNESS = String.Format("{0:0.00}", Math.Round(MIN_RESULT_THICKNESS, 2)),
-                                    RSLT_MAX_THICKNESS = String.Format("{0:0.00}", Math.Round(MAX_RESULT_THICKNESS, 2)),
-                                    RSLT_AVG_HARDNESS = String.Format("{0:0.00}", Math.Round((AVG_RESULT_HARDNESS / num), 2)),
-                                    RSLT_MIN_HARDNESS = String.Format("{0:0.00}", Math.Round(MIN_RESULT_HARDNESS, 2)),
-                                    RSLT_MAX_HARDNESS = String.Format("{0:0.00}", Math.Round(MAX_RESULT_HARDNESS, 2))
+                                    IPC_RESULTS.Add(new EACH_INDATA()
+                                    {
+                                        RSLT_AVG_DTTM = AVG_DTTM.ToString("yyyy-MM-dd HH:mm"),
+                                        RSLT_AVG_WEIGHT = String.Format("{0:0.00}", Math.Round((AVG_RESULT_WEIGHT / num), 2)),
+                                        RSLT_MIN_WEIGHT = String.Format("{0:0.00}", Math.Round(MIN_RESULT_WEIGHT, 2)),
+                                        RSLT_MAX_WEIGHT = String.Format("{0:0.00}", Math.Round(MAX_RESULT_WEIGHT, 2)),
+                                        RSLT_SD_WEIGHT = "N/A",
+                                        RSLT_AVG_THICKNESS = String.Format("{0:0.00}", Math.Round((AVG_RESULT_THICKNESS / num), 2)),
+                                        RSLT_MIN_THICKNESS = String.Format("{0:0.00}", Math.Round(MIN_RESULT_THICKNESS, 2)),
+                                        RSLT_MAX_THICKNESS = String.Format("{0:0.00}", Math.Round(MAX_RESULT_THICKNESS, 2)),
+                                        RSLT_AVG_HARDNESS = "N/A",
+                                        RSLT_MIN_HARDNESS = "N/A",
+                                        RSLT_MAX_HARDNESS = "N/A"
 
-                                });
+                                    });
+                                }
+                                else if (RSD_FLAG.Equals(false))
+                                {
+                                    IPC_RESULTS.Add(new EACH_INDATA()
+                                    {
+                                        RSLT_AVG_DTTM = AVG_DTTM.ToString("yyyy-MM-dd HH:mm"),
+                                        RSLT_AVG_WEIGHT = String.Format("{0:0.00}", Math.Round((AVG_RESULT_WEIGHT / num), 2)),
+                                        RSLT_MIN_WEIGHT = String.Format("{0:0.00}", Math.Round(MIN_RESULT_WEIGHT, 2)),
+                                        RSLT_MAX_WEIGHT = String.Format("{0:0.00}", Math.Round(MAX_RESULT_WEIGHT, 2)),
+                                        RSLT_SD_WEIGHT = "N/A",
+                                        RSLT_AVG_THICKNESS = String.Format("{0:0.00}", Math.Round((AVG_RESULT_THICKNESS / num), 2)),
+                                        RSLT_MIN_THICKNESS = String.Format("{0:0.00}", Math.Round(MIN_RESULT_THICKNESS, 2)),
+                                        RSLT_MAX_THICKNESS = String.Format("{0:0.00}", Math.Round(MAX_RESULT_THICKNESS, 2)),
+                                        RSLT_AVG_HARDNESS = String.Format("{0:0.00}", Math.Round((AVG_RESULT_HARDNESS / num), 2)),
+                                        RSLT_MIN_HARDNESS = String.Format("{0:0.00}", Math.Round(MIN_RESULT_HARDNESS, 2)),
+                                        RSLT_MAX_HARDNESS = String.Format("{0:0.00}", Math.Round(MAX_RESULT_HARDNESS, 2))
 
+                                    });
+                                }
+                                else if (CIRCLE_FLAG.Equals(false))
+                                {
+                                    IPC_RESULTS.Add(new EACH_INDATA()
+                                    {
+                                        RSLT_AVG_DTTM = AVG_DTTM.ToString("yyyy-MM-dd HH:mm"),
+                                        RSLT_AVG_WEIGHT = String.Format("{0:0.00}", Math.Round((AVG_RESULT_WEIGHT / num), 2)),
+                                        RSLT_MIN_WEIGHT = String.Format("{0:0.00}", Math.Round(MIN_RESULT_WEIGHT, 2)),
+                                        RSLT_MAX_WEIGHT = String.Format("{0:0.00}", Math.Round(MAX_RESULT_WEIGHT, 2)),
+                                        RSLT_SD_WEIGHT = String.Format("{0:0.00}", Math.Round((SD_RESULT_WEIGHT / num), 2)),
+                                        RSLT_AVG_THICKNESS = String.Format("{0:0.00}", Math.Round((AVG_RESULT_THICKNESS / num), 2)),
+                                        RSLT_MIN_THICKNESS = String.Format("{0:0.00}", Math.Round(MIN_RESULT_THICKNESS, 2)),
+                                        RSLT_MAX_THICKNESS = String.Format("{0:0.00}", Math.Round(MAX_RESULT_THICKNESS, 2)),
+                                        RSLT_AVG_HARDNESS = "N/A",
+                                        RSLT_MIN_HARDNESS = "N/A",
+                                        RSLT_MAX_HARDNESS = "N/A"
+
+                                    });
+                                }
+                                else
+                                {
+                                    IPC_RESULTS.Add(new EACH_INDATA()
+                                    {
+                                        RSLT_AVG_DTTM = AVG_DTTM.ToString("yyyy-MM-dd HH:mm"),
+                                        RSLT_AVG_WEIGHT = String.Format("{0:0.00}", Math.Round((AVG_RESULT_WEIGHT / num), 2)),
+                                        RSLT_MIN_WEIGHT = String.Format("{0:0.00}", Math.Round(MIN_RESULT_WEIGHT, 2)),
+                                        RSLT_MAX_WEIGHT = String.Format("{0:0.00}", Math.Round(MAX_RESULT_WEIGHT, 2)),
+                                        RSLT_SD_WEIGHT = String.Format("{0:0.00}", Math.Round((SD_RESULT_WEIGHT / num), 2)),
+                                        RSLT_AVG_THICKNESS = String.Format("{0:0.00}", Math.Round((AVG_RESULT_THICKNESS / num), 2)),
+                                        RSLT_MIN_THICKNESS = String.Format("{0:0.00}", Math.Round(MIN_RESULT_THICKNESS, 2)),
+                                        RSLT_MAX_THICKNESS = String.Format("{0:0.00}", Math.Round(MAX_RESULT_THICKNESS, 2)),
+                                        RSLT_AVG_HARDNESS = String.Format("{0:0.00}", Math.Round((AVG_RESULT_HARDNESS / num), 2)),
+                                        RSLT_MIN_HARDNESS = String.Format("{0:0.00}", Math.Round(MIN_RESULT_HARDNESS, 2)),
+                                        RSLT_MAX_HARDNESS = String.Format("{0:0.00}", Math.Round(MAX_RESULT_HARDNESS, 2))
+
+                                    });
+                                }
                                 CommandResults["AVGCommandAsync"] = true;
                             }
                         }
@@ -698,9 +762,9 @@ namespace 보령
                                 }
 
                                 // BR_BRS_REG_IPC_CHECKMASTER_MULTI IPC 결과 테이블에 저장
-                                _BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit.INDATAs.Clear();
+                                _BR_BRS_REG_IPC_CHECKMASTER_MULTI_GUBUN.INDATAs.Clear();
 
-                                _BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit.INDATAs.Add(new BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit.INDATA
+                                _BR_BRS_REG_IPC_CHECKMASTER_MULTI_GUBUN.INDATAs.Add(new BR_BRS_REG_IPC_CHECKMASTER_MULTI_GUBUN.INDATA
                                 {
                                     EQPTID = EQPTID,
                                     POID = _mainWnd.CurrentOrder.ProductionOrderID,
@@ -723,7 +787,7 @@ namespace 보령
                                 });
 
 
-                                if (await _BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit.Execute())
+                                if (await _BR_BRS_REG_IPC_CHECKMASTER_MULTI_GUBUN.Execute())
                                 {
                                     DataSet ds = new DataSet();
                                     DataTable dt = new DataTable("DATA");
@@ -767,13 +831,29 @@ namespace 보령
                                         row["평균질량"] = rowdata.AVG_WEIGHT.ToString();
                                         row["개별최소질량"] = rowdata.MIN_WEIGHT.ToString();
                                         row["개별최대질량"] = rowdata.MAX_WEIGHT.ToString();
-                                        row["개별질량RSD"] = rowdata.SD_WEIGHT.ToString();
+                                        if (RSD_FLAG.Equals(false))
+                                        {
+                                            row["개별질량RSD"] = "N/A";
+                                        }
+                                        else
+                                        {
+                                            row["개별질량RSD"] = rowdata.SD_WEIGHT.ToString();
+                                        }
                                         row["평균두께"] = rowdata.AVG_THICKNESS.ToString();
                                         row["최소두께"] = rowdata.MIN_THICKNESS.ToString();
                                         row["최대두께"] = rowdata.MAX_THICKNESS.ToString();
-                                        row["평균경도"] = rowdata.AVG_HARDNESS.ToString();
-                                        row["최소경도"] = rowdata.MIN_HARDNESS.ToString();
-                                        row["최대경도"] = rowdata.MAX_HARDNESS.ToString();
+                                        if (CIRCLE_FLAG.Equals(false))
+                                        {
+                                            row["평균경도"] = "N/A";
+                                            row["최소경도"] = "N/A";
+                                            row["최대경도"] = "N/A";
+                                        }
+                                        else
+                                        {
+                                            row["평균경도"] = rowdata.AVG_HARDNESS.ToString();
+                                            row["최소경도"] = rowdata.MIN_HARDNESS.ToString();
+                                            row["최대경도"] = rowdata.MAX_HARDNESS.ToString();
+                                        }
 
                                         dt.Rows.Add(row);
                                     }

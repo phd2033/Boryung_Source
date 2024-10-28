@@ -123,7 +123,7 @@ namespace 보령
                                         SITUATION = check.CONTENTS,
                                         GUBUN = check.GUBUN,
                                         SUMNO = Convert.ToDecimal(check.FREQUENCY),
-                                        OVER_COLOR = Convert.ToDecimal(_BR_PHR_SEL_CommonCode.OUTDATAs[Convert.ToInt32(check.SEQ) - 1].ATTRIBUTE2) < Convert.ToDecimal(check.FREQUENCY) ? "Yellow" : "Transparent"
+                                        OVER_COLOR = Convert.ToDecimal(_BR_PHR_SEL_CommonCode.OUTDATAs[Convert.ToInt32(check.SEQ) - 1].ATTRIBUTE2) < Convert.ToDecimal(check.FREQUENCY) ? "Yellow" : "Wheat"
                                     });
                                 }
                             }
@@ -164,10 +164,6 @@ namespace 보령
                             CommandResults["ConfirmCommandAsync"] = false;
                             CommandCanExecutes["ConfirmCommandAsync"] = false;
 
-                            bool re_flag = false;
-                            string re_comment = string.Empty;
-                            string comment = string.Empty;
-
                             var authHelper = new iPharmAuthCommandHelper();
 
                             if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y") && _mainWnd.Phase.CurrentPhase.STATE.Equals("COMP")) // 값 수정
@@ -186,9 +182,8 @@ namespace 보령
                                 {
                                     throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                 }
-                                else
-                                {
-                                }
+                                _mainWnd.CurrentInstruction.Raw.INSTCOMMENT = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_SUI");
+                                _mainWnd.CurrentInstruction.Raw.INSTCOMMENTUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI");
                             }
                             else
                             {
@@ -228,10 +223,11 @@ namespace 보령
 
                                 _mainWnd.CurrentInstruction.Raw.DVTFCYN = "Y";
                                 _mainWnd.CurrentInstruction.Raw.DVTCONFIRMUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Deviation");
-
-                                comment = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_Deviation");
+                                _mainWnd.CurrentInstruction.Raw.DVTYN = null;
+                                //_mainWnd.CurrentInstruction.Raw.DVTCOMMENT = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_Deviation");
+                                //comment = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_Deviation");
                             }
-                        
+
                             DataSet ds = new DataSet();
                             DataTable dt = new DataTable("DATA");
                             ds.Tables.Add(dt);
@@ -265,12 +261,8 @@ namespace 보령
                             {
                                 throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
                             }
-
-                            //if (re_flag)
-                            //{
-                            //    _mainWnd.AuthRepositoryViewModel.LastConfirmedComment = re_comment;
-                            //}
-                            /*
+                /*
+   
                             if (OVER_FLAG)
                             {
                                 var bizrule = new BR_PHR_REG_InstructionComment();
@@ -294,7 +286,7 @@ namespace 보령
                                     });
                                 await bizrule.Execute();
                             }
-                            */
+                     */
 
 
                             if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;

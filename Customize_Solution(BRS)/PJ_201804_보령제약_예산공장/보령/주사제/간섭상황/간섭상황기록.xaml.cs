@@ -77,5 +77,17 @@ namespace 보령
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void CheckDataGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (this.CheckDataGrid.SelectedItem != null)
+            {
+                간섭상황기록ViewModel.InterferSituation tar = this.CheckDataGrid.SelectedItem as 간섭상황기록ViewModel.InterferSituation;
+                tar.CHK = !tar.CHK;
+
+                this.CheckDataGrid.SelectedItem = null;
+                this.CheckDataGrid.Refresh();
+            }
+        }
     }
 }

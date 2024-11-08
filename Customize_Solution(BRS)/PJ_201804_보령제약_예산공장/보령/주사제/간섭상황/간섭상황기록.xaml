@@ -23,7 +23,6 @@
         <local:간섭상황기록ViewModel x:Name="VM"/>
     </ShopFloorUI:ShopFloorCustomWindow.Resources>
     <toolkit:BusyIndicator Name="BusyIndicator" IsBusy="{Binding IsBusy, Mode=TwoWay}" DataContext="{Binding Source={StaticResource VM}}">
-        <!--IsBusy="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged}"-->
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="Loaded">
                 <i:InvokeCommandAction Command="{Binding LoadedCommandAsync}" CommandParameter="{Binding ElementName=Main}" />
@@ -52,24 +51,29 @@
                     <ColumnDefinition Width="125"/>
                     <ColumnDefinition Width="70"/>
                 </Grid.ColumnDefinitions>
-                <sdk:Label Content="NO." Height="Auto" FontSize="12" Foreground ="White" Background="#FF333333"  HorizontalContentAlignment="Center" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="6,0,335,5"/>
-                <TextBox Name="NoText" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" Text="{Binding NO}" TextAlignment="Center" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="6,30,335,5" Padding="7" Grid.RowSpan="2"/>
-                <sdk:Label Content="간섭내용" Height="Auto" FontSize="12" Foreground ="White" Background="#FF333333" HorizontalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="6,0,89,5"/>
+                <sdk:Label Content="간섭번호" Height="Auto" FontSize="12" Foreground ="White" Background="#FF333333"  HorizontalContentAlignment="Center" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="6,0,308,5"/>
+                <TextBox Name="NoText" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" Text="{Binding NO}" TextAlignment="Center" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="6,30,308,5" Padding="7" Grid.RowSpan="2" IsReadOnly="True"/>
+                <sdk:Label Content="간섭내용" Height="Auto" FontSize="12" Foreground ="White" Background="#FF333333" HorizontalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="33,0,84,5"/>
                 <ComboBox Name="cboInterferContent" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" ItemsSource="{Binding BR_PHR_SEL_CommonCode.OUTDATAs}" 
-                          DisplayMemberPath="CMCDNAME" HorizontalContentAlignment="Center" SelectedItem="{Binding CboCommon, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="6,30,89,5" Grid.RowSpan="2">
+                          DisplayMemberPath="CMCDNAME" HorizontalContentAlignment="Center" SelectedItem="{Binding CboCommon, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="33,30,84,5" Grid.RowSpan="2">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding SectionChangedCmbCommand}"  CommandParameter="{Binding SelectedItem, ElementName=cboInterferContent}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </ComboBox>
-                <sdk:Label Content="간섭구분" Height="Auto" FontSize="12" Foreground ="White" Background="#FF333333" HorizontalContentAlignment="Center" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Margin="6,0,90,5"/>
-                <TextBox x:Name="DivisionText" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" Text="{Binding DIVISION}" TextAlignment="Center" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Margin="6,30,90,5" Padding="7" Grid.RowSpan="2"/>
-                <sdk:Label Content="Module" Height="Auto" FontSize="12" Foreground ="White" Background="#FF333333" HorizontalContentAlignment="Center" Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2" Margin="6,0,54,5"/>
-                <ComboBox x:Name="cbobModule" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" HorizontalContentAlignment="Center" Loaded="Module_Loaded" SelectedItem="{Binding MODULE, Mode=TwoWay}" Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2" Margin="6,30,54,5" Grid.RowSpan="2"/>
-                <sdk:Label Content="폐기수량" Height="Auto" FontSize="12" Foreground ="White" Background="#FF333333" HorizontalContentAlignment="Center" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2" Margin="6,0,153,5"/>
-
-                <ShopFloorUI:NumericKeyPadType  Value="{Binding DISPOSAL, Mode=TwoWay}" IsReadOnly="False" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2" Margin="6,30,153,5" Padding="7" Grid.RowSpan="2"/>
+                <sdk:Label Content="간섭구분" Height="Auto" FontSize="12" Foreground ="White" Background="#FF333333" HorizontalContentAlignment="Center" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Margin="11,0,85,5"/>
+                <TextBox x:Name="DivisionText" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" Text="{Binding DIVISION}" TextAlignment="Center" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Margin="11,30,85,5" Padding="7" Grid.RowSpan="2" IsReadOnly="True"/>
+                <sdk:Label Content="Module" Height="Auto" FontSize="12" Foreground ="White" Background="#FF333333" HorizontalContentAlignment="Center" Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2" Margin="11,0,49,5"/>
+                <ComboBox SelectedValue="{Binding Path= MODULE, Mode=TwoWay}" DisplayMemberPath="Item" SelectedValuePath="VALUE" Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2" Margin="11,30,49,5" Grid.RowSpan="2" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold">
+                    <ComboBox.Style>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource AncestorType=toolkit:BusyIndicator}, Path=DataContext.ListModule}"/>
+                        </Style>
+                    </ComboBox.Style>
+                </ComboBox>
+                <sdk:Label Content="폐기수량" Height="Auto" FontSize="12" Foreground ="White" Background="#FF333333" HorizontalContentAlignment="Center" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2" Margin="11,0,153,5"/>
+                <ShopFloorUI:NumericKeyPadType x:Name="DisposalQTY" Value="{Binding DISPOSAL, Mode=TwoWay}" IsReadOnly="False" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2" Margin="11,30,153,5" Padding="7" Grid.RowSpan="2"/>
                 <sdk:Label Content="발생시각" Height="Auto" FontSize="12" Foreground ="White" Background="#FF333333" HorizontalContentAlignment="Center" Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="2" Margin="32,0,166,5"/>
                 <c1:C1DateTimePicker x:Name="StrtDate" DateTime="{Binding STRTDTTM,Mode=TwoWay}" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" DateFormat="Short" EditMode="Date" TimeIncrement="00:01:00" TimeFormat="Custom" CustomTimeFormat="HH:mm:ss" Grid.Column="5" Grid.Row="1" Margin="32,30,58,5" Grid.RowSpan="2"/>
                 <c1:C1DateTimePicker x:Name="StrtTime" DateTime="{Binding STRTDTTM,Mode=TwoWay}" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" DateFormat="Short" EditMode="Time" TimeIncrement="00:01:00" TimeFormat="Custom" CustomTimeFormat="HH:mm:ss" GotFocus="StrtTime_GotFocus"  Grid.Column="5" Grid.Row="1" Margin="119,30,166,5" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
@@ -87,7 +91,7 @@
                     <c1:C1DataGrid.Columns>
                         <c1:DataGridCheckBoxColumn Header="선택" Binding="{Binding Path=CHK, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Width="2*"/>
                         <c1:DataGridTextColumn Header="INTERFERGUID" Binding="{Binding Path=INTERFERGUID}" IsReadOnly="True" Visibility="Collapsed" HorizontalAlignment="Center" Width="2*"/>
-                        <c1:DataGridTextColumn Header="No." Binding="{Binding Path=SEQ}" IsReadOnly="True" HorizontalAlignment="Center" Width="2*"/>
+                        <c1:DataGridTextColumn Header="간섭번호" Binding="{Binding Path=SEQ}" IsReadOnly="True" HorizontalAlignment="Center" Width="3*"/>
                         <c1:DataGridTextColumn Header="간섭내용" Binding="{Binding Path=SITUATION}" IsReadOnly="True" HorizontalAlignment="Center" Width="13*"/>
                         <c1:DataGridTextColumn Header="간섭구분" Binding="{Binding Path=GUBUN}" IsReadOnly="True" HorizontalAlignment="Center" Width="4*"/>
                         <c1:DataGridTextColumn Header="Module" Binding="{Binding Path=MODULENO}" IsReadOnly="True" HorizontalAlignment="Center" Width="4*"/>
@@ -97,27 +101,12 @@
                         <c1:DataGridTextColumn Header="비고" Binding="{Binding Path=COMMENT}" IsReadOnly="True" HorizontalAlignment="Center" Width="10*"/>
                     </c1:C1DataGrid.Columns>
                 </c1:C1DataGrid>
-                
-                <!--<sdk:DataGrid x:Name="CheckDataGrid" HeadersVisibility="Column" AutoGenerateColumns="False"
-                               ItemsSource="{Binding ListInterfer}" Height="210" VerticalAlignment="Top" Margin="10,10,10,-220">
-                    <sdk:DataGrid.Columns>
-                        <sdk:DataGridCheckBoxColumn Header="선택" Binding="{Binding Path=CHK}" Width="2*"/>
-                        <sdk:DataGridTextColumn Header="INTERFERGUID" Binding="{Binding Path=INTERFERGUID}" Width="2*" IsReadOnly="True" Visibility="Collapsed"/>
-                        <sdk:DataGridTextColumn Header="No." Binding="{Binding Path=SEQ}" Width="2*" IsReadOnly="True"/>
-                        <sdk:DataGridTextColumn Header="간섭내용" Binding="{Binding Path=SITUATION}" Width="13*" IsReadOnly="True"/>
-                        <sdk:DataGridTextColumn Header="간섭구분" Binding="{Binding Path=GUBUN}" Width="4*" IsReadOnly="True"/>
-                        <sdk:DataGridTextColumn Header="Module" Binding="{Binding Path=MODULENO}" Width="4*" IsReadOnly="True"/>
-                        <sdk:DataGridTextColumn Header="폐기수량" Binding="{Binding Path=DISPOSEQTY}" Width="3*" IsReadOnly="True"/>
-                        <sdk:DataGridTextColumn Header="발생시각" Binding="{Binding Path=STDTTM, StringFormat='yyyy-MM-dd HH:mm:ss'}" Width="8*" IsReadOnly="True"/>
-                        <sdk:DataGridTextColumn Header="완료시각" Binding="{Binding Path=EDDTTM, StringFormat='yyyy-MM-dd HH:mm:ss'}" Width="8*" IsReadOnly="True"/>
-                        <sdk:DataGridTextColumn Header="비고" Binding="{Binding Path=COMMENT}" Width="10*" IsReadOnly="True"/>
-                    </sdk:DataGrid.Columns>
-                </sdk:DataGrid>-->
             </Grid>
             <Grid Grid.Row="2" x:Name="ButtonSection">
-                <Button Content="Delete" Command="{Binding RowDeleteCommand}" Height="Auto" Width="Auto" FontSize="12" Margin="420,5,680,10"/>
-                <Button x:Name="btnConfirm" Content="기록" Command="{Binding ConfirmCommandAsync}" Margin="549,5,549,10" />
-                <Button x:Name="btnCancel" Content="취소" Click="btnCancel_Click" Margin="680,5,420,10"/>
+                <Button Content="Delete" Command="{Binding RowDeleteCommand}" Height="Auto" Width="Auto" FontSize="12" Margin="380,8,720,7"/>
+                <Button x:Name="btnConfirm" Content="기록" Command="{Binding ConfirmCommandAsync}" Margin="495,8,603,7" />
+                <Button Content="기록없음" Command="{Binding NoRecordConfirmCommandAsync}" Height="Auto" Width="Auto" FontSize="12" Margin="610,8,490,7"/>
+                <Button x:Name="btnCancel" Content="취소" Click="btnCancel_Click" Margin="725,8,375,7"/>
             </Grid>
         </Grid>
     </toolkit:BusyIndicator>

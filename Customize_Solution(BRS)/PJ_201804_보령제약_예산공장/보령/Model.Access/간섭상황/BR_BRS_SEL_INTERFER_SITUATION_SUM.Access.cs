@@ -321,6 +321,38 @@ namespace 보령
                     }
                 }
             }
+            private System.Nullable<decimal> _CRITERIA;
+            [BizActorOutputItemAttribute()]
+            public System.Nullable<decimal> CRITERIA
+            {
+                get
+                {
+                    return this._CRITERIA;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._CRITERIA = value;
+                        this.CheckIsOriginal("CRITERIA", value);
+                        this.OnPropertyChanged("CRITERIA");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
             private System.Nullable<decimal> _FREQUENCY;
             [BizActorOutputItemAttribute()]
             public System.Nullable<decimal> FREQUENCY
@@ -357,7 +389,7 @@ namespace 보령
         public BR_BRS_SEL_INTERFER_SITUATION_SUM()
         {
             RuleName = "BR_BRS_SEL_INTERFER_SITUATION_SUM";
-            BizName = "BR_BRS_SEL_INTERFER_SITUATION";
+            BizName = "BR_BRS_SEL_INTERFER_SITUATION_SUM";
             _INDATAs = new INDATACollection();
             _OUTDATAs = new OUTDATACollection();
         }

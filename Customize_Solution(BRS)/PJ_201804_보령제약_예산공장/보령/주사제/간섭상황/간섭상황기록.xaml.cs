@@ -30,14 +30,6 @@ namespace 보령
         {
             DialogResult = false;
         }
-        private void Module_Loaded(object sender, RoutedEventArgs e)
-        {
-            cbobModule.Items.Add("1 Module");
-            cbobModule.Items.Add("2 Module");
-            cbobModule.Items.Add("3 Module");
-            cbobModule.Items.Add("4 Module");
-            cbobModule.Items.Add("5 Module");
-        }
         private void StrtTime_GotFocus(object sender, RoutedEventArgs e)
         {
             try

@@ -17,16 +17,12 @@
     xmlns:vsm="clr-namespace:System.Windows;assembly=System.Windows"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:ezmes="clr-namespace:LGCNS.EZMES.ControlsLib;assembly=LGCNS.EZMES.ControlsLib"
-    Width="1200" Height="370"
+    Width="1000" Height="600"
     Title="간섭상황조회" x:Name="Main">
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
-        <Style TargetType="TextBox">
-            <Setter Property="IsReadOnly" Value="True"/>
-        </Style>
         <local:간섭상황조회ViewModel x:Name="VM"/>
     </ShopFloorUI:ShopFloorCustomWindow.Resources>
     <toolkit:BusyIndicator Name="BusyIndicator" IsBusy="{Binding IsBusy, Mode=TwoWay}" DataContext="{Binding Source={StaticResource VM}}">
-        <!--IsBusy="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged}"-->
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="Loaded">
                 <i:InvokeCommandAction Command="{Binding LoadedCommandAsync}" CommandParameter="{Binding ElementName=Main}" />
@@ -34,30 +30,34 @@
         </i:Interaction.Triggers>
         <Grid x:Name="LayoutRoot">
             <Grid.RowDefinitions>
-                <RowDefinition Height="270"/>
+                <RowDefinition Height="500"/>
                 <RowDefinition Height="70"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" x:Name="MainSection">
-                <c1:C1DataGrid x:Name="CheckDataGrid" AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False" CanUserResizeRows="False"
-                               HeadersVisibility="Column" ItemsSource="{Binding ListInterfer}" Height="260" VerticalAlignment="Top" RowBackground="Wheat" AlternatingRowBackground="Wheat" HorizontalGridLinesBrush="Black" VerticalGridLinesBrush="Black">
-                    <c1:C1DataGrid.Columns>
-                        <c1:DataGridTextColumn Header="No." Binding="{Binding SEQ}" Width="2*"/>
-                        <c1:DataGridTextColumn Header="간섭내용" Binding="{Binding SITUATION}" Width="13*"/>
-                        <c1:DataGridTextColumn Header="간섭구분" Binding="{Binding GUBUN}" Width="4*"/>
-                        <c1:DataGridTemplateColumn Header="간섭횟수" Width="4*">
-                            <c1:DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBox Name="COUNTING" Text="{Binding SUMNO}" BorderThickness="0" Background="{Binding OVER_COLOR,UpdateSourceTrigger=PropertyChanged}"/>
-                                </DataTemplate>
-                            </c1:DataGridTemplateColumn.CellTemplate>
-                        </c1:DataGridTemplateColumn>
-                    </c1:C1DataGrid.Columns>
-                </c1:C1DataGrid>
-            </Grid>
+            <Border x:Name="PrintArea" Grid.Row="0" BorderBrush="#FFD6D4D4" BorderThickness="1">
+                <Grid Grid.Row="0" x:Name="MainSection">
+                    <sdk:DataGrid x:Name="CheckDataGrid" AutoGenerateColumns="False" CanUserReorderColumns="False"
+                                   HeadersVisibility="Column" ItemsSource="{Binding ListInterfer}" Height="498" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto" FontSize="12">
+                        <sdk:DataGrid.Columns>
+                            <sdk:DataGridTextColumn Header="간섭번호" Binding="{Binding SEQ}" Width="2*" IsReadOnly="True" FontSize="12"/>
+                            <sdk:DataGridTextColumn Header="간섭내용" Binding="{Binding SITUATION}" Width="13*" IsReadOnly="True" FontSize="12"/>
+                            <sdk:DataGridTextColumn Header="간섭구분" Binding="{Binding GUBUN}" Width="4*" IsReadOnly="True" FontSize="12"/>
+                            <sdk:DataGridTextColumn Header="최대 간섭횟수" Binding="{Binding CRITERIA}" Width="4*" IsReadOnly="True" FontSize="12"/>
+                            <sdk:DataGridTextColumn Header="간섭횟수" Width="4*" Binding="{Binding SUMNO}" IsReadOnly="True" FontSize="12">
+                                <sdk:DataGridTextColumn.CellStyle>
+                                    <Style TargetType="sdk:DataGridCell">
+                                        <Setter Property="Background" Value="{Binding OVER_COLOR}"/>
+                                    </Style>
+                                </sdk:DataGridTextColumn.CellStyle>
+                            </sdk:DataGridTextColumn>
+                        </sdk:DataGrid.Columns>
+                    </sdk:DataGrid>
+                </Grid>
+            </Border>
             <Grid Grid.Row="1" x:Name="ButtonSection">
-                <Button x:Name="btnConfirm" Content="기록" Command="{Binding ConfirmCommandAsync}" Margin="450,4,628,16" RenderTransformOrigin="0.784,0.491"/>
-                <Button x:Name="btnCancel" Content="취소"  Click="btnCancel_Click" Margin="628,4,450,16"/>
+                <Button x:Name="btnConfirm" Content="기록" Command="{Binding ConfirmCommandAsync}" Margin="280,11,588,11"/>
+                <Button x:Name="btnNoConfirm" Content="기록없음" Command="{Binding NoRecordConfirmCommandAsync}" Margin="434,11"/>
+                <Button x:Name="btnCancel" Content="취소"  Click="btnCancel_Click" Margin="588,11,280,11" RenderTransformOrigin="1.28,0.142"/>
             </Grid>
         </Grid>
     </toolkit:BusyIndicator>

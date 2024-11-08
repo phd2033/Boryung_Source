@@ -190,7 +190,7 @@ namespace 보령
                                 _mainWnd = arg as 간섭상황기록;
 
                                 STRTDTTM = (await AuthRepositoryViewModel.GetDBDateTimeNow()).AddHours(-1);
-                                uyENDDTTM = await AuthRepositoryViewModel.GetDBDateTimeNow();
+                                ENDDTTM = await AuthRepositoryViewModel.GetDBDateTimeNow();
 
                                 _BR_BRS_UPD_INTERFER_SITUATION_NOTUSE.INDATAs.Clear();
 

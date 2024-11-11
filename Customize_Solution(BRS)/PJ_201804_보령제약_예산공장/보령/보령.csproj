@@ -293,6 +293,7 @@
     <Compile Include="Model.Access\칭량\BR_BRS_SEL_Charging_Solvent_History.Access.cs" />
     <Compile Include="Model.Access\칭량\BR_BRS_SEL_Charging_Split_Dispence_History.Access.cs" />
     <Compile Include="Model.Access\칭량\BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing.Access.cs" />
+    <Compile Include="Model.Access\칭량\BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD.Access.cs" />
     <Compile Include="Model.Access\칭량\BR_BRS_SEL_ProductionOrderDispense_Result.Access.cs" />
     <Compile Include="Model.Access\칭량\BR_BRS_SEL_ProductionOrderOutputSubLot.Access.cs" />
     <Compile Include="Model.Access\칭량\BR_BRS_SEL_ProductionOrder_Dispence_Component_Summary.Access.cs" />
@@ -802,6 +803,10 @@
     </Compile>
     <Compile Include="원료칭량\원료칭량확인및기록ViewModel.cs" />
     <Compile Include="원료칭량\현장칭량ViewModel.cs" />
+    <Compile Include="원료칭량\현장칭량_기준량.xaml.cs">
+      <DependentUpon>현장칭량_기준량.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="원료칭량\현장칭량_기준량ViewModel.cs" />
     <Compile Include="원료투입\소분원료분할투입.xaml.cs">
       <DependentUpon>소분원료분할투입.xaml</DependentUpon>
     </Compile>
@@ -1539,6 +1544,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="원료칭량\원료칭량확인및기록.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="원료칭량\현장칭량_기준량.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

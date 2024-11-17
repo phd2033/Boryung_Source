@@ -317,6 +317,7 @@ namespace 보령
                             if (CheckVesselId(VesselId))
                             {
                                 _VesselChecked = true;
+                                _TotalWeight.Value = 0;
                                 _repeater.Start();
                                 OnPropertyChanged("TotalWeight");
                             }
@@ -413,7 +414,7 @@ namespace 보령
                             }
                             else
                             {
-                                _repeater.Start();
+                                //_repeater.Start();
                                 btnRecordEnable = true;
                             }
                         }
@@ -648,10 +649,11 @@ namespace 보령
                                     _ScalePrecision = int.TryParse(_ScaleInfo.PRECISION.ToString(), out chk) ? chk : 3;
 
                                     _TotalWeight.SetWeight(0, _ScaleUom, _ScalePrecision);
+                                    _TotalWeight.Value = 0;
                                     OnPropertyChanged("TotalWeight");
                                     OnPropertyChanged("ScaleId");
 
-                                    _repeater.Start();
+                                    //_repeater.Start();
                                 }
                             }
                             else
@@ -694,6 +696,9 @@ namespace 보령
                 if (_ScaleInfo != null)
                 {
                     bool success = false;
+                    _restScaleService.Dispose();
+
+                    _restScaleService = new ScaleWebAPIHelper();
 
                     if (_ScaleInfo.INTERFACE.ToUpper() == "REST")
                     {

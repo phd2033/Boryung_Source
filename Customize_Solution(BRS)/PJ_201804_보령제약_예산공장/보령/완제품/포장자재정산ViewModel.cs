@@ -100,7 +100,8 @@ namespace 보령
                                             SAMPLEQTY = "0",
                                             REMAINQTY = !string.IsNullOrWhiteSpace(item.RETURNQTY) ? item.RETURNQTY : "0",
                                             USEQTY = "0",
-                                            Param = decimal.TryParse(inputValues.FirstOrDefault(x => x.Raw.BOMID.Equals(item.MTRLID)).Raw.TARGETVAL, out temp) ? temp : 1m,      
+                                            // 2024.11.17  박희돈 사용하지 않아서 주석
+                                            //Param = decimal.TryParse(inputValues.FirstOrDefault(x => x.Raw.BOMID.Equals(item.MTRLID)).Raw.TARGETVAL, out temp) ? temp : 1m,      
                                         });
                                     }
                                 }

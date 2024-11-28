@@ -102,7 +102,7 @@ namespace 보령
                                 {
                                     if (check.SEQ == 13 | check.SEQ == 18)
                                     {
-                                        if (Convert.ToDecimal(_BR_BRS_SEL_INTERFER_SITUATION_SUM.OUTDATAs[Convert.ToInt32(check.SEQ)-1].CRITERIA) < CHECK_SUM)
+                                        if (Convert.ToDecimal(_BR_BRS_SEL_INTERFER_SITUATION_SUM.OUTDATAs[Convert.ToInt32(check.SEQ)].CRITERIA) < CHECK_SUM)
                                         {
                                             OVER_FLAG = true;
                                         }
@@ -113,12 +113,12 @@ namespace 보령
                                             GUBUN = check.GUBUN,
                                             CRITERIA = Convert.ToDecimal(check.CRITERIA),
                                             SUMNO = Convert.ToDecimal(check.FREQUENCY),
-                                            OVER_COLOR = Convert.ToDecimal(_BR_BRS_SEL_INTERFER_SITUATION_SUM.OUTDATAs[Convert.ToInt32(check.SEQ)-1].CRITERIA) < CHECK_SUM ? "Yellow" : "Tranparent"
+                                            OVER_COLOR = Convert.ToDecimal(_BR_BRS_SEL_INTERFER_SITUATION_SUM.OUTDATAs[Convert.ToInt32(check.SEQ)].CRITERIA) < CHECK_SUM ? "Yellow" : "Tranparent"
                                         });
                                     }
                                     else
                                     {
-                                        if (Convert.ToDecimal(_BR_BRS_SEL_INTERFER_SITUATION_SUM.OUTDATAs[Convert.ToInt32(check.SEQ)-1].CRITERIA) < Convert.ToDecimal(check.FREQUENCY))
+                                        if (Convert.ToDecimal(_BR_BRS_SEL_INTERFER_SITUATION_SUM.OUTDATAs[Convert.ToInt32(check.SEQ)].CRITERIA) < Convert.ToDecimal(check.FREQUENCY))
                                         {
                                             OVER_FLAG = true;
                                         }
@@ -129,7 +129,7 @@ namespace 보령
                                             GUBUN = check.GUBUN,
                                             CRITERIA = Convert.ToDecimal(check.CRITERIA),
                                             SUMNO = Convert.ToDecimal(check.FREQUENCY),
-                                            OVER_COLOR = Convert.ToDecimal(_BR_BRS_SEL_INTERFER_SITUATION_SUM.OUTDATAs[Convert.ToInt32(check.SEQ)-1].CRITERIA) < Convert.ToDecimal(check.FREQUENCY) ? "Yellow" : "Tranparent"
+                                            OVER_COLOR = Convert.ToDecimal(_BR_BRS_SEL_INTERFER_SITUATION_SUM.OUTDATAs[Convert.ToInt32(check.SEQ)].CRITERIA) < Convert.ToDecimal(check.FREQUENCY) ? "Yellow" : "Tranparent"
                                         });
                                     }
                                 }
@@ -152,99 +152,6 @@ namespace 보령
                 {
                     return CommandCanExecutes.ContainsKey("LoadedCommandAsync") ?
                         CommandCanExecutes["LoadedCommandAsync"] : (CommandCanExecutes["LoadedCommandAsync"] = true);
-                });
-            }
-        }
-
-        public ICommand NoRecordConfirmCommandAsync
-        {
-            get
-            {
-                return new AsyncCommandBase(async arg =>
-                {
-                    using (await AwaitableLocks["NoRecordConfirmCommandAsync"].EnterAsync())
-                    {
-                        try
-                        {
-                            IsBusy = true;
-
-                            CommandResults["NoRecordConfirmCommandAsync"] = false;
-                            CommandCanExecutes["NoRecordConfirmCommandAsync"] = false;
-
-                            //이미지 저장시 서명화면으로 인해 이미지가 잘 안보임.그에 따른 이미지 데이터만 먼저 생성해 놓도록 함.
-                            Brush background = _mainWnd.PrintArea.Background;
-                            _mainWnd.PrintArea.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0xD6, 0xD4, 0xD4));
-                            _mainWnd.PrintArea.BorderThickness = new System.Windows.Thickness(1);
-                            _mainWnd.PrintArea.Background = new SolidColorBrush(Colors.White);
-
-                            _mainWnd.CurrentInstruction.Raw.NOTE = imageToByteArray();
-                            _mainWnd.CurrentInstruction.Raw.ACTVAL = "Image attached";
-
-                            // 전자서명
-                            iPharmAuthCommandHelper authHelper = new iPharmAuthCommandHelper();
-
-                            if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y") && _mainWnd.Phase.CurrentPhase.STATE.Equals("COMP")) // 값 수정
-                            {
-                                // 전자서명 요청
-                                authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
-                                enumRoleType inspectorRole = enumRoleType.ROLE001;
-                                if (await authHelper.ClickAsync(
-                                        Common.enumCertificationType.Function,
-                                        Common.enumAccessType.Create,
-                                        string.Format("기록값을 변경합니다."),
-                                        string.Format("기록값 변경"),
-                                        true,
-                                        "OM_ProductionOrder_SUI",
-                                        "", _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID, this._mainWnd.CurrentInstruction.Raw.DVTPASSYN == "Y" ? enumRoleType.ROLE001.ToString() : inspectorRole.ToString()) == false)
-                                {
-                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
-                                }
-                            }
-                            else
-                            {
-                                // 전자서명 후 BR 실행
-                                authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
-                                if (await authHelper.ClickAsync(
-                                    Common.enumCertificationType.Function,
-                                    Common.enumAccessType.Create,
-                                    string.Format("간섭상황기록"),
-                                    string.Format("간섭상황기록"),
-                                    false,
-                                    "OM_ProductionOrder_SUI",
-                                    _mainWnd.CurrentOrderInfo.EquipmentID, _mainWnd.CurrentOrderInfo.RecipeID, null) == false)
-                                {
-                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
-                                }
-                            }
-
-                            var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction);
-
-                            if (result != enumInstructionRegistErrorType.Ok)
-                            {
-                                throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
-                            }
-
-                            if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
-                            else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
-                            //
-                            CommandResults["NoRecordConfirmCommandAsync"] = true;
-                        }
-                        catch (Exception ex)
-                        {
-                            CommandResults["NoRecordConfirmCommandAsync"] = false;
-                            OnException(ex.Message, ex);
-                        }
-                        finally
-                        {
-                            CommandCanExecutes["NoRecordConfirmCommandAsync"] = true;
-
-                            IsBusy = false;
-                        }
-                    }
-                }, arg =>
-                {
-                    return CommandCanExecutes.ContainsKey("NoRecordConfirmCommandAsync") ?
-                        CommandCanExecutes["NoRecordConfirmCommandAsync"] : (CommandCanExecutes["NoRecordConfirmCommandAsync"] = true);
                 });
             }
         }

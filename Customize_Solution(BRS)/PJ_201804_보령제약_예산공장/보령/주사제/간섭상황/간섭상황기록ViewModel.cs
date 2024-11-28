@@ -280,8 +280,7 @@ namespace 보령
                             CommandResults["AddInterferCommandAsync"] = false;
                             CommandCanExecutes["AddInterferCommandAsync"] = false;
                             ///
-                            if (CONTENTS.Equals("N/A")) { throw new Exception("간섭 내용을 선택해주세요."); }
-                            else if (MODULE.Equals("N/A")) { throw new Exception("Module을 선택해주세요."); }
+                            if (MODULE.Equals("N/A")) { throw new Exception("Module을 선택해주세요."); }
                             else if (DISPOSAL < 0) { throw new Exception("수량이 마이너스입니다. 확인해주세요."); }
                             else
                             {
@@ -300,8 +299,11 @@ namespace 보령
 
                                 });
                                 //초기화
-                                reset_flag = true;
-                                CboCommon = _BR_PHR_SEL_CommonCode.OUTDATAs[0] as BR_PHR_SEL_CommonCode.OUTDATA;
+                                if (CboCommon != _BR_PHR_SEL_CommonCode.OUTDATAs[0])
+                                {
+                                    reset_flag = true;
+                                    CboCommon = _BR_PHR_SEL_CommonCode.OUTDATAs[0] as BR_PHR_SEL_CommonCode.OUTDATA;
+                                }
                                 MODULE = "N/A";
                                 DISPOSAL = 0;
                                 STRTDTTM = DateTime.Now;

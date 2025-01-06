@@ -85,24 +85,24 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Content="{Binding W[CUIWeighingInfoSetButtonText], Source={StaticResource R}, FallbackValue='칭량대상선택'}" 
+                    <Button Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Content="{Binding W[CUIWeighingInfoSetButtonText], Source={StaticResource VM}, FallbackValue='칭량대상선택'}" 
                             HorizontalAlignment="Stretch" Margin="5" IsEnabled="{Binding AllocationbtnEnable}"
                             Command="{Binding SelectAllocationInfoCommandAsync}"/>
-                    <Button Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Content="{Binding W[CUISourceContainerScanButtonText], Source={StaticResource R}, FallbackValue='자재스캔'}" 
+                    <Button Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Content="{Binding W[CUISourceContainerScanButtonText], Source={StaticResource VM}, FallbackValue='자재스캔'}" 
                             HorizontalAlignment="Stretch" Margin="5" IsEnabled="{Binding MtrlbtnEnable}"
                             Command="{Binding ScanMtrlCommandAsync}"/>
 
-                    <TextBlock Grid.Row="0"  Grid.Column="2" Text="{Binding W[CUIMaterialID], Source={StaticResource R}, FallbackValue='자재ID'}"
+                    <TextBlock Grid.Row="0"  Grid.Column="2" Text="{Binding W[CUIMaterialID], Source={StaticResource VM}, FallbackValue='자재ID'}"
                                Style="{StaticResource lblStyle}"/>
                     <TextBox Grid.Row="0" Grid.Column="3" Text="{Binding MTRLID}"
                              Style="{StaticResource txtStyle}"/>
 
-                    <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding W[CUIMaterialName], Source={StaticResource R}, FallbackValue='자재명'}"
+                    <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding W[CUIMaterialName], Source={StaticResource VM}, FallbackValue='자재명'}"
                                Style="{StaticResource lblStyle}"/>
                     <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding MTRLNAME}"
                              Style="{StaticResource txtStyle}"/>
 
-                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding W[CUIStandardQuantity], Source={StaticResource R}, FallbackValue='기준량'}"
+                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding W[CUIStandardQuantity], Source={StaticResource VM}, FallbackValue='기준량'}"
                                Style="{StaticResource lblStyle}"/>
                     <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding RESERVEQTY}"
                              Style="{StaticResource txtStyle}"/>
@@ -119,20 +119,20 @@
                     <c1:C1DataGrid x:Name="dgSourceContainer" Grid.Row="1" RowHeight="30" ScrollBarStyle="{StaticResource gdScroll}"
                                    AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="SingleRow"
                                    CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False"
-                                   ItemsSource="{Binding BR_BRS_SEL_AreaWeighing_SourceContainer.OUTDATAs, Mode=TwoWay}"
-                                   SelectedItem="{Binding curSeletedSourceContainer, Mode=TwoWay}">
+                                   ItemsSource="{Binding BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component.OUTDATAs, Mode=TwoWay}"
+                                   SelectedItem="{Binding curSelectedSourceContainer, Mode=TwoWay}">
                         <c1:C1DataGrid.Columns>
-                            <c1:DataGridTextColumn Header="{Binding W[CUIStatus], Source={StaticResource R}, FallbackValue='상태'}" Width="55"
+                            <c1:DataGridTextColumn Header="{Binding W[CUIStatus], Source={StaticResource VM}, FallbackValue='상태'}" Width="55"
                                                    Binding="{Binding STATUS}"/>
-                            <c1:DataGridTextColumn Header="{Binding W[CUIMaterialLotID], Source={StaticResource R}, FallbackValue='시험번호'}"
+                            <c1:DataGridTextColumn Header="{Binding W[CUIMaterialLotID], Source={StaticResource VM}, FallbackValue='시험번호'}"
                                                    Binding="{Binding MLOTID}"/>
-                            <c1:DataGridTextColumn Header="{Binding W[CUIMaterialSubLotID], Source={StaticResource R}, FallbackValue='원료배치번호'}"
+                            <c1:DataGridTextColumn Header="{Binding W[CUIMaterialSubLotID], Source={StaticResource VM}, FallbackValue='원료배치번호'}"
                                                    Binding="{Binding MSUBLOTID}"/>
-                            <c1:DataGridTextColumn Header="{Binding W[CUIUOM], Source={StaticResource R}, FallbackValue='단위'}" Width="50"
+                            <c1:DataGridTextColumn Header="{Binding W[CUIUOM], Source={StaticResource VM}, FallbackValue='단위'}" Width="50"
                                                    Binding="{Binding NOTATION}"/>
-                            <c1:DataGridTextColumn Header="{Binding W[CUISourceContainerQuantity], Source={StaticResource R}, FallbackValue='재고'}"
+                            <c1:DataGridTextColumn Header="{Binding W[CUISourceContainerQuantity], Source={StaticResource VM}, FallbackValue='재고'}"
                                                    Binding="{Binding MSUBLOTQTY}"/>
-                            <c1:DataGridTextColumn Header="{Binding W[CUIUsedQuantity], Source={StaticResource R}, FallbackValue='사용량'}"
+                            <c1:DataGridTextColumn Header="{Binding W[CUIUsedQuantity], Source={StaticResource VM}, FallbackValue='사용량'}"
                                                    Binding="{Binding UsedWeight}"/>
                         </c1:C1DataGrid.Columns>
                     </c1:C1DataGrid>
@@ -141,17 +141,17 @@
                     <c1:C1DataGrid x:Name="dgDispenseHistory" Grid.Row="3" RowHeight="30" ScrollBarStyle="{StaticResource gdScroll}"
                                    AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="SingleRow"
                                    CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False"
-                                   ItemsSource="{Binding BR_BRS_SEL_Charging_Solvent_History.OUTDATAs}">
+                                   ItemsSource="{Binding BR_BRS_SEL_ReDispensing_Charging.OUTDATAs}">
                         <c1:C1DataGrid.Columns>
-                            <c1:DataGridTextColumn Header="{Binding W[CUIMaterialLotID], Source={StaticResource R}, FallbackValue='시험번호'}"
+                            <c1:DataGridTextColumn Header="{Binding W[CUIMaterialLotID], Source={StaticResource VM}, FallbackValue='시험번호'}"
                                                    Binding="{Binding MLOTID}"/>
-                            <c1:DataGridTextColumn Header="{Binding W[CUIMaterialSubLotID], Source={StaticResource R}, FallbackValue='원료배치번호'}"
+                            <c1:DataGridTextColumn Header="{Binding W[CUIMaterialSubLotID], Source={StaticResource VM}, FallbackValue='원료배치번호'}"
                                                    Binding="{Binding MSUBLOTID}"/>
-                            <c1:DataGridTextColumn Header="{Binding W[CUIUOM], Source={StaticResource R}, FallbackValue='단위'}" Width="50"
+                            <c1:DataGridTextColumn Header="{Binding W[CUIUOM], Source={StaticResource VM}, FallbackValue='단위'}" Width="50"
                                                    Binding="{Binding NOTATION}"/>
-                            <c1:DataGridTextColumn Header="{Binding W[CUIDispenseQuantity], Source={StaticResource R}, FallbackValue='소분'}"
+                            <c1:DataGridTextColumn Header="{Binding W[CUIDispenseQuantity], Source={StaticResource VM}, FallbackValue='소분'}"
                                                    Binding="{Binding DSPQTY}"/>
-                            <c1:DataGridTextColumn Header="{Binding W[CUIChargingQuantity], Source={StaticResource R}, FallbackValue='실제투입량'}"
+                            <c1:DataGridTextColumn Header="{Binding W[CUIChargingQuantity], Source={StaticResource VM}, FallbackValue='실제투입량'}"
                                                    Binding="{Binding CHGQTY}"/>
                             <c1:DataGridTemplateColumn Width="Auto">
                                 <c1:DataGridTemplateColumn.CellTemplate>
@@ -185,16 +185,16 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Content="{Binding W[CUIScaleScanButtonText], Source={StaticResource R}, FallbackValue='저울스캔'}"
+                    <Button Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Content="{Binding W[CUIScaleScanButtonText], Source={StaticResource VM}, FallbackValue='저울스캔'}"
                             HorizontalAlignment="Stretch" Margin="5" IsEnabled="{Binding ScalebtnEnable}"
                             Command="{Binding ScanScaleCommandAsync}"/>
 
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding W[CUIScaleID], Source={StaticResource R}, FallbackValue='저울ID'}" 
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding W[CUIScaleID], Source={StaticResource VM}, FallbackValue='저울ID'}" 
                                Style="{StaticResource lblStyle}"/>
                     <TextBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding Path=ScaleId}"
                              Style="{StaticResource txtStyle}"/>
 
-                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding W[CUITareWeight], Source={StaticResource R}, FallbackValue='용기무게'}"
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding W[CUITareWeight], Source={StaticResource VM}, FallbackValue='용기무게'}"
                                Style="{StaticResource lblStyle}"/>
                     <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Path=TareWeight}"
                              Style="{StaticResource txtStyle}"/>
@@ -204,7 +204,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Margin="5,2" Content="{Binding W[CUIScaleTareButtonText], Source={StaticResource R}, FallbackValue=TARE}"
+                        <Button Grid.Column="0" Margin="5,2" Content="{Binding W[CUIScaleTareButtonText], Source={StaticResource VM}, FallbackValue=TARE}"
                                 IsEnabled="{Binding TarebtnEnable}" Command="{Binding SetTareCommand}"/>
                     </Grid>
                 </Grid>
@@ -225,21 +225,21 @@
 
             <Grid x:Name="Footer" Grid.Row="2">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                    <TextBlock Text="{Binding Path=W[CUICurrentPrintName], Source={StaticResource R}, FallbackValue='프린트명'}" Margin="2,0"/>
+                    <TextBlock Text="{Binding Path=W[CUICurrentPrintName], Source={StaticResource VM}, FallbackValue='프린트명'}" Margin="2,0"/>
                     <TextBlock Text="{Binding curPrintName, FallbackValue='N/A'}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Margin="5,0" x:Name="btnChangePrint" Width="100" Content="{Binding W[CUIChangePrintButtonText], Source={StaticResource R}, FallbackValue='프린터변경'}" 
+                    <Button Margin="5,0" x:Name="btnChangePrint" Width="100" Content="{Binding W[CUIChangePrintButtonText], Source={StaticResource VM}, FallbackValue='프린터변경'}" 
                             Style="{StaticResource btnStyle}" Command="{Binding ChangePrintCommand}"/>
-                    <Button Margin="5,0" x:Name="btnDispensing" Width="100" Content="{Binding W[CUIDispensingButtonText], Source={StaticResource R}, FallbackValue='소분'}" 
+                    <Button Margin="5,0" x:Name="btnDispensing" Width="100" Content="{Binding W[CUIDispensingButtonText], Source={StaticResource VM}, FallbackValue='소분'}" 
                             Style="{StaticResource btnStyle}" IsEnabled="{Binding DispensebtnEnable}" Command="{Binding DispensingCommandAsync}"/>
-                    <Button Margin="5,0" x:Name="btnCharging" Width="100" Content="{Binding W[CUIChargingButtonText], Source={StaticResource R}, FallbackValue='투입'}" 
+                    <Button Margin="5,0" x:Name="btnCharging" Width="100" Content="{Binding W[CUIChargingButtonText], Source={StaticResource VM}, FallbackValue='투입'}" 
                             Style="{StaticResource btnStyle}" IsEnabled="{Binding ChargebtnEnable}" Command="{Binding ChargingCommandAsync}"/>
-                    <Button Margin="5,0" x:Name="btnConfirm" Width="100" Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource R}, FallbackValue='기록'}" 
+                    <Button Margin="5,0" x:Name="btnConfirm" Width="100" Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='기록'}" 
                             Style="{StaticResource btnStyle}" Command="{Binding ConfirmCommandAsync}"/>
-                    <Button Margin="5,0" x:Name="btnNoRecordConfirm" Width="100" Content="{Binding W[CUIDefaultDataWriteToEBRButtonText], Source={StaticResource R}, FallbackValue='기록없음'}" 
+                    <Button Margin="5,0" x:Name="btnNoRecordConfirm" Width="100" Content="{Binding W[CUIDefaultDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='기록없음'}" 
                             Style="{StaticResource btnStyle}" Command="{Binding NoRecordConfirmCommand}"/>
-                    <Button Margin="5,0" x:Name="btnClose" Width="100" Content="{Binding [CUICloseButtonText], Source={StaticResource R}, FallbackValue='종료'}"
+                    <Button Margin="5,0" x:Name="btnClose" Width="100" Content="{Binding [CUICloseButtonText], Source={StaticResource VM}, FallbackValue='종료'}"
                             Style="{StaticResource btnStyle}" Click="btnClose_Click"/>
                 </StackPanel>
             </Grid>

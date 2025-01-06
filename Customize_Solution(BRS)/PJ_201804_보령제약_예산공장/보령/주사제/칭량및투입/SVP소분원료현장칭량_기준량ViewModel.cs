@@ -28,11 +28,12 @@ namespace 보령
             _BR_PHR_SEL_System_Printer = new BR_PHR_SEL_System_Printer();
             _BR_PHR_REG_ScaleSetTare = new BR_PHR_REG_ScaleSetTare();
 
-            _BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD = new BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD();
-            _BR_BRS_SEL_AreaWeighing_SourceContainer = new BR_BRS_SEL_AreaWeighing_SourceContainer();
-            _BR_BRS_SEL_Charging_Solvent_History = new BR_BRS_SEL_Charging_Solvent_History();
+            _BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD = new BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD();
+            _BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component = new BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component();
+            _BR_BRS_SEL_ReDispensing_Charging = new BR_BRS_SEL_ReDispensing_Charging();
 
             _BR_RHR_REG_MaterialSubLot_Dispense_Charging_NEW = new BR_RHR_REG_MaterialSubLot_Dispense_Charging_NEW();
+            //_BR_BRS_REG_MaterialSubLot_Dispense_Scrap = new BR_BRS_REG_MaterialSubLot_Dispense_Scrap();
 
             _BR_PHR_SEL_PRINT_LabelImage = new BR_PHR_SEL_PRINT_LabelImage();
 
@@ -109,17 +110,17 @@ namespace 보령
             get { return _LowerWeight.WeightUOMString; }
         }
 
-        private BR_BRS_SEL_AreaWeighing_SourceContainer.OUTDATA _curSeletedSourceContainer;
+        private BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component.OUTDATA _curSelectedSourceContainer;
         /// <summary>
-        /// 현재 칭량에 사용중인 원료백
+        /// 현재 칭량에 사용중인 소분된 원료
         /// </summary>
-        public BR_BRS_SEL_AreaWeighing_SourceContainer.OUTDATA curSeletedSourceContainer
+        public BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component.OUTDATA curSelectedSourceContainer
         {
-            get { return _curSeletedSourceContainer; }
+            get { return _curSelectedSourceContainer; }
             set
             {
-                _curSeletedSourceContainer = value;
-                OnPropertyChanged("curSeletedSourceContainer");
+                _curSelectedSourceContainer = value;
+                OnPropertyChanged("curSelectedSourceContainer");
             }
         }
 
@@ -151,8 +152,8 @@ namespace 보령
             }
         }
 
-        private BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD.OUTDATA _SelectedAllocationInfo;
-        public BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD.OUTDATA SelectedAllocationInfo
+        private BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATA _SelectedAllocationInfo;
+        public BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATA SelectedAllocationInfo
         {
             set
             {
@@ -166,14 +167,14 @@ namespace 보령
                     var dsp = new Weight();
                     dsp.SetWeight(value.DSPQTY.GetValueOrDefault(), value.NOTATION, 6);
                     _DisepenQty = dsp.Copy();
-
+                    
                     _UpperWeight.SetWeight(value.UPPER.GetValueOrDefault().ToString("F" + value.BOMPRECISION), value.NOTATION.ToString());
                     _LowerWeight.SetWeight(value.LOWER.GetValueOrDefault().ToString("F" + value.BOMPRECISION), value.NOTATION.ToString());
                     OnPropertyChanged("UpperWeight");
                     OnPropertyChanged("LowerWeight");
                     OnPropertyChanged("DspWeight");
 
-                    _UsedSourceContainers = new BR_BRS_SEL_AreaWeighing_SourceContainer.OUTDATACollection();
+                    _UsedSourceContainers = new BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component.OUTDATACollection();
 
                     MtrlbtnEnable = true;
                     ScalebtnEnable = true;
@@ -311,9 +312,9 @@ namespace 보령
         private Weight _DisepenQty = new Weight();
 
         /// <summary>
-        /// 사용한 원료백 정보
+        /// 사용한 소분된 원료 정보
         /// </summary>
-        private BR_BRS_SEL_AreaWeighing_SourceContainer.OUTDATACollection _UsedSourceContainers;
+        private BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component.OUTDATACollection _UsedSourceContainers;
 
         private bool _DispensebtnEnable;
         /// <summary>
@@ -347,42 +348,56 @@ namespace 보령
         #endregion
 
         #region [BizRule]
-        private BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD _BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD;
-        public BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD
+        private BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD _BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD;
+        public BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD
         {
-            get { return _BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD; }
+            get { return _BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD; }
             set
             {
-                _BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD = value;
-                OnPropertyChanged("BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD");
+                _BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD = value;
+                OnPropertyChanged("BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD");
             }
         }
 
-        private BR_BRS_SEL_AreaWeighing_SourceContainer _BR_BRS_SEL_AreaWeighing_SourceContainer;
+        private BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component _BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component;
         /// <summary>
         /// 소분원료 정보 조회
         /// </summary>
-        public BR_BRS_SEL_AreaWeighing_SourceContainer BR_BRS_SEL_AreaWeighing_SourceContainer
+        public BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component
         {
-            get { return _BR_BRS_SEL_AreaWeighing_SourceContainer; }
+            get { return _BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component; }
             set
             {
-                _BR_BRS_SEL_AreaWeighing_SourceContainer = value;
-                OnPropertyChanged("BR_BRS_SEL_AreaWeighing_SourceContainer");
+                _BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component = value;
+                OnPropertyChanged("BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component");
             }
         }
 
-        private BR_BRS_SEL_Charging_Solvent_History _BR_BRS_SEL_Charging_Solvent_History;
+        private BR_BRS_REG_MaterialSubLot_Dispense_Scrap _BR_BRS_REG_MaterialSubLot_Dispense_Scrap;
+        /// <summary>
+        /// 소분원료 정보 조회
+        /// </summary>
+        //public BR_BRS_REG_MaterialSubLot_Dispense_Scrap _BR_BRS_REG_MaterialSubLot_Dispense_Scrap
+        //{
+        //    get { return _BR_BRS_REG_MaterialSubLot_Dispense_Scrap; }
+        //    set
+        //    {
+        //        _BR_BRS_REG_MaterialSubLot_Dispense_Scrap = value;
+        //        OnPropertyChanged("BR_BRS_REG_MaterialSubLot_Dispense_Scrap");
+        //    }
+        //}
+        
+        private BR_BRS_SEL_ReDispensing_Charging _BR_BRS_SEL_ReDispensing_Charging;
         /// <summary>
         /// 현장칭량 소분 정보 조회
         /// </summary>
-        public BR_BRS_SEL_Charging_Solvent_History BR_BRS_SEL_Charging_Solvent_History
+        public BR_BRS_SEL_ReDispensing_Charging BR_BRS_SEL_ReDispensing_Charging
         {
-            get { return _BR_BRS_SEL_Charging_Solvent_History; }
+            get { return _BR_BRS_SEL_ReDispensing_Charging; }
             set
             {
-                _BR_BRS_SEL_Charging_Solvent_History = value;
-                OnPropertyChanged("BR_BRS_SEL_Charging_Solvent_History");
+                _BR_BRS_SEL_ReDispensing_Charging = value;
+                OnPropertyChanged("BR_BRS_SEL_ReDispensing_Charging");
             }
         }
 
@@ -501,12 +516,12 @@ namespace 보령
                                 // 할당이 2개 이상인 경우 자재정보를 조회하지 않는다.                           
                                 await GetAllocationInfo();
 
-                                if (BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD.OUTDATAs.Count < 1)
+                                if (BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs.Count < 1)
                                 {
                                     OnMessage("할당정보가 없습니다.");
                                     return;
                                 }
-                                else if (BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD.OUTDATAs.Count > 1)
+                                else if (BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs.Count > 1)
                                 {
                                     AllocationbtnEnable = true;
 
@@ -517,7 +532,7 @@ namespace 보령
                                     AllocationbtnEnable = false;
 
                                     _DspStartDttm = await AuthRepositoryViewModel.GetDBDateTimeNow();
-                                    SelectedAllocationInfo = BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD.OUTDATAs[0];
+                                    SelectedAllocationInfo = BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs[0];
 
                                     await GetSourceContainerDispensingInfo();
 
@@ -575,18 +590,18 @@ namespace 보령
                                     return;
                             }
 
-                            if (BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD.OUTDATAs.Count > 0)
+                            if (BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs.Count > 0)
                             {
                                 var popup = new AllocationInfoPopup();
 
 
-                                popup.dgAllocationInfo.ItemsSource = BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD.OUTDATAs;
+                                popup.dgAllocationInfo.ItemsSource = BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs;
                                 popup.btnSelect.Click += async (s, e) =>
                                 {
-                                    if (popup.dgAllocationInfo.SelectedItem != null && popup.dgAllocationInfo.SelectedItem is BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD.OUTDATA)
+                                    if (popup.dgAllocationInfo.SelectedItem != null && popup.dgAllocationInfo.SelectedItem is BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATA)
                                     {
-                                        BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD.OUTDATA selallocation
-                                        = popup.dgAllocationInfo.SelectedItem as BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD.OUTDATA;
+                                        BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATA selallocation
+                                        = popup.dgAllocationInfo.SelectedItem as BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATA;
 
                                         _DspStartDttm = await AuthRepositoryViewModel.GetDBDateTimeNow();
                                         SelectedAllocationInfo = selallocation;
@@ -658,10 +673,10 @@ namespace 보령
                             }
 
                             // 사용중인 원료백이 있으면 사용량 처리 후 원료백 팝업요청
-                            if (curSeletedSourceContainer != null && curSeletedSourceContainer.MSUBLOTQTY > 0)
+                            if (curSelectedSourceContainer != null && curSelectedSourceContainer.MSUBLOTQTY > 0)
                             {
                                 // 다른 원료백의 사용량 확인
-                                decimal usedweight = _ScaleWeight.Value - BR_BRS_SEL_AreaWeighing_SourceContainer.OUTDATAs.Sum(o => o.UsedWeight);
+                                decimal usedweight = _ScaleWeight.Value - BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component.OUTDATAs.Sum(o => o.UsedWeight);
                                 if (usedweight < 0)
                                 {
                                     OnMessage("사용량이 0보다 작을 수 없습니다.");
@@ -673,8 +688,8 @@ namespace 보령
                                 if (await OnMessageAsync(msg, true))
                                 {
                                     // 사용량 설정
-                                    curSeletedSourceContainer.UsedWeight = usedweight;
-                                    _UsedSourceContainers.Add(curSeletedSourceContainer);
+                                    curSelectedSourceContainer.UsedWeight = usedweight;
+                                    _UsedSourceContainers.Add(curSelectedSourceContainer);
                                     TarebtnEnable = false;
                                 }
                                 else
@@ -692,16 +707,16 @@ namespace 보령
                                 {
                                     string text = popup.tbText.Text.ToUpper();
 
-                                    if (BR_BRS_SEL_AreaWeighing_SourceContainer.OUTDATAs.Count > 0)
+                                    if (BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component.OUTDATAs.Count > 0)
                                     {
-                                        var select = BR_BRS_SEL_AreaWeighing_SourceContainer.OUTDATAs.Where(o => o.MSUBLOTBCD == text).FirstOrDefault();
+                                        var select = BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component.OUTDATAs.Where(o => o.MSUBLOTBCD == text).FirstOrDefault();
 
-                                        if (curSeletedSourceContainer != null)
+                                        if (curSelectedSourceContainer != null)
                                         {
-                                            if (curSeletedSourceContainer.MSUBLOTBCD == text)
+                                            if (curSelectedSourceContainer.MSUBLOTBCD == text)
                                             {
                                                 OnMessage("현재 사용중인 원료백입니다.");
-                                                curSeletedSourceContainer.UsedWeight = 0;
+                                                curSelectedSourceContainer.UsedWeight = 0;
                                                 _DispatcherTimer.Start();
                                                 return;
                                             }
@@ -712,33 +727,33 @@ namespace 보령
                                             if (select.STATUS == "사용")
                                             {
                                                 OnMessage("이미 사용한 원료백입니다.");
-                                                if (curSeletedSourceContainer != null)
-                                                    curSeletedSourceContainer.UsedWeight = 0;
+                                                if (curSelectedSourceContainer != null)
+                                                    curSelectedSourceContainer.UsedWeight = 0;
                                                 _DispatcherTimer.Start();
                                                 return;
                                             }
 
                                             // 원료백 변경
                                             select.IsSelected = true;
-                                            foreach (var item in BR_BRS_SEL_AreaWeighing_SourceContainer.OUTDATAs)
+                                            foreach (var item in BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component.OUTDATAs)
                                             {
                                                 if (item.MSUBLOTBCD != select.MSUBLOTBCD)
                                                     item.IsSelected = false;
                                             }
-                                            curSeletedSourceContainer = select;
+                                            curSelectedSourceContainer = select;
                                             TarebtnEnable = false;
-                                            OnPropertyChanged("BR_BRS_SEL_AreaWeighing_SourceContainer");
+                                            OnPropertyChanged("BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component");
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    if (curSeletedSourceContainer != null)
+                                    if (curSelectedSourceContainer != null)
                                     {
-                                        curSeletedSourceContainer.IsSelected = false;
-                                        curSeletedSourceContainer = null;
+                                        curSelectedSourceContainer.IsSelected = false;
+                                        curSelectedSourceContainer = null;
                                     }
-                                    OnPropertyChanged("BR_BRS_SEL_AreaWeighing_SourceContainer");
+                                    OnPropertyChanged("BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component");
                                 }
 
 
@@ -927,28 +942,28 @@ namespace 보령
                             _DispatcherTimer.Stop();
 
                             // 사용중인 원료백이 있으면 사용량 처리 후 원료백 팝업요청
-                            if (curSeletedSourceContainer != null && curSeletedSourceContainer.MSUBLOTQTY > 0)
+                            if (curSelectedSourceContainer != null && curSelectedSourceContainer.MSUBLOTQTY > 0)
                             {
                                 // 다른 원료백의 사용량 확인
-                                decimal usedweight = _ScaleWeight.Value - BR_BRS_SEL_AreaWeighing_SourceContainer.OUTDATAs.Sum(o => o.UsedWeight);
+                                decimal usedweight = _ScaleWeight.Value - BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component.OUTDATAs.Sum(o => o.UsedWeight);
                                 if (usedweight < 0)
                                 {
                                     OnMessage("사용량이 0보다 작을 수 없습니다.");
                                     return;
                                 }
 
-                                // 소분량 계산
-                                decimal dspqty = 0;
-                                if (_UsedSourceContainers.Count > 0)
-                                    dspqty = _UsedSourceContainers.Sum(o => o.UsedWeight);
+                                //// 소분량 계산
+                                //decimal dspqty = 0;
+                                //if (_UsedSourceContainers.Count > 0)
+                                //    dspqty = _UsedSourceContainers.Sum(o => o.UsedWeight);
 
-                                string msg = string.Format("소분량 : [{0}], 소분하시겠습니까?", dspqty + usedweight);
+                                string msg = string.Format("소분량 : [{0}], 소분하시겠습니까?", usedweight);
                                 if (await OnMessageAsync(msg, true))
                                 {
                                     // 사용량 설정
-                                    curSeletedSourceContainer.UsedWeight = usedweight;
-                                    curSeletedSourceContainer.IsSelected = false;
-                                    _UsedSourceContainers.Add(curSeletedSourceContainer);
+                                    curSelectedSourceContainer.UsedWeight = usedweight;
+                                    //curSelectedSourceContainer.IsSelected = false;
+                                    _UsedSourceContainers.Add(curSelectedSourceContainer);
                                     TarebtnEnable = false;
                                 }
                                 else
@@ -956,25 +971,15 @@ namespace 보령
                             }
 
                             if (_UsedSourceContainers.Count > 0)
-                            {
-                                // 소분비즈룰 실행
-                                bool dspCompFlag = (_LowerWeight.Value <= _UsedSourceContainers.Sum(o => o.UsedWeight) + _DisepenQty.Value
-                                                    && _UsedSourceContainers.Sum(o => o.UsedWeight) + _DisepenQty.Value <= _UpperWeight.Value);
-                                // true : 보충원료 false : 일반원료
-                                // 보충원료는 나중에 추가로 소분해야하기 때문에 칭량상태가 C로 바뀌면 안됨
-                                bool AppendBomChk = false;
-
-                                if (dspCompFlag && await OnMessageAsync("투입 후 보충하는 원료입니까?", true))
-                                    AppendBomChk = true;
-
+                            {                                
                                 // 소분전자서명
                                 var authHelper = new iPharmAuthCommandHelper();
                                 authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_Charging");
                                 if (await authHelper.ClickAsync(
                                     Common.enumCertificationType.Function,
                                     Common.enumAccessType.Create,
-                                    "SVP소분원료현장칭량",
-                                    "SVP소분원료현장칭량",
+                                    "SVP소분원료현장칭량_기준량",
+                                    "SVP소분원료현장칭량_기준량",
                                     false,
                                     "OM_ProductionOrder_Charging",
                                     "", null, null) == false)
@@ -982,71 +987,56 @@ namespace 보령
                                     throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                 }
 
-                                BR_RHR_REG_MaterialSubLot_Dispense_Multi DispenseBR = new BR_RHR_REG_MaterialSubLot_Dispense_Multi();
+                                BR_BRS_REG_MaterialSubLot_Dispense_SVP_Loss DispenseBR = new BR_BRS_REG_MaterialSubLot_Dispense_SVP_Loss();
                                 DateTime dspend = await AuthRepositoryViewModel.GetDBDateTimeNow();
-                                foreach (var item in _UsedSourceContainers)
+                                DispenseBR.INDATAs.Add(new BR_BRS_REG_MaterialSubLot_Dispense_SVP_Loss.INDATA
                                 {
-                                    DispenseBR.INDATAs.Add(new BR_RHR_REG_MaterialSubLot_Dispense_Multi.INDATA
-                                    {
-                                        MLOTID = item.MLOTID,
-                                        MSUBLOTID = item.MSUBLOTID,
-                                        MSUBLOTBCD = item.MSUBLOTBCD,
-                                        INSDTTM = DateTime.Now,
-                                        INSUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Charging"),
-                                        DEPLETFLAG = "P",
-                                        VESSELID = null,
-                                        POID = _mainWnd.CurrentOrder.ProductionOrderID,
-                                        MSUBLOTTYPE = "DSP",
-                                        COMPONENTGUID = item.COMPONENTGUID,
-                                        TARE = _TareWeight.Value,
-                                        LOCATIONID = AuthRepositoryViewModel.Instance.RoomID,
-                                        INVENTORYQTY = item.MSUBLOTQTY,
-                                        DISPENSEQTY = item.UsedWeight,
-                                        ISDISPSTRT = "Y",
-                                        ACTID = "Dispensing",
-                                        CHECKINDTTM = DateTime.Now,
-                                        CHECKINUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Charging"),
-                                        WEIGHINGMETHOD = "WH007",
-                                        UPPERVALUE = _UpperWeight.Value,
-                                        LOWERVALUE = _LowerWeight.Value,
-                                        OPSGGUID = new Guid(_mainWnd.CurrentOrder.OrderProcessSegmentID),
-                                        TAREWEIGHT = _TareWeight.Value,
-                                        TAREUOMID = _ScaleWeight.Uom,
-                                        SCALEID = ScaleId,
-                                        INSSIGNATURE = AuthRepositoryViewModel.Instance.ConfirmedGuid,
-                                        DSPSTRTDTTM = _DspStartDttm.ToString("yyyy-MM-dd HH:mm:ss"),
-                                        DSPENDDTTM = dspend.ToString("yyyy-MM-dd HH:mm:ss"),
-                                        WEIGHINGROOM = AuthRepositoryViewModel.Instance.RoomID,
-                                        SCALEPRECISION = _scalePrecision
-                                    });
-                                }
+                                    MSUBLOTID = curSelectedSourceContainer.MSUBLOTID,
+                                    MSUBLOTBCD = curSelectedSourceContainer.MSUBLOTBCD,
+                                    INSDTTM = DateTime.Now,
+                                    INSUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Charging"),
+                                    DEPLETFLAG = "P",
+                                    VESSELID = null,
+                                    POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                    MSUBLOTTYPE = "DSP",
+                                    COMPONENTGUID = curSelectedSourceContainer.COMPONENTGUID,
+                                    TARE = _TareWeight.Value,
+                                    LOCATIONID = AuthRepositoryViewModel.Instance.RoomID,
+                                    INVENTORYQTY = curSelectedSourceContainer.MSUBLOTQTY,
+                                    DISPENSEQTY = curSelectedSourceContainer.UsedWeight,
+                                    ISDISPSTRT = "Y",
+                                    ACTID = "ReDispensing",
+                                    CHECKINDTTM = DateTime.Now,
+                                    CHECKINUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Charging"),
+                                    WEIGHINGMETHOD = "WH007",
+                                    UPPERVALUE = _UpperWeight.Value,
+                                    LOWERVALUE = _LowerWeight.Value,
+                                    OPSGGUID = new Guid(_mainWnd.CurrentOrder.OrderProcessSegmentID),
+                                    TAREWEIGHT = _TareWeight.Value,
+                                    TAREUOMID = _ScaleWeight.Uom,
+                                    SCALEID = ScaleId,
+                                    INSSIGNATURE = AuthRepositoryViewModel.Instance.ConfirmedGuid,
+                                    DSPSTRTDTTM = _DspStartDttm.ToString("yyyy-MM-dd HH:mm:ss"),
+                                    DSPENDDTTM = dspend.ToString("yyyy-MM-dd HH:mm:ss"),
+                                    WEIGHINGROOM = AuthRepositoryViewModel.Instance.RoomID
+                                });
+                               
+                                await DispenseBR.Execute();
 
-                                DispenseBR.INDATAs[DispenseBR.INDATAs.Count - 1].ISDISPSTRT = dspCompFlag && !AppendBomChk ? "C" : "Y";
+                                //if (await DispenseBR.Execute())
+                                //{
+                                //    _TareWeight = new Weight();
+                                //    TarebtnEnable = true;
+                                //    _SetTare = false;
+                                //    OnPropertyChanged("TareWeight");
+                                //    //_UsedSourceContainers = new BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component.OUTDATACollection();
 
-                                if (await DispenseBR.Execute())
-                                {
-                                    _TareWeight = new Weight();
-                                    TarebtnEnable = true;
-                                    _SetTare = false;
-                                    OnPropertyChanged("TareWeight");
-                                    _UsedSourceContainers = new BR_BRS_SEL_AreaWeighing_SourceContainer.OUTDATACollection();
 
-                                    if (dspCompFlag)
-                                    {
-                                        BR_PHR_UPD_ProductionOrderBOMVersion_ISDISPSTRT br = new BR_PHR_UPD_ProductionOrderBOMVersion_ISDISPSTRT();
-
-                                        br.INDATAs.Add(new BR_PHR_UPD_ProductionOrderBOMVersion_ISDISPSTRT.INDATA
-                                        {
-                                            POID = _SelectedAllocationInfo.POID,
-                                            COMPONENTGUID = new Guid(_SelectedAllocationInfo.COMPONENTGUID),
-                                            ISDISPSTRT = AppendBomChk ? "Y" : "C"
-                                        });
-                                    }
-                                }
+                                //}
 
                                 await GetAllocationInfo();
 
-                                await GetSourceContainerDispensingInfo();
+                                //await GetSourceContainerDispensingInfo();
 
                                 await GetDispenseHistory();
                             }
@@ -1063,10 +1053,10 @@ namespace 보령
 
                             // 마지막 사용정보 삭제
                             _UsedSourceContainers.RemoveAt(_UsedSourceContainers.Count - 1);
-                            if (curSeletedSourceContainer != null)
+                            if (curSelectedSourceContainer != null)
                             {
-                                curSeletedSourceContainer.UsedWeight = 0;
-                                curSeletedSourceContainer.IsSelected = true;
+                                curSelectedSourceContainer.UsedWeight = 0;
+                                curSelectedSourceContainer.IsSelected = true;
                             }
                         }
                         finally
@@ -1107,7 +1097,7 @@ namespace 보령
 
                             StringBuilder msg = new StringBuilder("투입처리된 소분백 목록\n");
 
-                            foreach (var item in BR_BRS_SEL_Charging_Solvent_History.OUTDATAs)
+                            foreach (var item in BR_BRS_SEL_ReDispensing_Charging.OUTDATAs)
                             {
                                 if (item.DSPQTY > 0)
                                 {
@@ -1130,7 +1120,6 @@ namespace 보령
 
                                     msg.AppendLine(item.MSUBLOTBCD);
                                 }
-
                             }
 
                             if (_BR_RHR_REG_MaterialSubLot_Dispense_Charging_NEW.INDATAs.Count > 0)
@@ -1161,17 +1150,30 @@ namespace 보령
 
                                 if (await _BR_RHR_REG_MaterialSubLot_Dispense_Charging_NEW.Execute())
                                 {
-                                    _BR_BRS_SEND_WMS_WEIGHINGRESULT.INDATAs.Clear();
-
-                                    _BR_BRS_SEND_WMS_WEIGHINGRESULT.INDATAs.Add(new BR_BRS_SEND_WMS_WEIGHINGRESULT.INDATA
+                                    if (await OnMessageAsync("잔량을 폐기하시겠습니까?", true))
                                     {
-                                        POID = _mainWnd.CurrentOrder.ProductionOrderID,
-                                        WEIGHINGMETHOD = "WH007"
-                                    });
+                                        BR_BRS_REG_MaterialSubLot_Dispense_Scrap ScrapBR = new BR_BRS_REG_MaterialSubLot_Dispense_Scrap();
 
-                                    if (!await _BR_BRS_SEND_WMS_WEIGHINGRESULT.Execute())
+                                        foreach (var item in BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs)
+                                        {
+                                            if (item.REMAINQTY > 0)
+                                            {
+                                                _BR_BRS_REG_MaterialSubLot_Dispense_Scrap.INDATAs.Add(new BR_BRS_REG_MaterialSubLot_Dispense_Scrap.INDATA
+                                                {
+                                                    LANGID = "ko-KR",
+                                                    MSUBLOTID = item.MSUBLOTID,
+                                                    MSUBLOTBCD = item.MSUBLOTBCD,
+                                                    INSDTTM = DateTime.Now,
+                                                    INSUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Charging"),
+                                                    REASON = "잔량 폐기",
+                                                    COMPONENTGUID = item.COMPONENTGUID,
+                                                    POID = _mainWnd.CurrentOrder.ProductionOrderID
+                                                });
+                                            }
+                                        }
+                                    }else
                                     {
-                                        OnMessage("칭량실적 전송을 실패했습니다.");
+                                        OnMessage("잔량을 폐기하지 않으셨습니다.");
                                     }
                                 }
                                 else
@@ -1270,7 +1272,7 @@ namespace 보령
                             dt.Columns.Add(new DataColumn("무게"));
                             dt.Columns.Add(new DataColumn("단위"));
 
-                            foreach (var item in BR_BRS_SEL_Charging_Solvent_History.OUTDATAs)
+                            foreach (var item in BR_BRS_SEL_ReDispensing_Charging.OUTDATAs)
                             {
                                 if (item.CHGQTY.GetValueOrDefault() > 0)
                                 {
@@ -1509,7 +1511,7 @@ namespace 보령
                             CommandCanExecutes["PrintLabelCommandAsync"] = false;
 
                             ///
-                            if (arg != null && arg is BR_BRS_SEL_Charging_Solvent_History.OUTDATA)
+                            if (arg != null && arg is BR_BRS_SEL_ReDispensing_Charging.OUTDATA)
                             {
                                 var authHelper = new iPharmAuthCommandHelper();
                                 authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_Charging");
@@ -1525,7 +1527,7 @@ namespace 보령
                                     throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                 }
 
-                                await LabelPrint((arg as BR_BRS_SEL_Charging_Solvent_History.OUTDATA).MSUBLOTID);
+                                await LabelPrint((arg as BR_BRS_SEL_ReDispensing_Charging.OUTDATA).MSUBLOTID);
                             }
                             ///
 
@@ -1570,7 +1572,7 @@ namespace 보령
                         if (result.code == "1")
                         {
                             success = true;
-                            _ScaleWeight.SetWeight(result.data, result.unit);
+                            _ScaleWeight.SetWeight(Convert.ToString(Math.Abs(Convert.ToDecimal(result.data))), result.unit);
                         }
                     }
                     else
@@ -1585,7 +1587,7 @@ namespace 보령
                             && current_wight.OUTDATAs.Count > 0 && current_wight.OUTDATAs[0].Weight.HasValue)
                         {
                             success = true;
-                            _ScaleWeight.SetWeight(current_wight.OUTDATAs[0].Weight.Value, current_wight.OUTDATAs[0].UOM, _scalePrecision);
+                            _ScaleWeight.SetWeight(Math.Abs(current_wight.OUTDATAs[0].Weight.Value), current_wight.OUTDATAs[0].UOM, _scalePrecision);
                         }
                     }
 
@@ -1671,17 +1673,18 @@ namespace 보령
         {
             try
             {
-                _BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD.INDATAs.Clear();
-                _BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD.OUTDATAs.Clear();
-                _BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD.INDATAs.Add(new BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD.INDATA
+                _BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.INDATAs.Clear();
+                _BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs.Clear();
+                _BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.INDATAs.Add(new BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.INDATA
                 {
                     POID = _mainWnd.CurrentOrder.ProductionOrderID,
                     OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
                     MTRLID = _mainWnd.CurrentInstruction.Raw.BOMID,
-                    CHGSEQ = _mainWnd.CurrentInstruction.Raw.EXPRESSION
+                    CHGSEQ = _mainWnd.CurrentInstruction.Raw.EXPRESSION,
+                    TOLERANCE = _mainWnd.CurrentInstruction.Raw.TARGETVAL
                 });
 
-                await BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD.Execute();
+                await BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.Execute();
 
             }
             catch (Exception ex)
@@ -1700,19 +1703,19 @@ namespace 보령
                 // 소분원료 정보 조회
                 if (_SelectedAllocationInfo != null)
                 {
-                    _BR_BRS_SEL_AreaWeighing_SourceContainer.INDATAs.Clear();
-                    _BR_BRS_SEL_AreaWeighing_SourceContainer.OUTDATAs.Clear();
-                    _BR_BRS_SEL_AreaWeighing_SourceContainer.INDATAs.Add(new BR_BRS_SEL_AreaWeighing_SourceContainer.INDATA
+                    _BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component.INDATAs.Clear();
+                    _BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component.OUTDATAs.Clear();
+                    _BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component.INDATAs.Add(new BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component.INDATA
                     {
                         POID = _SelectedAllocationInfo.POID,
-                        COMPONENTGUID = _SelectedAllocationInfo.COMPONENTGUID,
-                        ALCTGUID = _SelectedAllocationInfo.ALCTGUID,
-                        MLOTID = _SelectedAllocationInfo.MLOTID
+                        OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                        CHGSEQ = Convert.ToDecimal(_mainWnd.CurrentInstruction.Raw.EXPRESSION),
+                        MTRLID = _SelectedAllocationInfo.MTRLID
                     });
 
-                    await BR_BRS_SEL_AreaWeighing_SourceContainer.Execute();
+                    await BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component.Execute();
 
-                    OnPropertyChanged("BR_BRS_SEL_AreaWeighing_SourceContainer");
+                    OnPropertyChanged("BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component");
                 }
             }
             catch (Exception ex)
@@ -1731,19 +1734,19 @@ namespace 보령
                 // 소분정보 조회
                 if (_SelectedAllocationInfo != null)
                 {
-                    _BR_BRS_SEL_Charging_Solvent_History.INDATAs.Clear();
-                    _BR_BRS_SEL_Charging_Solvent_History.OUTDATAs.Clear();
-                    _BR_BRS_SEL_Charging_Solvent_History.INDATAs.Add(new BR_BRS_SEL_Charging_Solvent_History.INDATA
+                    _BR_BRS_SEL_ReDispensing_Charging.INDATAs.Clear();
+                    _BR_BRS_SEL_ReDispensing_Charging.OUTDATAs.Clear();
+                    _BR_BRS_SEL_ReDispensing_Charging.INDATAs.Add(new BR_BRS_SEL_ReDispensing_Charging.INDATA
                     {
                         POID = _SelectedAllocationInfo.POID,
                         COMPONENTGUID = _SelectedAllocationInfo.COMPONENTGUID
                     });
 
-                    await BR_BRS_SEL_Charging_Solvent_History.Execute();
+                    await BR_BRS_SEL_ReDispensing_Charging.Execute();
 
-                    OnPropertyChanged("BR_BRS_SEL_Charging_Solvent_History");
+                    OnPropertyChanged("BR_BRS_SEL_ReDispensing_Charging");
 
-                    if (BR_BRS_SEL_Charging_Solvent_History.OUTDATAs.Count > 0)
+                    if (BR_BRS_SEL_ReDispensing_Charging.OUTDATAs.Count > 0)
                         ChargebtnEnable = true;
                 }
             }
@@ -1768,7 +1771,7 @@ namespace 보령
 
                     _BR_PHR_SEL_PRINT_LabelImage.INDATAs.Add(new BR_PHR_SEL_PRINT_LabelImage.INDATA
                     {
-                        ReportPath = "/Reports/Label/LABEL_WEIGHING_REMAIN",
+                        ReportPath = "/Reports/Label/LABEL_WEIGHING_WH007",
                         PrintName = _selectedPrint.PRINTERNAME,
                         USERID = AuthRepositoryViewModel.Instance.LoginedUserID
                     });

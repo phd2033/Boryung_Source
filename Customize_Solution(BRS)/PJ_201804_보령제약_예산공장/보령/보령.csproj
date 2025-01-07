@@ -309,6 +309,7 @@
     <Compile Include="Model\BR_BRS_GET_UDT_ProductionOrderPickingInfo_Solution.cs" />
     <Compile Include="Model\BR_BRS_REG_ProductionOrderOutput_Conditional.cs" />
     <Compile Include="Model\BR_BRS_REG_ProductionOrderOutput_LastSoluction.cs" />
+    <Compile Include="Model\BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.cs" />
     <Compile Include="Model\BR_BRS_SEL_SVP_AreaWeighing_Dispensing_Component.cs" />
     <Compile Include="Model\BR_BRS_SEL_Charging_Solvent_to_Dispense.cs" />
     <Compile Include="Model\BR_BRS_SEL_EquipmentStatus_PROC_OPSG.cs" />
@@ -1045,10 +1046,10 @@
     <Compile Include="주사제\칭량및투입\SVP소분원료현장칭량_기준량.xaml.cs">
       <DependentUpon>SVP소분원료현장칭량_기준량.xaml</DependentUpon>
     </Compile>
-    <Compile Include="주사제\칭량및투입\SVP소분원료현장칭량_기준량ViewModel.cs" />
     <Compile Include="주사제\칭량및투입\SVP소분원료확인및무게측정.xaml.cs">
       <DependentUpon>SVP소분원료확인및무게측정.xaml</DependentUpon>
     </Compile>
+    <Compile Include="주사제\칭량및투입\SVP소분원료현장칭량_기준량ViewModel.cs" />
     <Compile Include="주사제\칭량및투입\SVP소분원료확인및무게측정ViewModel.cs" />
     <Compile Include="주사제\칭량및투입\비커무게측정.xaml.cs">
       <DependentUpon>비커무게측정.xaml</DependentUpon>

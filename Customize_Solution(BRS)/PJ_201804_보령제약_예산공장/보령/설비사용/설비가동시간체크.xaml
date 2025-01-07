@@ -68,9 +68,11 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="110"/>
                     <ColumnDefinition Width="110"/>
+                    <ColumnDefinition Width="110"/>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" Margin="5" Content="기록" Name="btnRecord" Command="{Binding RecordCommandAsync}"/>
-                <Button Grid.Column="1" Margin="5" Content="취소" Name="btnCancel" Click="btnCancel_Click"/>
+                <Button Grid.Column="1" Margin="5" Content="기록없음" Name="NoRecord" Command="{Binding NoRecordConfirmCommand}"/>
+                <Button Grid.Column="2" Margin="5" Content="취소" Name="btnCancel" Click="btnCancel_Click"/>
             </Grid>
         </Grid>
     </toolkit:BusyIndicator>

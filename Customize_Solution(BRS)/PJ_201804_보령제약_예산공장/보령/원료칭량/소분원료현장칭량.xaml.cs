@@ -9,6 +9,7 @@ using System.ComponentModel;
 
 namespace 보령
 {
+    [ShopFloorCustomHidden]
     public partial class 소분원료현장칭량 : ShopFloorCustomWindow
     {
         public 소분원료현장칭량()

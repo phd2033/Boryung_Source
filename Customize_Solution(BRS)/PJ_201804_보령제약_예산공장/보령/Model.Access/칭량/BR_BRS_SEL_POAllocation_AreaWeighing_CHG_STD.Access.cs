@@ -197,13 +197,13 @@ namespace 보령
                     }
                 }
             }
-            private string _TOLERANCE;
+            private string _UPPERTOLERANCE;
             [BizActorInputItemAttribute()]
-            public string TOLERANCE
+            public string UPPERTOLERANCE
             {
                 get
                 {
-                    return this._TOLERANCE;
+                    return this._UPPERTOLERANCE;
                 }
                 set
                 {
@@ -212,9 +212,41 @@ namespace 보령
                     }
                     else
                     {
-                        this._TOLERANCE = value;
-                        this.CheckIsOriginal("TOLERANCE", value);
-                        this.OnPropertyChanged("TOLERANCE");
+                        this._UPPERTOLERANCE = value;
+                        this.CheckIsOriginal("UPPERTOLERANCE", value);
+                        this.OnPropertyChanged("UPPERTOLERANCE");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _LOWERTOLERANCE;
+            [BizActorInputItemAttribute()]
+            public string LOWERTOLERANCE
+            {
+                get
+                {
+                    return this._LOWERTOLERANCE;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._LOWERTOLERANCE = value;
+                        this.CheckIsOriginal("LOWERTOLERANCE", value);
+                        this.OnPropertyChanged("LOWERTOLERANCE");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())

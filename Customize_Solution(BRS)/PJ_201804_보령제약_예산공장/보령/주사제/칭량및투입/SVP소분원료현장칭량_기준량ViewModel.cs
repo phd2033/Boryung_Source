@@ -645,12 +645,7 @@ namespace 보령
                                         _DspStartDttm = await AuthRepositoryViewModel.GetDBDateTimeNow();
                                         SelectedAllocationInfo = selallocation;
 
-                                        _ShowInfo = new BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATACollection();
-
-                                        foreach (var show in BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs.Where(o => o.MLOTID == SelectedAllocationInfo.MLOTID))
-                                        {
-                                            _ShowInfo.Add(show);
-                                        }
+                                        await GetAllocationInfo();
 
                                         popup.DialogResult = true;
 

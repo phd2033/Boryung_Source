@@ -796,6 +796,9 @@
     </Compile>
     <Compile Include="용기사용\IBC사용여부선택ViewModel.cs" />
     <Compile Include="용기사용\용기사용종료.cs" />
+    <Compile Include="원료칭량\Popup\DispensingInfoPopup.xaml.cs">
+      <DependentUpon>DispensingInfoPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="원료칭량\Popup\AllocationInfoPopup.xaml.cs">
       <DependentUpon>AllocationInfoPopup.xaml</DependentUpon>
     </Compile>
@@ -1539,6 +1542,10 @@
     <Page Include="용기사용\IBC사용여부선택.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="원료칭량\Popup\DispensingInfoPopup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="원료칭량\Popup\AllocationInfoPopup.xaml">
       <SubType>Designer</SubType>

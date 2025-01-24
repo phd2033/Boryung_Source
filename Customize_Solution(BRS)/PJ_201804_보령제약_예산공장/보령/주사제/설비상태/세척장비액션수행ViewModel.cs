@@ -360,8 +360,7 @@ namespace 보령
                             {
                                 throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                             }
-
-
+                            
                             //_BR_PHR_UPD_EquipmentAction_Multi.INDATAs.Clear();
                             //_BR_PHR_UPD_EquipmentAction_Multi.PARAMDATAs.Clear();
 
@@ -370,7 +369,9 @@ namespace 보령
 
                             // 고정값 조회
                             DateTime curDTTM = await AuthRepositoryViewModel.GetDBDateTimeNow();
-                            string USERID = !string.IsNullOrWhiteSpace(AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI")) ? AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI") : AuthRepositoryViewModel.Instance.LoginedUserID;
+                            //string USERID = !string.IsNullOrWhiteSpace(AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI")) ? AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI") : AuthRepositoryViewModel.Instance.LoginedUserID;
+                            // 2025.01.24 박희돈 로그북에 코멘트 조회를 가능하게 하기위해 수정함.
+                            string USERID = AuthRepositoryViewModel.Instance.ConfirmedGuid;
 
                             string EQACID = string.Empty;
                             string EQSTID = string.Empty;

@@ -256,15 +256,7 @@ namespace 보령
                 {
                     if (_SetTare)
                     {
-                        // 소분한 이력이 있고 UI를 나갔다가 다시 들어올 경우
-                        if (CheckFlag)
-                        {
-                            return _ScaleWeight.Add(_CheckDisepenQty).WeightUOMString;
-                        }
-                        else
-                        {
-                            return _ScaleWeight.WeightUOMString;
-                        }
+                        return _ScaleWeight.Add(_CheckDisepenQty).WeightUOMString;
                     }
                     else return _ScaleWeight.WeightUOMString;
                 }
@@ -307,18 +299,6 @@ namespace 보령
             {
                 _TarebtnEnable = value;
                 OnPropertyChanged("TarebtnEnable");
-            }
-        }
-
-        // 소분한 이력이 있고 UI를 나갔다 왔는지 확인하는 Flag
-        private bool _CheckFlag;
-        public bool CheckFlag
-        {
-            get { return _CheckFlag; }
-            set
-            {
-                _CheckFlag = value;
-                OnPropertyChanged("CheckFlag");
             }
         }
         #endregion
@@ -535,8 +515,6 @@ namespace 보령
 
                                 if (_BR_BRS_SEL_ReDispensing_Charging.OUTDATAs.Count > 0)
                                 {
-                                    CheckFlag = true;
-
                                     _CheckDisepenQty.Value = Convert.ToDecimal(_BR_BRS_SEL_ReDispensing_Charging.OUTDATAs.Sum(o => o.DSPQTY));
                                     _DisepenQty.Value = Convert.ToDecimal(_BR_BRS_SEL_ReDispensing_Charging.OUTDATAs.Sum(o => o.DSPQTY));
                                     OnPropertyChanged("DspWeight");
@@ -564,7 +542,6 @@ namespace 보령
                                 else
                                 {
                                     //소분 X
-                                    CheckFlag = false;
                                     _DisepenQty.Value = 0;
                                     ChargebtnEnable = false;
                                     ScrapbtnEnable = false;
@@ -610,7 +587,7 @@ namespace 보령
                             // 칭량대상 변경 시 메세지 출력
                             if (MtrlbtnEnable && Convert.ToDecimal(DspWeight.Split(' ')[0]) > 0)
                             {
-                                if (await OnMessageAsync("칭량중 입니다. 초기화하고 진행하시겠습니까?", true))
+                                if (await OnMessageAsync("칭량중 입니다.\n※저울 무게와 소분한 양을 확인해주시기 바랍니다.※\n진행하시겠습니까?", true))
                                 {
                                     _DspStartDttm = await AuthRepositoryViewModel.GetDBDateTimeNow();
                                 }
@@ -743,9 +720,9 @@ namespace 보령
                                 {
                                     string text = popup.tbText.Text.ToUpper();
 
-                                    if (BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs.Count > 0)
+                                    if (_ShowInfo.Count > 0)
                                     {
-                                        var select = BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs.Where(o => o.MSUBLOTBCD == text).FirstOrDefault();
+                                        var select = _ShowInfo.Where(o => o.MSUBLOTBCD == text).FirstOrDefault();
 
                                         if (curSelectedSourceContainer != null)
                                         {
@@ -767,21 +744,26 @@ namespace 보령
                                                     curSelectedSourceContainer.IsSelected = false;
                                                     curSelectedSourceContainer = null;
                                                 }
-                                                OnPropertyChanged("BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD");
+                                                OnPropertyChanged("ShowInfo");
                                                 _DispatcherTimer.Start();
                                                 return;
                                             }
 
                                             // 원료백 변경
                                             select.IsSelected = true;
-                                            foreach (var item in BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs)
+                                            foreach (var item in _ShowInfo)
                                             {
                                                 if (item.MSUBLOTBCD != select.MSUBLOTBCD)
                                                     item.IsSelected = false;
                                             }
                                             curSelectedSourceContainer = select;
                                             TarebtnEnable = false;
-                                            OnPropertyChanged("BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD");
+                                            OnPropertyChanged("ShowInfo");
+                                        }else
+                                        {
+                                            OnMessage("해당 자제가 없습니다.");
+                                            _DispatcherTimer.Start();
+                                            return;
                                         }
                                     }
                                 }
@@ -792,7 +774,7 @@ namespace 보령
                                         curSelectedSourceContainer.IsSelected = false;
                                         curSelectedSourceContainer = null;
                                     }
-                                    OnPropertyChanged("BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD");
+                                    OnPropertyChanged("ShowInfo");
                                 }
                                 
                                 _DispatcherTimer.Start();
@@ -934,6 +916,7 @@ namespace 보령
                             else
                             {
                                 _SetTare = true;
+                                _CheckDisepenQty.Value = _DisepenQty.Value;
                                 TarebtnEnable = false;
                             }
                             
@@ -972,7 +955,6 @@ namespace 보령
                         try
                         {
                             IsBusy = true;
-                            decimal usedweight = 0;
 
                             CommandResults["DispensingCommandAsync"] = false;
                             CommandCanExecutes["DispensingCommandAsync"] = false;
@@ -981,16 +963,8 @@ namespace 보령
                             //
                             if (curSelectedSourceContainer != null && curSelectedSourceContainer.MSUBLOTQTY > 0)
                             {
-                                // 소분한 이력이 있고 UI를 나갔다가 다시 들어올 경우
-                                if (CheckFlag)
-                                {
-                                    usedweight = Convert.ToDecimal(DspWeight.Split(' ')[0])- _DisepenQty.Value;
-                                }
-                                else
-                                {
-                                    usedweight = _ScaleWeight.Value - _DisepenQty.Value;
-                                }
-                                    
+                                decimal usedweight = Convert.ToDecimal(DspWeight.Split(' ')[0])- _DisepenQty.Value;
+
                                 if (usedweight < 0)
                                 {
                                     OnMessage("사용량이 0보다 작을 수 없습니다.");
@@ -1677,28 +1651,15 @@ namespace 보령
                         {
                             _ScaleException = false;
                             DispensebtnEnable = true;
-                            if (CheckFlag)
+                            if (_LowerWeight.Value <= _ScaleWeight.Add(_CheckDisepenQty).Value && _ScaleWeight.Add(_CheckDisepenQty).Value <= _UpperWeight.Value)
                             {
-                                if (_LowerWeight.Value <= _ScaleWeight.Add(_CheckDisepenQty).Value && _ScaleWeight.Add(_CheckDisepenQty).Value <= _UpperWeight.Value)
-                                {
-                                    ScaleBackground = new SolidColorBrush(Colors.Green);
-                                }
-                                else
-                                {
-                                    ScaleBackground = new SolidColorBrush(Colors.Yellow);
-                                }
-                            }else
-                            {
-                                if (_LowerWeight.Value <= _ScaleWeight.Value && _ScaleWeight.Value <= _UpperWeight.Value)
-                                {
-                                    ScaleBackground = new SolidColorBrush(Colors.Green);
-                                }
-                                else
-                                {
-                                    ScaleBackground = new SolidColorBrush(Colors.Yellow);
-                                }
+                                ScaleBackground = new SolidColorBrush(Colors.Green);
                             }
-                            
+                            else
+                            {
+                                ScaleBackground = new SolidColorBrush(Colors.Yellow);
+                            }
+
                         }
                     }
                     else
@@ -1788,7 +1749,6 @@ namespace 보령
                     }
                     OnPropertyChanged("ShowInfo");
                 }
-
             }
             catch (Exception ex)
             {
@@ -1839,7 +1799,7 @@ namespace 보령
 
                     _BR_PHR_SEL_PRINT_LabelImage.INDATAs.Add(new BR_PHR_SEL_PRINT_LabelImage.INDATA
                     {
-                        ReportPath = "/Reports/Label/LABEL_WEIGHING_SOLUTION_SVP",
+                        ReportPath = "/Reports/Label/LABEL_WEIGHING_SVP_AreaDispense",
                         PrintName = _selectedPrint.PRINTERNAME,
                         USERID = AuthRepositoryViewModel.Instance.LoginedUserID
                     });

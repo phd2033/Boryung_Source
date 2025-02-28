@@ -68,7 +68,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
@@ -133,10 +133,10 @@
                             <c1:DataGridTextColumn Header="{Binding W[CUISourceContainerQuantity], Source={StaticResource VM}, FallbackValue='재고'}"
                                                    Binding="{Binding MSUBLOTQTY}"/>
                             <c1:DataGridTextColumn Header="{Binding W[CUIUsedQuantity], Source={StaticResource VM}, FallbackValue='사용량'}"
-                                                   Binding="{Binding DSPQTY}"/>
+                                                   Binding="{Binding UsedWeight}"/>
                         </c1:C1DataGrid.Columns>
                     </c1:C1DataGrid>
-                    <Rectangle Grid.Row="1" Fill="Transparent" Margin="0,0,20,20"/>
+                    <Rectangle Grid.Row="1" Fill="Transparent" Margin="0,0,30,30"/>
                     <TextBlock Grid.Row="2" Text="소분 정보" Style="{StaticResource HeaderStyle}"/>
                     <c1:C1DataGrid x:Name="dgDispenseHistory" Grid.Row="3" RowHeight="30" ScrollBarStyle="{StaticResource gdScroll}"
                                    AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="SingleRow"

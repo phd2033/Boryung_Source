@@ -531,10 +531,6 @@
       <DependentUpon>반제품보관정보확인.xaml</DependentUpon>
     </Compile>
     <Compile Include="반제품\반제품보관정보확인ViewModel.cs" />
-    <Compile Include="반제품\선별반제품생성.xaml.cs">
-      <DependentUpon>선별반제품생성.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="반제품\선별반제품생성ViewModel.cs" />
     <Compile Include="반제품\캡슐선별반제품생성ViewModel.cs" />
     <Compile Include="반제품\캡슐선별반제품생성.xaml.cs">
       <DependentUpon>캡슐선별반제품생성.xaml</DependentUpon>
@@ -1305,10 +1301,6 @@
     <Page Include="반제품\반제품보관정보확인.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="반제품\선별반제품생성.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="반제품\캡슐선별반제품생성.xaml">
       <SubType>Designer</SubType>

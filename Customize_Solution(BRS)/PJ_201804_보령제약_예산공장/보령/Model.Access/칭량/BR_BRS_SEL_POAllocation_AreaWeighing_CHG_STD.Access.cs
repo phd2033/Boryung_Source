@@ -865,6 +865,38 @@ namespace 보령
                     }
                 }
             }
+            private string _VESSELWEIGHT;
+            [BizActorOutputItemAttribute()]
+            public string VESSELWEIGHT
+            {
+                get
+                {
+                    return this._VESSELWEIGHT;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._VESSELWEIGHT = value;
+                        this.CheckIsOriginal("VESSELWEIGHT", value);
+                        this.OnPropertyChanged("VESSELWEIGHT");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
         }
         public BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD()
         {

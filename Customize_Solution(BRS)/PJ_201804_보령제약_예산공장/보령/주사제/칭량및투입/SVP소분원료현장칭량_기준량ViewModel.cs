@@ -526,7 +526,7 @@ namespace 보령
                                 if (_BR_BRS_SEL_ReDispensing_Charging.OUTDATAs.Count > 0)
                                 {
                                     _CheckDisepenQty.Value = Convert.ToDecimal(_BR_BRS_SEL_ReDispensing_Charging.OUTDATAs.Sum(o => o.DSPQTY));
-                                    _DisepenQty.Value = Convert.ToDecimal(_BR_BRS_SEL_ReDispensing_Charging.OUTDATAs.Sum(o => o.DSPQTY));
+                                    //_DisepenQty.Value = Convert.ToDecimal(_BR_BRS_SEL_ReDispensing_Charging.OUTDATAs.Sum(o => o.DSPQTY));
                                     OnPropertyChanged("DspWeight");
 
                                     foreach (var CHGCheck in BR_BRS_SEL_ReDispensing_Charging.OUTDATAs)
@@ -552,7 +552,8 @@ namespace 보령
                                 else
                                 {
                                     //소분 X
-                                    _DisepenQty.Value = 0;
+                                    //_DisepenQty.Value = 0;
+                                    _CheckDisepenQty.Value = 0;
                                     ChargebtnEnable = false;
                                     ScrapbtnEnable = false;
                                     RecordbtnEnable = false;
@@ -612,13 +613,27 @@ namespace 보령
                                 BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATACollection _SeletedAllocation = new BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATACollection();
                                 foreach (var item in BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs.GroupBy(o => o.MLOTID))
                                 {
-                                    //MSUBLOTQTY를 보여주기 위함
-                                    decimal GroupMSUBLOT = Convert.ToDecimal(item.Sum(o => o.MSUBLOTQTY));
-                                    item.FirstOrDefault().MSUBLOTQTY = GroupMSUBLOT;
-                                    //남은 잔여량을 보여주기 위함
-                                    decimal GroupREMAIN = Convert.ToDecimal(item.Sum(o => o.REMAINQTY));
-                                    item.FirstOrDefault().REMAINQTY = GroupREMAIN;
-                                    _SeletedAllocation.Add(item.FirstOrDefault());
+                                    _SeletedAllocation.Add(new BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATA
+                                    {
+                                        POID = item.FirstOrDefault().POID,
+                                        COMPONENTGUID = item.FirstOrDefault().COMPONENTGUID,
+                                        ALCTGUID = item.FirstOrDefault().ALCTGUID,
+                                        MTRLID = item.FirstOrDefault().MTRLID,
+                                        MTRLNAME = item.FirstOrDefault().MTRLNAME,
+                                        NOTATION = item.FirstOrDefault().NOTATION,
+                                        MLOTID = item.FirstOrDefault().MLOTID,
+                                        INITRESERVEQTY = item.FirstOrDefault().INITRESERVEQTY,
+                                        RESERVEQTY = item.FirstOrDefault().RESERVEQTY,
+                                        MSUBLOTQTY = Convert.ToDecimal(item.Sum(o => o.MSUBLOTQTY)),
+                                        DSPQTY = item.FirstOrDefault().DSPQTY,
+                                        REMAINQTY = Convert.ToDecimal(item.Sum(o => o.REMAINQTY)),
+                                        UPPER = item.FirstOrDefault().UPPER,
+                                        LOWER = item.FirstOrDefault().LOWER,
+                                        BOMPRECISION = item.FirstOrDefault().BOMPRECISION,
+                                        MSUBLOTID = item.FirstOrDefault().MSUBLOTID,
+                                        MSUBLOTBCD = item.FirstOrDefault().MSUBLOTBCD,
+                                        VESSELWEIGHT = item.FirstOrDefault().VESSELWEIGHT
+                                    });
                                 }
 
                                 popup.dgAllocationInfo.ItemsSource = _SeletedAllocation;
@@ -700,7 +715,8 @@ namespace 보령
                             if (curSelectedSourceContainer != null && curSelectedSourceContainer.MSUBLOTQTY > 0)
                             {
 
-                                decimal usedweight = Convert.ToDecimal(DspWeight.Split(' ')[0]) - _UsedSourceContainers.Sum(o => o.UsedWeight);
+                                decimal usedweight = Convert.ToDecimal(DspWeight.Split(' ')[0]) - _UsedSourceContainers.Sum(o => o.UsedWeight) - _CheckDisepenQty.Value;
+                                //Convert.ToDecimal(DspWeight.Split(' ')[0]) - _UsedSourceContainers.Sum(o => o.UsedWeight);
 
                                 if (usedweight < 0)
                                 {
@@ -768,11 +784,6 @@ namespace 보령
                                                 if (item.MSUBLOTBCD != select.MSUBLOTBCD)
                                                     item.IsSelected = false;
                                             }
-                                            //원료백이 없을 경우
-                                            if (curSelectedSourceContainer != null && curSelectedSourceContainer.MSUBLOTQTY > 0)
-                                            {
-                                                _DisepenQty.Value += curSelectedSourceContainer.UsedWeight;
-                                            }
                                             curSelectedSourceContainer = select;
                                             TarebtnEnable = false;
                                             OnPropertyChanged("ShowInfo");
@@ -813,6 +824,7 @@ namespace 보령
                         }
                         finally
                         {
+                            _DispatcherTimer.Start();
                             IsBusy = false;
                             CommandCanExecutes["ScanMtrlCommand"] = true;
                         }
@@ -859,8 +871,6 @@ namespace 보령
                                     else
                                         ScaleId = "";
                                 }
-                                else
-                                    ScaleId = "";
                             };
 
                             popup.Show();
@@ -939,7 +949,7 @@ namespace 보령
                             else
                             {
                                 _SetTare = true;
-                                _CheckDisepenQty.Value = _DisepenQty.Value;
+                                //_CheckDisepenQty.Value = _DisepenQty.Value;
                                 TarebtnEnable = false;
                             }
                             
@@ -986,7 +996,7 @@ namespace 보령
                             //
                             if (curSelectedSourceContainer != null && curSelectedSourceContainer.MSUBLOTQTY > 0)
                             {
-                                decimal usedweight = Convert.ToDecimal(DspWeight.Split(' ')[0]) - _DisepenQty.Value;
+                                decimal usedweight = Convert.ToDecimal(DspWeight.Split(' ')[0]) - _UsedSourceContainers.Sum(o => o.UsedWeight) - _CheckDisepenQty.Value;
 
                                 if (usedweight < 0)
                                 {
@@ -1064,11 +1074,9 @@ namespace 보령
 
                                 if(await DispenseBR.Execute())
                                 {
-                                    //소분량 계산
-                                    if (curSelectedSourceContainer != null && curSelectedSourceContainer.MSUBLOTQTY > 0)
-                                    {
-                                        _DisepenQty.Value += curSelectedSourceContainer.UsedWeight;
-                                    }
+
+                                    //_DisepenQty.Value += _UsedSourceContainers.Sum(o => o.UsedWeight);
+                                    _CheckDisepenQty.Value += _UsedSourceContainers.Sum(o => o.UsedWeight);
                                     _TareWeight = new Weight();
                                     TarebtnEnable = true;
                                     _SetTare = false;
@@ -1262,7 +1270,7 @@ namespace 보령
                             
                             _DispatcherTimer.Stop();
 
-                            StringBuilder msg = new StringBuilder("폐기처리된 소분백 목록\n");
+                            StringBuilder msg = new StringBuilder("정상적으로 잔량 폐기 되었습니다.\n폐기처리된 소분백 목록\n");
 
                             foreach (var item in BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs)
                             {
@@ -1288,7 +1296,7 @@ namespace 보령
                                 throw new Exception(string.Format("잔량 폐기 처리 중 오류가 발생했습니다."));
                             }else
                             {
-                                OnMessage("정상적으로 잔량 폐기 되었습니다.");
+                                OnMessage(msg.ToString());
                             }
 
                             RecordbtnEnable = true;
@@ -1696,7 +1704,8 @@ namespace 보령
                         {
                             _ScaleException = false;
                             DispensebtnEnable = true;
-                            if (_LowerWeight.Value <= _ScaleWeight.Add(_DisepenQty).Value && _ScaleWeight.Add(_DisepenQty).Value <= _UpperWeight.Value)
+                            //if (_LowerWeight.Value <= _ScaleWeight.Add(_DisepenQty).Value && _ScaleWeight.Add(_DisepenQty).Value <= _UpperWeight.Value)
+                            if (_LowerWeight.Value <= _ScaleWeight.Add(_CheckDisepenQty).Value && _ScaleWeight.Add(_CheckDisepenQty).Value <= _UpperWeight.Value)
                             {
                                 ScaleBackground = new SolidColorBrush(Colors.Green);
                             }

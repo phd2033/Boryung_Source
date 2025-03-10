@@ -516,6 +516,10 @@
       <DependentUpon>레시피확인.xaml</DependentUpon>
     </Compile>
     <Compile Include="레시피확인\레시피확인ViewModel.cs" />
+    <Compile Include="바코드확인\SVP소분원료확인.xaml.cs">
+      <DependentUpon>SVP소분원료확인.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="바코드확인\SVP소분원료확인ViewModel.cs" />
     <Compile Include="바코드확인\소분원료확인및무게측정.xaml.cs">
       <DependentUpon>소분원료확인및무게측정.xaml</DependentUpon>
     </Compile>
@@ -1283,6 +1287,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="레시피확인\레시피확인.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="바코드확인\SVP소분원료확인.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -114,13 +114,13 @@ namespace 보령
 
                             MainWnd = arg as 소분원료전량투입;
                             _currentBOMID = new List<string>();
-                            var paramInsts = InstructionModel.GetParameterSender(MainWnd.CurrentInstruction, MainWnd.Instructions);
+                            var paramInsts = InstructionModel.GetParameterSender(MainWnd.CurrentInstruction, MainWnd.Instructions); 
                             decimal tempEXPRESSION;
 
                             this.OrderNo = _mainWnd.CurrentOrder.OrderID;
                             this.BatchNo = _mainWnd.CurrentOrder.BatchNo;
                             this.ProcessSegmentName = _mainWnd.CurrentOrder.OrderProcessSegmentName;
-
+                            
                             filteredComponents.Clear();
 
                             if (decimal.TryParse(MainWnd.CurrentInstruction.Raw.EXPRESSION, out tempEXPRESSION))
@@ -161,13 +161,9 @@ namespace 보령
                             }
 
                             var notCompletedItem = filteredComponents.Where(o =>
-                              o.IS_CAN_CHARGING_CHECKED_NAME == "투입완료").FirstOrDefault();
+                              o.IS_CAN_CHARGING_CHECKED_NAME == "투입대기").FirstOrDefault();
 
                             if (notCompletedItem != null)
-                            {
-                                OnMessage("투입된 원료가 있습니다. 확인 후 작업을 진행해주세요.");
-                            }
-                            else
                             {
                                 var viewmodel = new 소분원료전량투입팝업ViewModel()
                                 {
@@ -185,6 +181,12 @@ namespace 보령
 
                                 popup.Show();
                             }
+                            else
+                            {
+                                OnMessage("투입할 원료가 없습니다.");
+                            }
+                            ///
+
                             CommandResults["LoadedCommandAsync"] = true;
                         }
                         catch (Exception ex)
@@ -285,55 +287,28 @@ namespace 보령
                             CommandResults["ConfirmCommand"] = false;
                             CommandCanExecutes["ConfirmCommand"] = false;
 
-                            bool Chgflag = true;
-
-                            iPharmAuthCommandHelper authHelper = new iPharmAuthCommandHelper();
-
-                            if (filteredComponents.Any(x => x.IS_CAN_CHARGING_CHECKED_NAME.Equals("투입대기")))
+                            ///
+                            if (filteredComponents.Count(x => x.IS_CAN_CHARGING_CHECKED_NAME.Equals("투입가능") || x.IS_CAN_CHARGING_CHECKED_NAME.Equals("투입완료")) == filteredComponents.Count)
                             {
-                                if (await OnMessageAsync("투입되지 않은 원료가 있습니다. 계속 진행하시겠습니까?", true))
+                                if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y") && _mainWnd.Phase.CurrentPhase.STATE.Equals("COMP")) // 값 수정
                                 {
+                                    // 전자서명 요청
+                                    var authHelper = new iPharmAuthCommandHelper();
                                     authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+
                                     if (await authHelper.ClickAsync(
-                                        Common.enumCertificationType.Role,
+                                        Common.enumCertificationType.Function,
                                         Common.enumAccessType.Create,
-                                        "소분원량전량투입",
-                                        "소분원량전량투입",
-                                        false,
+                                        string.Format("기록값을 변경합니다."),
+                                        string.Format("기록값 변경"),
+                                        true,
                                         "OM_ProductionOrder_SUI",
-                                        "",
-                                        null, null) == false)
-
+                                        "", _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID, null) == false)
                                     {
-                                        Chgflag = false;
                                         throw new Exception(string.Format("서명이 완료되지 않았습니다."));
-                                    }                                
+                                    }
                                 }
-                                else
-                                {
-                                    Chgflag = false;
-                                    throw new Exception("취소했습니다.");
-                                }
-                            }
-                            if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y") && _mainWnd.Phase.CurrentPhase.STATE.Equals("COMP")) // 값 수정
-                            {
-                                // 전자서명 요청
-                                authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
 
-                                if (await authHelper.ClickAsync(
-                                    Common.enumCertificationType.Function,
-                                    Common.enumAccessType.Create,
-                                    string.Format("기록값을 변경합니다."),
-                                    string.Format("기록값 변경"),
-                                    true,
-                                    "OM_ProductionOrder_SUI",
-                                    "", _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID, null) == false)
-                                {
-                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
-                                }
-                            }
-                            if (filteredComponents.Any(x => x.IS_CAN_CHARGING_CHECKED_NAME.Equals("투입가능") || x.IS_CAN_CHARGING_CHECKED_NAME.Equals("투입완료")) && Chgflag)
-                            {
                                 var ds = new DataSet();
                                 var dt = new DataTable("DATA");
                                 ds.Tables.Add(dt);
@@ -372,6 +347,10 @@ namespace 보령
                                         item.IS_CAN_CHARGING_CHECKED_NAME = "투입완료";
                                         item.CHGQTY = item.REMAINQTY;
                                     }
+                                }
+
+                                foreach (var item in filteredComponents)
+                                {
                                     if (item.IS_CAN_CHARGING_CHECKED_NAME == "투입완료")
                                     {
                                         var row = dt.NewRow();
@@ -401,7 +380,9 @@ namespace 보령
                                 if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
                                 else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
                             }
-
+                            else
+                                OnMessage("스캔하지 않은 원료가 있습니다.");
+                            ///
 
                             CommandResults["ConfirmCommand"] = true;
                         }
@@ -438,7 +419,7 @@ namespace 보령
                             IsBusy = true;
 
                             CommandResults["NoRecordConfirmCommand"] = false;
-                            CommandCanExecutes["NoRecordConfirmCommand"] = false;
+                            CommandCanExecutes["NoRecordConfirmCommand"] = false;                                                        
 
                             // 전자서명
                             iPharmAuthCommandHelper authHelper = new iPharmAuthCommandHelper();
@@ -485,13 +466,13 @@ namespace 보령
                             dt.Columns.Add(new DataColumn("투입량"));
                             dt.Columns.Add(new DataColumn("상태"));
 
-                            var row = dt.NewRow();
+                            var row = dt.NewRow();       
                             row["원료코드"] = "N/A";
                             row["원료명"] = "N/A";
                             row["원료시험번호"] = "N/A";
                             row["바코드"] = "N/A";
                             row["투입량"] = "N/A";
-                            row["상태"] = "N/A";
+                            row["상태"] = "N/A";                            
                             dt.Rows.Add(row);
 
                             var xml = BizActorRuleBase.CreateXMLStream(ds);
@@ -517,7 +498,7 @@ namespace 보령
                         }
                         catch (Exception ex)
                         {
-                            CommandResults["NoRecordConfirmCommand"] = false;
+                            CommandResults["NoRecordConfirmCommand"] = false;                            
                             OnException(ex.Message, ex);
                         }
                         finally

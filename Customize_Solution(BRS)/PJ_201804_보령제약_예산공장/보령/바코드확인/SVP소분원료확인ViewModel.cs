@@ -103,7 +103,13 @@ namespace 보령
                             {
                                 throw BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.Exception;
                             }
-
+                            else
+                            {
+                                for (int i = 0; i < BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs.Count; i++)
+                                {
+                                    BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs[i].UsedWeight = Convert.ToDecimal(BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs[i].MSUBLOTQTY) + Convert.ToDecimal(BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs[i].VESSELWEIGHT);
+                                }
+                            }
                             CommandResults["LoadedCommand"] = true;
                         }
                         catch (Exception ex)
@@ -169,8 +175,9 @@ namespace 보령
                             dt.Columns.Add(new DataColumn("원료명"));
                             dt.Columns.Add(new DataColumn("원료시험번호"));
                             dt.Columns.Add(new DataColumn("바코드"));
-                            dt.Columns.Add(new DataColumn("무게"));
-                            dt.Columns.Add(new DataColumn("용기무게"));
+                            dt.Columns.Add(new DataColumn("실중량"));
+                            dt.Columns.Add(new DataColumn("용기중량"));
+                            dt.Columns.Add(new DataColumn("총중량"));
                             //dt.Columns.Add(new DataColumn("단위"));
 
 
@@ -181,8 +188,9 @@ namespace 보령
                                 row["원료명"] = item.MTRLNAME;
                                 row["원료시험번호"] = item.MLOTID;
                                 row["바코드"] = item.MSUBLOTBCD;
-                                row["무게"] = item.MSUBLOTQTY;
-                                row["용기무게"] = item.VESSELWEIGHT;
+                                row["실중량"] = item.MSUBLOTQTY;
+                                row["용기중량"] = item.VESSELWEIGHT;
+                                row["총중량"] = item.UsedWeight;
                                 dt.Rows.Add(row);
 
                             }

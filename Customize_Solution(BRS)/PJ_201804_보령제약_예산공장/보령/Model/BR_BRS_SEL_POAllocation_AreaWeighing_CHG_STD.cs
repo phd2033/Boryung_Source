@@ -38,6 +38,17 @@ namespace 보령
                     OnPropertyChanged("STATUS");
                 }
             }
+            private decimal _TareWeight;
+            public decimal TareWeight
+            {
+                get { return _TareWeight; }
+                set
+                {
+                    _TareWeight = value;
+                    OnPropertyChanged("TareWeight");
+                    OnPropertyChanged("STATUS");
+                }
+            }
             public string STATUS
             {
                 get

@@ -10,6 +10,7 @@ using System.ComponentModel;
 
 namespace 보령
 {
+    [ShopFloorCustomHidden]
     [Description("칭량된 원료 확인")]
     public partial class SVP소분원료확인 : ShopFloorCustomWindow
     {

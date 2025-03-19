@@ -235,6 +235,7 @@
     <Compile Include="Model.Access\반제품\BR_BRS_SEL_MaterialSubLot_LoadOnPallet_BYVESSELID.Access.cs" />
     <Compile Include="Model.Access\반제품\BR_BRS_SEL_PACKING_SPLIT_QTY.Access.cs" />
     <Compile Include="Model.Access\반제품\BR_BRS_SEL_ProductionOrderDispenseOutput.Access.cs" />
+    <Compile Include="Model.Access\반제품\BR_BRS_SEL_ProductionOrderOutputSubLot_INFO.Access.cs" />
     <Compile Include="Model.Access\반제품\BR_BRS_SEL_ProductionOrderOutputSubLot_OPSG_MULTI.Access.cs" />
     <Compile Include="Model.Access\반제품\BR_BRS_SEL_ProductionOrderOutput_Emtpy_Vessel.Access.cs" />
     <Compile Include="Model.Access\반제품\BR_BRS_SEL_ProductionOrderOutput_LoadedPallet.Access.cs" />
@@ -1004,6 +1005,10 @@
       <DependentUpon>SVP반제품생성.xaml</DependentUpon>
     </Compile>
     <Compile Include="주사제\반제품\SVP반제품생성ViewModel.cs" />
+    <Compile Include="주사제\설비상태\Shelf별적재여부확인.xaml.cs">
+      <DependentUpon>Shelf별적재여부확인.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="주사제\설비상태\Shelf별적재여부확인ViewModel.cs" />
     <Compile Include="주사제\설비상태\멸균시작.cs" />
     <Compile Include="주사제\설비상태\멸균종료.cs" />
     <Compile Include="주사제\설비상태\세척장비액션수행.xaml.cs">
@@ -1772,6 +1777,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="주사제\반제품\SVP반제품생성.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="주사제\설비상태\Shelf별적재여부확인.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

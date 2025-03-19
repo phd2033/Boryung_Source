@@ -161,11 +161,6 @@ namespace 보령
                     MTRLNAME = value.MTRLNAME;
                     RESERVEQTY = value.INITRESERVEQTY.GetValueOrDefault().ToString("F" + value.BOMPRECISION) + value.NOTATION;
 
-                    //weneedcheck
-                    //var dsp = new Weight();
-                    //dsp.SetWeight(value.DSPQTY.GetValueOrDefault(), value.NOTATION, 6);
-                    //_DisepenQty = dsp.Copy();
-
                     _UpperWeight.SetWeight(value.UPPER.GetValueOrDefault().ToString("F" + value.BOMPRECISION), value.NOTATION.ToString());
                     _LowerWeight.SetWeight(value.LOWER.GetValueOrDefault().ToString("F" + value.BOMPRECISION), value.NOTATION.ToString());
                     OnPropertyChanged("UpperWeight");
@@ -526,7 +521,7 @@ namespace 보령
                                 if (_BR_BRS_SEL_ReDispensing_Charging.OUTDATAs.Count > 0)
                                 {
                                     _CheckDisepenQty.Value = Convert.ToDecimal(_BR_BRS_SEL_ReDispensing_Charging.OUTDATAs.Sum(o => o.DSPQTY));
-                                    //_DisepenQty.Value = Convert.ToDecimal(_BR_BRS_SEL_ReDispensing_Charging.OUTDATAs.Sum(o => o.DSPQTY));
+                                    _DisepenQty.Value = Convert.ToDecimal(_BR_BRS_SEL_ReDispensing_Charging.OUTDATAs.Sum(o => o.DSPQTY));
                                     OnPropertyChanged("DspWeight");
 
                                     foreach (var CHGCheck in BR_BRS_SEL_ReDispensing_Charging.OUTDATAs)
@@ -552,8 +547,7 @@ namespace 보령
                                 else
                                 {
                                     //소분 X
-                                    //_DisepenQty.Value = 0;
-                                    _CheckDisepenQty.Value = 0;
+                                    _DisepenQty.Value = 0;
                                     ChargebtnEnable = false;
                                     ScrapbtnEnable = false;
                                     RecordbtnEnable = false;
@@ -668,7 +662,10 @@ namespace 보령
                         finally
                         {
                             CommandCanExecutes["SelectAllocationInfoCommandAsync"] = true;
-
+                            _TareWeight = new Weight();
+                            TarebtnEnable = true;
+                            _SetTare = false;
+                            OnPropertyChanged("TareWeight");
                             IsBusy = false;
                         }
                     }
@@ -714,9 +711,7 @@ namespace 보령
                             // 사용중인 원료백이 있으면 사용량 처리 후 원료백 팝업요청
                             if (curSelectedSourceContainer != null && curSelectedSourceContainer.MSUBLOTQTY > 0)
                             {
-
-                                decimal usedweight = Convert.ToDecimal(DspWeight.Split(' ')[0]) - _UsedSourceContainers.Sum(o => o.UsedWeight) - _CheckDisepenQty.Value;
-                                //Convert.ToDecimal(DspWeight.Split(' ')[0]) - _UsedSourceContainers.Sum(o => o.UsedWeight);
+                                decimal usedweight = Convert.ToDecimal(DspWeight.Split(' ')[0]) - _DisepenQty.Value;
 
                                 if (usedweight < 0)
                                 {
@@ -730,12 +725,31 @@ namespace 보령
                                 {
                                     // 사용량 설정
                                     curSelectedSourceContainer.UsedWeight = usedweight;
+                                    _DisepenQty.Value += usedweight;
                                     _UsedSourceContainers.Add(curSelectedSourceContainer);
                                     TarebtnEnable = false;
                                 }
                                 else
                                 {
                                     _DispatcherTimer.Start();
+                                    return;
+                                }
+
+                                if (_SetTare == true & await OnMessageAsync("Tare를 다시 잡으시겠습니까?", true))
+                                {
+                                    _TareWeight = new Weight();
+                                    TarebtnEnable = true;
+                                    _SetTare = false;
+                                    OnPropertyChanged("TareWeight");
+
+                                    if (curSelectedSourceContainer != null)
+                                    {
+                                        curSelectedSourceContainer.IsSelected = false;
+                                        curSelectedSourceContainer = null;
+                                    }
+                                    OnPropertyChanged("ShowInfo");
+                                    _DispatcherTimer.Start();
+
                                     return;
                                 }
                             }
@@ -814,6 +828,7 @@ namespace 보령
                                 _DispatcherTimer.Start();
                             };
                             popup.Show();
+
                             ///
                             CommandResults["ScanMtrlCommand"] = true;
                         }
@@ -949,7 +964,7 @@ namespace 보령
                             else
                             {
                                 _SetTare = true;
-                                //_CheckDisepenQty.Value = _DisepenQty.Value;
+                                _CheckDisepenQty.Value = _DisepenQty.Value;
                                 TarebtnEnable = false;
                             }
                             
@@ -993,10 +1008,11 @@ namespace 보령
                             CommandCanExecutes["DispensingCommandAsync"] = false;
                             ///
                             _DispatcherTimer.Stop();
+                            
                             //
                             if (curSelectedSourceContainer != null && curSelectedSourceContainer.MSUBLOTQTY > 0)
                             {
-                                decimal usedweight = Convert.ToDecimal(DspWeight.Split(' ')[0]) - _UsedSourceContainers.Sum(o => o.UsedWeight) - _CheckDisepenQty.Value;
+                                decimal usedweight = Convert.ToDecimal(DspWeight.Split(' ')[0]) - _DisepenQty.Value;
 
                                 if (usedweight < 0)
                                 {
@@ -1010,6 +1026,7 @@ namespace 보령
                                     // 사용량 설정
                                     curSelectedSourceContainer.UsedWeight = usedweight;
                                     curSelectedSourceContainer.IsSelected = false;
+                                    _DisepenQty.Value += usedweight;
                                     _UsedSourceContainers.Add(curSelectedSourceContainer);
                                     TarebtnEnable = false;
                                 }
@@ -1048,7 +1065,7 @@ namespace 보령
                                         POID = _mainWnd.CurrentOrder.ProductionOrderID,
                                         MSUBLOTTYPE = "DSP",
                                         COMPONENTGUID = item.COMPONENTGUID,
-                                        TARE = _TareWeight.Value,
+                                        TARE = 0, //2025.03.18 김도연 이 UI에서는 용기무게를 따로 측정하지 않고, 칭량한 소분원료가 담긴 용기무게를 Tare 잡기 때문.
                                         LOCATIONID = AuthRepositoryViewModel.Instance.RoomID,
                                         INVENTORYQTY = item.MSUBLOTQTY,
                                         DISPENSEQTY = item.UsedWeight,
@@ -1070,13 +1087,8 @@ namespace 보령
                                     });
                                 }
                                 
-                                //string text = DispenseBR.INDATAs[0].MSUBLOTBCD;
-
                                 if(await DispenseBR.Execute())
                                 {
-
-                                    //_DisepenQty.Value += _UsedSourceContainers.Sum(o => o.UsedWeight);
-                                    _CheckDisepenQty.Value += _UsedSourceContainers.Sum(o => o.UsedWeight);
                                     _TareWeight = new Weight();
                                     TarebtnEnable = true;
                                     _SetTare = false;
@@ -1085,16 +1097,6 @@ namespace 보령
                                 }
                                 
                                 await GetAllocationInfo();
-
-                                // 소분한 원료 유지
-                                //var select = _ShowInfo.Where(o => o.MSUBLOTBCD == text).FirstOrDefault();
-                                //select.IsSelected = true;
-                                //foreach (var item in _ShowInfo)
-                                //{
-                                //    if (item.MSUBLOTBCD != select.MSUBLOTBCD)
-                                //        item.IsSelected = false;
-                                //}
-                                //curSelectedSourceContainer = select;
 
                                 await GetDispenseHistory();
 
@@ -1110,6 +1112,7 @@ namespace 보령
                             CommandResults["DispensingCommandAsync"] = false;
                             OnException(ex.Message, ex);
                             // 마지막 사용정보 삭제
+                            _DisepenQty.Value -= _UsedSourceContainers.Last().UsedWeight;
                             _UsedSourceContainers.RemoveAt(_UsedSourceContainers.Count - 1);
                             if (curSelectedSourceContainer != null)
                             {
@@ -1175,8 +1178,8 @@ namespace 보령
                                         IS_OUTPUT = "N",
                                         OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID
                                     });
-                                    msg.AppendLine(item.MSUBLOTID + " : " + item.DSPQTY);
-                                }
+                                    msg.AppendLine(item.MSUBLOTID + " : " + MathExt.Round(Convert.ToDecimal(item.DSPQTY), Convert.ToInt32(item.PRECISION), MidpointRounding.AwayFromZero) + " " + item.NOTATION);
+            }
                             }
 
                             if (_BR_RHR_REG_MaterialSubLot_Dispense_Charging_NEW.INDATAs.Count > 0)
@@ -1287,7 +1290,7 @@ namespace 보령
                                         COMPONENTGUID = item.COMPONENTGUID,
                                         POID = _mainWnd.CurrentOrder.ProductionOrderID
                                     });
-                                    msg.AppendLine(item.MSUBLOTID+" : "+item.REMAINQTY);
+                                    msg.AppendLine(item.MSUBLOTID + " : " + MathExt.Round(Convert.ToDecimal(item.REMAINQTY),Convert.ToInt32(item.BOMPRECISION), MidpointRounding.AwayFromZero) + " " + item.NOTATION);
                                 }
                             }
 
@@ -1704,8 +1707,7 @@ namespace 보령
                         {
                             _ScaleException = false;
                             DispensebtnEnable = true;
-                            //if (_LowerWeight.Value <= _ScaleWeight.Add(_DisepenQty).Value && _ScaleWeight.Add(_DisepenQty).Value <= _UpperWeight.Value)
-                            if (_LowerWeight.Value <= _ScaleWeight.Add(_CheckDisepenQty).Value && _ScaleWeight.Add(_CheckDisepenQty).Value <= _UpperWeight.Value)
+                            if (_LowerWeight.Value <= _ScaleWeight.Add(_DisepenQty).Value && _ScaleWeight.Add(_DisepenQty).Value <= _UpperWeight.Value)
                             {
                                 ScaleBackground = new SolidColorBrush(Colors.Green);
                             }

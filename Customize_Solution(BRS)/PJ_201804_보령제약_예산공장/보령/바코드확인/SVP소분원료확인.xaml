@@ -85,8 +85,9 @@
                 <c1:DataGridTextColumn Header="{Binding W[CUIMTCode], Source={StaticResource VM}, FallbackValue='자재코드'}" Binding="{Binding MTRLID}" HeaderStyle="{StaticResource HeaderStyle}" Width="100*"/>
                 <c1:DataGridTextColumn Header="{Binding W[CUIMTName], Source={StaticResource VM}, FallbackValue='자재명'}" Binding="{Binding MTRLNAME}" HeaderStyle="{StaticResource HeaderStyle}" Width="Auto"/>
                 <c1:DataGridTextColumn Header="{Binding W[CUITestNo], Source={StaticResource VM}, FallbackValue='원료시험번호'}" Binding="{Binding MLOTID}" HorizontalAlignment="Center" HeaderStyle="{StaticResource HeaderStyle}" Width="Auto"/>
-                <c1:DataGridTextColumn Header="{Binding W[CUIQty], Source={StaticResource VM}, FallbackValue='칭량량'}" HorizontalAlignment="Stretch" Binding="{Binding MSUBLOTQTY}" HeaderStyle="{StaticResource HeaderStyle}" Width="100*"/>
-                <c1:DataGridTextColumn Header="{Binding W[CUIVessel], Source={StaticResource VM}, FallbackValue='용기무게'}" HorizontalAlignment="Stretch" Binding="{Binding  VESSELWEIGHT}" HeaderStyle="{StaticResource HeaderStyle}" Width="100*"/>
+                <c1:DataGridTextColumn Header="{Binding W[CUIQty], Source={StaticResource VM}, FallbackValue='실중량'}" HorizontalAlignment="Stretch" Binding="{Binding MSUBLOTQTY}" HeaderStyle="{StaticResource HeaderStyle}" Width="100*"/>
+                <c1:DataGridTextColumn Header="{Binding W[CUIVessel], Source={StaticResource VM}, FallbackValue='용기중량'}" HorizontalAlignment="Stretch" Binding="{Binding  VESSELWEIGHT}" HeaderStyle="{StaticResource HeaderStyle}" Width="100*"/>
+                <c1:DataGridTextColumn Header="{Binding W[CUITotalQty], Source={StaticResource VM}, FallbackValue='총중량'}" HorizontalAlignment="Stretch" Binding="{Binding  UsedWeight}" HeaderStyle="{StaticResource HeaderStyle}" Width="100*"/>
             </c1:C1DataGrid.Columns>
         </c1:C1DataGrid>
 

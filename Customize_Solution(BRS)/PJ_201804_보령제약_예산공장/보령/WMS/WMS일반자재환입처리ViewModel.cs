@@ -496,7 +496,6 @@ namespace 보령
                         CommandResults["ConfrimCommandAsync"] = false;
 
                         ///
-                        IsBusy = true;
 
                         var ReturnList = _PickingSourceContainers.Where(x => x.STATUS == "환입대상");
 
@@ -631,6 +630,9 @@ namespace 보령
                                             }
                                         }
                                     }
+
+
+                                    IsBusy = true;
 
                                     // XML 생성
                                     DataSet ds = new DataSet();

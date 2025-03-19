@@ -168,6 +168,8 @@
     <Compile Include="Model.Access\BR_BRS_REG_ProductionOrderCustomValue.Access.cs" />
     <Compile Include="Model.Access\BR_BRS_REG_ProductionOrderOutput_Conditional.Access.cs" />
     <Compile Include="Model.Access\BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi.Access.cs" />
+    <Compile Include="Model.Access\WMS\BR_BRS_REG_ProductionOrderOutput_LastSoluction_NosDsp.Access.cs" />
+    <Compile Include="Model.Access\WMS\BR_BRS_SEL_ProductionOrderOutput_LastSoluction_NosDsp.Access.cs" />
     <Compile Include="Model.Access\간섭상황\BR_BRS_REG_INTERFER_SITUATION.Access.cs" />
     <Compile Include="Model.Access\간섭상황\BR_BRS_SEL_INTERFER_SITUATION.Access.cs" />
     <Compile Include="Model.Access\간섭상황\BR_BRS_SEL_INTERFER_SITUATION_SUM.Access.cs" />
@@ -1071,6 +1073,10 @@
     <Compile Include="주사제\칭량및투입\SVP소분원료현장칭량_기준량.xaml.cs">
       <DependentUpon>SVP소분원료현장칭량_기준량.xaml</DependentUpon>
     </Compile>
+    <Compile Include="주사제\칭량및투입\미사용원료실적전송.xaml.cs">
+      <DependentUpon>미사용원료실적전송.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="주사제\칭량및투입\미사용원료실적전송ViewModel.cs" />
     <Compile Include="주사제\칭량및투입\SVP소분원료확인및무게측정.xaml.cs">
       <DependentUpon>SVP소분원료확인및무게측정.xaml</DependentUpon>
     </Compile>
@@ -1841,6 +1847,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="주사제\칭량및투입\SVP소분원료현장칭량_기준량.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="주사제\칭량및투입\미사용원료실적전송.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

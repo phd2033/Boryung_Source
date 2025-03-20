@@ -15,7 +15,6 @@ using System.Windows.Data;
 
 namespace 보령
 {
-    [ShopFloorCustomHidden]
     [Description("Shelf별적재여부확인")]
     public partial class Shelf별적재여부확인 : ShopFloorCustomWindow
     {

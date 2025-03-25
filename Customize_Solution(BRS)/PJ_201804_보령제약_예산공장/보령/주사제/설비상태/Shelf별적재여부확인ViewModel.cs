@@ -27,76 +27,7 @@ namespace 보령
     public class Shelf별적재여부확인ViewModel : ViewModelBase
     {
         #region [Property]
-        public Shelf별적재여부확인ViewModel()
-        {
-            _BR_BRS_REG_SVP_ASEPTIC_PROCESS = new BR_BRS_REG_SVP_ASEPTIC_PROCESS();
-        }
-
-        Shelf별적재여부확인 _mainWnd;
-
-        bool _Nozzle1Check;
-        public bool Nozzle1Check
-        {
-            get { return _Nozzle1Check; }
-            set
-            {
-                _Nozzle1Check = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        bool _Nozzle2Check;
-        public bool Nozzle2Check
-        {
-            get { return _Nozzle2Check; }
-            set
-            {
-                _Nozzle2Check = value;
-                NotifyPropertyChanged();
-            }
-        }
-        bool _Nozzle3Check;
-        public bool Nozzle3Check
-        {
-            get { return _Nozzle3Check; }
-            set
-            {
-                _Nozzle3Check = value;
-                NotifyPropertyChanged();
-            }
-        }
-        bool _Nozzle4Check;
-        public bool Nozzle4Check
-        {
-            get { return _Nozzle4Check; }
-            set
-            {
-                _Nozzle4Check = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private string _TargetVal;
-        public string TargetVal
-        {
-            get { return _TargetVal; }
-            set
-            {
-                _TargetVal = value;
-                OnPropertyChanged("TargetVal");
-            }
-        }
-
-        private BR_BRS_REG_SVP_ASEPTIC_PROCESS _BR_BRS_REG_SVP_ASEPTIC_PROCESS;
-        public BR_BRS_REG_SVP_ASEPTIC_PROCESS BR_BRS_REG_SVP_ASEPTIC_PROCESS
-        {
-            get { return _BR_BRS_REG_SVP_ASEPTIC_PROCESS; }
-            set
-            {
-                _BR_BRS_REG_SVP_ASEPTIC_PROCESS = value;
-                NotifyPropertyChanged();
-            }
-        }
+        private Shelf별적재여부확인 _mainWnd;
         #endregion
 
         #region [Bizrule]

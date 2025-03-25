@@ -17,7 +17,7 @@
     xmlns:vsm="clr-namespace:System.Windows;assembly=System.Windows"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:ezmes="clr-namespace:LGCNS.EZMES.ControlsLib;assembly=LGCNS.EZMES.ControlsLib"
-    Width="800" Height="800"
+    Width="1000" Height="600"
     Title="Shelf별 적재 여부 확인" x:Name="Main">
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
         <local:Shelf별적재여부확인ViewModel x:Name="VM"/>
@@ -37,7 +37,7 @@
             <Border x:Name="PrintArea"  Grid.Row="0" BorderBrush="#FFD6D4D4" BorderThickness="3">
                 <Grid x:Name="Print" Grid.Row="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50*"/>
+                        <ColumnDefinition Width="27*"/>
                         <ColumnDefinition Width="300*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
@@ -45,455 +45,455 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0" Grid.ColumnSpan="1">
-                        <TextBox x:Name="NO" Text="Shelf No." FontSize="14" IsReadOnly="True" TextAlignment="Center" Padding="7"/>
+                        <TextBox x:Name="NO" Text="Shelf No." FontSize="12" FontWeight="Bold" IsReadOnly="True" TextAlignment="Center" Padding="7"/>
                     </Grid>
-                    <Grid Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="1" Margin="0.143,0,0,0">
-                        <TextBox x:Name="Check" Text="Shelf별 트레이 적재여부 확인" FontSize="14" IsReadOnly="True" TextAlignment="Center" Padding="7"/>
+                    <Grid Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="1">
+                        <TextBox x:Name="Check" Text="Shelf별 트레이 적재여부 확인" FontSize="14" FontWeight="Bold" IsReadOnly="True" TextAlignment="Center" Padding="7"/>
                     </Grid>
                     <Grid Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50*"/>
+                            <ColumnDefinition Width="60*"/>
                             <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="10*"/>
                             <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="10*"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="10*"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="10*"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="10*"/>
                             <ColumnDefinition Width="100*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="1.5*"/>
                             <RowDefinition Height="10*"/>
-                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="1.5*"/>
+                            <RowDefinition Height="1.5*"/>
                             <RowDefinition Height="10*"/>
-                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="1.5*"/>
+                            <RowDefinition Height="1.5*"/>
                             <RowDefinition Height="10*"/>
-                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="1.5*"/>
+                            <RowDefinition Height="1.5*"/>
                             <RowDefinition Height="10*"/>
-                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="1.5*"/>
+                            <RowDefinition Height="1.5*"/>
                             <RowDefinition Height="10*"/>
-                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="1.5*"/>
+                            <RowDefinition Height="1.5*"/>
                             <RowDefinition Height="10*"/>
-                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="1.5*"/>
+                            <RowDefinition Height="1.5*"/>
                             <RowDefinition Height="10*"/>
-                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="1.5*"/>
+                            <RowDefinition Height="1.5*"/>
                             <RowDefinition Height="10*"/>
-                            <RowDefinition Height="3*"/>
-                            <RowDefinition Height="10*"/>
-                            <RowDefinition Height="3*"/>
-                            <RowDefinition Height="10*"/>
-                            <RowDefinition Height="3*"/>
-                            <RowDefinition Height="10*"/>
-                            <RowDefinition Height="3*"/>
-                            <RowDefinition Height="10*"/>
-                            <RowDefinition Height="3*"/>
-                            <RowDefinition Height="10*"/>
-                            <RowDefinition Height="3*"/>
-                            <RowDefinition Height="10*"/>
-                            <RowDefinition Height="3*"/>
-                            <RowDefinition Height="10*"/>
-                            <RowDefinition Height="3*"/>
-                            <RowDefinition Height="10*"/>
-                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="1.5*"/>
                         </Grid.RowDefinitions>
                         <!--No1-->
-                        <TextBox x:Name="No1" Text="1" FontSize="30" IsReadOnly="True" Grid.ColumnSpan="1" Grid.RowSpan="4" TextAlignment="Center" Padding="15"/>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="0" Grid.Column="1">
-                            <CheckBox x:Name="Tray1_1" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #1"/>
+                        <TextBox x:Name="No1" Text="1" FontSize="25" FontWeight="Bold" IsReadOnly="True" Grid.ColumnSpan="1" Grid.RowSpan="3" TextAlignment="Center" Padding="8"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="1" Grid.Column="1">
+                            <CheckBox x:Name="Tray1_1" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #1"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="0" Grid.Column="2">
-                            <CheckBox x:Name="Tray1_2" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #2"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="1" Grid.Column="3">
+                            <CheckBox x:Name="Tray1_2" Grid.Column="3" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #2"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="0" Grid.Column="3">
-                            <CheckBox x:Name="Tray1_3" Grid.Column="3" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #3"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="1" Grid.Column="5">
+                            <CheckBox x:Name="Tray1_3" Grid.Column="5" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #3"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="2" Grid.Column="1">
-                            <CheckBox x:Name="Tray1_4" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #4"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="1" Grid.Column="7">
+                            <CheckBox x:Name="Tray1_4" Grid.Column="7" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #4"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="2" Grid.Column="2">
-                            <CheckBox x:Name="Tray1_5" Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #5"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="1" Grid.Column="9">
+                            <CheckBox x:Name="Tray1_5" Grid.Column="9" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #5"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="2" Grid.Column="3">
-                            <CheckBox x:Name="Tray1_6" Grid.Column="3" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #6"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="1" Grid.Column="18">
+                            <CheckBox x:Name="Tray1_6" Grid.Column="18" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #6"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
                         <!--No2-->
-                        <TextBox x:Name="No2" Text="2" FontSize="30" IsReadOnly="True" Grid.ColumnSpan="1" Grid.Row="4" Grid.RowSpan="4" TextAlignment="Center" Padding="15"/>
+                        <TextBox x:Name="No2" Text="2" FontSize="25" FontWeight="Bold" IsReadOnly="True" Grid.Column="0" Grid.Row="3" Grid.RowSpan="3" TextAlignment="Center" Padding="8"/>
                         <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="4" Grid.Column="1">
-                            <CheckBox x:Name="Tray2_1" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #1"/>
+                            <CheckBox x:Name="Tray2_1" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #1"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
-                                </CheckBox.RenderTransform>
-                            </CheckBox>
-                        </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="4" Grid.Column="2">
-                            <CheckBox x:Name="Tray2_2" Grid.Column="2" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #2"/>
-                                <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
                         <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="4" Grid.Column="3">
-                            <CheckBox x:Name="Tray2_3" Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #3"/>
+                            <CheckBox x:Name="Tray2_2" Grid.Column="3" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #2"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="6" Grid.Column="1">
-                            <CheckBox x:Name="Tray2_4" Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #4"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="4" Grid.Column="5">
+                            <CheckBox x:Name="Tray2_3" Grid.Column="5" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #3"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="6" Grid.Column="2">
-                            <CheckBox x:Name="Tray2_5" Grid.Column="2" Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #5"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="4" Grid.Column="7">
+                            <CheckBox x:Name="Tray2_4" Grid.Column="7" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #4"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="6" Grid.Column="3">
-                            <CheckBox x:Name="Tray2_6" Grid.Column="3" Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #6"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="4" Grid.Column="9">
+                            <CheckBox x:Name="Tray2_5" Grid.Column="9" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #5"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                </CheckBox.RenderTransform>
+                            </CheckBox>
+                        </Border>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="4" Grid.Column="11">
+                            <CheckBox x:Name="Tray2_6" Grid.Column="11" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #6"/>
+                                <CheckBox.RenderTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
 
                         <!--No3-->
-                        <TextBox x:Name="No3" Text="3" FontSize="30" IsReadOnly="True" Grid.ColumnSpan="1" Grid.Row="8" Grid.RowSpan="4" TextAlignment="Center" Padding="15"/>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="8" Grid.Column="1">
-                            <CheckBox x:Name="Tray3_1" Grid.Column="1" Grid.Row="8" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #1"/>
+                        <TextBox x:Name="No3" Text="3" FontSize="25" FontWeight="Bold" IsReadOnly="True" Grid.Column="0" Grid.Row="6" Grid.RowSpan="3" TextAlignment="Center" Padding="8" />
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="7" Grid.Column="1">
+                            <CheckBox x:Name="Tray3_1" Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #1"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="8" Grid.Column="2">
-                            <CheckBox x:Name="Tray3_2" Grid.Column="2" Grid.Row="8" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #2"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="7" Grid.Column="3">
+                            <CheckBox x:Name="Tray3_2" Grid.Column="3" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #2"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="8" Grid.Column="3">
-                            <CheckBox x:Name="Tray3_3" Grid.Column="3" Grid.Row="8" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #3"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="7" Grid.Column="5">
+                            <CheckBox x:Name="Tray3_3" Grid.Column="5" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #3"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="10" Grid.Column="1">
-                            <CheckBox x:Name="Tray3_4" Grid.Column="1" Grid.Row="10" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #4"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="7" Grid.Column="7">
+                            <CheckBox x:Name="Tray3_4" Grid.Column="7" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #4"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="10" Grid.Column="2">
-                            <CheckBox x:Name="Tray3_5" Grid.Column="2" Grid.Row="10" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #5"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="7" Grid.Column="9">
+                            <CheckBox x:Name="Tray3_5" Grid.Column="9" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #5"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="10" Grid.Column="3">
-                            <CheckBox x:Name="Tray3_6" Grid.Column="3" Grid.Row="10" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #6"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="7" Grid.Column="11">
+                            <CheckBox x:Name="Tray3_6" Grid.Column="11" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #6"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
 
                         <!--No4-->
-                        <TextBox x:Name="No4" Text="4" FontSize="30" IsReadOnly="True" Grid.ColumnSpan="1" Grid.Row="12" Grid.RowSpan="4" TextAlignment="Center" Padding="15"/>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="12" Grid.Column="1">
-                            <CheckBox x:Name="Tray4_1" Grid.Column="1" Grid.Row="12" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #1"/>
+                        <TextBox x:Name="No4" Text="4" FontSize="25" FontWeight="Bold" IsReadOnly="True" Grid.Column="0" Grid.Row="9" Grid.RowSpan="3" TextAlignment="Center" Padding="8"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="10" Grid.Column="1">
+                            <CheckBox x:Name="Tray4_1" Grid.Column="1" Grid.Row="10" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #1"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="12" Grid.Column="2">
-                            <CheckBox x:Name="Tray4_2" Grid.Column="2" Grid.Row="12" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #2"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="10" Grid.Column="3">
+                            <CheckBox x:Name="Tray4_2" Grid.Column="2" Grid.Row="10" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #2"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="12" Grid.Column="3">
-                            <CheckBox x:Name="Tray4_3" Grid.Column="3" Grid.Row="12" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #3"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="10" Grid.Column="5">
+                            <CheckBox x:Name="Tray4_3" Grid.Column="3" Grid.Row="10" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #3"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="14" Grid.Column="1">
-                            <CheckBox x:Name="Tray4_4" Grid.Column="1" Grid.Row="14" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #4"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="10" Grid.Column="7">
+                            <CheckBox x:Name="Tray4_4" Grid.Column="1" Grid.Row="10" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #4"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="14" Grid.Column="2">
-                            <CheckBox x:Name="Tray4_5" Grid.Column="2" Grid.Row="14" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #5"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="10" Grid.Column="9">
+                            <CheckBox x:Name="Tray4_5" Grid.Column="2" Grid.Row="10" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #5"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="14" Grid.Column="3">
-                            <CheckBox x:Name="Tray4_6" Grid.Column="3" Grid.Row="14" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #6"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="10" Grid.Column="11">
+                            <CheckBox x:Name="Tray4_6" Grid.Column="3" Grid.Row="10" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #6"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
 
                         <!--No5-->
-                        <TextBox x:Name="No5" Text="5" FontSize="30" IsReadOnly="True" Grid.ColumnSpan="1" Grid.Row="16" Grid.RowSpan="4" TextAlignment="Center" Padding="15"/>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="16" Grid.Column="1">
-                            <CheckBox x:Name="Tray5_1" Grid.Column="1" Grid.Row="16" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #1"/>
+                        <TextBox x:Name="No5" Text="5" FontSize="25" FontWeight="Bold" IsReadOnly="True" Grid.Column="0" Grid.Row="12" Grid.RowSpan="3" TextAlignment="Center" Padding="8"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="13" Grid.Column="1">
+                            <CheckBox x:Name="Tray5_1" Grid.Column="1" Grid.Row="13" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #1"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="16" Grid.Column="2">
-                            <CheckBox x:Name="Tray5_2" Grid.Column="2" Grid.Row="16" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #2"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="13" Grid.Column="3">
+                            <CheckBox x:Name="Tray5_2" Grid.Column="2" Grid.Row="13" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #2"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="16" Grid.Column="3">
-                            <CheckBox x:Name="Tray5_3" Grid.Column="3" Grid.Row="16" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #3"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="13" Grid.Column="5">
+                            <CheckBox x:Name="Tray5_3" Grid.Column="3" Grid.Row="13" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #3"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="18" Grid.Column="1">
-                            <CheckBox x:Name="Tray5_4" Grid.Column="1" Grid.Row="18" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #4"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="13" Grid.Column="7">
+                            <CheckBox x:Name="Tray5_4" Grid.Column="1" Grid.Row="13" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #4"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="18" Grid.Column="2">
-                            <CheckBox x:Name="Tray5_5" Grid.Column="2" Grid.Row="18" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #5"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="13" Grid.Column="9">
+                            <CheckBox x:Name="Tray5_5" Grid.Column="2" Grid.Row="13" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #5"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="18" Grid.Column="3">
-                            <CheckBox x:Name="Tray5_6" Grid.Column="3" Grid.Row="18" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #6"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="13" Grid.Column="11">
+                            <CheckBox x:Name="Tray5_6" Grid.Column="3" Grid.Row="13" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #6"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
 
                         <!--No6-->
-                        <TextBox x:Name="No6" Text="6" FontSize="30" IsReadOnly="True" Grid.ColumnSpan="1" Grid.Row="20" Grid.RowSpan="4" TextAlignment="Center" Padding="15"/>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="20" Grid.Column="1">
-                            <CheckBox x:Name="Tray6_1" Grid.Column="1" Grid.Row="20" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #1"/>
+                        <TextBox x:Name="No6" Text="6" FontSize="25" FontWeight="Bold" IsReadOnly="True" Grid.Column="0" Grid.Row="15" Grid.RowSpan="3" TextAlignment="Center" Padding="8"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="16" Grid.Column="1">
+                            <CheckBox x:Name="Tray6_1" Grid.Column="1" Grid.Row="16" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #1"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="20" Grid.Column="2">
-                            <CheckBox x:Name="Tray6_2" Grid.Column="2" Grid.Row="20" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #2"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="16" Grid.Column="3">
+                            <CheckBox x:Name="Tray6_2" Grid.Column="2" Grid.Row="16" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #2"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="20" Grid.Column="3">
-                            <CheckBox x:Name="Tray6_3" Grid.Column="3" Grid.Row="20" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #3"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="16" Grid.Column="5">
+                            <CheckBox x:Name="Tray6_3" Grid.Column="3" Grid.Row="16" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #3"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="22" Grid.Column="1">
-                            <CheckBox x:Name="Tray6_4" Grid.Column="1" Grid.Row="22" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #4"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="16" Grid.Column="7">
+                            <CheckBox x:Name="Tray6_4" Grid.Column="1" Grid.Row="16" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #4"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="22" Grid.Column="2">
-                            <CheckBox x:Name="Tray6_5" Grid.Column="2" Grid.Row="22" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #5"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="16" Grid.Column="9">
+                            <CheckBox x:Name="Tray6_5" Grid.Column="2" Grid.Row="16" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #5"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="22" Grid.Column="3">
-                            <CheckBox x:Name="Tray6_6" Grid.Column="3" Grid.Row="22" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #6"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="16" Grid.Column="11">
+                            <CheckBox x:Name="Tray6_6" Grid.Column="3" Grid.Row="16" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #6"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
 
                         <!--No7-->
-                        <TextBox x:Name="No7" Text="7" FontSize="30" IsReadOnly="True" Grid.ColumnSpan="1" Grid.Row="24" Grid.RowSpan="4" TextAlignment="Center" Padding="15"/>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="24" Grid.Column="1">
-                            <CheckBox x:Name="Tray7_1" Grid.Column="1" Grid.Row="24" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #1"/>
+                        <TextBox x:Name="No7" Text="7" FontSize="25" FontWeight="Bold" IsReadOnly="True" Grid.Column="0" Grid.Row="18" Grid.RowSpan="3" TextAlignment="Center" Padding="8"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="19" Grid.Column="1">
+                            <CheckBox x:Name="Tray7_1" Grid.Column="1" Grid.Row="19" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #1"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="24" Grid.Column="2">
-                            <CheckBox x:Name="Tray7_2" Grid.Column="2" Grid.Row="24" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #2"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="19" Grid.Column="3">
+                            <CheckBox x:Name="Tray7_2" Grid.Column="2" Grid.Row="19" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #2"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="24" Grid.Column="3">
-                            <CheckBox x:Name="Tray7_3" Grid.Column="3" Grid.Row="24" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #3"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="19" Grid.Column="5">
+                            <CheckBox x:Name="Tray7_3" Grid.Column="3" Grid.Row="19" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #3"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="26" Grid.Column="1">
-                            <CheckBox x:Name="Tray7_4" Grid.Column="1" Grid.Row="26" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #4"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="19" Grid.Column="7">
+                            <CheckBox x:Name="Tray7_4" Grid.Column="1" Grid.Row="19" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #4"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="26" Grid.Column="2">
-                            <CheckBox x:Name="Tray7_5" Grid.Column="2" Grid.Row="26" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #5"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="19" Grid.Column="9">
+                            <CheckBox x:Name="Tray7_5" Grid.Column="2" Grid.Row="19" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #5"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="26" Grid.Column="3">
-                            <CheckBox x:Name="Tray7_6" Grid.Column="3" Grid.Row="26" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #6"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="19" Grid.Column="11">
+                            <CheckBox x:Name="Tray7_6" Grid.Column="3" Grid.Row="19" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #6"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
 
                         <!--No8-->
-                        <TextBox x:Name="No8" Text="8" FontSize="30" IsReadOnly="True" Grid.ColumnSpan="1" Grid.Row="28" Grid.RowSpan="4" TextAlignment="Center" Padding="15"/>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="28" Grid.Column="1">
-                            <CheckBox x:Name="Tray8_1" Grid.Column="1" Grid.Row="28" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #1"/>
+                        <TextBox x:Name="No8" Text="8" FontSize="25" FontWeight="Bold" IsReadOnly="True" Grid.Column="0" Grid.Row="21" Grid.RowSpan="3" TextAlignment="Center" Padding="8"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="22" Grid.Column="1">
+                            <CheckBox x:Name="Tray8_1" Grid.Column="1" Grid.Row="22" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #1"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="28" Grid.Column="2">
-                            <CheckBox x:Name="Tray8_2" Grid.Column="2" Grid.Row="28" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #2"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="22" Grid.Column="3">
+                            <CheckBox x:Name="Tray8_2" Grid.Column="2" Grid.Row="22" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #2"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="28" Grid.Column="3">
-                            <CheckBox x:Name="Tray8_3" Grid.Column="3" Grid.Row="28" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #3"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="22" Grid.Column="5">
+                            <CheckBox x:Name="Tray8_3" Grid.Column="3" Grid.Row="22" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #3"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="30" Grid.Column="1">
-                            <CheckBox x:Name="Tray8_4" Grid.Column="1" Grid.Row="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #4"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="22" Grid.Column="7">
+                            <CheckBox x:Name="Tray8_4" Grid.Column="1" Grid.Row="22" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #4"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="30" Grid.Column="2">
-                            <CheckBox x:Name="Tray8_5" Grid.Column="2" Grid.Row="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #5"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="22" Grid.Column="9">
+                            <CheckBox x:Name="Tray8_5" Grid.Column="2" Grid.Row="22" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #5"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="30" Grid.Column="3">
-                            <CheckBox x:Name="Tray8_6" Grid.Column="3" Grid.Row="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,12" >
-                                <TextBlock FontSize="13" FontWeight="Bold" Text="Tray #6"/>
+                        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="22" Grid.Column="11">
+                            <CheckBox x:Name="Tray8_6" Grid.Column="3" Grid.Row="22" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,5,50,12" >
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Tray #6"/>
                                 <CheckBox.RenderTransform>
-                                    <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </Border>

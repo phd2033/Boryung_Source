@@ -54,7 +54,7 @@
                         <ColumnDefinition Width="213"/>
                     </Grid.ColumnDefinitions>
                     <TextBox x:Name="DATE" Grid.Column="0" Grid.Row="0" Text="충전 일자" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Background="#FFEBEEEE" Padding="4" IsReadOnly="True"/>
-                    <TextBox x:Name="DateText" Grid.Column="1" Grid.Row="0" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="4" IsReadOnly="True"/>
+                    <TextBox x:Name="DateText" Text="{Binding ChargDttm}" Grid.Column="1" Grid.Row="0" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="4" IsReadOnly="True"/>
 
                     <TextBox x:Name="P_HOLD" Grid.Column="0" Grid.Row="1" Text="충전 멸균 물품 Holding Time&#10;(Autoclave)" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Left" Padding ="10,8,0,0" Background="#FFEBEEEE" IsReadOnly="True"/>
                     <TextBox x:Name="P_HoldTime" Text="{Binding AutoClaveHoldTime}" Grid.Column="1" Grid.Row="1" FontSize="12" FontFamily="Malgun Gothic" FontWeight="Bold" TextAlignment="Center" Grid.ColumnSpan="3" IsReadOnly="True" Padding="15" Background="{Binding AutoDiff}" />

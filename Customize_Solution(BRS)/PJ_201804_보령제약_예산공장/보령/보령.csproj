@@ -1148,7 +1148,7 @@
     <Compile Include="원료칭량\현장칭량.xaml.cs">
       <DependentUpon>현장칭량.xaml</DependentUpon>
     </Compile>
-    <Compile Include="포장공정수율_지시량.xaml.cs">
+    <Compile Include="수율계산\포장공정수율_지시량.xaml.cs">
       <DependentUpon>포장공정수율_지시량.xaml</DependentUpon>
     </Compile>
     <Compile Include="혼합기\혼합기레시피전송.cs" />
@@ -1926,7 +1926,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="포장공정수율_지시량.xaml">
+    <Page Include="수율계산\포장공정수율_지시량.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

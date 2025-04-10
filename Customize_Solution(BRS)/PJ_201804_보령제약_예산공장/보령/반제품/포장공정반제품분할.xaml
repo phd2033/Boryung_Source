@@ -159,11 +159,13 @@
                             <TextBlock Grid.Column="0" Grid.Row="3" Text="{Binding W[CUIGrossWeight], Source={StaticResource R}, FallbackValue=총무게}"/>
                             <TextBox Grid.Column="1" Grid.Row="3" IsReadOnly="True" Text="{Binding MergeMaterialSubLot.GROSS.WeightUOMString, Mode=TwoWay}" Style="{StaticResource txtNemeric}"/>
                             <StackPanel Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <Button x:Name="btnChangeMergeHLAB" Content="반제품 선택" Width="100" Height="40" Margin="5,0"
+                                <Button x:Name="btnCreateHLAB" Content="보관용기사용" Width="80" Height="40" Margin="5,0"
+                                        Command="{Binding CreateHALBCommand}" CommandParameter="{Binding ElementName=btnCreateHLAB}"/>
+                                <Button x:Name="btnChangeMergeHLAB" Content="반제품 선택" Width="75" Height="40" Margin="5,0"
                                         Command="{Binding ChangeHALBCommand}" CommandParameter="{Binding ElementName=btnChangeMergeHLAB}"/>
-                                <Button x:Name="btnNetWeightChange" Content="내용물무게변경" Width="100" Height="40" Margin="5,0" IsEnabled="{Binding CanSplitHLAB}"
+                                <Button x:Name="btnNetWeightChange" Content="내용물무게변경" Width="85" Height="40" Margin="5,0" IsEnabled="{Binding CanSplitHLAB}"
                                         Command="{Binding ChangeWeightCommand}" CommandParameter="{Binding ElementName=btnNetWeightChange}"/>
-                                <Button x:Name="btnTareWeightChange" Content="용기무게변경" Width="100" Height="40" Margin="5,0"
+                                <Button x:Name="btnTareWeightChange" Content="용기무게변경" Width="80" Height="40" Margin="5,0" IsEnabled="{Binding CanWeightHLAB}"
                                         Command="{Binding ChangeWeightCommand}" CommandParameter="{Binding ElementName=btnTareWeightChange}"/>
                             </StackPanel>
                         </Grid>

@@ -346,10 +346,7 @@ namespace 보령
                         {
                             CommandResults["ConfirmCommandAsync"] = false;
                             CommandCanExecutes["ConfirmCommandAsync"] = false;
-
-                            ///
-                            IsBusy = true;
-
+                            
                             if (BR_BRS_SEL_EquipmentStatus_PROCEQPT.OUTDATAs.Count > 0)
                             {
                                 // 주간, 월간 점검 확인 로직 추가. 2020.11.20 phd
@@ -406,6 +403,8 @@ namespace 보령
                                 {
                                     throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                 }
+
+                                IsBusy = true;
 
                                 // XML 변환
                                 var ds = new DataSet();

@@ -313,11 +313,11 @@ namespace 보령
                                 var dt = new DataTable("DATA");
                                 ds.Tables.Add(dt);
                                 dt.Columns.Add(new DataColumn("원료코드"));
-                                dt.Columns.Add(new DataColumn("충전순서"));
                                 dt.Columns.Add(new DataColumn("원료명"));
                                 dt.Columns.Add(new DataColumn("원료시험번호"));
                                 dt.Columns.Add(new DataColumn("바코드"));
                                 dt.Columns.Add(new DataColumn("투입량"));
+                                dt.Columns.Add(new DataColumn("충전순서"));
                                 dt.Columns.Add(new DataColumn("상태"));
 
                                 var bizRule = new BR_RHR_REG_MaterialSubLot_Dispense_Charging_NEW();
@@ -357,11 +357,11 @@ namespace 보령
                                         var row = dt.NewRow();
                                         row["원료코드"] = item.MTRLID != null ? item.MTRLID : "";
                                         //row["충전순서"] = item.CHGSEQ != null ? item.CHGSEQ : "";
-                                        row["충전순서"] = item.CHGSEQ.ToString() != null ? item.CHGSEQ.ToString() : "";
                                         row["원료명"] = item.MTRLNAME != null ? item.MTRLNAME : "";
                                         row["원료시험번호"] = item.MLOTID != null ? item.MLOTID : "";
                                         row["바코드"] = item.MSUBLOTBCD != null ? item.MSUBLOTBCD : "";
                                         row["투입량"] = item.CHGQTY != null ? item.CHGQTY + " " + item.UOM : "";
+                                        row["충전순서"] = item.CHGSEQ.ToString() != null ? item.CHGSEQ.ToString() : "";
                                         row["상태"] = item.IS_CAN_CHARGING_CHECKED_NAME != null ? item.IS_CAN_CHARGING_CHECKED_NAME : "";
                                         dt.Rows.Add(row);
                                     }

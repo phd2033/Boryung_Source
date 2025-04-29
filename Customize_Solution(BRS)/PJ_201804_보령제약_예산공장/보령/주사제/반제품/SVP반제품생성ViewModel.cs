@@ -4,6 +4,7 @@ using ShopFloorUI;
 using System;
 using System.Collections.ObjectModel;
 using System.Net;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -21,8 +22,10 @@ namespace 보령
         public SVP반제품생성ViewModel()
         {
             _BR_PHR_SEL_ProductionOrderOutput_Define_AnyType = new BR_PHR_SEL_ProductionOrderOutput_Define_AnyType();
+            _BR_BRS_SEL_ProductionOrderOutputSubLot_INFO = new BR_BRS_SEL_ProductionOrderOutputSubLot_INFO();
             _BR_BRS_REG_ProductionOrderOutput_Vessel_STRT = new BR_BRS_REG_ProductionOrderOutput_Vessel_STRT();
             _OutputList = new ObservableCollection<OutputInformation>();
+            _RemoveList = new ObservableCollection<OutputInformation>();
         }
 
         private SVP반제품생성 _mainWnd;
@@ -80,9 +83,21 @@ namespace 보령
                 OnPropertyChanged("OutputList");
             }
         }
+
+        private ObservableCollection<OutputInformation> _RemoveList;
+        public ObservableCollection<OutputInformation> RemoveList
+        {
+            get { return _RemoveList; }
+            set
+            {
+                _RemoveList = value;
+                OnPropertyChanged("RemoveList");
+            }
+        }
         #endregion
         #region [BizRule]
         private BR_PHR_SEL_ProductionOrderOutput_Define_AnyType _BR_PHR_SEL_ProductionOrderOutput_Define_AnyType;
+        private BR_BRS_SEL_ProductionOrderOutputSubLot_INFO _BR_BRS_SEL_ProductionOrderOutputSubLot_INFO;
         private BR_BRS_REG_ProductionOrderOutput_Vessel_STRT _BR_BRS_REG_ProductionOrderOutput_Vessel_STRT;
         #endregion
         #region [Command]
@@ -128,9 +143,42 @@ namespace 보령
                                         _LotType = _BR_PHR_SEL_ProductionOrderOutput_Define_AnyType.OUTDATAs[0].OUTPUTTYPE;
                                     }
                                 }
+
+                                // 이전 기록 조회
+                                if (_mainWnd.CurrentInstruction.Raw.ACTVAL == _mainWnd.TableTypeName && _mainWnd.CurrentInstruction.Raw.NOTE != null)
+                                {
+
+                                    _BR_BRS_SEL_ProductionOrderOutputSubLot_INFO.INDATAs.Clear();
+                                    _BR_BRS_SEL_ProductionOrderOutputSubLot_INFO.OUTDATAs.Clear();
+                                    _BR_BRS_SEL_ProductionOrderOutputSubLot_INFO.INDATAs.Add(new BR_BRS_SEL_ProductionOrderOutputSubLot_INFO.INDATA
+                                    {
+                                        POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                        OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                        OUTPUTTYPE = "WIP"
+                                    });
+
+                                    if (await _BR_BRS_SEL_ProductionOrderOutputSubLot_INFO.Execute() == true)
+                                    {
+                                        foreach (var item in _BR_BRS_SEL_ProductionOrderOutputSubLot_INFO.OUTDATAs)
+                                        {
+                                            _OutputList.Add(new OutputInformation
+                                            {
+                                                Outputguid = item.OUTPUTGUID,
+                                                MsublotID = item.MSUBLOTID,
+                                                MsublotBCD = item.MSUBLOTBCD,
+                                                MsublotQty = MathExt.Round(Convert.ToDecimal(item.MSUBLOTQTY), Convert.ToInt16(item.PRECISION), MidpointRounding.AwayFromZero),
+                                                UOM = item.NOTATION,
+                                                VesselId = item.VESSELID
+                                            });
+                                        }
+                                    }else
+                                    {
+                                        throw _BR_BRS_SEL_ProductionOrderOutputSubLot_INFO.Exception;
+                                    }
+                                    
+                                }   
                             }
                             ///
-
                             CommandResults["LoadedCommandAsync"] = true;
                         }
                         catch (Exception ex)
@@ -192,6 +240,8 @@ namespace 보령
                                         OutputList.Add(new OutputInformation
                                         {
                                             Outputguid = _BR_PHR_SEL_ProductionOrderOutput_Define_AnyType.OUTDATAs[0].OUTPUTGUID.ToString(),
+                                            MsublotID = "",
+                                            MsublotBCD = "",
                                             MsublotQty = _MSUBLOTQTY,
                                             UOM = _Unit,
                                             VesselId = _EqptId,
@@ -205,7 +255,6 @@ namespace 보령
                                 }
                             }              
                             ///
-
                             CommandResults["CreateOutputCommandAsync"] = true;
                         }
                         catch (Exception ex)
@@ -241,10 +290,26 @@ namespace 보령
 
                             CommandResults["RemoveCommandAsync"] = false;
                             CommandCanExecutes["RemoveCommandAsync"] = false;
-
                             ///
                             if (arg != null && arg is OutputInformation)
-                                OutputList.Remove(arg as OutputInformation);                            
+                            {
+                                OutputInformation RemoveOutput = arg as OutputInformation;
+                                if((RemoveOutput.MsublotID != "") & (RemoveOutput.MsublotID != ""))
+                                {
+                                    _BR_BRS_REG_ProductionOrderOutput_Vessel_STRT.NOUSE_INDATAs.Add(new BR_BRS_REG_ProductionOrderOutput_Vessel_STRT.NOUSE_INDATA
+                                    {
+                                        POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                        MSUBLOTID = RemoveOutput.MsublotID,
+                                        MSUBLOTBCD = RemoveOutput.MsublotBCD,
+                                        OUTPUTGUID = RemoveOutput.Outputguid
+                                    });
+                                    OutputList.Remove(RemoveOutput);
+                                }
+                                else
+                                {
+                                    OutputList.Remove(RemoveOutput);
+                                }
+                            }                      
                             ///
 
                             CommandResults["RemoveCommandAsync"] = true;
@@ -284,7 +349,7 @@ namespace 보령
                             CommandCanExecutes["ConfirmCommandAsync"] = false;
 
                             ///
-
+                            
                             var authHelper = new iPharmAuthCommandHelper();
                             if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN == "Y" && _mainWnd.CurrentInstruction.PhaseState.Equals("COMP"))
                             {
@@ -317,7 +382,7 @@ namespace 보령
                             }
 
                             string user = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI");
-
+                            
                             //XML 생성. 비즈룰 INDATA생성
                             DataSet ds = new DataSet();
                             DataTable dt = new DataTable("DATA");
@@ -333,16 +398,19 @@ namespace 보령
 
                             foreach (var item in OutputList)
                             {
-                                _BR_BRS_REG_ProductionOrderOutput_Vessel_STRT.INDATAs.Add(new BR_BRS_REG_ProductionOrderOutput_Vessel_STRT.INDATA
+                                if(item.MsublotBCD == "" & item.MsublotID == "")
                                 {
-                                    LOTTYPE = _LotType,
-                                    POID = _mainWnd.CurrentOrder.ProductionOrderID,
-                                    OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
-                                    OUTPUTGUID = item.Outputguid,
-                                    VESSELID = item.VesselId,
-                                    INSUSER = user,
-                                    MSUBLOTQTY = item.MsublotQty
-                                });
+                                    _BR_BRS_REG_ProductionOrderOutput_Vessel_STRT.INDATAs.Add(new BR_BRS_REG_ProductionOrderOutput_Vessel_STRT.INDATA
+                                    {
+                                        LOTTYPE = _LotType,
+                                        POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                        OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                        OUTPUTGUID = item.Outputguid,
+                                        VESSELID = item.VesselId,
+                                        INSUSER = user,
+                                        MSUBLOTQTY = item.MsublotQty
+                                    });                                    
+                                }
 
                                 var row = dt.NewRow();
 
@@ -407,6 +475,26 @@ namespace 보령
                 {
                     _Outputguid = value;
                     OnPropertyChanged("Outputguid");
+                }
+            }
+            private string _MsublotID;
+            public string MsublotID
+            {
+                get { return _MsublotID; }
+                set
+                {
+                    _MsublotID = value;
+                    OnPropertyChanged("MsublotID");
+                }
+            }
+            private string _MsublotBCD;
+            public string MsublotBCD
+            {
+                get { return _MsublotBCD; }
+                set
+                {
+                    _MsublotBCD = value;
+                    OnPropertyChanged("MsublotBCD");
                 }
             }
             private decimal _MsublotQty;

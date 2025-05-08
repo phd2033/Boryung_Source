@@ -30,7 +30,9 @@ namespace 보령
                 new ComboList () {Item = "2 Module", VALUE = "2 Module"},
                 new ComboList () {Item = "3 Module", VALUE = "3 Module"},
                 new ComboList () {Item = "4 Module", VALUE = "4 Module"},
-                new ComboList () {Item = "5 Module", VALUE = "5 Module"}
+                new ComboList () {Item = "5 Module", VALUE = "5 Module"},
+                new ComboList () {Item = "1~3 Module", VALUE = "1~3 Module"},
+                new ComboList () {Item = "1~5 Module", VALUE = "1~5 Module"}
             };
         }
 
@@ -579,6 +581,10 @@ namespace 보령
 
                             CommandResults["ConfirmCommandAsync"] = false;
                             CommandCanExecutes["ConfirmCommandAsync"] = false;
+                            
+                            //입력할 데이터 값이 있는지 Validation
+                            if (ListInterfer.Count() < 1)
+                                throw new Exception(string.Format("기록할 Data가 없습니다."));
 
                             var authHelper = new iPharmAuthCommandHelper();
 
@@ -626,6 +632,7 @@ namespace 보령
                             }
 
                             _BR_BRS_REG_INTERFER_SITUATION.INDATAs.Clear();
+                            
                             foreach (var item in ListInterfer)
                             {
                                 _BR_BRS_REG_INTERFER_SITUATION.INDATAs.Add(new BR_BRS_REG_INTERFER_SITUATION.INDATA

@@ -281,8 +281,10 @@ namespace 보령
 
                             CommandResults["AddInterferCommandAsync"] = false;
                             CommandCanExecutes["AddInterferCommandAsync"] = false;
-                            ///
-                            if (MODULE.Equals("N/A")) { throw new Exception("Module을 선택해주세요."); }
+                            ///2025.05.09 김도연 Validation 추가
+                            if (CONTENTS == null | MODULE == null) { throw new Exception("간섭내용과 Module을을 선택해주세요"); }
+                            else if (CONTENTS.Equals("N/A") & (NOTE == null || NOTE == "")) { throw new Exception("비고를 작성하여 주세요."); }
+                            else if (CONTENTS != "환경모니터링" & (MODULE.Equals("1~3 Module") || MODULE.Equals("1~5 Module"))) { throw new Exception("1~3 Module과 1~5 Module은 [ 환경모니터링 ] 간섭내용에서만 사용합니다.\n간섭내용과 Module이 맞는지 확인해주세요."); }
                             else if (DISPOSAL < 0) { throw new Exception("수량이 마이너스입니다. 확인해주세요."); }
                             else
                             {

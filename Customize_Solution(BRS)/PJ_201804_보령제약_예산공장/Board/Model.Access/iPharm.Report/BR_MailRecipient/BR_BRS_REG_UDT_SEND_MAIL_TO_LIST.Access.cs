@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LGCNS.iPharmMES.Common
 {
-    
+
     /// <summary>
     /// summary of BR_BRS_REG_UDT_SEND_MAIL_TO_LIST
     /// </summary>
@@ -22,7 +22,7 @@ namespace LGCNS.iPharmMES.Common
                 return this._INDATAs;
             }
         }
-        [BizActorInputSetDefineAttribute(Order="0")]
+        [BizActorInputSetDefineAttribute(Order = "0")]
         [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
         public partial class INDATA : BizActorDataSetBase
         {

@@ -17,29 +17,16 @@ namespace Board
 {
     public class MailRecipientViewViewModel : ViewModelBase
     {
-        #region ##### property ##### 
         private MailRecipientView _mainWnd;
-        private DateTime _PeriodSTDTTM;
-        public DateTime PeriodSTDTTM
+
+        public MailRecipientViewViewModel()
         {
-            get { return _PeriodSTDTTM; }
-            set
-            {
-                _PeriodSTDTTM = value;
-                NotifyPropertyChanged();
-            }
+            _BR_BRS_SEL_SEND_MAIL_TO_LIST = new BR_BRS_SEL_SEND_MAIL_TO_LIST();
+            _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST = new BR_BRS_REG_UDT_SEND_MAIL_TO_LIST();
         }
 
-        private DateTime _PeriodEDDTTM;
-        public DateTime PeriodEDDTTM
-        {
-            get { return _PeriodEDDTTM; }
-            set
-            {
-                _PeriodEDDTTM = value;
-                NotifyPropertyChanged();
-            }
-        }
+        #region ##### property ##### 
+
 
         private string _USERID;
         public string USERID
@@ -49,89 +36,6 @@ namespace Board
             {
                 _USERID = value;
                 NotifyPropertyChanged();
-            }
-        }
-
-        private string _CMCDTYPE;
-        public string CMCDTYPE
-        {
-            get { return _CMCDTYPE; }
-            set
-            {
-                _CMCDTYPE = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private string _CMCODE;
-        public string CMCODE
-        {
-            get { return _CMCODE; }
-            set
-            {
-                _CMCODE = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private string _CMCDNAME;
-        public string CMCDNAME
-        {
-            get { return _CMCDNAME; }
-            set
-            {
-                _CMCDNAME = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private string _USERNAME;
-        public string USERNAME
-        {
-            get { return _USERNAME; }
-            set
-            {
-                _USERNAME = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private string _USERMAIL;
-        public string USERMAIL
-        {
-            get { return _USERMAIL; }
-            set
-            {
-                _USERMAIL = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private string _ISUSE;
-        public string ISUSE
-        {
-            get { return _ISUSE; }
-            set
-            {
-                _ISUSE = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-
-
-        private Boolean _CHK;
-        public Boolean CHK
-        {
-            get { return _CHK; }
-            set
-            {
-                if (_CHK != value)
-                {
-                    _CHK = value;
-                    NotifyPropertyChanged(nameof(CHK));
-
-                }
             }
         }
 
@@ -163,10 +67,7 @@ namespace Board
 
         #endregion
 
-        public MailRecipientViewViewModel()
-        {
-            _BR_BRS_SEL_SEND_MAIL_TO_LIST = new BR_BRS_SEL_SEND_MAIL_TO_LIST();
-        }       
+ 
 
         public ICommand LoadedCommandAsync
         {
@@ -182,10 +83,8 @@ namespace Board
 
                             CommandResults["LoadedCommand"] = false;
                             CommandCanExecutes["LoadedCommand"] = false;
-                            
-                            
+                                              
                             _mainWnd = arg as MailRecipientView;
-                            
 
                             CommandResults["LoadedCommand"] = true;
                         }
@@ -272,27 +171,36 @@ namespace Board
 
                             CommandResults["BtnUpdateCommand"] = false;
                             CommandCanExecutes["BtnUpdateCommand"] = false;
-                       
-                            //foreach (var item in _BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs)
-                            //{
-                            //    if (item.CHK == "Y")
-                            //    {
-                            //        _BR_BRS_REG_UDT_OperationProcessSegmentReady.INDATAs.Add(new BR_BRS_REG_UDT_OperationProcessSegmentReady.INDATA
-                            //        {
-                            //            ODID = item.ODID,
-                            //            ODVER = item.ODVER,
-                            //            MTRLID = item.MTRLID,
-                            //            MTRLVER = item.MTRLVER,
-                            //            OPSGGUID = item.OPSGGUID,
-                            //            READYVAL = item.READYVAL,
-                            //            READYVER = item.READYVER,
-                            //            EQPTREADYVAL = item.EQPTREADYVAL,
-                            //            INSUSER = AuthRepositoryViewModel.Instance.LoginedUserID
-                            //        });
-                            //    }
-                            //}
 
+                            _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.INDATAs.Clear();
+
+                            foreach (var item in _BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs)
+                            {
+                                if (item.CHK == "Y")
+                                {
+                                    _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.INDATAs.Add(new BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.INDATA
+                                    {
+                                        CMCDTYPE = item.CMCDTYPE,
+                                        CMCODE = item.CMCODE,
+                                        CMCDNAME = item.CMCDNAME,
+                                        USERID = item.USERID,
+                                        USERNAME = item.USERNAME,
+                                        USERMAIL = item.USERMAIL,
+                                        UPDUSER = AuthRepositoryViewModel.Instance.LoginedUserID,
+                                        ISUSE = item.ISUSE
+                                    });
+                                }
+                            }
+
+                            await _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.Execute();
+
+                            _BR_BRS_SEL_SEND_MAIL_TO_LIST.INDATAs.Clear();
                             _BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs.Clear();
+
+                            _BR_BRS_SEL_SEND_MAIL_TO_LIST.INDATAs.Add(new BR_BRS_SEL_SEND_MAIL_TO_LIST.INDATA()
+                            {
+                                USERID = string.IsNullOrWhiteSpace(USERID) ? null : USERID
+                            });
 
                             await _BR_BRS_SEL_SEND_MAIL_TO_LIST.Execute();
 
@@ -334,10 +242,10 @@ namespace Board
                             IsBusy = true;
 
                             var temp = _mainWnd.MailRecipientViewGrid.SelectedItem as BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATA;
-                            //if (temp.READYVAL != 0)
-                            //{
-                            //    temp.CHK = "Y";
-                            //}                                                       
+                            if (temp.USERID != null)
+                            {
+                                temp.CHK = "Y";
+                            }
 
                             IsBusy = false;
 
@@ -378,11 +286,23 @@ namespace Board
 
                             IsBusy = true;
 
-                            //var temp = _mainWnd.MailRecipientViewGrid.SelectedItem as BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.OUTDATA;
-                            var temp = _mainWnd.MailRecipientViewGrid.SelectedItem;
-                            //temp.CHK = "Y";
+                            //var temp = _mainWnd.MailRecipientViewGrid.SelectedItem;
 
-                            IsBusy = false;
+                            //if(BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs.Count > 1)
+                            //{
+                            //    BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs.RemoveAt(BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs.Count - 1);
+
+                            //}
+
+                            //var newRow = new BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATA
+                            //{
+                            //    CHK = "Y",
+                            //    CMCDTYPE = "BRS_MAILTYPE"
+
+                            //};
+                            //BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs.Add(newRow);
+
+                             IsBusy = false;
 
                             CommandResults["RowAddCommand"] = true;
                         }

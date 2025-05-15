@@ -385,6 +385,38 @@ namespace LGCNS.iPharmMES.Common
                     }
                 }
             }
+            private string _CHK;
+            [BizActorOutputItemAttribute()]
+            public string CHK
+            {
+                get
+                {
+                    return this._CHK;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._CHK = value;
+                        this.CheckIsOriginal("CHK", value);
+                        this.OnPropertyChanged("CHK");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
         }
         public BR_BRS_SEL_SEND_MAIL_TO_LIST()
         {

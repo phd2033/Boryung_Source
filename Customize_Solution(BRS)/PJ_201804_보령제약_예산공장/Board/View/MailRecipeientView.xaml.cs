@@ -19,7 +19,7 @@ namespace Board
 {
     public partial class MailRecipientView : UserControl
     {
-     
+
         public MailRecipientView()
         {
             InitializeComponent();

@@ -17,6 +17,7 @@ namespace Board
 {
     public class MailRecipientViewViewModel : ViewModelBase
     {
+        #region ##### property ##### 
         private MailRecipientView _mainWnd;
 
         public MailRecipientViewViewModel()
@@ -24,9 +25,6 @@ namespace Board
             _BR_BRS_SEL_SEND_MAIL_TO_LIST = new BR_BRS_SEL_SEND_MAIL_TO_LIST();
             _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST = new BR_BRS_REG_UDT_SEND_MAIL_TO_LIST();
         }
-
-        #region ##### property ##### 
-
 
         private string _USERID;
         public string USERID
@@ -65,10 +63,10 @@ namespace Board
             }
         }
 
+
         #endregion
 
- 
-
+   
         public ICommand LoadedCommandAsync
         {
             get
@@ -83,8 +81,10 @@ namespace Board
 
                             CommandResults["LoadedCommand"] = false;
                             CommandCanExecutes["LoadedCommand"] = false;
-                                              
+
+
                             _mainWnd = arg as MailRecipientView;
+
 
                             CommandResults["LoadedCommand"] = true;
                         }
@@ -108,7 +108,7 @@ namespace Board
             }
         }
 
-        
+
 
         public ICommand BtnSearchCommand
         {
@@ -191,7 +191,6 @@ namespace Board
                                     });
                                 }
                             }
-
                             await _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.Execute();
 
                             _BR_BRS_SEL_SEND_MAIL_TO_LIST.INDATAs.Clear();
@@ -271,102 +270,109 @@ namespace Board
             }
         }
 
-        public ICommand RowAddCommand
-        {
-            get
-            {
-                return new AsyncCommandBase(async arg =>
-                {
-                    using (await AwaitableLocks["RowAddCommand"].EnterAsync())
-                    {
-                        try
-                        {
-                            CommandResults["RowAddCommand"] = false;
-                            CommandCanExecutes["RowAddCommand"] = false;
-
-                            IsBusy = true;
-
-                            //var temp = _mainWnd.MailRecipientViewGrid.SelectedItem;
-
-                            //if(BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs.Count > 1)
-                            //{
-                            //    BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs.RemoveAt(BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs.Count - 1);
-
-                            //}
-
-                            //var newRow = new BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATA
-                            //{
-                            //    CHK = "Y",
-                            //    CMCDTYPE = "BRS_MAILTYPE"
-
-                            //};
-                            //BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs.Add(newRow);
-
-                             IsBusy = false;
-
-                            CommandResults["RowAddCommand"] = true;
-                        }
-                        catch (Exception ex)
-                        {
-                            CommandResults["RowAddCommand"] = false;
-                            OnException(ex.Message, ex);
-                        }
-                        finally
-                        {
-                            CommandCanExecutes["RowAddCommand"] = true;
-
-                            IsBusy = false;
-                        }
-                    }
-                }, arg =>
-                {
-                    return CommandCanExecutes.ContainsKey("RowAddCommand") ?
-                        CommandCanExecutes["RowAddCommand"] : (CommandCanExecutes["RowAddCommand"] = true);
-                });
-            }
-        }
-
-
-        //public ICommand RowDeleteCommand
+        //public ICommand RowAddCommand
         //{
         //    get
         //    {
         //        return new AsyncCommandBase(async arg =>
         //        {
-        //            using (await AwaitableLocks["RowDeleteCommand"].EnterAsync())
+        //            using (await AwaitableLocks["RowAddCommand"].EnterAsync())
         //            {
         //                try
         //                {
-        //                    CommandResults["RowDeleteCommand"] = false;
-        //                    CommandCanExecutes["RowDeleteCommand"] = false;
+        //                    CommandResults["RowAddCommand"] = false;
+        //                    CommandCanExecutes["RowAddCommand"] = false;
 
         //                    IsBusy = true;
-        //                    ///
-        //                    ///
+
+        //                    var temp = _mainWnd.CleanningSettingGrid.SelectedItem as BR_BRS_SEL_UDT_OperationProcessSegmentReady.OUTDATA;
+        //                    temp.CHK = "Y";
+
         //                    IsBusy = false;
 
-        //                    CommandResults["RowDeleteCommand"] = true;
-        //                    return;
+        //                    CommandResults["RowAddCommand"] = true;
         //                }
         //                catch (Exception ex)
         //                {
-        //                    CommandResults["RowDeleteCommand"] = false;
+        //                    CommandResults["RowAddCommand"] = false
         //                    OnException(ex.Message, ex);
         //                }
         //                finally
         //                {
-        //                    CommandCanExecutes["RowDeleteCommand"] = true;
+        //                    CommandCanExecutes["RowAddCommand"] = true;
 
         //                    IsBusy = false;
         //                }
         //            }
         //        }, arg =>
         //        {
-        //            return CommandCanExecutes.ContainsKey("RowDeleteCommand") ?
-        //                CommandCanExecutes["RowDeleteCommand"] : (CommandCanExecutes["RowDeleteCommand"] = true);
+        //            return CommandCanExecutes.ContainsKey("RowAddCommand") ?
+        //                CommandCanExecutes["RowAddCommand"] : (CommandCanExecutes["RowAddCommand"] = true);
         //        });
         //    }
         //}
+
+
+        public ICommand BtnDeleteCommand
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["BtnDeleteCommand"].EnterAsync())
+                    {
+                        try
+                        {
+                            CommandResults["BtnDeleteCommand"] = false;
+                            CommandCanExecutes["BtnDeleteCommand"] = false;
+
+                            IsBusy = true;
+
+                            _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.INDATAs.Clear();
+
+                            foreach (var item in _BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs)
+                            {
+                                if (item.CHK == "Y")
+                                {
+                                    _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.INDATAs.Add(new BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.INDATA
+                                    {
+                                        CMCDTYPE = item.CMCDTYPE,
+                                        CMCODE = item.CMCODE,
+                                        CMCDNAME = item.CMCDNAME,
+                                        USERID = item.USERID,
+                                        USERNAME = item.USERNAME,
+                                        USERMAIL = item.USERMAIL,
+                                        UPDUSER = AuthRepositoryViewModel.Instance.LoginedUserID,
+                                        ISUSE = item.ISUSE
+                                    });
+                                }
+                            }
+
+
+                            IsBusy = false;
+
+                            CommandResults["BtnDeleteCommand"] = true;
+                            return;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["BtnDeleteCommand"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["BtnDeleteCommand"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("BtnDeleteCommand") ?
+                        CommandCanExecutes["BtnDeleteCommand"] : (CommandCanExecutes["BtnDeleteCommand"] = true);
+                });
+            }
+        }
 
     }
 }

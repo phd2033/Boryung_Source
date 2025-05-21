@@ -515,6 +515,18 @@
     </Compile>
     <Compile Include="공정검사\타정IPC_붕해마손ViewModel.cs" />
     <Compile Include="공정중 시험의뢰\공정중시험의뢰.cs" />
+    <Compile Include="라벨발행\라벨발행요청확인.xaml.cs">
+      <DependentUpon>라벨발행요청확인.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="라벨발행\라벨발행요청확인ViewModel.cs" />
+    <Compile Include="라벨발행\원료의약품라벨발행.xaml.cs">
+      <DependentUpon>원료의약품라벨발행.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="라벨발행\원료의약품라벨발행ViewModel.cs" />
+    <Compile Include="라벨발행\피마과립무게측정.xaml.cs">
+      <DependentUpon>피마과립무게측정.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="라벨발행\피마과립무게측정ViewModel.cs" />
     <Compile Include="레시피확인\레시피확인.xaml.cs">
       <DependentUpon>레시피확인.xaml</DependentUpon>
     </Compile>
@@ -1296,6 +1308,18 @@
     <Page Include="공정검사\타정IPC_붕해마손.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="라벨발행\라벨발행요청확인.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="라벨발행\원료의약품라벨발행.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="라벨발행\피마과립무게측정.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="레시피확인\레시피확인.xaml">
       <Generator>MSBuild:Compile</Generator>

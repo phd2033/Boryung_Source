@@ -210,6 +210,11 @@ namespace 보령
 
                             ///
 
+                            if (!AuthRepositoryViewModel.Instance.LoginedUserID.Equals("20061"))
+                            {
+                                throw new Exception(string.Format("권한이 없는 사용자입니다."));
+                            }
+
                             var authHelper = new iPharmAuthCommandHelper();
                             if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN == "Y" && _mainWnd.CurrentInstruction.PhaseState.Equals("COMP"))
                             {
@@ -228,10 +233,6 @@ namespace 보령
                                 }
                             }
 
-                            if(!AuthRepositoryViewModel.Instance.LoginedUserID.Equals("20061"))
-                            {
-                                throw new Exception(string.Format("권한이 없는 사용자입니다."));
-                            }
 
                             //XML 생성. 비즈룰 INDATA생성
                             DataSet ds = new DataSet();

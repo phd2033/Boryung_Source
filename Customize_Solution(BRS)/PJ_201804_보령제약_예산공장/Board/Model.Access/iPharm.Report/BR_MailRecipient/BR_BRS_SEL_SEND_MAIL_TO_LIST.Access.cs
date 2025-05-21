@@ -161,6 +161,38 @@ namespace LGCNS.iPharmMES.Common
                     this.OnPropertyChanged("RowEditSec");
                 }
             }
+            private System.Nullable<int> _SEQ;
+            [BizActorOutputItemAttribute()]
+            public System.Nullable<int> SEQ
+            {
+                get
+                {
+                    return this._SEQ;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._SEQ = value;
+                        this.CheckIsOriginal("SEQ", value);
+                        this.OnPropertyChanged("SEQ");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
             private string _CMCDTYPE;
             [BizActorOutputItemAttribute()]
             public string CMCDTYPE
@@ -371,38 +403,6 @@ namespace LGCNS.iPharmMES.Common
                         this._ISUSE = value;
                         this.CheckIsOriginal("ISUSE", value);
                         this.OnPropertyChanged("ISUSE");
-                        if (RowLoadedFlag)
-                        {
-                            if (this.CheckIsOriginalRow())
-                            {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
-                            }
-                        }
-                    }
-                }
-            }
-            private string _CHK;
-            [BizActorOutputItemAttribute()]
-            public string CHK
-            {
-                get
-                {
-                    return this._CHK;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                    {
-                    }
-                    else
-                    {
-                        this._CHK = value;
-                        this.CheckIsOriginal("CHK", value);
-                        this.OnPropertyChanged("CHK");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())

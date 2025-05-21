@@ -26,6 +26,7 @@ namespace 보령
         {
             _UserContain = new UserContainer.OUTDATACollection();
             _BR_PHR_SEL_PERSON = new BR_PHR_SEL_PERSON();
+            _BR_BRS_SEL_SEND_MAIL_TO_LIST = new BR_BRS_SEL_SEND_MAIL_TO_LIST();
         }
 
         private 라벨발행요청확인 _mainWnd;
@@ -95,6 +96,17 @@ namespace 보령
             {
                 _BR_PHR_SEL_PERSON = value;
                 OnPropertyChanged("BR_PHR_SEL_PERSON");
+            }
+        }
+
+        BR_BRS_SEL_SEND_MAIL_TO_LIST _BR_BRS_SEL_SEND_MAIL_TO_LIST;
+        public BR_BRS_SEL_SEND_MAIL_TO_LIST BR_BRS_SEL_SEND_MAIL_TO_LIST
+        {
+            get { return _BR_BRS_SEL_SEND_MAIL_TO_LIST; }
+            set
+            {
+                _BR_BRS_SEL_SEND_MAIL_TO_LIST = value;
+                OnPropertyChanged("BR_BRS_SEL_SEND_MAIL_TO_LIST");
             }
         }
 
@@ -208,13 +220,36 @@ namespace 보령
                             CommandResults["ConfirmCommandAsync"] = false;
                             CommandCanExecutes["ConfirmCommandAsync"] = false;
 
-                            ///
 
-                            if (!AuthRepositoryViewModel.Instance.LoginedUserID.Equals("20061"))
+                            _BR_BRS_SEL_SEND_MAIL_TO_LIST.INDATAs.Clear();
+                            _BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs.Clear();
+                            _BR_BRS_SEL_SEND_MAIL_TO_LIST.INDATAs.Add(new BR_BRS_SEL_SEND_MAIL_TO_LIST.INDATA
+                            {
+                                USERID = AuthRepositoryViewModel.Instance.LoginedUserID,
+                                CMCDTYPE = "BRS_LABEL_QA_APPR",
+                                CMCODE = "원료의약품라벨출력승인"
+                            });
+
+                            //XML 생성. 비즈룰 INDATA생성
+                            DataSet ds = new DataSet();
+                            DataTable dt = new DataTable("DATA");
+                            ds.Tables.Add(dt);
+
+                            if (await _BR_BRS_SEL_SEND_MAIL_TO_LIST.Execute() && _BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs.Count > 0)
+                            {
+                                dt.Columns.Add(new DataColumn("작업자ID"));
+                                dt.Columns.Add(new DataColumn("작업자명"));
+
+                                var row = dt.NewRow();
+                                row["작업자ID"] = AuthRepositoryViewModel.Instance.LoginedUserID;
+                                row["작업자명"] = AuthRepositoryViewModel.Instance.LoginedUserName;
+                                dt.Rows.Add(row);
+                            }
+                            else
                             {
                                 throw new Exception(string.Format("권한이 없는 사용자입니다."));
                             }
-
+                            
                             var authHelper = new iPharmAuthCommandHelper();
                             if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN == "Y" && _mainWnd.CurrentInstruction.PhaseState.Equals("COMP"))
                             {
@@ -232,25 +267,7 @@ namespace 보령
                                     throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                 }
                             }
-
-
-                            //XML 생성. 비즈룰 INDATA생성
-                            DataSet ds = new DataSet();
-                            DataTable dt = new DataTable("DATA");
-                            ds.Tables.Add(dt);
-
-                            dt.Columns.Add(new DataColumn("작업자ID"));
-                            dt.Columns.Add(new DataColumn("작업자명"));
-
-                            var row = dt.NewRow();
-                            foreach (var item in UserContain)
-                            {
-                                row = dt.NewRow();
-                                row["작업자ID"] = item.USERID;
-                                row["작업자명"] = item.USERNAME;
-                                dt.Rows.Add(row);
-                            }
-
+                            
                             var xml = BizActorRuleBase.CreateXMLStream(ds);
                             var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
 

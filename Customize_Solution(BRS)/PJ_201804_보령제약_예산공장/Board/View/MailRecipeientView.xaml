@@ -119,6 +119,8 @@
                         </i:EventTrigger>-->
                     </i:Interaction.Triggers>
                     <ControlsLib:CNSDataGrid.DataColumns>
+                        <ControlsLib:DataColumn DataField="CHK" HeadName="CHK" HeaderWidth="30"   ColumnType="CheckBox" HorizontalAlignment="Center" Excel="False" ColumnVisibility="Visible" ReadOnly="True"
+                                                        ItemsSource="{Binding CHK, Mode=TwoWay}"/>
                         <ControlsLib:DataColumn HeadName="유형" DataField="CMCDTYPE" ColumnType="TextBox" ColumnVisibility="Visible" HorizontalAlignment="Center" HeaderWidth="150" ReadOnly="True"
                                                         ItemsSource="{Binding CMCDTYPE, Mode=TwoWay}"/>
                         <ControlsLib:DataColumn HeadName="코드" DataField="CMCODE" ColumnType="TextBox" ColumnVisibility="Visible" HorizontalAlignment="Center" HeaderWidth="150" ReadOnly="True"

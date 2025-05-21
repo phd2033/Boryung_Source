@@ -180,6 +180,7 @@ namespace Board
                                 {
                                     _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.INDATAs.Add(new BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.INDATA
                                     {
+                                        SEQ = Convert.ToInt32(item.RowIndex) + 1,
                                         CMCDTYPE = item.CMCDTYPE,
                                         CMCODE = item.CMCODE,
                                         CMCDNAME = item.CMCDNAME,

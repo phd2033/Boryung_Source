@@ -226,8 +226,8 @@ namespace 보령
                             _BR_BRS_SEL_SEND_MAIL_TO_LIST.INDATAs.Add(new BR_BRS_SEL_SEND_MAIL_TO_LIST.INDATA
                             {
                                 USERID = AuthRepositoryViewModel.Instance.LoginedUserID,
-                                CMCDTYPE = "BRS_LABEL_QA_APPR",
-                                CMCODE = "원료의약품라벨출력승인"
+                                CMCDTYPE = "BRS_LABEL_APPR",
+                                CMCODE = "QA_LABEL_APPROVE"
                             });
 
                             //XML 생성. 비즈룰 INDATA생성

@@ -265,7 +265,6 @@ namespace 보령
 
                             // 버튼세팅
                             btnRecordEnable = false;
-                            _mainWnd.txtVesselId.Focus();
                         }
                         ///
 
@@ -766,7 +765,6 @@ namespace 보령
             VesselId = "";
             _TotalWeight.Value = 0;
             btnRecordEnable = false;
-            _mainWnd.txtVesselId.Focus();
             OnPropertyChanged("TotalWeight");
         }
 

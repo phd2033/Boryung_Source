@@ -53,7 +53,7 @@
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="1" x:Name="btnConfirm" Margin="5" Content="기록" Command="{Binding ConfirmCommandAsync}"/>
                 <Button Grid.Column="2" x:Name="NoRecord" Margin="5" Content="기록없음" Command="{Binding NoRecordConfirmCommand}"/>
-                <Button Grid.Column="3" x:Name="btnCancel" Margin="5" Content="취소" Click="btnCancel_Click"/>
+                <Button Grid.Column="3" x:Name="btnCancel" Margin="5" Content="닫기" Click="btnClose_Click"/>
             </Grid>
         </Grid>
     </toolkit:BusyIndicator>

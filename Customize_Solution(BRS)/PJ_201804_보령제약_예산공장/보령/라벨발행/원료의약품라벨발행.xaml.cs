@@ -36,12 +36,15 @@ namespace 보령
         {
             this.DialogResult = true;
         }
-
-        private void txtVesselId_KeyDown(object sender, KeyEventArgs e)
+        private void MainDataGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            if (this.MainDataGrid.SelectedItem != null)
             {
-                ((원료의약품라벨발행ViewModel)LayoutRoot.DataContext).WeighingCommandAsync.Execute(txtVesselId.Text);
+                BR_BRS_SEL_EquipmentStatus_PROC_OPSG.OUTDATA tar = this.MainDataGrid.SelectedItem as BR_BRS_SEL_EquipmentStatus_PROC_OPSG.OUTDATA;
+                tar.SELFLAG = !tar.SELFLAG;
+
+                this.MainDataGrid.SelectedItem = null;
+                this.MainDataGrid.Refresh();
             }
         }
     }

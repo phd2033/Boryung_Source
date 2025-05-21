@@ -225,6 +225,38 @@ namespace 보령
                     this.OnPropertyChanged("RowEditSec");
                 }
             }
+            private string _MSUBLOTBCD;
+            [BizActorOutputItemAttribute()]
+            public string MSUBLOTBCD
+            {
+                get
+                {
+                    return this._MSUBLOTBCD;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._MSUBLOTBCD = value;
+                        this.CheckIsOriginal("MSUBLOTBCD", value);
+                        this.OnPropertyChanged("MSUBLOTBCD");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
             private string _MSUBLOTID;
             [BizActorOutputItemAttribute()]
             public string MSUBLOTID

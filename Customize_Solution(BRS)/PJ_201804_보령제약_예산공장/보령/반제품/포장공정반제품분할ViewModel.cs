@@ -466,7 +466,7 @@ namespace 보령
                         CommandCanExecutes["CreateHALBCommand"] : (CommandCanExecutes["CreateHALBCommand"] = true);
                 });
             }
-        } // 보관용기사용시작
+        } //2025.05.23 조영호 소용량 반제품 분할을 위한 보관용기사용시작
         public ICommand ChangeHALBCommand
         {
             get

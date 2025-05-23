@@ -314,6 +314,7 @@ namespace 보령
                                 ds.Tables.Add(dt);
                                 dt.Columns.Add(new DataColumn("원료코드"));
                                 dt.Columns.Add(new DataColumn("원료명"));
+                                //2025.05.23 조영호 MBR, EBR 투입번호 표현을 위해 추가
                                 dt.Columns.Add(new DataColumn("투입번호"));
                                 dt.Columns.Add(new DataColumn("원료시험번호"));
                                 dt.Columns.Add(new DataColumn("바코드"));
@@ -357,6 +358,7 @@ namespace 보령
                                         var row = dt.NewRow();
                                         row["원료코드"] = item.MTRLID != null ? item.MTRLID : "";
                                         row["원료명"] = item.MTRLNAME != null ? item.MTRLNAME : "";
+                                        //2025.05.23 조영호 MBR, EBR 투입번호 표현을 위해 추가
                                         row["투입번호"] = item.CHGSEQ.ToString() != null ? item.CHGSEQ.ToString() : "";
                                         row["원료시험번호"] = item.MLOTID != null ? item.MLOTID : "";
                                         row["바코드"] = item.MSUBLOTBCD != null ? item.MSUBLOTBCD : "";
@@ -463,6 +465,7 @@ namespace 보령
                             ds.Tables.Add(dt);
                             dt.Columns.Add(new DataColumn("원료코드"));
                             dt.Columns.Add(new DataColumn("원료명"));
+                            //2025.05.23 조영호 MBR, EBR 투입번호 표현을 위해 추가
                             dt.Columns.Add(new DataColumn("투입번호"));
                             dt.Columns.Add(new DataColumn("원료시험번호"));
                             dt.Columns.Add(new DataColumn("바코드"));
@@ -472,6 +475,7 @@ namespace 보령
                             var row = dt.NewRow();       
                             row["원료코드"] = "N/A";
                             row["원료명"] = "N/A";
+                            //2025.05.23 조영호 MBR, EBR 투입번호 표현을 위해 추가
                             row["투입번호"] = "N/A";
                             row["원료시험번호"] = "N/A";
                             row["바코드"] = "N/A";

@@ -35,6 +35,7 @@ namespace 보령
             _BR_PHR_SEL_System_Printer = new BR_PHR_SEL_System_Printer();
             _BR_BRS_SEL_ProductionOrderDispenseSubLot_OPSG_COMPONENT = new 보령.BR_BRS_SEL_ProductionOrderDispenseSubLot_OPSG_COMPONENT();
             _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID = new BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID();
+            //2025.05.23 김도연 공정 내 동일 BOM 중 동일 팩이 있는지 조회
             _BR_BRS_SEL_ProductionOrderBOM_CheckDuplicate = new BR_BRS_SEL_ProductionOrderBOM_CheckDuplicate();
 
             int interval = 2000;
@@ -760,7 +761,7 @@ namespace 보령
                                 ds.Tables.Add(dt);
                                 dt.Columns.Add(new DataColumn("자재ID"));
                                 dt.Columns.Add(new DataColumn("자재명"));
-                                dt.Columns.Add(new DataColumn("투입번호"));
+                                dt.Columns.Add(new DataColumn("투입번호")); //2025.05.23 김도연 CR-25-0175 변경 건으로 투입번호 추가
                                 dt.Columns.Add(new DataColumn("원료배치번호"));
                                 dt.Columns.Add(new DataColumn("바코드"));
                                 dt.Columns.Add(new DataColumn("무게"));
@@ -771,7 +772,7 @@ namespace 보령
                                     var row = dt.NewRow();
                                     row["자재ID"] = item.MTRLID != null ? item.MTRLID : "";
                                     row["자재명"] = item.MTRLNAME != null ? item.MTRLNAME : "";
-                                    row["투입번호"] = item.CHGSEQ != null ? item.CHGSEQ : "";
+                                    row["투입번호"] = item.CHGSEQ != null ? item.CHGSEQ : ""; //2025.05.23 김도연 CR-25-0175 변경 건으로 투입번호 추가
                                     row["원료배치번호"] = item.MSUBLOTID != null ? item.MSUBLOTID : "";
                                     row["바코드"] = item.MSUBLOTBCD != null ? item.MSUBLOTBCD : "";
                                     row["무게"] = item.REALQTY.ToString("0.##0");

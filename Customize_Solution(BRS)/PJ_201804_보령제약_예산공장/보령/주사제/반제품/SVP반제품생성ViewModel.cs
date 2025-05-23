@@ -22,6 +22,7 @@ namespace 보령
         public SVP반제품생성ViewModel()
         {
             _BR_PHR_SEL_ProductionOrderOutput_Define_AnyType = new BR_PHR_SEL_ProductionOrderOutput_Define_AnyType();
+            //2025.05.23 김도연 이전에 생성한 반제품 조회
             _BR_BRS_SEL_ProductionOrderOutputSubLot_INFO = new BR_BRS_SEL_ProductionOrderOutputSubLot_INFO();
             _BR_BRS_REG_ProductionOrderOutput_Vessel_STRT = new BR_BRS_REG_ProductionOrderOutput_Vessel_STRT();
             _OutputList = new ObservableCollection<OutputInformation>();
@@ -144,7 +145,7 @@ namespace 보령
                                     }
                                 }
 
-                                // 이전 기록 조회
+                                //2025.05.23 김도연 이전 기록 조회
                                 if (_mainWnd.CurrentInstruction.Raw.ACTVAL == _mainWnd.TableTypeName && _mainWnd.CurrentInstruction.Raw.NOTE != null)
                                 {
 
@@ -240,7 +241,7 @@ namespace 보령
                                         OutputList.Add(new OutputInformation
                                         {
                                             Outputguid = _BR_PHR_SEL_ProductionOrderOutput_Define_AnyType.OUTDATAs[0].OUTPUTGUID.ToString(),
-                                            MsublotID = "",
+                                            MsublotID = "", //2025.05.23 김도연 새로 생성된 반제품은 MSUBLOTID와 MSUBLOTBCD를 ""으로 설정함. 기존에 생성한 반제품과 구분하기 위함
                                             MsublotBCD = "",
                                             MsublotQty = _MSUBLOTQTY,
                                             UOM = _Unit,
@@ -290,7 +291,7 @@ namespace 보령
 
                             CommandResults["RemoveCommandAsync"] = false;
                             CommandCanExecutes["RemoveCommandAsync"] = false;
-                            ///
+                            //2025.05.23 김도연 비활성화할 반제품 BizRule NOUSE_INDATA에 추가
                             if (arg != null && arg is OutputInformation)
                             {
                                 OutputInformation RemoveOutput = arg as OutputInformation;

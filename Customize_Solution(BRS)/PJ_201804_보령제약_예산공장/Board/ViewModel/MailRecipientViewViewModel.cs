@@ -12,18 +12,33 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace Board
 {
+
     public class MailRecipientViewViewModel : ViewModelBase
     {
         #region ##### property ##### 
         private MailRecipientView _mainWnd;
 
+        public class IsUseOption
+        {
+            public string ISUSE { get; set; }
+        }
+
+        public ObservableCollection<string> ISUSEList { get; set; }
+
         public MailRecipientViewViewModel()
         {
             _BR_BRS_SEL_SEND_MAIL_TO_LIST = new BR_BRS_SEL_SEND_MAIL_TO_LIST();
             _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST = new BR_BRS_REG_UDT_SEND_MAIL_TO_LIST();
+
+            ISUSEList = new ObservableCollection<string>
+            {
+                "Y", "N"
+            };
         }
 
         private string _USERID;
@@ -33,6 +48,26 @@ namespace Board
             set
             {
                 _USERID = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private string _CMCODE;
+        public string CMCODE
+        {
+            get { return _CMCODE; }
+            set
+            {
+                _CMCODE = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private string _ISUSE;
+        public string ISUSE
+        {
+            get { return _ISUSE; }
+            set
+            {
+                _ISUSE = value;
                 NotifyPropertyChanged();
             }
         }
@@ -182,13 +217,14 @@ namespace Board
                                     {
                                         SEQ = Convert.ToInt32(item.RowIndex) + 1,
                                         CMCDTYPE = item.CMCDTYPE,
-                                        CMCODE = item.CMCODE,
+                                        //CMCODE = item.CMCODE,
+                                        CMCODE = CMCODE,
                                         CMCDNAME = item.CMCDNAME,
                                         USERID = item.USERID,
                                         USERNAME = item.USERNAME,
                                         USERMAIL = item.USERMAIL,
                                         UPDUSER = AuthRepositoryViewModel.Instance.LoginedUserID,
-                                        ISUSE = item.ISUSE
+                                        ISUSE = ISUSE
                                     });
                                 }
                             }

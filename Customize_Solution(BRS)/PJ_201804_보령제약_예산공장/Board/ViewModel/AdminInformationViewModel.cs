@@ -18,10 +18,10 @@ using System.ComponentModel;
 namespace Board
 {
 
-    public class MailRecipientViewViewModel : ViewModelBase
+    public class AdminInformationViewModel : ViewModelBase
     {
         #region ##### property ##### 
-        private MailRecipientView _mainWnd;
+        private AdminInformation _mainWnd;
 
         public class IsUseOption
         {
@@ -30,10 +30,11 @@ namespace Board
 
         public ObservableCollection<string> ISUSEList { get; set; }
 
-        public MailRecipientViewViewModel()
+        public AdminInformationViewModel()
         {
             _BR_BRS_SEL_SEND_MAIL_TO_LIST = new BR_BRS_SEL_SEND_MAIL_TO_LIST();
             _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST = new BR_BRS_REG_UDT_SEND_MAIL_TO_LIST();
+            _BR_BRS_SEL_COMMONCODE = new BR_BRS_SEL_COMMONCODE();
 
             ISUSEList = new ObservableCollection<string>
             {
@@ -61,6 +62,18 @@ namespace Board
                 NotifyPropertyChanged();
             }
         }
+
+        private string _CMCDNAME;
+        public string CMCDNAME
+        {
+            get { return _CMCDNAME; }
+            set
+            {
+                _CMCDNAME = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private string _ISUSE;
         public string ISUSE
         {
@@ -84,6 +97,17 @@ namespace Board
             {
                 _BR_BRS_SEL_SEND_MAIL_TO_LIST = value;
                 OnPropertyChanged("BR_BRS_SEL_SEND_MAIL_TO_LIST");
+            }
+        }
+
+        private BR_BRS_SEL_COMMONCODE _BR_BRS_SEL_COMMONCODE;
+        public BR_BRS_SEL_COMMONCODE BR_BRS_SEL_COMMONCODE
+        {
+            get { return _BR_BRS_SEL_COMMONCODE; }
+            set
+            {
+                _BR_BRS_SEL_COMMONCODE = value;
+                OnPropertyChanged("BR_BRS_SEL_COMMONCODE");
             }
         }
 
@@ -118,8 +142,12 @@ namespace Board
                             CommandCanExecutes["LoadedCommand"] = false;
 
 
-                            _mainWnd = arg as MailRecipientView;
+                            _mainWnd = arg as AdminInformation;
 
+                            _BR_BRS_SEL_COMMONCODE.INDATAs.Clear();
+                            _BR_BRS_SEL_COMMONCODE.OUTDATAs.Clear();
+
+                            await _BR_BRS_SEL_COMMONCODE.Execute();
 
                             CommandResults["LoadedCommand"] = true;
                         }
@@ -219,7 +247,7 @@ namespace Board
                                         CMCDTYPE = item.CMCDTYPE,
                                         //CMCODE = item.CMCODE,
                                         CMCODE = CMCODE,
-                                        CMCDNAME = item.CMCDNAME,
+                                        CMCDNAME = CMCDNAME,
                                         USERID = item.USERID,
                                         USERNAME = item.USERNAME,
                                         USERMAIL = item.USERMAIL,
@@ -277,7 +305,7 @@ namespace Board
 
                             IsBusy = true;
 
-                            var temp = _mainWnd.MailRecipientViewGrid.SelectedItem as BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATA;
+                            var temp = _mainWnd.AdminInformationGrid.SelectedItem as BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATA;
                             if (temp.USERID != null)
                             {
                                 temp.CHK = "Y";

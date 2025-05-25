@@ -17,10 +17,10 @@ using C1.Silverlight.Data;
 
 namespace Board
 {
-    public partial class MailRecipientView : UserControl
+    public partial class AdminInformation : UserControl
     {
 
-        public MailRecipientView()
+        public AdminInformation()
         {
             InitializeComponent();
         }

@@ -35,6 +35,8 @@ namespace 보령
             _BR_PHR_SEL_System_Printer = new BR_PHR_SEL_System_Printer();
             _BR_BRS_SEL_ProductionOrderDispenseSubLot_OPSG_COMPONENT = new 보령.BR_BRS_SEL_ProductionOrderDispenseSubLot_OPSG_COMPONENT();
             _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID = new BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID();
+            //2025.05.23 김도연 공정 내 동일 BOM 중 동일 팩이 있는지 조회
+            _BR_BRS_SEL_ProductionOrderBOM_CheckDuplicate = new BR_BRS_SEL_ProductionOrderBOM_CheckDuplicate();
 
             int interval = 2000;
             string interval_str = ShopFloorUI.App.Current.Resources["GetWeightInterval"].ToString();
@@ -310,6 +312,16 @@ namespace 보령
             }
         }
         private BR_BRS_SEL_ProductionOrderDispenseSubLot_OPSG_COMPONENT _BR_BRS_SEL_ProductionOrderDispenseSubLot_OPSG_COMPONENT;
+        private BR_BRS_SEL_ProductionOrderBOM_CheckDuplicate _BR_BRS_SEL_ProductionOrderBOM_CheckDuplicate;
+        public BR_BRS_SEL_ProductionOrderBOM_CheckDuplicate BR_BRS_SEL_ProductionOrderBOM_CheckDuplicate
+        {
+            get { return _BR_BRS_SEL_ProductionOrderBOM_CheckDuplicate; }
+            set
+            {
+                _BR_BRS_SEL_ProductionOrderBOM_CheckDuplicate = value;
+                OnPropertyChanged("BR_BRS_SEL_ProductionOrderBOM_CheckDuplicate");
+            }
+        }
         /// <summary>
         /// 저울조회 비즈룰
         /// </summary>
@@ -438,7 +450,7 @@ namespace 보령
                                     else
                                         throw new Exception(string.Format("대상 원료가 존재하지 않습니다."));
                                 }
-
+                                
                                 // 프린터 설정
                                 _BR_PHR_SEL_System_Printer.INDATAs.Add(new BR_PHR_SEL_System_Printer.INDATA
                                 {
@@ -454,7 +466,32 @@ namespace 보령
                                 else
                                     OnMessage("연결된 프린트가 없습니다.");
                             }
+                            //2025.04.21 김도연 동일 BOM 내 동일 팩 사용 여부 확인
+                            _BR_BRS_SEL_ProductionOrderBOM_CheckDuplicate.INDATAs.Add(new BR_BRS_SEL_ProductionOrderBOM_CheckDuplicate.INDATA()
+                            {
+                                POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                MTRLID = BomID
+                            });
 
+                            if (await _BR_BRS_SEL_ProductionOrderBOM_CheckDuplicate.Execute() == true)
+                            {
+                                if (_BR_BRS_SEL_ProductionOrderBOM_CheckDuplicate.OUTDATAs.Count() > 0)//2025.04.21 김도연 true = 동일 BOM 내 동일 팩 사용
+                                {   
+                                    if (_BR_BRS_SEL_ProductionOrderBOM_CheckDuplicate.OUTDATAs[0].CHECKDSP == "N") //2025.04.21 김도연 동일 팩 사용 - 아직 소분이 안됐을 경우
+                                    {
+                                        OnMessage("원료 바코드 : " + _BR_BRS_SEL_ProductionOrderBOM_CheckDuplicate.OUTDATAs[0].MSUBLOTBCD + "\n해당 원료는 추후 사용 예정이므로, 마지막에 투입해 주시기 바랍니다.");
+                                    }
+                                    else //2025.04.21 김도연 동일 팩 사용 - 이전에 사용한 경우
+                                    {
+                                        OnMessage("원료 바코드 : " + _BR_BRS_SEL_ProductionOrderBOM_CheckDuplicate.OUTDATAs[0].MSUBLOTBCD + "\n해당 원료는 이전에 소분하여 사용한 이력이 있으므로, 가장 먼저 투입해 주시기 바랍니다.");
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                throw _BR_BRS_SEL_ProductionOrderBOM_CheckDuplicate.Exception;
+                            }
                             IsBusy = false;
                             ///
 
@@ -724,6 +761,7 @@ namespace 보령
                                 ds.Tables.Add(dt);
                                 dt.Columns.Add(new DataColumn("자재ID"));
                                 dt.Columns.Add(new DataColumn("자재명"));
+                                dt.Columns.Add(new DataColumn("투입번호")); //2025.05.23 김도연 CR-25-0175 변경 건으로 투입번호 추가
                                 dt.Columns.Add(new DataColumn("원료배치번호"));
                                 dt.Columns.Add(new DataColumn("바코드"));
                                 dt.Columns.Add(new DataColumn("무게"));
@@ -734,6 +772,7 @@ namespace 보령
                                     var row = dt.NewRow();
                                     row["자재ID"] = item.MTRLID != null ? item.MTRLID : "";
                                     row["자재명"] = item.MTRLNAME != null ? item.MTRLNAME : "";
+                                    row["투입번호"] = item.CHGSEQ != null ? item.CHGSEQ : ""; //2025.05.23 김도연 CR-25-0175 변경 건으로 투입번호 추가
                                     row["원료배치번호"] = item.MSUBLOTID != null ? item.MSUBLOTID : "";
                                     row["바코드"] = item.MSUBLOTBCD != null ? item.MSUBLOTBCD : "";
                                     row["무게"] = item.REALQTY.ToString("0.##0");

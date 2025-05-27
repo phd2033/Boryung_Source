@@ -31,6 +31,7 @@ namespace 보령
                 new ComboList () {Item = "3 Module", VALUE = "3 Module"},
                 new ComboList () {Item = "4 Module", VALUE = "4 Module"},
                 new ComboList () {Item = "5 Module", VALUE = "5 Module"},
+                //2025.05.23 김도연 CR-25-0177 변경 건으로 추가
                 new ComboList () {Item = "1~3 Module", VALUE = "1~3 Module"},
                 new ComboList () {Item = "1~5 Module", VALUE = "1~5 Module"}
             };
@@ -584,7 +585,7 @@ namespace 보령
                             CommandResults["ConfirmCommandAsync"] = false;
                             CommandCanExecutes["ConfirmCommandAsync"] = false;
                             
-                            //입력할 데이터 값이 있는지 Validation
+                            //2025.05.08 김도연 입력할 데이터 값이 있는지 Validation
                             if (ListInterfer.Count() < 1)
                                 throw new Exception(string.Format("기록할 Data가 없습니다."));
 

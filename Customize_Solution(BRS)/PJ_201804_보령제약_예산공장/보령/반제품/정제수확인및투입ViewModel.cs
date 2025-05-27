@@ -590,6 +590,8 @@ namespace 보령
                             ds.Tables.Add(dt);
                             dt.Columns.Add(new DataColumn("원료코드"));
                             dt.Columns.Add(new DataColumn("원료명"));
+                            //2025.05.23 조영호 MBR, EBR 투입번호 표현을 위해 추가
+                            dt.Columns.Add(new DataColumn("투입번호"));
                             dt.Columns.Add(new DataColumn("저울번호"));
                             dt.Columns.Add(new DataColumn("원료시험번호"));
                             dt.Columns.Add(new DataColumn("바코드"));
@@ -651,6 +653,8 @@ namespace 보령
                                 var row = dt.NewRow();
                                 row["원료코드"] = lastWeighingInfo.MTRLID != null ? lastWeighingInfo.MTRLID : "";
                                 row["원료명"] = lastWeighingInfo.MTRLNAME != null ? lastWeighingInfo.MTRLNAME : "";
+                                //2025.05.23 조영호 MBR, EBR 투입번호 표현을 위해 추가
+                                row["투입번호"] = lastWeighingInfo.CHGSEQ != null ? lastWeighingInfo.CHGSEQ : "";
                                 row["저울번호"] = _ScaleInfo.EQPTID;
                                 row["원료시험번호"] = lastWeighingInfo.MSUBLOTID != null ? lastWeighingInfo.MSUBLOTID : "";
                                 row["바코드"] = lastWeighingInfo.MSUBLOTBCD != null ? lastWeighingInfo.MSUBLOTBCD : "";

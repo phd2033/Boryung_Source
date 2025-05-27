@@ -120,7 +120,6 @@
                         </DataTemplate>
                     </c1:DataGridTemplateColumn.CellTemplate>
                 </c1:DataGridTemplateColumn>-->
-
                     <c1:DataGridTemplateColumn Header="[투입준비여부, 투입준비여부]" Width="Auto" HorizontalAlignment="Stretch" MinWidth="100" HeaderStyle="{StaticResource HeaderStyle}">
                         <c1:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

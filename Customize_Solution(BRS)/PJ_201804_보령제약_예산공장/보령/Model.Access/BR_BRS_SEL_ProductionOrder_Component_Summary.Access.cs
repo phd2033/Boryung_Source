@@ -1,4 +1,4 @@
-﻿﻿using LGCNS.iPharmMES.Common;
+﻿using LGCNS.iPharmMES.Common;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -641,10 +641,43 @@ namespace LGCNS.iPharmMES.Common
                     }
                 }
             }
+            private System.Nullable<decimal> _CHGSEQ;
+            [BizActorOutputItemAttribute()]
+            public System.Nullable<decimal> CHGSEQ
+            {
+                get
+                {
+                    return this._CHGSEQ;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._CHGSEQ = value;
+                        this.CheckIsOriginal("CHGSEQ", value);
+                        this.OnPropertyChanged("CHGSEQ");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
         }
         public BR_BRS_SEL_ProductionOrder_Component_Summary()
         {
             RuleName = "BR_BRS_SEL_ProductionOrder_Component_Summary";
+            BizName = "BR_BRS_SEL_ProductionOrder_Component_Summary_CHGSEQ";
             _INDATAs = new INDATACollection();
             _OUTDATAs = new OUTDATACollection();
         }

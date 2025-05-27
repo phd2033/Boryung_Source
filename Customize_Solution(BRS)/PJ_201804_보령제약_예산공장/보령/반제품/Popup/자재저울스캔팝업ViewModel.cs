@@ -145,12 +145,65 @@ namespace 보령
                     {
 
                         var item = ParentVM.FilteredComponents.Where(o => o.MSUBLOTBCD == Barcode).LastOrDefault();
+                        var CheckItem = ParentVM.BR_BRS_SEL_ProductionOrderBOM_CheckDuplicate.OUTDATAs;
 
                         if (item != null)
                         {
-                            ParentVM.curSeletedItem = item;
-                            item.CHECK = item.CHECK == "투입대기" ? "투입가능" : item.CHECK;
-                            CheckStep = enumCheckStep.End;
+                            if(CheckItem.Count() > 0)
+                            {   //2025.04.21 김도연 동일 BOM의 동일 팩이 사용되었을 때, 팩이 소분된 경우
+                                if (CheckItem[0].CHECKDSP == "Y")
+                                {
+                                    if (CheckItem[0].MSUBLOTID != item.MSUBLOTID) //2025.04.21 김도연 바코드 찍은 팩과 중복 팩이 같지 않을 경우
+                                    {
+                                        var CheckDsp = ParentVM.FilteredComponents.Where(o => o.MSUBLOTID == CheckItem[0].MSUBLOTID).LastOrDefault(); //중복 팩이 소분되었는지 확인
+
+                                        if (CheckDsp.CHECK == "투입완료")
+                                        {
+                                            ParentVM.curSeletedItem = item;
+                                            item.CHECK = item.CHECK == "투입대기" ? "투입가능" : item.CHECK;
+                                            CheckStep = enumCheckStep.End;
+                                        }
+                                        else
+                                        {
+                                            Message = "원료 바코드 : " + CheckItem[0].MSUBLOTBCD + "\n소분된 원료부터 투입 부탁드립니다.";
+                                            return false;
+                                        }
+                                    }
+                                    else //바코드 찍은 팩과 중복 팩이 동일한 경우
+                                    {
+                                        ParentVM.curSeletedItem = item;
+                                        item.CHECK = item.CHECK == "투입대기" ? "투입가능" : item.CHECK;
+                                        CheckStep = enumCheckStep.End;
+                                    }
+                                }//동일 BOM의 동일 팩이 사용되었을 때, 팩이 소분되지 않은 경우
+                                else
+                                {
+                                    if (CheckItem[0].MSUBLOTID.Equals(item.MSUBLOTID))
+                                    {
+                                        if (ParentVM.FilteredComponents.Where(o => o.CHECK == "투입대기" && o.MSUBLOTID != CheckItem[0].MSUBLOTID).Count() > 0)//중복 팩을 제외한 팩이 전부 투입 완료 되었는지 확인
+                                        {
+                                            Message = "원료 바코드 : " + CheckItem[0].MSUBLOTBCD + "\n해당 팩은 마지막으로 투입 부탁드립니다.";
+                                            return false;
+                                        }else
+                                        {
+                                            ParentVM.curSeletedItem = item;
+                                            item.CHECK = item.CHECK == "투입대기" ? "투입가능" : item.CHECK;
+                                            CheckStep = enumCheckStep.End;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        ParentVM.curSeletedItem = item;
+                                        item.CHECK = item.CHECK == "투입대기" ? "투입가능" : item.CHECK;
+                                        CheckStep = enumCheckStep.End;
+                                    }
+                                }
+                            }else
+                            {
+                                ParentVM.curSeletedItem = item;
+                                item.CHECK = item.CHECK == "투입대기" ? "투입가능" : item.CHECK;
+                                CheckStep = enumCheckStep.End;
+                            }
                         }
                         else
                         {

@@ -163,8 +163,8 @@ namespace 보령
                                     {
                                         _UserContain.Add(new UserContainer.OUTDATA
                                         {
-                                            USERID = row["작업자ID"] != null ? row["작업자ID"].ToString() : "",
-                                            USERNAME = row["작업자명"] != null ? row["작업자명"].ToString() : "",
+                                            USERID = row["확인자ID"] != null ? row["확인자ID"].ToString() : "",
+                                            USERNAME = row["확인자명"] != null ? row["확인자명"].ToString() : "",
                                             RowEditSec = "INS"
                                         });
                                     }
@@ -237,12 +237,12 @@ namespace 보령
 
                             if (await _BR_BRS_SEL_SEND_MAIL_TO_LIST.Execute() && _BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs.Count > 0)
                             {
-                                dt.Columns.Add(new DataColumn("작업자ID"));
-                                dt.Columns.Add(new DataColumn("작업자명"));
+                                dt.Columns.Add(new DataColumn("확인자ID"));
+                                dt.Columns.Add(new DataColumn("확인자명"));
 
                                 var row = dt.NewRow();
-                                row["작업자ID"] = AuthRepositoryViewModel.Instance.LoginedUserID;
-                                row["작업자명"] = AuthRepositoryViewModel.Instance.LoginedUserName;
+                                row["확인자ID"] = AuthRepositoryViewModel.Instance.LoginedUserID;
+                                row["확인자명"] = AuthRepositoryViewModel.Instance.LoginedUserName;
                                 dt.Rows.Add(row);
                             }
                             else
@@ -346,14 +346,14 @@ namespace 보령
                             DataTable dt = new DataTable("DATA");
                             ds.Tables.Add(dt);
 
-                            dt.Columns.Add(new DataColumn("작업자ID"));
-                            dt.Columns.Add(new DataColumn("작업자명"));
+                            dt.Columns.Add(new DataColumn("확인자ID"));
+                            dt.Columns.Add(new DataColumn("확인자명"));
 
                             var row = dt.NewRow();
 
                             row = dt.NewRow();
-                            row["작업자ID"] = "N/A";
-                            row["작업자명"] = "N/A";
+                            row["확인자ID"] = "N/A";
+                            row["확인자명"] = "N/A";
                             dt.Rows.Add(row);
 
                             var xml = BizActorRuleBase.CreateXMLStream(ds);

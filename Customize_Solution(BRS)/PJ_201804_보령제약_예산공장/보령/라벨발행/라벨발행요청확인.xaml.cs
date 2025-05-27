@@ -11,9 +11,11 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Windows.Navigation;
 using ShopFloorUI;
+using System.ComponentModel;
 
 namespace 보령
 {
+    [Description("원료의약품라벨 QA팀 라벨발행요청확인 UI")]
     public partial class 라벨발행요청확인 : ShopFloorCustomWindow
     {
         public 라벨발행요청확인()

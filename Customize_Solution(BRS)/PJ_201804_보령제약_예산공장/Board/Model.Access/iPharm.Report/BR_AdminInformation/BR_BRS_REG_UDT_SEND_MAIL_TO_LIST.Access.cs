@@ -229,70 +229,6 @@ namespace LGCNS.iPharmMES.Common
                     }
                 }
             }
-            private string _USERNAME;
-            [BizActorInputItemAttribute()]
-            public string USERNAME
-            {
-                get
-                {
-                    return this._USERNAME;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                    {
-                    }
-                    else
-                    {
-                        this._USERNAME = value;
-                        this.CheckIsOriginal("USERNAME", value);
-                        this.OnPropertyChanged("USERNAME");
-                        if (RowLoadedFlag)
-                        {
-                            if (this.CheckIsOriginalRow())
-                            {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
-                            }
-                        }
-                    }
-                }
-            }
-            private string _USERMAIL;
-            [BizActorInputItemAttribute()]
-            public string USERMAIL
-            {
-                get
-                {
-                    return this._USERMAIL;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                    {
-                    }
-                    else
-                    {
-                        this._USERMAIL = value;
-                        this.CheckIsOriginal("USERMAIL", value);
-                        this.OnPropertyChanged("USERMAIL");
-                        if (RowLoadedFlag)
-                        {
-                            if (this.CheckIsOriginalRow())
-                            {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
-                            }
-                        }
-                    }
-                }
-            }
             private string _UPDUSER;
             [BizActorInputItemAttribute()]
             public string UPDUSER
@@ -343,6 +279,38 @@ namespace LGCNS.iPharmMES.Common
                         this._ISUSE = value;
                         this.CheckIsOriginal("ISUSE", value);
                         this.OnPropertyChanged("ISUSE");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _SECTION;
+            [BizActorInputItemAttribute()]
+            public string SECTION
+            {
+                get
+                {
+                    return this._SECTION;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._SECTION = value;
+                        this.CheckIsOriginal("SECTION", value);
+                        this.OnPropertyChanged("SECTION");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())

@@ -6,9 +6,9 @@ namespace LGCNS.iPharmMES.Common
 {
 
     /// <summary>
-    /// summary of BR_BRS_SEL_COMMONCODE
+    /// summary of BR_BRS_SEL_COMMONCODE_CMCODE
     /// </summary>
-    public partial class BR_BRS_SEL_COMMONCODE : BizActorRuleBase
+    public partial class BR_BRS_SEL_COMMONCODE_CMCODE : BizActorRuleBase
     {
         public sealed partial class INDATACollection : BufferedObservableCollection<INDATA>
         {
@@ -194,9 +194,9 @@ namespace LGCNS.iPharmMES.Common
                 }
             }
         }
-        public BR_BRS_SEL_COMMONCODE()
+        public BR_BRS_SEL_COMMONCODE_CMCODE()
         {
-            RuleName = "BR_BRS_SEL_COMMONCODE";
+            RuleName = "BR_BRS_SEL_COMMONCODE_CMCODE";
             BizName = "";
             _INDATAs = new INDATACollection();
             _OUTDATAs = new OUTDATACollection();

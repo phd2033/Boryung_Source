@@ -80,13 +80,8 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                    <TextBlock Text="{Binding Path=W[CUICurrentPrintName], Source={StaticResource ViewModel}, FallbackValue=프린트명}" Margin="2,0"/>
-                    <TextBlock Text="{Binding curPrintName, FallbackValue=N/A}"/>
-                </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Button Margin="5,0" x:Name="btnChangeScale" Width="100" Height="30" Content="{Binding W[CUIChangeScaleButtonText], Source={StaticResource R}, FallbackValue=저울변경}" Command="{Binding ChangeScaleCommand}"/>
-                    <Button Margin="5,0" x:Name="btnChangePrint" Width="100" Height="30" Content="{Binding W[CUIChangePrintButtonText], Source={StaticResource R}, FallbackValue=프린터변경}" Command="{Binding ChangePrintCommand}"/>
                     <Button Margin="5,0" Name="btnComfirm" Width="100" Height="30" Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource R}, FallbackValue=기록}" Command="{Binding ComfirmCommandAsync}"/>
                     <Button Margin="5,0" Name="btnClose" Width="100" Height="30" Content="{Binding W[CUICloseButtonText], Source={StaticResource R}, FallbackValue=닫기}" Click="btnClose_Click" />
                 </StackPanel>

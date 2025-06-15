@@ -27,10 +27,9 @@ namespace 보령
         {
             _BR_PHR_SEL_EquipmentCustomAttributeValue_ScaleInfo = new BR_PHR_SEL_EquipmentCustomAttributeValue_ScaleInfo();
             _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID = new BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID();
-            _BR_PHR_SEL_System_Printer = new BR_PHR_SEL_System_Printer();
             _BR_BRS_SEL_CurrentWeight = new BR_BRS_SEL_CurrentWeight();
             _BR_BRS_SEL_VESSEL_Info = new BR_BRS_SEL_VESSEL_Info();
-            _BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi = new BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi();
+            _BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi_Fima = new BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi_Fima();
             _IBCList = new ObservableCollection<ChargedWIPContainer>();
 
             string interval_str = ShopFloorUI.App.Current.Resources["GetWeightInterval"].ToString();
@@ -102,18 +101,6 @@ namespace 보령
         }
         #endregion
 
-        private BR_PHR_SEL_System_Printer.OUTDATA _selectedPrint;
-        public string curPrintName
-        {
-            get
-            {
-                if (_selectedPrint != null)
-                    return _selectedPrint.PRINTERNAME;
-                else
-                    return "N/A";
-            }
-        }
-
         private string _VesselId;
         public string VesselId
         {
@@ -170,10 +157,6 @@ namespace 보령
         /// </summary>
         private BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID;
         /// <summary>
-        /// 작업장 프린터 조회
-        /// </summary>
-        private BR_PHR_SEL_System_Printer _BR_PHR_SEL_System_Printer;
-        /// <summary>
         /// 저울값 IF
         /// </summary>
         private BR_BRS_SEL_CurrentWeight _BR_BRS_SEL_CurrentWeight;
@@ -184,7 +167,7 @@ namespace 보령
         /// <summary>
         /// 측정된 무게 반영
         /// </summary>
-        private BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi _BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi;
+        private BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi_Fima _BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi_Fima;
         #endregion
 
         #region [Command]
@@ -261,20 +244,7 @@ namespace 보령
                                     }
                                 }
                             }
-
-                            // 프린터 설정
-                            _BR_PHR_SEL_System_Printer.INDATAs.Add(new BR_PHR_SEL_System_Printer.INDATA
-                            {
-                                LANGID = AuthRepositoryViewModel.Instance.LangID,
-                                ROOMID = AuthRepositoryViewModel.Instance.RoomID,
-                                IPADDRESS = Common.ClientIP
-                            });
-                            if (await _BR_PHR_SEL_System_Printer.Execute() && _BR_PHR_SEL_System_Printer.OUTDATAs.Count > 0)
-                            {
-                                _selectedPrint = _BR_PHR_SEL_System_Printer.OUTDATAs[0];
-                                OnPropertyChanged("curPrintName");
-                            }
-
+                            
                             // 버튼세팅
                             btnRecordEnable = false;
                             _mainWnd.txtVesselId.Focus();
@@ -392,8 +362,8 @@ namespace 보령
                             // 저울 무게는 변경이 되니 변수에 담아서 무게 저장 및 기록
                             Decimal TotalWeightValue = _TotalWeight.Value;
 
-                            _BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi.INDATAs.Clear();
-                            _BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi.INDATAs.Add(new BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi.INDATA
+                            _BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi_Fima.INDATAs.Clear();
+                            _BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi_Fima.INDATAs.Add(new BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi_Fima.INDATA
                             {
                                 VESSELID = VesselId,
                                 USERID = AuthRepositoryViewModel.Instance.LoginedUserID,
@@ -401,11 +371,10 @@ namespace 보령
                                 // 2021-12-03 김호연 
                                 GROSSWEIGHT = TotalWeightValue,
                                 SCALEID = ScaleId,
-                                ROOMNO = AuthRepositoryViewModel.Instance.RoomID,
-                                PRINTNAME = curPrintName == "N/A" ? "" : curPrintName
+                                ROOMNO = AuthRepositoryViewModel.Instance.RoomID
                             });
 
-                            if (await _BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi.Execute())
+                            if (await _BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi_Fima.Execute())
                             {
                                 Weight tare = new Weight();
                                 tare.SetWeight(_BR_BRS_SEL_VESSEL_Info.OUTDATAs[0].TAREWEIGHT.GetValueOrDefault(), _TotalWeight.Uom, _TotalWeight.Precision);
@@ -571,56 +540,7 @@ namespace 보령
                 });
             }
         }
-        public ICommand ChangePrintCommand
-        {
-            get
-            {
-                return new CommandBase(arg =>
-                {
-                    try
-                    {
-                        IsBusy = true;
-
-                        CommandResults["ChangePrintCommand"] = false;
-                        CommandCanExecutes["ChangePrintCommand"] = false;
-
-                        ///
-                        SelectPrinterPopup popup = new SelectPrinterPopup();
-
-                        popup.Closed += (s, e) =>
-                        {
-                            if (popup.DialogResult.GetValueOrDefault())
-                            {
-                                if (popup.SourceGrid.SelectedItem != null && popup.SourceGrid.SelectedItem is BR_PHR_SEL_System_Printer.OUTDATA)
-                                {
-                                    _selectedPrint = popup.SourceGrid.SelectedItem as BR_PHR_SEL_System_Printer.OUTDATA;
-                                    OnPropertyChanged("curPrintName");
-                                }
-                            }
-                        };
-
-                        popup.Show();
-                        ///
-
-                        CommandResults["ChangePrintCommand"] = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        CommandResults["ChangePrintCommand"] = false;
-                        OnException(ex.Message, ex);
-                    }
-                    finally
-                    {
-                        IsBusy = false;
-                        CommandCanExecutes["ChangePrintCommand"] = true;
-                    }
-                }, arg =>
-                {
-                    return CommandCanExecutes.ContainsKey("ChangePrintCommand") ?
-                        CommandCanExecutes["ChangePrintCommand"] : (CommandCanExecutes["ChangePrintCommand"] = true);
-                });
-            }
-        }
+   
         public ICommand ChangeScaleCommand
         {
             get

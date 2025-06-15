@@ -3,18 +3,11 @@ using LGCNS.iPharmMES.Common;
 using ShopFloorUI;
 using System;
 using System.Collections.ObjectModel;
-using System.Net;
-using System.ServiceModel;
-using System.Threading;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
+using System.Collections.Generic;
+using System.Text;
+using System.Linq;
 using 보령.UserControls;
 
 namespace 보령
@@ -25,83 +18,16 @@ namespace 보령
         #region [Property]
         public 원료의약품라벨발행ViewModel()
         {
-            _BR_PHR_SEL_EquipmentCustomAttributeValue_ScaleInfo = new BR_PHR_SEL_EquipmentCustomAttributeValue_ScaleInfo();
-            _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID = new BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID();
             _BR_PHR_SEL_System_Printer = new BR_PHR_SEL_System_Printer();
-            _BR_BRS_SEL_CurrentWeight = new BR_BRS_SEL_CurrentWeight();
             _BR_BRS_SEL_VESSEL_Info = new BR_BRS_SEL_VESSEL_Info();
-            _BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi = new BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi();
-            _IBCList = new ObservableCollection<ChargedWIPContainer>();
-
-            string interval_str = ShopFloorUI.App.Current.Resources["GetWeightInterval"].ToString();
-            if (int.TryParse(interval_str, out _repeaterInterval) == false)
-                _repeaterInterval = 2000;
-
-            _repeater.Interval = new TimeSpan(0, 0, 0, 0, _repeaterInterval);
-            _repeater.Tick += _repeater_Tick;
+            _BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance = new BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance();
+            _BR_BRS_REG_PRINT_DrugSubstanceLabel = new BR_BRS_REG_PRINT_DrugSubstanceLabel();
+            _BR_BRS_SEL_DrugSubstance_LABEL_HISTORY = new BR_BRS_SEL_DrugSubstance_LABEL_HISTORY();
+            _IBCList = new ObservableCollection<IBCInfo>();
         }
 
         원료의약품라벨발행 _mainWnd;
-
-        #region Campaign Production
-        private BR_BRS_SEL_ProductionOrder_RECIPEISTGUID.OUTDATACollection _OrderList;
-        public BR_BRS_SEL_ProductionOrder_RECIPEISTGUID.OUTDATACollection OrderList
-        {
-            get { return _OrderList; }
-            set
-            {
-                _OrderList = value;
-                OnPropertyChanged("OrderList");
-            }
-        }
-        private bool _CanSelectOrder;
-        public bool CanSelectOrder
-        {
-            get { return _CanSelectOrder; }
-            set
-            {
-                _CanSelectOrder = value;
-                OnPropertyChanged("CanSelectOrder");
-            }
-        }
-        #endregion
-
-        #region Scale
-        private DispatcherTimer _repeater = new DispatcherTimer();
-        private int _repeaterInterval = 2000;
-        private ScaleWebAPIHelper _restScaleService = new ScaleWebAPIHelper();
-
-        private BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.OUTDATA _ScaleInfo;
-        public string ScaleId
-        {
-            get
-            {
-                if (_ScaleInfo != null)
-                    return _ScaleInfo.EQPTID;
-                else
-                    return "N/A";
-            }
-        }
-        private bool _ScaleException = true;
-        private bool _VesselChecked = false;
-        private string _ScaleUom = "g";
-        private int _ScalePrecision = 3;
-
-        private Weight _TotalWeight = new Weight();
-        public string TotalWeight
-        {
-            get
-            {
-                if (!_VesselChecked)
-                    return "용기정보없음";
-                else if (_ScaleException)
-                    return "연결실패";
-                else
-                    return _TotalWeight.WeightUOMString;
-            }
-        }
-        #endregion
-
+        List<InstructionModel> _inputValues;
         private BR_PHR_SEL_System_Printer.OUTDATA _selectedPrint;
         public string curPrintName
         {
@@ -125,6 +51,17 @@ namespace 보령
             }
         }
 
+        private bool _RePrintFlag;
+        public bool RePrintFlag
+        {
+            get { return _RePrintFlag; }
+            set
+            {
+                _RePrintFlag = value;
+                OnPropertyChanged("RePrintFlag");
+            }
+        }
+
         private bool _btnRecordEnable;
         public bool btnRecordEnable
         {
@@ -136,8 +73,8 @@ namespace 보령
             }
         }
 
-        private ObservableCollection<ChargedWIPContainer> _IBCList;
-        public ObservableCollection<ChargedWIPContainer> IBCList
+        private ObservableCollection<IBCInfo> _IBCList;
+        public ObservableCollection<IBCInfo> IBCList
         {
             get { return _IBCList; }
             set
@@ -150,29 +87,43 @@ namespace 보령
 
         #region [BizRule]
         /// <summary>
-        /// 작업장 저울 조회
-        /// </summary>
-        private BR_PHR_SEL_EquipmentCustomAttributeValue_ScaleInfo _BR_PHR_SEL_EquipmentCustomAttributeValue_ScaleInfo;
-        /// <summary>
-        /// 저울 정보 조회
-        /// </summary>
-        private BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID;
-        /// <summary>
         /// 작업장 프린터 조회
         /// </summary>
         private BR_PHR_SEL_System_Printer _BR_PHR_SEL_System_Printer;
-        /// <summary>
-        /// 저울값 IF
-        /// </summary>
-        private BR_BRS_SEL_CurrentWeight _BR_BRS_SEL_CurrentWeight;
         /// <summary>
         /// 용기정보조회
         /// </summary>
         private BR_BRS_SEL_VESSEL_Info _BR_BRS_SEL_VESSEL_Info;
         /// <summary>
-        /// 측정된 무게 반영
+        /// 반제품 조회
         /// </summary>
-        private BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi _BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi;
+        private BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance _BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance;
+        public BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance
+        {
+            get { return _BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance; }
+            set
+            {
+                _BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance = value;
+                OnPropertyChanged("BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance");
+            }
+        }
+        /// <summary>
+        /// 라벨 발행
+        /// </summary>
+        private BR_BRS_REG_PRINT_DrugSubstanceLabel _BR_BRS_REG_PRINT_DrugSubstanceLabel;
+        /// <summary>
+        /// 원료의약품 라벨 발행 이력 조회
+        /// </summary>
+        private BR_BRS_SEL_DrugSubstance_LABEL_HISTORY _BR_BRS_SEL_DrugSubstance_LABEL_HISTORY;
+        public BR_BRS_SEL_DrugSubstance_LABEL_HISTORY BR_BRS_SEL_DrugSubstance_LABEL_HISTORY
+        {
+            get { return _BR_BRS_SEL_DrugSubstance_LABEL_HISTORY; }
+            set
+            {
+                _BR_BRS_SEL_DrugSubstance_LABEL_HISTORY = value;
+                OnPropertyChanged("BR_BRS_SEL_DrugSubstance_LABEL_HISTORY");
+            }
+        }
         #endregion
 
         #region [Command]
@@ -193,81 +144,109 @@ namespace 보령
                         if (arg != null && arg is 원료의약품라벨발행)
                         {
                             _mainWnd = arg as 원료의약품라벨발행;
-                            _mainWnd.Closed += (s, e) =>
+                            btnRecordEnable = false;
+                            VesselId = "";
+
+                            ////add
+                            //히스토리 이력 불러와서 UI에 보여주기
+                            _BR_BRS_SEL_DrugSubstance_LABEL_HISTORY.INDATAs.Clear();
+                            _BR_BRS_SEL_DrugSubstance_LABEL_HISTORY.OUTDATAs.Clear();
+
+                            _BR_BRS_SEL_DrugSubstance_LABEL_HISTORY.INDATAs.Add(new BR_BRS_SEL_DrugSubstance_LABEL_HISTORY.INDATA
                             {
-                                if (_repeater != null)
-                                    _repeater.Stop();
-
-                                _repeater = null;
-                            };
-
-                            #region Campaign Order
-                            OrderList = await CampaignProduction.GetProductionOrderList(_mainWnd.CurrentInstruction.Raw.RECIPEISTGUID, _mainWnd.CurrentOrder.ProductionOrderID);
-                            CanSelectOrder = OrderList.Count > 0 ? true : false;
-                            #endregion
-
-                            // 작업장 저울목록 조회
-                            _BR_PHR_SEL_EquipmentCustomAttributeValue_ScaleInfo.INDATAs.Clear();
-                            _BR_PHR_SEL_EquipmentCustomAttributeValue_ScaleInfo.OUTDATAs.Clear();
-                            _BR_PHR_SEL_EquipmentCustomAttributeValue_ScaleInfo.INDATAs.Add(new BR_PHR_SEL_EquipmentCustomAttributeValue_ScaleInfo.INDATA
-                            {
-                                EQPTID = AuthRepositoryViewModel.Instance.RoomID,
-                                LANGID = AuthRepositoryViewModel.Instance.LangID
+                                POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID
                             });
 
-                            if (await _BR_PHR_SEL_EquipmentCustomAttributeValue_ScaleInfo.Execute())
+                            if (await _BR_BRS_SEL_DrugSubstance_LABEL_HISTORY.Execute() == false) throw _BR_BRS_SEL_DrugSubstance_LABEL_HISTORY.Exception;
+
+                            _BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance.INDATAs.Clear();
+                            _BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance.OUTDATAs.Clear();
+
+                            _BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance.INDATAs.Add(new BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance.INDATA
                             {
-                                if (_BR_PHR_SEL_EquipmentCustomAttributeValue_ScaleInfo.OUTDATAs.Count > 0)
+                                POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID
+                            });
+
+                            if (await _BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance.Execute() == false) throw _BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance.Exception;
+
+
+                            ///addadd 현재 생성된 반제품에 라벨 수를 구하는 BizRule 필요 group by 해서 라벨 발행 수가 > 1 보다 큰지 작은지로 판단
+                            ///_BR_BRS_SEL_DrugSubstance_LABEL_HISTORY.OUTDATAs.Count > 1 현재 이걸로는 비교 불가능
+
+                            if (_mainWnd.CurrentInstruction.Raw.ACTVAL == _mainWnd.TableTypeName && _mainWnd.CurrentInstruction.Raw.NOTE != null)
+                            {
+                                // 버튼세팅
+                                OnMessage("해당 지시문을 통해 라벨을 출력한 이력이 있습니다.\n해당 지시문으로는 원료의약품 라벨을 더이상 발행할 수 없습니다.");
+                                btnRecordEnable = false;
+                            }else
+                            {
+                                _inputValues = InstructionModel.GetParameterSender(_mainWnd.CurrentInstruction, _mainWnd.Instructions);
+                                //레퍼런스 있을 때(재발행)
+                                if (_inputValues.Count > 0)
                                 {
-                                    //_SelectedScale = _BR_PHR_SEL_EquipmentCustomAttributeValue_ScaleInfo.OUTDATAs[0].EQPTID;
-                                    //바닥저울을 찾도록 로직 변경. 2021.01.18 phd
-                                    for (int idx = 0; idx < _BR_PHR_SEL_EquipmentCustomAttributeValue_ScaleInfo.OUTDATAs.Count; idx++)
+                                    // _inputValues[0].Raw.REF_IRTGUID or _inputValues[0].Raw.ASM_CLS 이게 있는지 유무로 갈려고 했으나 라벨발행요청확인 UI에서 기록없음으로 기록하게 된다면 발행하지 못하도록 막아야하기 때문에 아래와 같이 Validation 진행.
+                                    // 기록없음으로 진행했거나 아직 라벨발행 승인을 하지 않았다면 기록 못하도록 막음
+                                    if (_inputValues[0].Raw.NOTE == null || Encoding.UTF8.GetString(_inputValues[0].Raw.NOTE, 0, _inputValues[0].Raw.NOTE.Length).Contains("<DATA 작업자ID=\"N/A\" 작업자명=\"N/A\""))
                                     {
-                                        if (_BR_PHR_SEL_EquipmentCustomAttributeValue_ScaleInfo.OUTDATAs[idx].MODEL.Contains("IFS4"))
+                                        OnMessage("※QA 승인 필요※");
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        if(_BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance.OUTDATAs.Count > 0)
                                         {
-                                            // 저울정보 조회
-                                            _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.INDATAs.Clear();
-                                            _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.OUTDATAs.Clear();
-                                            _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.INDATAs.Add(new BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.INDATA
-                                            {
-                                                EQPTID = _BR_PHR_SEL_EquipmentCustomAttributeValue_ScaleInfo.OUTDATAs[idx].EQPTID
-                                            });
-
-                                            if (await _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.Execute())
-                                            {
-                                                int chk;
-
-                                                _ScaleInfo = _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.OUTDATAs[0];
-                                                _ScaleUom = _ScaleInfo.NOTATION;
-                                                _ScalePrecision = int.TryParse(_ScaleInfo.PRECISION.ToString(), out chk) ? chk : 3;
-
-                                                _TotalWeight.SetWeight(0, _ScaleUom, _ScalePrecision);
-                                                OnPropertyChanged("TotalWeight");
-                                                OnPropertyChanged("ScaleId");
-                                            }
+                                            btnRecordEnable = true;
+                                            RePrintFlag = true;
                                         }
+                                        else
+                                        {
+                                            OnMessage("※생성된 반제품이 없습니다※");
+                                            return;
+                                        }
+                                        
                                     }
                                 }
+                                //초기 발행
+                                else
+                                {
+                                    if (_BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance.OUTDATAs.Count > 0)
+                                    {
+                                            if (_BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance.OUTDATAs.Where(o => o.PRINTCNT < 1).Count() > 0)
+                                        {
+                                            btnRecordEnable = true;
+                                            RePrintFlag = false;
+                                        }
+                                        else
+                                        {
+                                            OnMessage("※QA 승인 필요※\n원료의약품 라벨을 발행한 이력이 있습니다");
+                                            return;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        OnMessage("※생성된 반제품이 없습니다※");
+                                        return;
+                                    }
+                                }
+                                // 프린터 설정
+                                _BR_PHR_SEL_System_Printer.INDATAs.Add(new BR_PHR_SEL_System_Printer.INDATA
+                                {
+                                    LANGID = AuthRepositoryViewModel.Instance.LangID,
+                                    ROOMID = AuthRepositoryViewModel.Instance.RoomID,
+                                    IPADDRESS = Common.ClientIP
+                                });
+                                if (await _BR_PHR_SEL_System_Printer.Execute() && _BR_PHR_SEL_System_Printer.OUTDATAs.Count > 0)
+                                {
+                                    _selectedPrint = _BR_PHR_SEL_System_Printer.OUTDATAs[0];
+                                    OnPropertyChanged("curPrintName");
+                                }
+                                else
+                                    OnMessage("연결된 프린트가 없습니다.");
                             }
-
-                            // 프린터 설정
-                            _BR_PHR_SEL_System_Printer.INDATAs.Add(new BR_PHR_SEL_System_Printer.INDATA
-                            {
-                                LANGID = AuthRepositoryViewModel.Instance.LangID,
-                                ROOMID = AuthRepositoryViewModel.Instance.RoomID,
-                                IPADDRESS = Common.ClientIP
-                            });
-                            if (await _BR_PHR_SEL_System_Printer.Execute() && _BR_PHR_SEL_System_Printer.OUTDATAs.Count > 0)
-                            {
-                                _selectedPrint = _BR_PHR_SEL_System_Printer.OUTDATAs[0];
-                                OnPropertyChanged("curPrintName");
-                            }
-
-                            // 버튼세팅
-                            btnRecordEnable = false;
                         }
                         ///
-
                         CommandResults["LoadedCommandAsync"] = true;
                     }
                     catch (Exception ex)
@@ -287,7 +266,74 @@ namespace 보령
                 });
             }
         }
-        public ICommand WeighingCommandAsync
+
+        public ICommand PrintStandbyCommandAsync
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["PrintStandbyCommandAsync"].EnterAsync())
+                    {
+                        try
+                        {
+                            CommandCanExecutes["PrintStandbyCommandAsync"] = false;
+                            CommandResults["PrintStandbyCommandAsync"] = false;
+
+                            VesselId = arg as string;
+                            VesselId = VesselId.ToUpper();
+                            OnPropertyChanged("IBCList");
+
+                            var standby = _BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance.OUTDATAs.Where(o => o.VESSELID == VesselId).FirstOrDefault();
+                            if (standby != null)
+                            {
+                                if (CheckVesselId(VesselId))
+                                {
+                                    IBCList.Add(new IBCInfo
+                                    {
+                                        PoId = _mainWnd.CurrentOrder.ProductionOrderID,
+                                        MsubLotId = standby.MSUBLOTID,
+                                        VesselId = standby.VESSELID,
+                                        NetWeight = Convert.ToString(standby.MSUBLOTQTY) + " " + standby.NOTATION,
+                                        TareWeight = Convert.ToString(standby.TAREWEIGHT) + " " + standby.NOTATION,
+                                        GrossWeight = Convert.ToString(standby.TAREWEIGHT+ standby.MSUBLOTQTY) + " " + standby.NOTATION
+                                    });
+
+                                    VesselId = "";
+                                }
+                                else
+                                {
+                                    OnMessage("※중복 스캔※\n라벨 출력할 리스트에 반제품 정보가 있습니다");
+                                    VesselId = "";
+                                }
+                            }
+                            else
+                            {
+                                OnMessage("※조회된 반제품 정보가 없습니다※");
+                                VesselId = "";
+                            }
+                          
+                            CommandResults["PrintStandbyCommandAsync"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandCanExecutes["PrintStandbyCommandAsync"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["PrintStandbyCommandAsync"] = true;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("PrintStandbyCommandAsync") ?
+                        CommandCanExecutes["PrintStandbyCommandAsync"] : (CommandCanExecutes["PrintStandbyCommandAsync"] = true);
+                });
+            }
+        }
+ 
+        public ICommand NoRecordConfirmCommand
         {
             get
             {
@@ -295,151 +341,102 @@ namespace 보령
                 {
                     try
                     {
-                        CommandCanExecutes["WeighingCommandAsync"] = false;
-                        CommandResults["WeighingCommandAsync"] = false;
+                        CommandCanExecutes["NoRecordConfirmCommand"] = false;
+                        CommandResults["NoRecordConfirmCommand"] = false;
 
                         ///
                         IsBusy = true;
-
-                        VesselId = arg as string;
-
-                        _BR_BRS_SEL_VESSEL_Info.INDATAs.Clear();
-                        _BR_BRS_SEL_VESSEL_Info.OUTDATAs.Clear();
-
-                        _BR_BRS_SEL_VESSEL_Info.INDATAs.Add(new BR_BRS_SEL_VESSEL_Info.INDATA
+                        
+                        var authHelper = new iPharmAuthCommandHelper();
+                        if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y") && _mainWnd.Phase.CurrentPhase.STATE.Equals("COMP")) // 값 수정
                         {
-                            VESSELID = _VesselId
-                        });
+                            // 전자서명 요청
+                            authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
 
-                        if (await _BR_BRS_SEL_VESSEL_Info.Execute())
-                        {
-                            if (CheckVesselId(VesselId))
+                            if (await authHelper.ClickAsync(
+                                Common.enumCertificationType.Function,
+                                Common.enumAccessType.Create,
+                                string.Format("기록값을 변경합니다."),
+                                string.Format("기록값 변경"),
+                                true,
+                                "OM_ProductionOrder_SUI",
+                                "", _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID, null) == false)
                             {
-                                _VesselChecked = true;
-                                _TotalWeight.Value = 0;
-                                _repeater.Start();
-                                OnPropertyChanged("TotalWeight");
-                            }
-
-                            else
-                            {
-                                OnMessage("중복된 용기번호 입니다.");
-                                InitializeData();
+                                throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                             }
                         }
                         else
                         {
-                            OnMessage("조회된 BIN정보가 없습니다.");
-                            InitializeData();
+                            authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+
+                            if (await authHelper.ClickAsync(
+                                Common.enumCertificationType.Function,
+                                Common.enumAccessType.Create,
+                                string.Format("원료의약품라벨발행"),
+                                string.Format("원료의약품라벨발행"),
+                                false,
+                                "OM_ProductionOrder_SUI",
+                                _mainWnd.CurrentOrderInfo.EquipmentID, _mainWnd.CurrentOrderInfo.RecipeID, null) == false)
+                            {
+                                throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                            }
                         }
 
-                        ///
+                        DataSet ds = new DataSet();
+                        DataTable dt = new DataTable("DATA");
+                        ds.Tables.Add(dt);
 
-                        CommandResults["WeighingCommandAsync"] = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        CommandResults["WeighingCommandAsync"] = false;
-                        OnException(ex.Message, ex);
-                    }
-                    finally
-                    {
-                        IsBusy = false;
-                        CommandCanExecutes["WeighingCommandAsync"] = true;
-                    }
-                }, arg =>
-                {
-                    return CommandCanExecutes.ContainsKey("WeighingCommandAsync") ?
-                        CommandCanExecutes["WeighingCommandAsync"] : (CommandCanExecutes["WeighingCommandAsync"] = true);
-                });
-            }
-        }
-        public ICommand RecordingCommand
-        {
-            get
-            {
-                return new AsyncCommandBase(async arg =>
-                {
-                    try
-                    {
-                        CommandCanExecutes["RecordingCommand"] = false;
-                        CommandResults["RecordingCommand"] = false;
+                        dt.Columns.Add(new DataColumn("오더번호"));
+                        dt.Columns.Add(new DataColumn("용기번호"));
+                        dt.Columns.Add(new DataColumn("원료바코드"));
+                        dt.Columns.Add(new DataColumn("출력시간"));
+                        dt.Columns.Add(new DataColumn("출력횟수"));
 
-                        ///
-                        IsBusy = true;
+                        var row = dt.NewRow();
 
-                        if (!string.IsNullOrWhiteSpace(_VesselId) && _VesselChecked && !_ScaleException && _TotalWeight.Value > 0)
+                        row["오더번호"] = "N/A";
+                        row["용기번호"] = "N/A";
+                        row["원료바코드"] = "N/A";
+                        row["출력시간"] = "N/A";
+                        row["출력횟수"] = "N/A";
+
+                        dt.Rows.Add(row);
+                        
+                        var xml = BizActorRuleBase.CreateXMLStream(ds);
+                        var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
+
+                        _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
+                        _mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
+
+                        var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction, true);
+                        if (result != enumInstructionRegistErrorType.Ok)
                         {
-                            _repeater.Stop();
-                            btnRecordEnable = false;
-
-                            // 2021-12-03 김호연 
-                            // 저울 무게 기록하는 시점에 무게 변경되는 현상이 발생
-                            // 저울 무게는 변경이 되니 변수에 담아서 무게 저장 및 기록
-                            Decimal TotalWeightValue = _TotalWeight.Value;
-
-                            _BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi.INDATAs.Clear();
-                            _BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi.INDATAs.Add(new BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi.INDATA
-                            {
-                                VESSELID = VesselId,
-                                USERID = AuthRepositoryViewModel.Instance.LoginedUserID,
-                                //GROSSWEIGHT = _TotalWeight.Value,
-                                // 2021-12-03 김호연 
-                                GROSSWEIGHT = TotalWeightValue,
-                                SCALEID = ScaleId,
-                                ROOMNO = AuthRepositoryViewModel.Instance.RoomID,
-                                PRINTNAME = curPrintName == "N/A" ? "" : curPrintName
-                            });
-
-                            if (await _BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi.Execute())
-                            {
-                                Weight tare = new Weight();
-                                tare.SetWeight(_BR_BRS_SEL_VESSEL_Info.OUTDATAs[0].TAREWEIGHT.GetValueOrDefault(), _TotalWeight.Uom, _TotalWeight.Precision);
-
-                                IBCList.Add(new ChargedWIPContainer
-                                {
-                                    PoId = _BR_BRS_SEL_VESSEL_Info.OUTDATAs[0].POID,
-                                    VesselId = _BR_BRS_SEL_VESSEL_Info.OUTDATAs[0].VESSELID,
-                                    ScaleId = ScaleId,
-                                    Uom = _TotalWeight.Uom,
-                                    Precision = _TotalWeight.Precision,
-                                    TareWeight = tare.Value,
-                                    //NetWeight = _TotalWeight.Value - tare.Value
-                                    // 2021-12-03 김호연 
-                                    NetWeight = TotalWeightValue - tare.Value
-                                });
-
-                                InitializeData();
-                            }
-                            else
-                            {
-                                //_repeater.Start();
-                                btnRecordEnable = true;
-                            }
+                            throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
                         }
 
+                        if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
+                        else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
+                        
                         ///
-
-                        CommandResults["RecordingCommand"] = true;
+                        CommandResults["NoRecordConfirmCommand"] = true;
                     }
                     catch (Exception ex)
                     {
-                        CommandResults["RecordingCommand"] = false;
+                        CommandResults["NoRecordConfirmCommand"] = false;
                         OnException(ex.Message, ex);
                     }
                     finally
                     {
                         IsBusy = false;
-                        CommandCanExecutes["RecordingCommand"] = true;
+                        CommandCanExecutes["NoRecordConfirmCommand"] = true;
                     }
                 }, arg =>
                 {
-                    return CommandCanExecutes.ContainsKey("RecordingCommand") ?
-                        CommandCanExecutes["RecordingCommand"] : (CommandCanExecutes["RecordingCommand"] = true);
+                    return CommandCanExecutes.ContainsKey("NoRecordConfirmCommand") ?
+                        CommandCanExecutes["NoRecordConfirmCommand"] : (CommandCanExecutes["NoRecordConfirmCommand"] = true);
                 });
             }
         }
-
         public ICommand ComfirmCommandAsync
         {
             get
@@ -454,8 +451,27 @@ namespace 보령
                         ///
                         IsBusy = true;
 
+                        ///addadd 현재 생성된 반제품 수랑 구하는 BizRule이랑 IBCLIST에 있는 거랑 갯수 비교
+                        ///만약 적거나 많으면 에러메세지 return 
+                        ///동일하면 라벨 발행 진행
                         if (_IBCList.Count > 0)
                         {
+                            //초기 발행이면 반제품 라벨을 전부 출력하여야하기 때문에 Validation 추가
+                            if (!RePrintFlag)
+                            {
+                                if(_BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance.OUTDATAs.Count != _IBCList.Count)
+                                {
+                                    OnMessage("※원료의약품이 담긴 용기 스캔 누락※\n라벨 출력 전에 해당 공정에서 생성된 모든 원료의약품 용기가 스캔되었는지 확인해주시기 바랍니다");
+                                    return;
+                                }
+                            }
+
+                            if (curPrintName == "N/A")
+                            {
+                                OnMessage("※연결된 프린트가 없습니다※\n프린트를 연결해주시기 바랍니다");
+                                return;
+                            }
+
                             var authHelper = new iPharmAuthCommandHelper();
                             if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y") && _mainWnd.Phase.CurrentPhase.STATE.Equals("COMP")) // 값 수정
                             {
@@ -473,47 +489,82 @@ namespace 보령
                                 {
                                     throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                 }
-                            }
-
-                            authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
-
-                            if (await authHelper.ClickAsync(
-                                Common.enumCertificationType.Function,
-                                Common.enumAccessType.Create,
-                                string.Format("원료의약품라벨발행"),
-                                string.Format("원료의약품라벨발행"),
-                                false,
-                                "OM_ProductionOrder_SUI",
-                                _mainWnd.CurrentOrderInfo.EquipmentID, _mainWnd.CurrentOrderInfo.RecipeID, null) == false)
+                            }else
                             {
-                                throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+
+                                if (await authHelper.ClickAsync(
+                                    Common.enumCertificationType.Function,
+                                    Common.enumAccessType.Create,
+                                    string.Format("원료의약품라벨발행"),
+                                    string.Format("원료의약품라벨발행"),
+                                    false,
+                                    "OM_ProductionOrder_SUI",
+                                    _mainWnd.CurrentOrderInfo.EquipmentID, _mainWnd.CurrentOrderInfo.RecipeID, null) == false)
+                                {
+                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                }
+                            }
+                            
+                            ////add
+                            // 라벨 출력하는 BizRule 돌리고 라벨 출력
+                            // 히스토리 다시 불러와서 지시문에 기록
+                            _BR_BRS_REG_PRINT_DrugSubstanceLabel.INDATAs.Clear();
+
+                            foreach (var item in _IBCList)
+                            {
+                                _BR_BRS_REG_PRINT_DrugSubstanceLabel.INDATAs.Add(new BR_BRS_REG_PRINT_DrugSubstanceLabel.INDATA
+                                {
+                                    POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                    OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                    MSUBLOTID = item.MsubLotId,
+                                    VESSELID = item.VesselId,
+                                    USERID = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI"),
+                                    ROOMNO = AuthRepositoryViewModel.Instance.RoomID,
+                                    PRINTNAME = curPrintName
+                                });
+                            }
+                            
+                            if (await _BR_BRS_REG_PRINT_DrugSubstanceLabel.Execute() == true)
+                            {
+                                _BR_BRS_SEL_DrugSubstance_LABEL_HISTORY.INDATAs.Clear();
+                                _BR_BRS_SEL_DrugSubstance_LABEL_HISTORY.OUTDATAs.Clear();
+
+                                _BR_BRS_SEL_DrugSubstance_LABEL_HISTORY.INDATAs.Add(new BR_BRS_SEL_DrugSubstance_LABEL_HISTORY.INDATA
+                                {
+                                    POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                    OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID
+                                });
+
+                                if (await _BR_BRS_SEL_DrugSubstance_LABEL_HISTORY.Execute() == false)
+                                {
+                                    throw _BR_BRS_SEL_DrugSubstance_LABEL_HISTORY.Exception;
+                                }
+                            }
+                            else
+                            {
+                                throw _BR_BRS_REG_PRINT_DrugSubstanceLabel.Exception;
                             }
 
                             DataSet ds = new DataSet();
                             DataTable dt = new DataTable("DATA");
                             ds.Tables.Add(dt);
-
-                            //2023.01.03 김호연 원료별 칭량을 하면 2개 이상의 배치가 동시에 기록되므로 EBR 확인할때 오더로 구분해야함
+                            
                             dt.Columns.Add(new DataColumn("오더번호"));
-                            //-------------------------------------------------------------------------------------------------------
                             dt.Columns.Add(new DataColumn("용기번호"));
-                            dt.Columns.Add(new DataColumn("저울번호"));
-                            dt.Columns.Add(new DataColumn("총무게"));
-                            dt.Columns.Add(new DataColumn("용기무게"));
-                            dt.Columns.Add(new DataColumn("내용물무게"));
+                            dt.Columns.Add(new DataColumn("원료바코드"));
+                            dt.Columns.Add(new DataColumn("출력시간"));
+                            dt.Columns.Add(new DataColumn("출력횟수"));
 
-                            foreach (var item in _IBCList)
+                            foreach (var item in _BR_BRS_SEL_DrugSubstance_LABEL_HISTORY.OUTDATAs)
                             {
                                 var row = dt.NewRow();
-
-                                //2023.01.03 김호연 원료별 칭량을 하면 2개 이상의 배치가 동시에 기록되므로 EBR 확인할때 오더로 구분해야함
-                                row["오더번호"] = item.PoId != null ? item.PoId : "";
-                                //-------------------------------------------------------------------------------------------------------
-                                row["용기번호"] = item.VesselId != null ? item.VesselId : "";
-                                row["저울번호"] = item.ScaleId != null ? item.ScaleId : "";
-                                row["총무게"] = item != null ? item.GrossWeight.ToString("F" + item.Precision) : "";
-                                row["용기무게"] = item != null ? item.TareWeight.ToString("F" + item.Precision) : "";
-                                row["내용물무게"] = item != null ? item.NetWeight.ToString("F" + item.Precision) : "";
+                                
+                                row["오더번호"] = item.POID != null ? item.POID : "";
+                                row["용기번호"] = item.VESSELID != null ? item.VESSELID : "";
+                                row["원료바코드"] = item.MSUBLOTBCD != null ? item.MSUBLOTBCD : "";
+                                row["출력시간"] = item.INSDTTM != null ? string.Format("{0:yyyy-MM-dd HH:mm:ss}", item.INSDTTM) : "";
+                                row["출력횟수"] = item.PRINTCNT != null ? Convert.ToString(item.PRINTCNT) : "";
 
                                 dt.Rows.Add(row);
                             }
@@ -535,7 +586,7 @@ namespace 보령
 
                         }
                         else
-                            OnMessage("조회된 데이터가 없습니다.");
+                            OnMessage("※원료의약품 라벨을 출력할 데이터가 없습니다※");
                         ///
 
                         CommandResults["ComfirmCommandAsync"] = true;
@@ -607,177 +658,85 @@ namespace 보령
                 });
             }
         }
-        public ICommand ChangeScaleCommand
-        {
-            get
-            {
-                return new CommandBase(arg =>
-                {
-                    try
-                    {
-                        IsBusy = true;
-
-                        CommandResults["ChangeScaleCommand"] = false;
-                        CommandCanExecutes["ChangeScaleCommand"] = false;
-
-                        /// 
-                        _repeater.Stop();
-
-                        BarcodePopup popup = new BarcodePopup();
-                        popup.tbMsg.Text = "저울바코드를 스캔하세요.";
-                        popup.Closed += async (sender, e) =>
-                        {
-                            if (popup.DialogResult.GetValueOrDefault() && !string.IsNullOrWhiteSpace(popup.tbText.Text))
-                            {
-                                string text = popup.tbText.Text.ToUpper();
-
-                                // 저울 정보 조회
-                                _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.INDATAs.Clear();
-                                _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.OUTDATAs.Clear();
-                                _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.INDATAs.Add(new BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.INDATA
-                                {
-                                    LANGID = AuthRepositoryViewModel.Instance.LangID,
-                                    EQPTID = text
-                                });
-
-                                if (await _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.Execute() && _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.OUTDATAs.Count > 0)
-                                {
-                                    int chk;
-                                    _ScaleInfo = _BR_BRS_SEL_EquipmentCustomAttributeValue_ScaleInfo_EQPTID.OUTDATAs[0];
-                                    _ScaleUom = _ScaleInfo.NOTATION;
-                                    _ScalePrecision = int.TryParse(_ScaleInfo.PRECISION.ToString(), out chk) ? chk : 3;
-
-                                    _TotalWeight.SetWeight(0, _ScaleUom, _ScalePrecision);
-                                    _TotalWeight.Value = 0;
-                                    OnPropertyChanged("TotalWeight");
-                                    OnPropertyChanged("ScaleId");
-
-                                    //_repeater.Start();
-                                }
-                            }
-                            else
-                                _ScaleInfo = null;
-
-                            OnPropertyChanged("ScaleId");
-                        };
-
-                        popup.Show();
-                        ///
-
-                        CommandResults["ChangeScaleCommand"] = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        CommandResults["ChangeScaleCommand"] = false;
-                        OnException(ex.Message, ex);
-                    }
-                    finally
-                    {
-                        IsBusy = false;
-                        CommandCanExecutes["ChangeScaleCommand"] = true;
-                    }
-                }, arg =>
-                {
-                    return CommandCanExecutes.ContainsKey("ChangeScaleCommand") ?
-                        CommandCanExecutes["ChangeScaleCommand"] : (CommandCanExecutes["ChangeScaleCommand"] = true);
-                });
-            }
-        }
         #endregion
 
         #region [etc]
-        private async void _repeater_Tick(object sender, EventArgs e)
-        {
-            try
-            {
-                _repeater.Stop();
-
-                if (_ScaleInfo != null)
-                {
-                    bool success = false;
-                    _restScaleService.Dispose();
-
-                    _restScaleService = new ScaleWebAPIHelper();
-
-                    if (_ScaleInfo.INTERFACE.ToUpper() == "REST")
-                    {
-                        var result = await _restScaleService.DownloadString(_ScaleInfo.EQPTID, ScaleCommand.GW);
-
-                        if (result.code == "1")
-                        {
-                            success = true;
-                            _TotalWeight.SetWeight(result.data, result.unit);
-                        }
-                    }
-                    else
-                    {
-                        BR_BRS_SEL_CurrentWeight current_wight = new BR_BRS_SEL_CurrentWeight();
-                        current_wight.INDATAs.Add(new BR_BRS_SEL_CurrentWeight.INDATA()
-                        {
-                            ScaleID = _ScaleInfo.EQPTID
-                        });
-
-                        if (await current_wight.Execute(exceptionHandle: LGCNS.iPharmMES.Common.Common.enumBizRuleXceptionHandleType.FailEvent) == true
-                            && current_wight.OUTDATAs.Count > 0 && current_wight.OUTDATAs[0].Weight.HasValue)
-                        {
-                            success = true;
-                            _TotalWeight.SetWeight(current_wight.OUTDATAs[0].Weight.Value, current_wight.OUTDATAs[0].UOM, _ScalePrecision);
-                        }
-                    }
-
-                    if (success)
-                    {
-                        _ScaleException = false;
-                        _ScaleUom = _TotalWeight.Uom;
-                        _ScalePrecision = _TotalWeight.Precision;
-
-                        if (_VesselChecked)
-                            btnRecordEnable = true;
-                    }
-                    else
-                    {
-                        _ScaleException = true;
-                        _ScaleUom = _TotalWeight.Uom;
-                        _ScalePrecision = _TotalWeight.Precision;
-                    }
-
-                    OnPropertyChanged("TotalWeight");
-                    _repeater.Start();
-                }
-            }
-            catch (Exception ex)
-            {
-                _repeater.Stop();
-                OnException(ex.Message, ex);
-            }
-        }
         private bool CheckVesselId(string Id)
         {
-            foreach (ChargedWIPContainer item in _IBCList)
+            foreach (IBCInfo item in _IBCList)
             {
                 if (Id == item.VesselId)
                     return false;
             }
             return true;
         }
-        private void InitializeData()
-        {
-            VesselId = "";
-            _TotalWeight.Value = 0;
-            btnRecordEnable = false;
-            OnPropertyChanged("TotalWeight");
-        }
+        #endregion
 
-        public class ChargedWIPContainer : WIPContainer
+
+        #region [User Define]
+        public class IBCInfo : ViewModelBase
         {
-            private string _ScaleId;
-            public string ScaleId
+            private string _PoId;
+            public string PoId
             {
-                get { return this._ScaleId; }
+                get { return _PoId; }
                 set
                 {
-                    this._ScaleId = value;
-                    this.OnPropertyChanged("VesselId");
+                    _PoId = value;
+                    OnPropertyChanged("PoId");
+                }
+            }
+
+            private string _MsubLotId;
+            public string MsubLotId
+            {
+                get { return _MsubLotId; }
+                set
+                {
+                    _MsubLotId = value;
+                    OnPropertyChanged("MsubLotId");
+                }
+            }
+
+            private string _VesselId;
+            public string VesselId
+            {
+                get { return _VesselId; }
+                set
+                {
+                    _VesselId = value;
+                    OnPropertyChanged("VesselId");
+                }
+            }
+
+            private string _NetWeight;
+            public string NetWeight
+            {
+                get { return _NetWeight; }
+                set
+                {
+                    _NetWeight = value;
+                    OnPropertyChanged("NetWeight");
+                }
+            }
+            private string _TareWeight;
+            public string TareWeight
+            {
+                get { return _TareWeight; }
+                set
+                {
+                    _TareWeight = value;
+                    OnPropertyChanged("TareWeight");
+                }
+            }
+            private string _GrossWeight;
+            public string GrossWeight
+            {
+                get { return _GrossWeight; }
+                set
+                {
+                    _GrossWeight = value;
+                    OnPropertyChanged("GrossWeight");
                 }
             }
         }

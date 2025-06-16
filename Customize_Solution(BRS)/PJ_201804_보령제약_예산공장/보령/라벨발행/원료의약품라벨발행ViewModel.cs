@@ -175,45 +175,56 @@ namespace 보령
                             ///addadd 현재 생성된 반제품에 라벨 수를 구하는 BizRule 필요 group by 해서 라벨 발행 수가 > 1 보다 큰지 작은지로 판단
                             ///_BR_BRS_SEL_DrugSubstance_LABEL_HISTORY.OUTDATAs.Count > 1 현재 이걸로는 비교 불가능
 
-                            if (_mainWnd.CurrentInstruction.Raw.ACTVAL == _mainWnd.TableTypeName && _mainWnd.CurrentInstruction.Raw.NOTE != null)
+                            if (_BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance.OUTDATAs.Count > 0)
                             {
-                                // 버튼세팅
-                                OnMessage("해당 지시문을 통해 라벨을 출력한 이력이 있습니다.\n해당 지시문으로는 원료의약품 라벨을 더이상 발행할 수 없습니다.");
-                                btnRecordEnable = false;
-                            }else
-                            {
-                                _inputValues = InstructionModel.GetParameterSender(_mainWnd.CurrentInstruction, _mainWnd.Instructions);
-                                //레퍼런스 있을 때(재발행)
-                                if (_inputValues.Count > 0)
+                                if (_mainWnd.CurrentInstruction.Raw.ACTVAL == _mainWnd.TableTypeName && _mainWnd.CurrentInstruction.Raw.NOTE != null)
                                 {
-                                    // _inputValues[0].Raw.REF_IRTGUID or _inputValues[0].Raw.ASM_CLS 이게 있는지 유무로 갈려고 했으나 라벨발행요청확인 UI에서 기록없음으로 기록하게 된다면 발행하지 못하도록 막아야하기 때문에 아래와 같이 Validation 진행.
-                                    // 기록없음으로 진행했거나 아직 라벨발행 승인을 하지 않았다면 기록 못하도록 막음
-                                    if (_inputValues[0].Raw.NOTE == null || Encoding.UTF8.GetString(_inputValues[0].Raw.NOTE, 0, _inputValues[0].Raw.NOTE.Length).Contains("<DATA 작업자ID=\"N/A\" 작업자명=\"N/A\""))
-                                    {
-                                        OnMessage("※QA 승인 필요※");
-                                        return;
-                                    }
-                                    else
-                                    {
-                                        if(_BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance.OUTDATAs.Count > 0)
-                                        {
-                                            btnRecordEnable = true;
-                                            RePrintFlag = true;
-                                        }
-                                        else
-                                        {
-                                            OnMessage("※생성된 반제품이 없습니다※");
-                                            return;
-                                        }
-                                        
-                                    }
+                                    // 버튼세팅
+                                    OnMessage("해당 지시문을 통해 라벨을 출력한 이력이 있습니다.\n해당 지시문으로는 원료의약품 라벨을 더이상 발행할 수 없습니다.");
+                                    btnRecordEnable = false;
                                 }
-                                //초기 발행
                                 else
                                 {
-                                    if (_BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance.OUTDATAs.Count > 0)
+                                    _inputValues = InstructionModel.GetParameterSender(_mainWnd.CurrentInstruction, _mainWnd.Instructions);
+                                    //레퍼런스 있을 때(재발행)
+                                    if (_inputValues.Count > 0)
                                     {
-                                            if (_BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance.OUTDATAs.Where(o => o.PRINTCNT < 1).Count() > 0)
+                                        // _inputValues[0].Raw.REF_IRTGUID or _inputValues[0].Raw.ASM_CLS 이게 있는지 유무로 갈려고 했으나 라벨발행요청확인 UI에서 기록없음으로 기록하게 된다면 발행하지 못하도록 막아야하기 때문에 아래와 같이 Validation 진행.
+                                        // 기록없음으로 진행했거나 아직 라벨발행 승인을 하지 않았다면 기록 못하도록 막음
+                                        if (_inputValues[0].Raw.NOTE == null)
+                                        {
+                                            OnMessage("※QA 승인 필요※");
+                                            return;
+                                        }
+                                        else if (_inputValues[0].Raw.NOTE != null)
+                                        {
+                                            DataSet ds = new DataSet();
+                                            DataTable dt = new DataTable();
+                                            var bytearray = _inputValues[0].Raw.NOTE;
+                                            string xml = System.Text.Encoding.UTF8.GetString(bytearray, 0, bytearray.Length);
+
+                                            ds.ReadXmlFromString(xml);
+                                            dt = ds.Tables["DATA"];
+
+                                            foreach (var row in dt.Rows)
+                                            {
+                                                if (row["확인자ID"].Equals("N/A"))
+                                                {
+                                                    OnMessage("※QA 승인 필요※");
+                                                    return;
+                                                }
+                                                else
+                                                {
+                                                    btnRecordEnable = true;
+                                                    RePrintFlag = true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    //초기 발행
+                                    else
+                                    {
+                                        if (_BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance.OUTDATAs.Where(o => o.PRINTCNT < 1).Count() > 0)
                                         {
                                             btnRecordEnable = true;
                                             RePrintFlag = false;
@@ -224,27 +235,27 @@ namespace 보령
                                             return;
                                         }
                                     }
-                                    else
-                                    {
-                                        OnMessage("※생성된 반제품이 없습니다※");
-                                        return;
-                                    }
                                 }
-                                // 프린터 설정
-                                _BR_PHR_SEL_System_Printer.INDATAs.Add(new BR_PHR_SEL_System_Printer.INDATA
-                                {
-                                    LANGID = AuthRepositoryViewModel.Instance.LangID,
-                                    ROOMID = AuthRepositoryViewModel.Instance.RoomID,
-                                    IPADDRESS = Common.ClientIP
-                                });
-                                if (await _BR_PHR_SEL_System_Printer.Execute() && _BR_PHR_SEL_System_Printer.OUTDATAs.Count > 0)
-                                {
-                                    _selectedPrint = _BR_PHR_SEL_System_Printer.OUTDATAs[0];
-                                    OnPropertyChanged("curPrintName");
-                                }
-                                else
-                                    OnMessage("연결된 프린트가 없습니다.");
                             }
+                            else
+                            {
+                                OnMessage("※생성된 반제품이 없습니다※");
+                                return;
+                            }
+                            // 프린터 설정
+                            _BR_PHR_SEL_System_Printer.INDATAs.Add(new BR_PHR_SEL_System_Printer.INDATA
+                            {
+                                LANGID = AuthRepositoryViewModel.Instance.LangID,
+                                ROOMID = AuthRepositoryViewModel.Instance.RoomID,
+                                IPADDRESS = Common.ClientIP
+                            });
+                            if (await _BR_PHR_SEL_System_Printer.Execute() && _BR_PHR_SEL_System_Printer.OUTDATAs.Count > 0)
+                            {
+                                _selectedPrint = _BR_PHR_SEL_System_Printer.OUTDATAs[0];
+                                OnPropertyChanged("curPrintName");
+                            }
+                            else
+                                OnMessage("연결된 프린트가 없습니다.");
                         }
                         ///
                         CommandResults["LoadedCommandAsync"] = true;

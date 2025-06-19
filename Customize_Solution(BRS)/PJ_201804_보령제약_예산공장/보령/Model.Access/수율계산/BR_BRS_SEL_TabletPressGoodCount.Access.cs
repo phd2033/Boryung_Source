@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace 보령
 {
-    
+
     /// <summary>
     /// summary of BR_BRS_SEL_TabletPressGoodCount
     /// </summary>
@@ -22,7 +22,7 @@ namespace 보령
                 return this._INDATAs;
             }
         }
-        [BizActorInputSetDefineAttribute(Order="0")]
+        [BizActorInputSetDefineAttribute(Order = "0")]
         [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
         public partial class INDATA : BizActorDataSetBase
         {
@@ -178,7 +178,7 @@ namespace 보령
                 return this._OUTDATAs;
             }
         }
-        [BizActorOutputSetDefineAttribute(Order="0")]
+        [BizActorOutputSetDefineAttribute(Order = "0")]
         [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
         public partial class OUTDATA : BizActorDataSetBase
         {
@@ -321,10 +321,75 @@ namespace 보령
                     }
                 }
             }
+            private string _TAGTYPE;
+            [BizActorOutputItemAttribute()]
+            public string TAGTYPE
+            {
+                get
+                {
+                    return this._TAGTYPE;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._TAGTYPE = value;
+                        this.CheckIsOriginal("TAGTYPE", value);
+                        this.OnPropertyChanged("TAGTYPE");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _TAGID;
+            [BizActorOutputItemAttribute()]
+            public string TAGID
+            {
+                get
+                {
+                    return this._TAGID;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._TAGID = value;
+                        this.CheckIsOriginal("TAGID", value);
+                        this.OnPropertyChanged("TAGID");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
         }
         public BR_BRS_SEL_TabletPressGoodCount()
         {
             RuleName = "BR_BRS_SEL_TabletPressGoodCount";
+            BizName = "BR_BRS_SEL_TabletPressGoodCount";
             _INDATAs = new INDATACollection();
             _OUTDATAs = new OUTDATACollection();
         }

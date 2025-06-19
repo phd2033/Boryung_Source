@@ -28,6 +28,7 @@ namespace 보령
             _BR_PHR_SEL_ProductionOrder_OrderSummary = new BR_PHR_SEL_ProductionOrder_OrderSummary();
             _BR_BRS_REG_Compress_GoodQty = new BR_BRS_REG_Compress_GoodQty();
             _BR_BRS_SEL_TabletPressGoodCount = new BR_BRS_SEL_TabletPressGoodCount();
+            _BR_BRS_INS_AutoInspection_Reject_Ratio = new BR_BRS_INS_AutoInspection_Reject_Ratio();
         }
         private decimal _totalCount = 0;
         private bool _IsEditable = false;
@@ -63,6 +64,16 @@ namespace 보령
             set { _BR_BRS_SEL_TabletPressGoodCount = value; }
         }
         private BR_BRS_REG_Compress_GoodQty _BR_BRS_REG_Compress_GoodQty;
+        private BR_BRS_INS_AutoInspection_Reject_Ratio _BR_BRS_INS_AutoInspection_Reject_Ratio;
+        public BR_BRS_INS_AutoInspection_Reject_Ratio BR_BRS_INS_AutoInspection_Reject_Ratio
+        {
+            get { return _BR_BRS_INS_AutoInspection_Reject_Ratio; }
+            set
+            {
+                _BR_BRS_INS_AutoInspection_Reject_Ratio = value;
+                OnPropertyChanged("BR_BRS_INS_AutoInspection_Reject_Ratio");
+            }
+        }
         #endregion
         #region [Command]
 
@@ -369,7 +380,8 @@ namespace 보령
                             else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
 
                         }
-
+                        ///
+                        await InsertTagValue();
                         ///
                         CommandResults["ConfirmCommandAsync"] = true;
                     }
@@ -445,6 +457,35 @@ namespace 보령
                     }
                     
                 }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        private async Task InsertTagValue()
+        {
+            try
+            {
+                _BR_BRS_INS_AutoInspection_Reject_Ratio.INDATAs.Clear();
+                _BR_BRS_INS_AutoInspection_Reject_Ratio.OUTDATAs.Clear();
+
+                foreach (var item in BR_BRS_SEL_TabletPressGoodCount.OUTDATAs)
+                {
+                    _BR_BRS_INS_AutoInspection_Reject_Ratio.INDATAs.Add(new BR_BRS_INS_AutoInspection_Reject_Ratio.INDATA
+                    {
+                        POID = _mainWnd.CurrentOrder.ProductionOrderID ?? "",
+                        OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID ?? "",
+                        EQPTID = item.EQPTID ?? "",
+                        TAGTYPE = item.TAGTYPE ?? "",
+                        TAGVALUE = item.TAGVALUE ?? "",
+                        TAGDESC = item.TAGDESC ?? "",
+                        TAGID = item.TAGID ?? "",
+                        INSUSER = AuthRepositoryViewModel.Instance.LoginedUserID 
+                    });
+                }
+
+                await _BR_BRS_INS_AutoInspection_Reject_Ratio.Execute();
             }
             catch (Exception)
             {

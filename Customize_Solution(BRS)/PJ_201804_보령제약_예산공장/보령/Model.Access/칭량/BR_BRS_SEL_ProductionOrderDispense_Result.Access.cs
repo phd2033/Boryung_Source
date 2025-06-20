@@ -705,9 +705,9 @@ namespace 보령
                     }
                 }
             }
-            private System.Nullable<System.DateTime> _EXPIRYDTTM;
+            private string _EXPIRYDTTM;
             [BizActorOutputItemAttribute()]
-            public System.Nullable<System.DateTime> EXPIRYDTTM
+            public string EXPIRYDTTM
             {
                 get
                 {

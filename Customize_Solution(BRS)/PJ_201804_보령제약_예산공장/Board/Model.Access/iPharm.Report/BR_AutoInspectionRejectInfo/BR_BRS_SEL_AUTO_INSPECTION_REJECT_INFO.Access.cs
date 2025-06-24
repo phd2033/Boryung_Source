@@ -6,9 +6,9 @@ namespace LGCNS.iPharmMES.Common
 {
 
     /// <summary>
-    /// summary of BR_BRS_SEL_AUTO_INSPECTION_REJCET_INFO
+    /// summary of BR_BRS_SEL_AUTO_INSPECTION_REJECT_INFO
     /// </summary>
-    public partial class BR_BRS_SEL_AUTO_INSPECTION_REJCET_INFO : BizActorRuleBase
+    public partial class BR_BRS_SEL_AUTO_INSPECTION_REJECT_INFO : BizActorRuleBase
     {
         public sealed partial class INDATACollection : BufferedObservableCollection<INDATA>
         {
@@ -371,6 +371,38 @@ namespace LGCNS.iPharmMES.Common
                         this._OPSGGUID = value;
                         this.CheckIsOriginal("OPSGGUID", value);
                         this.OnPropertyChanged("OPSGGUID");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _EQPTID;
+            [BizActorOutputItemAttribute()]
+            public string EQPTID
+            {
+                get
+                {
+                    return this._EQPTID;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._EQPTID = value;
+                        this.CheckIsOriginal("EQPTID", value);
+                        this.OnPropertyChanged("EQPTID");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -1025,6 +1057,70 @@ namespace LGCNS.iPharmMES.Common
                     }
                 }
             }
+            private System.Nullable<decimal> _REJECT_NO19;
+            [BizActorOutputItemAttribute()]
+            public System.Nullable<decimal> REJECT_NO19
+            {
+                get
+                {
+                    return this._REJECT_NO19;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._REJECT_NO19 = value;
+                        this.CheckIsOriginal("REJECT_NO19", value);
+                        this.OnPropertyChanged("REJECT_NO19");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private System.Nullable<decimal> _REJECT_NO20;
+            [BizActorOutputItemAttribute()]
+            public System.Nullable<decimal> REJECT_NO20
+            {
+                get
+                {
+                    return this._REJECT_NO20;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._REJECT_NO20 = value;
+                        this.CheckIsOriginal("REJECT_NO20", value);
+                        this.OnPropertyChanged("REJECT_NO20");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
             private string _COMMENT;
             [BizActorOutputItemAttribute()]
             public string COMMENT
@@ -1058,9 +1154,9 @@ namespace LGCNS.iPharmMES.Common
                 }
             }
         }
-        public BR_BRS_SEL_AUTO_INSPECTION_REJCET_INFO()
+        public BR_BRS_SEL_AUTO_INSPECTION_REJECT_INFO()
         {
-            RuleName = "BR_BRS_SEL_AUTO_INSPECTION_REJCET_INFO";
+            RuleName = "BR_BRS_SEL_AUTO_INSPECTION_REJECT_INFO";
             BizName = "BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO";
             _INDATAs = new INDATACollection();
             _OUTDATAs = new OUTDATACollection();

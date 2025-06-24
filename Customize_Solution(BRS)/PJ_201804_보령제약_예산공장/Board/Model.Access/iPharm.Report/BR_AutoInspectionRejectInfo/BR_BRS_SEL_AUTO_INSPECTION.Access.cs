@@ -129,13 +129,13 @@ namespace LGCNS.iPharmMES.Common
                     this.OnPropertyChanged("RowEditSec");
                 }
             }
-            private string _EQPTID;
+            private string _OAIMID;
             [BizActorOutputItemAttribute()]
-            public string EQPTID
+            public string OAIMID
             {
                 get
                 {
-                    return this._EQPTID;
+                    return this._OAIMID;
                 }
                 set
                 {
@@ -144,9 +144,9 @@ namespace LGCNS.iPharmMES.Common
                     }
                     else
                     {
-                        this._EQPTID = value;
-                        this.CheckIsOriginal("EQPTID", value);
-                        this.OnPropertyChanged("EQPTID");
+                        this._OAIMID = value;
+                        this.CheckIsOriginal("OAIMID", value);
+                        this.OnPropertyChanged("OAIMID");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())

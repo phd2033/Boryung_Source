@@ -481,9 +481,9 @@ namespace LGCNS.iPharmMES.Common
                     }
                 }
             }
-            private System.Nullable<decimal> _REJECT_NO1;
+            private string _REJECT_NO1;
             [BizActorOutputItemAttribute()]
-            public System.Nullable<decimal> REJECT_NO1
+            public string REJECT_NO1
             {
                 get
                 {
@@ -513,9 +513,9 @@ namespace LGCNS.iPharmMES.Common
                     }
                 }
             }
-            private System.Nullable<decimal> _REJECT_NO2;
+            private string _REJECT_NO2;
             [BizActorOutputItemAttribute()]
-            public System.Nullable<decimal> REJECT_NO2
+            public string REJECT_NO2
             {
                 get
                 {
@@ -1107,6 +1107,262 @@ namespace LGCNS.iPharmMES.Common
                         this._REJECT_NO20 = value;
                         this.CheckIsOriginal("REJECT_NO20", value);
                         this.OnPropertyChanged("REJECT_NO20");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private System.Nullable<decimal> _REJECT_NO21;
+            [BizActorOutputItemAttribute()]
+            public System.Nullable<decimal> REJECT_NO21
+            {
+                get
+                {
+                    return this._REJECT_NO21;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._REJECT_NO21 = value;
+                        this.CheckIsOriginal("REJECT_NO21", value);
+                        this.OnPropertyChanged("REJECT_NO21");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private System.Nullable<decimal> _REJECT_NO22;
+            [BizActorOutputItemAttribute()]
+            public System.Nullable<decimal> REJECT_NO22
+            {
+                get
+                {
+                    return this._REJECT_NO22;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._REJECT_NO22 = value;
+                        this.CheckIsOriginal("REJECT_NO22", value);
+                        this.OnPropertyChanged("REJECT_NO22");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private System.Nullable<decimal> _REJECT_NO23;
+            [BizActorOutputItemAttribute()]
+            public System.Nullable<decimal> REJECT_NO23
+            {
+                get
+                {
+                    return this._REJECT_NO23;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._REJECT_NO23 = value;
+                        this.CheckIsOriginal("REJECT_NO23", value);
+                        this.OnPropertyChanged("REJECT_NO23");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private System.Nullable<decimal> _REJECT_NO24;
+            [BizActorOutputItemAttribute()]
+            public System.Nullable<decimal> REJECT_NO24
+            {
+                get
+                {
+                    return this._REJECT_NO24;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._REJECT_NO24 = value;
+                        this.CheckIsOriginal("REJECT_NO24", value);
+                        this.OnPropertyChanged("REJECT_NO24");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private System.Nullable<decimal> _REJECT_NO25;
+            [BizActorOutputItemAttribute()]
+            public System.Nullable<decimal> REJECT_NO25
+            {
+                get
+                {
+                    return this._REJECT_NO25;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._REJECT_NO25 = value;
+                        this.CheckIsOriginal("REJECT_NO25", value);
+                        this.OnPropertyChanged("REJECT_NO25");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private System.Nullable<decimal> _REJECT_NO26;
+            [BizActorOutputItemAttribute()]
+            public System.Nullable<decimal> REJECT_NO26
+            {
+                get
+                {
+                    return this._REJECT_NO26;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._REJECT_NO26 = value;
+                        this.CheckIsOriginal("REJECT_NO26", value);
+                        this.OnPropertyChanged("REJECT_NO26");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private System.Nullable<decimal> _REJECT_NO27;
+            [BizActorOutputItemAttribute()]
+            public System.Nullable<decimal> REJECT_NO27
+            {
+                get
+                {
+                    return this._REJECT_NO27;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._REJECT_NO27 = value;
+                        this.CheckIsOriginal("REJECT_NO27", value);
+                        this.OnPropertyChanged("REJECT_NO27");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private System.Nullable<decimal> _REJECT_NO28;
+            [BizActorOutputItemAttribute()]
+            public System.Nullable<decimal> REJECT_NO28
+            {
+                get
+                {
+                    return this._REJECT_NO28;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._REJECT_NO28 = value;
+                        this.CheckIsOriginal("REJECT_NO28", value);
+                        this.OnPropertyChanged("REJECT_NO28");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())

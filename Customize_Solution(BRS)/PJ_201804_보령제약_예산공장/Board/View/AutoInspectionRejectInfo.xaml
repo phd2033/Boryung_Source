@@ -88,7 +88,7 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <sdk:Label Grid.Column="1" Content="선별기 선택" Style="{StaticResource lblStyle}"/>
+                    <sdk:Label Grid.Column="1" Content="선별기" Style="{StaticResource lblStyle}"/>
                     <ComboBox Grid.Column="3" x:Name="EQPTID" Width="140"
                               ItemsSource="{Binding Path=BR_BRS_SEL_AUTO_INSPECTION.OUTDATAs}"
                               DisplayMemberPath="OAIMID" SelectedValuePath="OAIMID"
@@ -147,8 +147,8 @@
                                 <c1:DataGridTextColumn SortMemberPath="BATCHNO" Header="배치번호" Binding="{Binding BATCHNO}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="EQPTID" Header="설비명" Binding="{Binding EQPTID}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="MTRLNAME" Header="제품명" Binding="{Binding MTRLNAME}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="REJECT_NO1" Header="선별기 양품수량" Binding="{Binding REJECT_NO1}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="REJECT_NO2" Header="선별기 불량수량" Binding="{Binding REJECT_NO2}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="REJECT_NO1" Header="선별기 양품수량(T)" Binding="{Binding REJECT_NO1}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="REJECT_NO2" Header="선별기 불량수량(T)" Binding="{Binding REJECT_NO2}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="REJECT_NO3" Header="카메라 모서리 영역 불량률" Binding="{Binding REJECT_NO3}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="REJECT_NO4" Header="카메라 각인 지워짐 불량률" Binding="{Binding REJECT_NO4}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="REJECT_NO5" Header="카메라 일반 영역 불량률" Binding="{Binding REJECT_NO5}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
@@ -188,8 +188,8 @@
                                 <c1:DataGridTextColumn SortMemberPath="BATCHNO" Header="배치번호" Binding="{Binding BATCHNO}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="EQPTID" Header="설비명" Binding="{Binding EQPTID}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="MTRLNAME" Header="제품명" Binding="{Binding MTRLNAME}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="REJECT_NO1" Header="선별기 양품수량" Binding="{Binding REJECT_NO1}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="REJECT_NO2" Header="선별기 불량수량" Binding="{Binding REJECT_NO2}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="REJECT_NO1" Header="선별기 양품수량(T)" Binding="{Binding REJECT_NO1}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="REJECT_NO2" Header="선별기 불량수량(T)" Binding="{Binding REJECT_NO2}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="REJECT_NO3" Header="[정제] 3D 카메라 모서리 영역 불량 비율" Binding="{Binding REJECT_NO3}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="REJECT_NO4" Header="[정제] 3D 카메라 각인 지워짐 불량 비율" Binding="{Binding REJECT_NO4}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="REJECT_NO5" Header="[정제] 3D 카메라 일반 영역 불량 비율" Binding="{Binding REJECT_NO5}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
@@ -233,8 +233,8 @@
                                 <c1:DataGridTextColumn SortMemberPath="BATCHNO" Header="배치번호" Binding="{Binding BATCHNO}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="EQPTID" Header="설비명" Binding="{Binding EQPTID}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="MTRLNAME" Header="제품명" Binding="{Binding MTRLNAME}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="REJECT_NO1" Header="선별기 양품수량" Binding="{Binding REJECT_NO1}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="REJECT_NO2" Header="선별기 불량수량" Binding="{Binding REJECT_NO2}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="REJECT_NO1" Header="선별기 양품수량(CAP)" Binding="{Binding REJECT_NO1}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="REJECT_NO2" Header="선별기 불량수량(CAP)" Binding="{Binding REJECT_NO2}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="REJECT_NO3" Header="[캡슐] 바디 인쇄 위치 불량 비율" Binding="{Binding REJECT_NO3}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="REJECT_NO4" Header="[캡슐] 캡 인쇄 지워짐 불량 비율" Binding="{Binding REJECT_NO4}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="REJECT_NO5" Header="[캡슐] 캡 인쇄 위치 불량 비율" Binding="{Binding REJECT_NO5}" HorizontalAlignment="Center" VerticalAlignment="Center" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>

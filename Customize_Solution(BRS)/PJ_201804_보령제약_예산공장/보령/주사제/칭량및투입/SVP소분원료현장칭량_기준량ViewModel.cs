@@ -149,6 +149,9 @@ namespace 보령
         }
 
         private BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATA _SelectedAllocationInfo;
+        /// <summary>
+        /// 칭량대상선택 팝업창에 띄워진 시험번호가 다른 팩 정보
+        /// </summary>
         public BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATA SelectedAllocationInfo
         {
             get { return _SelectedAllocationInfo; }
@@ -177,6 +180,9 @@ namespace 보령
         }
 
         private BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATACollection _ShowInfo;
+        /// <summary>
+        /// 선택한 팩 중 시험번호가 동일한 원료 정보
+        /// </summary>
         public BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATACollection ShowInfo
         {
             get{ return _ShowInfo;  }
@@ -186,6 +192,9 @@ namespace 보령
                 OnPropertyChanged("ShowInfo");
             }
         }
+
+        //사용한 원료백 정보
+        private BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATACollection _UsedSourceContainers;
         #endregion
 
         #region [저울정보]
@@ -255,12 +264,12 @@ namespace 보령
                     return _ScaleExceptionMsg;
                 else
                 {
-                    //weneedcheck
-                    if (_SetTare)
+                    //Tare를 잡아야할 때는 비커에 담긴 원료의 무게만 보여줘야하기 때문에 _SetTare로 구분하여 화면에 보여줌.
+                    if (_SetTare)//Tare를 설정한 후, Loss 칭량한 무게 보여줌
                     {
                         return _ScaleWeight.Add(_CheckDisepenQty).WeightUOMString;
                     }
-                    else return _ScaleWeight.WeightUOMString;
+                    else return _ScaleWeight.WeightUOMString; //Tare 잡을 때, 비커에 담긴 원료의 무게 보여줌
                 }
             }
         }
@@ -314,9 +323,7 @@ namespace 보령
         private Weight _CheckDisepenQty = new Weight();
 
         private bool _DispensebtnEnable;
-
-        //사용한 원료백 정보
-        private BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATACollection _UsedSourceContainers;
+        
         /// <summary>
         /// 소분버튼
         /// </summary>
@@ -360,7 +367,7 @@ namespace 보령
 
         private bool _RecordbtnEnable;
         /// <summary>
-        /// 잔량폐기 버튼
+        /// 기록 버튼
         /// </summary>
         public bool RecordbtnEnable
         {
@@ -389,7 +396,7 @@ namespace 보령
 
         private BR_BRS_SEL_ReDispensing_Charging _BR_BRS_SEL_ReDispensing_Charging;
         /// <summary>
-        /// 현장칭량 소분 정보 조회
+        /// 현장칭량 재소분 정보 조회
         /// </summary>
         public BR_BRS_SEL_ReDispensing_Charging BR_BRS_SEL_ReDispensing_Charging
         {
@@ -402,7 +409,7 @@ namespace 보령
         }
         private BR_BRS_REG_MaterialSubLot_Dispense_Scrap _BR_BRS_REG_MaterialSubLot_Dispense_Scrap;
         /// <summary>
-        /// 현장칭량 소분 정보 조회
+        /// 현장칭량 폐기 정보 조회
         /// </summary>
         public BR_BRS_REG_MaterialSubLot_Dispense_Scrap BR_BRS_REG_MaterialSubLot_Dispense_Scrap
         {
@@ -490,21 +497,19 @@ namespace 보령
                                 else
                                     OnMessage("연결된 프린트가 없습니다.");
 
-                                // 할당정보 조회
-                                // 할당이 2개 이상인 경우 자재정보를 조회하지 않는다.                           
+                                // 소분된 원료 정보 조회                         
                                 await GetAllocationInfo();
-
+                                //시험번호 별 GroupBy
                                 int num = BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs.GroupBy(o => o.MLOTID).Count();
 
                                 if (num < 1)
                                 {
-                                    OnMessage("할당정보가 없습니다.");
+                                    OnMessage("소분된 원료 정보가 없습니다.");
                                     return;
                                 }
                                 else if (num > 1)
                                 {
                                     AllocationbtnEnable = true;
-
                                     SelectAllocationInfoCommandAsync.Execute(null);
                                 }
                                 else
@@ -515,14 +520,15 @@ namespace 보령
                                     OnPropertyChanged("ShowInfo");
                                 }
                                 
+                                //투입 여부 확인을 위해 값 지정
                                 SelectedAllocationInfo = BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs[0];
                                 await GetDispenseHistory();
 
+                                //
                                 if (_BR_BRS_SEL_ReDispensing_Charging.OUTDATAs.Count > 0)
                                 {
                                     _CheckDisepenQty.Value = Convert.ToDecimal(_BR_BRS_SEL_ReDispensing_Charging.OUTDATAs.Sum(o => o.DSPQTY));
                                     _DisepenQty.Value = Convert.ToDecimal(_BR_BRS_SEL_ReDispensing_Charging.OUTDATAs.Sum(o => o.DSPQTY));
-                                    OnPropertyChanged("DspWeight");
 
                                     foreach (var CHGCheck in BR_BRS_SEL_ReDispensing_Charging.OUTDATAs)
                                     {
@@ -592,14 +598,14 @@ namespace 보령
                             // 칭량대상 변경 시 메세지 출력
                             if (MtrlbtnEnable && _UsedSourceContainers.Count > 0)
                             {
-                                if (await OnMessageAsync("칭량중 입니다.\n※저울 무게와 소분한 양을 확인해주시기 바랍니다.※\n진행하시겠습니까?", true))
+                                if (await OnMessageAsync("칭량중 입니다.\n※저울 무게와 소분한 양을 확인해주시기 바랍니다.※\n칭량 대상을 변경시겠습니까?", true))
                                 {
                                     _DspStartDttm = await AuthRepositoryViewModel.GetDBDateTimeNow();
                                 }
                                 else
                                     return;
                             }
-
+                            //MLOTID(시험번호)별로 칭량 대상 리스트 조회
                             if (BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs.GroupBy(o => o.MLOTID).Count() > 0)
                             {
                                 var popup = new DispensingInfoPopup();
@@ -711,7 +717,8 @@ namespace 보령
                             // 사용중인 원료백이 있으면 사용량 처리 후 원료백 팝업요청
                             if (curSelectedSourceContainer != null && curSelectedSourceContainer.MSUBLOTQTY > 0)
                             {
-                                decimal usedweight = Convert.ToDecimal(DspWeight.Split(' ')[0]) - _DisepenQty.Value;
+                                //사용량 = 현재 저울 무게 + (칭량대상선택을 눌러 다른 시험번호로 원료를 바꾼 경우)이전 소분량 - 현재까지의 소분량
+                                decimal usedweight = (_ScaleWeight.Value + _CheckDisepenQty.Value) - _DisepenQty.Value;
 
                                 if (usedweight < 0)
                                 {
@@ -964,6 +971,8 @@ namespace 보령
                             else
                             {
                                 _SetTare = true;
+                                //Tare를 잡고 난 후 UI에 소분된 무게를 저울 무게에 더해 보여줘야 하기 때문에
+                                //현재까지 소분된 양을 _CheckDisepenQty에 넣어줌.
                                 _CheckDisepenQty.Value = _DisepenQty.Value;
                                 TarebtnEnable = false;
                             }
@@ -1000,125 +1009,136 @@ namespace 보령
                 {
                     using (await AwaitableLocks["DispensingCommandAsync"].EnterAsync())
                     {
-                        try
+                    try
+                    {
+                        IsBusy = true;
+
+                        CommandResults["DispensingCommandAsync"] = false;
+                        CommandCanExecutes["DispensingCommandAsync"] = false;
+                        ///
+                        _DispatcherTimer.Stop();
+
+                        //
+                        if (curSelectedSourceContainer != null && curSelectedSourceContainer.MSUBLOTQTY > 0)
                         {
-                            IsBusy = true;
+                            //사용량 = 현재 저울 무게 + (칭량대상선택을 눌러 다른 시험번호로 원료를 바꾼 경우)이전 소분량 - 현재까지의 소분량
+                            decimal usedweight = (_ScaleWeight.Value + _CheckDisepenQty.Value) - _DisepenQty.Value;
 
-                            CommandResults["DispensingCommandAsync"] = false;
-                            CommandCanExecutes["DispensingCommandAsync"] = false;
-                            ///
-                            _DispatcherTimer.Stop();
-                            
-                            //
-                            if (curSelectedSourceContainer != null && curSelectedSourceContainer.MSUBLOTQTY > 0)
+                            if (usedweight < 0)
                             {
-                                decimal usedweight = Convert.ToDecimal(DspWeight.Split(' ')[0]) - _DisepenQty.Value;
-
-                                if (usedweight < 0)
-                                {
-                                    OnMessage("사용량이 0보다 작을 수 없습니다.");
-                                    return;
-                                }
-                               
-                                string msg = string.Format("소분량 : [{0}], 소분하시겠습니까?", String.Format("{0:N3}", Convert.ToDecimal(DspWeight.Split(' ')[0]) - BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs.Sum(o => o.DSPQTY)));
-                                if (await OnMessageAsync(msg, true))
-                                {
-                                    // 사용량 설정
-                                    curSelectedSourceContainer.UsedWeight = usedweight;
-                                    curSelectedSourceContainer.IsSelected = false;
-                                    _DisepenQty.Value += usedweight;
-                                    _UsedSourceContainers.Add(curSelectedSourceContainer);
-                                    TarebtnEnable = false;
-                                }
-                                else
-                                    return;
+                                OnMessage("사용량이 0보다 작을 수 없습니다.");
+                                return;
                             }
-                            if (_UsedSourceContainers.Count > 0)
+
+                            string msg = string.Format("소분량 : [{0}], 소분하시겠습니까?", String.Format("{0:N3}", (_ScaleWeight.Value + _CheckDisepenQty.Value) - BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs.Sum(o => o.DSPQTY)));
+                            if (await OnMessageAsync(msg, true))
                             {
-                                // 소분전자서명
-                                var authHelper = new iPharmAuthCommandHelper();
-                                authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_Charging");
-                                if (await authHelper.ClickAsync(
-                                    Common.enumCertificationType.Function,
-                                    Common.enumAccessType.Create,
-                                    "SVP소분원료현장칭량_기준량",
-                                    "SVP소분원료현장칭량_기준량",
-                                    false,
-                                    "OM_ProductionOrder_Charging",
-                                    "", null, null) == false)
-                                {
-                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
-                                }
-
-                                BR_BRS_REG_MaterialSubLot_Dispense_SVP_Loss DispenseBR = new BR_BRS_REG_MaterialSubLot_Dispense_SVP_Loss();
-                                DateTime dspend = await AuthRepositoryViewModel.GetDBDateTimeNow();
-                                foreach(var item in _UsedSourceContainers)
-                                {
-                                    DispenseBR.INDATAs.Add(new BR_BRS_REG_MaterialSubLot_Dispense_SVP_Loss.INDATA
-                                    {
-                                        MSUBLOTID = item.MSUBLOTID,
-                                        MSUBLOTBCD = item.MSUBLOTBCD,
-                                        INSDTTM = DateTime.Now,
-                                        INSUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Charging"),
-                                        DEPLETFLAG = "P",
-                                        VESSELID = null,
-                                        POID = _mainWnd.CurrentOrder.ProductionOrderID,
-                                        MSUBLOTTYPE = "DSP",
-                                        COMPONENTGUID = item.COMPONENTGUID,
-                                        TARE = 0, //2025.03.18 김도연 이 UI에서는 용기무게를 따로 측정하지 않고, 칭량한 소분원료가 담긴 용기무게를 Tare 잡기 때문.
-                                        LOCATIONID = AuthRepositoryViewModel.Instance.RoomID,
-                                        INVENTORYQTY = item.MSUBLOTQTY,
-                                        DISPENSEQTY = item.UsedWeight,
-                                        ISDISPSTRT = "Y",
-                                        ACTID = "ReDispensing",
-                                        CHECKINDTTM = DateTime.Now,
-                                        CHECKINUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Charging"),
-                                        WEIGHINGMETHOD = "WH007",
-                                        UPPERVALUE = _UpperWeight.Value,
-                                        LOWERVALUE = _LowerWeight.Value,
-                                        OPSGGUID = new Guid(_mainWnd.CurrentOrder.OrderProcessSegmentID),
-                                        TAREWEIGHT = _TareWeight.Value,
-                                        TAREUOMID = _ScaleWeight.Uom,
-                                        SCALEID = ScaleId,
-                                        INSSIGNATURE = AuthRepositoryViewModel.Instance.ConfirmedGuid,
-                                        DSPSTRTDTTM = _DspStartDttm.ToString("yyyy-MM-dd HH:mm:ss"),
-                                        DSPENDDTTM = dspend.ToString("yyyy-MM-dd HH:mm:ss"),
-                                        WEIGHINGROOM = AuthRepositoryViewModel.Instance.RoomID
-                                    });
-                                }
-                                
-                                if(await DispenseBR.Execute())
-                                {
-                                    _TareWeight = new Weight();
-                                    TarebtnEnable = true;
-                                    _SetTare = false;
-                                    OnPropertyChanged("TareWeight");
-                                    _UsedSourceContainers = new BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATACollection();
-                                }
-                                
-                                await GetAllocationInfo();
-
-                                await GetDispenseHistory();
-
-                                ChargebtnEnable = true;
+                                // 사용량 설정
+                                curSelectedSourceContainer.UsedWeight = usedweight;
+                                curSelectedSourceContainer.IsSelected = false;
+                                _DisepenQty.Value += usedweight;
+                                _UsedSourceContainers.Add(curSelectedSourceContainer);
+                                TarebtnEnable = false;
                             }
                             else
-                                OnMessage("소분 정보가 없습니다.");
-
-                            CommandResults["DispensingCommandAsync"] = true;
+                                return;
                         }
-                        catch (Exception ex)
+                        if (_UsedSourceContainers.Count > 0)
                         {
-                            CommandResults["DispensingCommandAsync"] = false;
-                            OnException(ex.Message, ex);
-                            // 마지막 사용정보 삭제
+                            // 소분전자서명
+                            var authHelper = new iPharmAuthCommandHelper();
+                            authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_Charging");
+                            if (await authHelper.ClickAsync(
+                                Common.enumCertificationType.Function,
+                                Common.enumAccessType.Create,
+                                "SVP소분원료현장칭량_기준량",
+                                "SVP소분원료현장칭량_기준량",
+                                false,
+                                "OM_ProductionOrder_Charging",
+                                "", null, null) == false)
+                            {
+                                throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                            }
+
+                            BR_BRS_REG_MaterialSubLot_Dispense_SVP_Loss DispenseBR = new BR_BRS_REG_MaterialSubLot_Dispense_SVP_Loss();
+                            DateTime dspend = await AuthRepositoryViewModel.GetDBDateTimeNow();
+                            foreach (var item in _UsedSourceContainers)
+                            {
+                                DispenseBR.INDATAs.Add(new BR_BRS_REG_MaterialSubLot_Dispense_SVP_Loss.INDATA
+                                {
+                                    MSUBLOTID = item.MSUBLOTID,
+                                    MSUBLOTBCD = item.MSUBLOTBCD,
+                                    INSDTTM = DateTime.Now,
+                                    INSUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Charging"),
+                                    DEPLETFLAG = "P",
+                                    VESSELID = null,
+                                    POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                    MSUBLOTTYPE = "DSP",
+                                    COMPONENTGUID = item.COMPONENTGUID,
+                                    TARE = 0, //2025.03.18 김도연 이 UI에서는 용기무게를 따로 측정하지 않고, 칭량한 소분원료가 담긴 용기무게를 Tare 잡기 때문.
+                                    LOCATIONID = AuthRepositoryViewModel.Instance.RoomID,
+                                    INVENTORYQTY = item.MSUBLOTQTY,
+                                    DISPENSEQTY = item.UsedWeight,
+                                    ISDISPSTRT = "Y",
+                                    ACTID = "ReDispensing",
+                                    CHECKINDTTM = DateTime.Now,
+                                    CHECKINUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_Charging"),
+                                    WEIGHINGMETHOD = "WH007",
+                                    UPPERVALUE = _UpperWeight.Value,
+                                    LOWERVALUE = _LowerWeight.Value,
+                                    OPSGGUID = new Guid(_mainWnd.CurrentOrder.OrderProcessSegmentID),
+                                    TAREWEIGHT = _TareWeight.Value,
+                                    TAREUOMID = _ScaleWeight.Uom,
+                                    SCALEID = ScaleId,
+                                    INSSIGNATURE = AuthRepositoryViewModel.Instance.ConfirmedGuid,
+                                    DSPSTRTDTTM = _DspStartDttm.ToString("yyyy-MM-dd HH:mm:ss"),
+                                    DSPENDDTTM = dspend.ToString("yyyy-MM-dd HH:mm:ss"),
+                                    WEIGHINGROOM = AuthRepositoryViewModel.Instance.RoomID
+                                });
+                            }
+
+                            if (await DispenseBR.Execute())
+                            {
+                                _TareWeight = new Weight();
+                                TarebtnEnable = true;
+                                _SetTare = false;
+                                OnPropertyChanged("TareWeight");
+                                _UsedSourceContainers = new BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATACollection();
+                            } else
+                            {
+                                if (DispenseBR.Exception != null)
+                                    throw DispenseBR.Exception;
+                                else
+                                    throw new Exception("소분 정보 등록 중 알 수 없는 오류 발생");
+                            }
+
+                            await GetAllocationInfo();
+
+                            await GetDispenseHistory();
+
+                            ChargebtnEnable = true;
+                        }
+                        else
+                            OnMessage("소분 정보가 없습니다.");
+
+                        CommandResults["DispensingCommandAsync"] = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        // 마지막 사용정보 삭제
+                        if (_UsedSourceContainers.Count > 0)
+                        {
                             _DisepenQty.Value -= _UsedSourceContainers.Last().UsedWeight;
                             _UsedSourceContainers.RemoveAt(_UsedSourceContainers.Count - 1);
-                            if (curSelectedSourceContainer != null)
-                            {
-                                curSelectedSourceContainer.UsedWeight = 0;
-                                curSelectedSourceContainer.IsSelected = true;
-                            }
+                                
+                        }
+                        if (curSelectedSourceContainer != null)
+                        {
+                            curSelectedSourceContainer.UsedWeight = 0;
+                            curSelectedSourceContainer.IsSelected = true;
+                        }
+                        CommandResults["DispensingCommandAsync"] = false;
+                        OnException(ex.Message, ex);
                         }
                         finally
                         {
@@ -1698,24 +1718,18 @@ namespace 보령
                     if (success)
                     {
                         if (!_SetTare)
-                        {
                             _TareWeight = _ScaleWeight.Copy();
-                            _ScaleException = false;
-                            DispensebtnEnable = true;
+
+
+                        _ScaleException = false;
+                        DispensebtnEnable = true;
+                        if (_LowerWeight.Value <= _ScaleWeight.Add(_DisepenQty).Value && _ScaleWeight.Add(_DisepenQty).Value <= _UpperWeight.Value)
+                        {
+                            ScaleBackground = new SolidColorBrush(Colors.Green);
                         }
                         else
                         {
-                            _ScaleException = false;
-                            DispensebtnEnable = true;
-                            if (_LowerWeight.Value <= _ScaleWeight.Add(_DisepenQty).Value && _ScaleWeight.Add(_DisepenQty).Value <= _UpperWeight.Value)
-                            {
-                                ScaleBackground = new SolidColorBrush(Colors.Green);
-                            }
-                            else
-                            {
-                                ScaleBackground = new SolidColorBrush(Colors.Yellow);
-                            }
-
+                            ScaleBackground = new SolidColorBrush(Colors.Yellow);
                         }
                     }
                     else
@@ -1794,14 +1808,14 @@ namespace 보령
                 });
 
                 await BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.Execute();
-
+                
                 if (SelectedAllocationInfo != null)
                 {
                     _ShowInfo = new BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATACollection();
 
                     foreach (var show in BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs.Where(o => o.MLOTID == SelectedAllocationInfo.MLOTID))
                     {
-                        _ShowInfo.Add(show);
+                        _ShowInfo.Add(show); //원료의 시험번호가 갈릴 경우, 선택하는 시험번호에 따른 팩 정보 화면에 출력
                     }
                     OnPropertyChanged("ShowInfo");
                 }
@@ -1809,6 +1823,7 @@ namespace 보령
             catch (Exception ex)
             {
                 OnException(ex.Message, ex);
+                throw;
             }
         }
         /// <summary>
@@ -1837,6 +1852,7 @@ namespace 보령
             catch (Exception ex)
             {
                 OnException(ex.Message, ex);
+                throw;
             }
         }
 

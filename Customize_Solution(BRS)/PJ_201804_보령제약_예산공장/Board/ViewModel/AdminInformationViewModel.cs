@@ -131,7 +131,7 @@ namespace Board
                 OnPropertyChanged("BR_BRS_REG_UDT_SEND_MAIL_TO_LIST");
             }
         }
-        
+
         #endregion
 
 
@@ -152,13 +152,8 @@ namespace Board
 
                             _mainWnd = arg as AdminInformation;
 
-                            _BR_BRS_SEL_COMMONCODE_CMCODE.INDATAs.Clear();
-                            _BR_BRS_SEL_COMMONCODE_CMCODE.OUTDATAs.Clear();
-
                             _BR_BRS_SEL_COMMONCODE_CMCDTYPE.INDATAs.Clear();
                             _BR_BRS_SEL_COMMONCODE_CMCDTYPE.OUTDATAs.Clear();
-
-                            await _BR_BRS_SEL_COMMONCODE_CMCODE.Execute();
 
                             await _BR_BRS_SEL_COMMONCODE_CMCDTYPE.Execute();
 
@@ -261,7 +256,7 @@ namespace Board
                                         CMCODE = item.CMCODE,
                                         CMCDNAME = item.CMCDNAME,
                                         USERID = item.USERID,
-                                        UPDUSER = AuthRepositoryViewModel.Instance.LoginedUserID,                                      
+                                        UPDUSER = AuthRepositoryViewModel.Instance.LoginedUserID,
                                         ISUSE = item.ISUSE,
                                         SECTION = item.RowEditSec
                                     });
@@ -318,7 +313,7 @@ namespace Board
 
         //                    var temp = _mainWnd.AdminInformationGrid.SelectedItem as BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATA;
         //                    temp.CHK = "Y";
-                            
+
 
         //                    IsBusy = false;
 
@@ -359,11 +354,20 @@ namespace Board
 
                             IsBusy = true;
 
+                            //_BR_BRS_SEL_COMMONCODE_CMCODE.INDATAs.Clear();
+                            //_BR_BRS_SEL_COMMONCODE_CMCODE.OUTDATAs.Clear();
+
+
                             var temp = _mainWnd.AdminInformationGrid.SelectedItem as BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATA;
                             if (temp != null)
                             {
-                                temp.CHK = "Y";                                
+                                temp.CHK = "Y";
+                                //_BR_BRS_SEL_COMMONCODE_CMCODE.INDATAs.Add(new BR_BRS_SEL_COMMONCODE_CMCODE.INDATA()
+                                //{
+                                //    CMCDTYPE = temp.CMCDTYPE
+                                //});
                             }
+                            //await _BR_BRS_SEL_COMMONCODE_CMCODE.Execute();
 
                             IsBusy = false;
 
@@ -388,7 +392,132 @@ namespace Board
                 });
             }
         }
+        public ICommand ComboFieldDataChangedCommand
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["ComboFieldDataChangedCommand"].EnterAsync())
+                    {
+                        try
+                        {
+                            CommandResults["ComboFieldDataChangedCommand"] = false;
+                            CommandCanExecutes["ComboFieldDataChangedCommand"] = false;
 
+                            IsBusy = true;
+
+                            _BR_BRS_SEL_COMMONCODE_CMCODE.INDATAs.Clear();
+                            _BR_BRS_SEL_COMMONCODE_CMCODE.OUTDATAs.Clear();
+
+                            var temp = _mainWnd.AdminInformationGrid.SelectedItem as BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATA;
+                            var filter = _mainWnd.AdminInformationGrid.CurrentColumn;
+
+                            if (temp != null)
+                            {
+                                if(filter.FilterMemberPath == "CMCDTYPE_NAMEFIELD")
+                                {
+                                    _BR_BRS_SEL_COMMONCODE_CMCODE.INDATAs.Add(new BR_BRS_SEL_COMMONCODE_CMCODE.INDATA()
+                                    {
+                                        CMCDTYPE = temp.CMCDTYPE
+                                    });
+                                    await _BR_BRS_SEL_COMMONCODE_CMCODE.Execute();
+                                }
+                                else if (filter.FilterMemberPath == "CMCODE_NAMEFIELD")
+                                {
+                                    _BR_BRS_SEL_COMMONCODE_CMCODE.INDATAs.Add(new BR_BRS_SEL_COMMONCODE_CMCODE.INDATA()
+                                    {
+                                        CMCODE = temp.CMCODE
+                                    });
+                                    await _BR_BRS_SEL_COMMONCODE_CMCODE.Execute();   
+                                }
+
+                                foreach (var outdata in BR_BRS_SEL_COMMONCODE_CMCODE.OUTDATAs)
+                                {
+                                    if(outdata.CMCDNAME != null) temp.CMCDNAME = outdata.CMCDNAME;
+                                }
+                            }
+
+
+                            IsBusy = false;
+
+                            CommandResults["ComboFieldDataChangedCommand"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["ComboFieldDataChangedCommand"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["ComboFieldDataChangedCommand"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("ComboFieldDataChangedCommand") ?
+                        CommandCanExecutes["ComboFieldDataChangedCommand"] : (CommandCanExecutes["ComboFieldDataChangedCommand"] = true);
+                });
+            }
+        }
+        //public ICommand SelectionChangedCommand
+        //{
+        //    get
+        //    {
+        //        return new AsyncCommandBase(async arg =>
+        //        {
+        //            using (await AwaitableLocks["SelectionChangedCommand"].EnterAsync())
+        //            {
+        //                try
+        //                {
+        //                    CommandResults["SelectionChangedCommand"] = false;
+        //                    CommandCanExecutes["SelectionChangedCommand"] = false;
+
+        //                    IsBusy = true;
+
+        //                    _BR_BRS_SEL_COMMONCODE_CMCODE.INDATAs.Clear();
+        //                    _BR_BRS_SEL_COMMONCODE_CMCODE.OUTDATAs.Clear();
+
+        //                    var temp = _mainWnd.AdminInformationGrid.SelectedItem as BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATA;
+        //                    var filter = _mainWnd.AdminInformationGrid.CurrentColumn;
+
+        //                    if (temp != null)
+        //                    {
+        //                        if (filter.FilterMemberPath == "CMCDCODE_NAMEFIELD")
+        //                        {
+        //                            _BR_BRS_SEL_COMMONCODE_CMCODE.INDATAs.Add(new BR_BRS_SEL_COMMONCODE_CMCODE.INDATA()
+        //                            {
+        //                                CMCDTYPE = temp.CMCDTYPE
+        //                            });
+        //                            await _BR_BRS_SEL_COMMONCODE_CMCODE.Execute();
+        //                        }
+        //                    }
+
+        //                    IsBusy = false;
+
+        //                    CommandResults["SelectionChangedCommand"] = true;
+        //                }
+        //                catch (Exception ex)
+        //                {
+        //                    CommandResults["SelectionChangedCommand"] = false;
+        //                    OnException(ex.Message, ex);
+        //                }
+        //                finally
+        //                {
+        //                    CommandCanExecutes["SelectionChangedCommand"] = true;
+
+        //                    IsBusy = false;
+        //                }
+        //            }
+        //        }, arg =>
+        //        {
+        //            return CommandCanExecutes.ContainsKey("SelectionChangedCommand") ?
+        //                CommandCanExecutes["SelectionChangedCommand"] : (CommandCanExecutes["SelectionChangedCommand"] = true);
+        //        });
+        //    }
+        //}
         public ICommand RowAddCommand
         {
             get
@@ -410,7 +539,7 @@ namespace Board
                                 temp.CHK = "Y";
                                 temp.USERNAME = "(자동 입력)";
                                 temp.USERMAIL = "(자동 입력)";
-                                 
+
                                 _mainWnd.AdminInformationGrid.Columns[6].IsReadOnly = true;
                                 _mainWnd.AdminInformationGrid.Columns[7].IsReadOnly = true;
 

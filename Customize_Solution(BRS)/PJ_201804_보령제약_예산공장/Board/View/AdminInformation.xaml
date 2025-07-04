@@ -117,19 +117,24 @@
                         <i:EventTrigger EventName="GotFocus">
                             <i:InvokeCommandAction Command="{Binding RowGotFocusCommand}"/>
                         </i:EventTrigger>
+                        <i:EventTrigger EventName="ComboFieldDataChanged">
+                            <i:InvokeCommandAction Command="{Binding ComboFieldDataChangedCommand}"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding ComboFieldDataChangedCommand}"/>
+                        </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <ControlsLib:CNSDataGrid.DataColumns>
                         <ControlsLib:DataColumn DataField="CHK" HeadName="" HeaderWidth="30"   ColumnType="CheckBox" HorizontalAlignment="Center" Excel="False" ColumnVisibility="Collapsed" ReadOnly="True"
-                                                        ItemsSource="{Binding CHK, Mode=TwoWay}"/>
+                                                        ItemsSource="{Binding CHK, Mode=TwoWay}" />
                         <ControlsLib:DataColumn HeadName="유형" DataField="CMCDTYPE" ColumnType="ComboBox" ColumnVisibility="Visible" HorizontalAlignment="Center" HeaderWidth="150" ReadOnly="False"
-                                                        ItemsSource="{Binding BR_BRS_SEL_COMMONCODE_CMCDTYPE.OUTDATAs, Mode=TwoWay}"
-                                                        DisplayMemberPath="CMCDTYPE" SelectedValuePath="CMCDTYPE"/>
+                                                        ItemsSource="{Binding BR_BRS_SEL_COMMONCODE_CMCDTYPE.OUTDATAs, Mode=TwoWay}" DisplayMemberPath="CMCDTYPE" SelectedValuePath="CMCDTYPE" />
                         <ControlsLib:DataColumn HeadName="코드" DataField="CMCODE" ColumnType="ComboBox" ColumnVisibility="Visible" HorizontalAlignment="Center" HeaderWidth="150" ReadOnly="False"
-                                                        ItemsSource="{Binding BR_BRS_SEL_COMMONCODE_CMCODE.OUTDATAs, Mode=TwoWay}"
-                                                        DisplayMemberPath="CMCODE" SelectedValuePath="CMCODE"/>
-                        <ControlsLib:DataColumn HeadName="코드명" DataField="CMCDNAME" ColumnType="ComboBox" ColumnVisibility="Visible" HorizontalAlignment="Center" HeaderWidth="150" ReadOnly="False"
-                                                        ItemsSource="{Binding BR_BRS_SEL_COMMONCODE_CMCODE.OUTDATAs, Mode=TwoWay}"
-                                                        DisplayMemberPath="CMCDNAME" SelectedValuePath="CMCDNAME"/>
+                                                        ItemsSource="{Binding BR_BRS_SEL_COMMONCODE_CMCODE.OUTDATAs, Mode=TwoWay}" DisplayMemberPath="CMCODE" SelectedValuePath="CMCODE"/>
+                        <!--<ControlsLib:DataColumn HeadName="코드명" DataField="CMCDNAME" ColumnType="ComboBox" ColumnVisibility="Visible" HorizontalAlignment="Center" HeaderWidth="150" ReadOnly="False"
+                                                        ItemsSource="{Binding BR_BRS_SEL_COMMONCODE_CMCODE.OUTDATAs, Mode=TwoWay}" DisplayMemberPath="CMCDNAME" SelectedValuePath="CMCDNAME"/>-->
+                        <ControlsLib:DataColumn HeadName="코드명" DataField="CMCDNAME" ColumnType="TextBox" ColumnVisibility="Visible" HorizontalAlignment="Center" HeaderWidth="150" ReadOnly="True"
+                                                        ItemsSource="{Binding CMCDNAME, Mode=TwoWay}"/>
                         <ControlsLib:DataColumn HeadName="사번" DataField="USERID" ColumnType="TextBox" ColumnVisibility="Visible" HorizontalAlignment="Center" HeaderWidth="150" ReadOnly="False"
                                                         ItemsSource="{Binding USERID, Mode=TwoWay}"/>
                         <ControlsLib:DataColumn HeadName="이름" DataField="USERNAME" ColumnType="TextBox" ColumnVisibility="Visible" HorizontalAlignment="Center" HeaderWidth="150" ReadOnly="True"

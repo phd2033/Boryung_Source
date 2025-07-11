@@ -16,7 +16,7 @@
     mc:Ignorable="d"
     Height="600" 
     FontSize="12"
-    Width="900" Title="용수 실시간 데이터 기록">
+    Width="800" Title="용수 실시간 데이터 기록">
     <toolkit:BusyIndicator Name="busyIndicator">
         <Grid x:Name="LayoutRoot" Background="White">
             <Grid.ColumnDefinitions>
@@ -28,58 +28,51 @@
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
-            <sdk:DataGrid Grid.Row="0" Grid.ColumnSpan="2" x:Name="dgMon" AutoGenerateColumns="False" SelectionChanged="dgMon_SelectionChanged" Margin="10">
+            <sdk:DataGrid Grid.Row="0" Grid.ColumnSpan="2" x:Name="dgMon" AutoGenerateColumns="False" SelectionChanged="dgMon_SelectionChanged" Margin="10" HorizontalAlignment="Center">
                 <sdk:DataGrid.Columns >
-                    <sdk:DataGridTextColumn Header="항목명" Width="*" Binding="{Binding Path=ITEM}" IsReadOnly="True" FontFamily="Portable User Interface">
+                    <sdk:DataGridTextColumn Header="ITEM" Width="70" Binding="{Binding Path=ITEM}" IsReadOnly="True" FontFamily="Portable User Interface">
                         <sdk:DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="HorizontalAlignment" Value="Center"/>
                             </Style>
                         </sdk:DataGridTextColumn.ElementStyle>
                     </sdk:DataGridTextColumn>
-                    <sdk:DataGridTextColumn Header="설비" Width="*" Binding="{Binding Path=EQPTID}" IsReadOnly="True">
+                    <sdk:DataGridTextColumn Header="SYSTEM" Width="80" Binding="{Binding Path=EQPTID}" IsReadOnly="True">
                         <sdk:DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="HorizontalAlignment" Value="Center"/>
                             </Style>
                         </sdk:DataGridTextColumn.ElementStyle>
                     </sdk:DataGridTextColumn>
-                    <sdk:DataGridTextColumn Header="위치" Width="2*" Binding="{Binding Path=POSITION}" IsReadOnly="True">
+                    <sdk:DataGridTextColumn Header="POSITION" Width="180" Binding="{Binding Path=POSITION}" IsReadOnly="True">
                         <sdk:DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="HorizontalAlignment" Value="Center"/>
                             </Style>
                         </sdk:DataGridTextColumn.ElementStyle>
                     </sdk:DataGridTextColumn>
-                    <sdk:DataGridTextColumn Header="ALERT" Width="*"  Binding="{Binding Path=ALERT}" IsReadOnly="True">
+                    <sdk:DataGridTextColumn Header="ACTION" Width="90"  Binding="{Binding Path=ACTION}" IsReadOnly="True">
                         <sdk:DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="HorizontalAlignment" Value="Center"/>
                             </Style>
                         </sdk:DataGridTextColumn.ElementStyle>
                     </sdk:DataGridTextColumn>
-                    <sdk:DataGridTextColumn Header="ACTION" Width="*"  Binding="{Binding Path=ACTION}" IsReadOnly="True">
+                    <sdk:DataGridTextColumn Header="TAGID" Width="120"  Binding="{Binding Path=TAGID}" IsReadOnly="True">
                         <sdk:DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="HorizontalAlignment" Value="Center"/>
                             </Style>
                         </sdk:DataGridTextColumn.ElementStyle>
                     </sdk:DataGridTextColumn>
-                    <sdk:DataGridTextColumn Header="CV" Width="*" Binding="{Binding Path=CV}" IsReadOnly="True">
+                    <sdk:DataGridTextColumn Header="값" Width="60" Binding="{Binding Path=ACTVAL}" IsReadOnly="True">
                         <sdk:DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="HorizontalAlignment" Value="Center"/>
                             </Style>
                         </sdk:DataGridTextColumn.ElementStyle>
                     </sdk:DataGridTextColumn>
-                    <sdk:DataGridTextColumn Header="값" Width="*" Binding="{Binding Path=ACTVAL}" IsReadOnly="True">
-                        <sdk:DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="HorizontalAlignment" Value="Center"/>
-                            </Style>
-                        </sdk:DataGridTextColumn.ElementStyle>
-                    </sdk:DataGridTextColumn>
-                    <sdk:DataGridTextColumn Header="시간" Width="2*" Binding="{Binding Path=CURDATETIME, StringFormat='yyyy-MM-dd HH:mm:ss'}" IsReadOnly="True">
+                    <sdk:DataGridTextColumn Header="시간" Width="*" Binding="{Binding Path=CURDATETIME, StringFormat='yyyy-MM-dd HH:mm:ss'}" IsReadOnly="True">
                         <sdk:DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="HorizontalAlignment" Value="Center"/>

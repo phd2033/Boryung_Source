@@ -13,7 +13,7 @@ using System.ComponentModel;
 
 namespace 보령
 {
-    [Description("BMS에서 온도, 습도, 차압순으로 정보를 가져온다.")]
+    [Description("BMS에서 용수 실시간 정보를 가져온다.")]
     public partial class 용수실시간데이터 : ShopFloorCustomWindow
     {
         public bool isDirty = true;
@@ -133,12 +133,11 @@ namespace 보령
                 ds.Tables.Add(dt);
 
                 //dt.Columns.Add(new DataColumn("작업장"));
-                dt.Columns.Add(new DataColumn("항목명"));
-                dt.Columns.Add(new DataColumn("설비"));
-                dt.Columns.Add(new DataColumn("포지션"));
-                dt.Columns.Add(new DataColumn("알림"));
-                dt.Columns.Add(new DataColumn("액션"));
-                dt.Columns.Add(new DataColumn("단위"));
+                dt.Columns.Add(new DataColumn("ITEM"));
+                dt.Columns.Add(new DataColumn("SYSTEM"));
+                dt.Columns.Add(new DataColumn("POSITION"));
+                dt.Columns.Add(new DataColumn("ACTION"));
+                dt.Columns.Add(new DataColumn("TAGID"));
                 dt.Columns.Add(new DataColumn("값"));
                 dt.Columns.Add(new DataColumn("시간"));
 
@@ -152,13 +151,11 @@ namespace 보령
                 {
                     var row = dt.NewRow();
 
-                    //row["작업장"] = !string.IsNullOrEmpty(item.ROOMID) ? item.ROOMID : "N/A";
-                    row["항목명"] = !string.IsNullOrEmpty(item.ITEM) ? item.ITEM : "N/A";
-                    row["설비"] = !string.IsNullOrEmpty(item.EQPTID) ? item.EQPTID : "N/A";
-                    row["포지션"] = !string.IsNullOrEmpty(item.POSITION) ? item.POSITION : "N/A";
-                    row["알림"] = !string.IsNullOrEmpty(item.ALERT) ? item.ALERT : "N/A";
-                    row["액션"] = !string.IsNullOrEmpty(item.ACTION) ? item.ITEM : "N/A";
-                    row["단위"] = !string.IsNullOrEmpty(item.CV) ? item.EQPTID : "N/A";
+                    row["ITEM"] = !string.IsNullOrEmpty(item.ITEM) ? item.ITEM : "N/A";
+                    row["SYSTEM"] = !string.IsNullOrEmpty(item.EQPTID) ? item.EQPTID : "N/A";
+                    row["POSITION"] = !string.IsNullOrEmpty(item.POSITION) ? item.POSITION : "N/A";
+                    row["ACTION"] = !string.IsNullOrEmpty(item.ALERT) ? item.ACTION : "N/A";
+                    row["TAGID"] = !string.IsNullOrEmpty(item.TAGID) ? item.TAGID : "N/A";
                     row["값"] = !string.IsNullOrEmpty(item.ACTVAL) ? item.ACTVAL : "N/A";
                     row["시간"] = !string.IsNullOrEmpty(item.CURDATETIME) ? item.CURDATETIME : "N/A";
 

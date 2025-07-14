@@ -237,13 +237,20 @@ namespace 보령
 
                             if (await _BR_BRS_SEL_SEND_MAIL_TO_LIST.Execute() && _BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs.Count > 0)
                             {
-                                dt.Columns.Add(new DataColumn("확인자ID"));
-                                dt.Columns.Add(new DataColumn("확인자명"));
+                                if("Y".Equals(_BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs[0].ISUSE))
+                                {
+                                    dt.Columns.Add(new DataColumn("확인자ID"));
+                                    dt.Columns.Add(new DataColumn("확인자명"));
 
-                                var row = dt.NewRow();
-                                row["확인자ID"] = AuthRepositoryViewModel.Instance.LoginedUserID;
-                                row["확인자명"] = AuthRepositoryViewModel.Instance.LoginedUserName;
-                                dt.Rows.Add(row);
+                                    var row = dt.NewRow();
+                                    row["확인자ID"] = AuthRepositoryViewModel.Instance.LoginedUserID;
+                                    row["확인자명"] = AuthRepositoryViewModel.Instance.LoginedUserName;
+                                    dt.Rows.Add(row);
+                                }
+                                else
+                                {
+                                    throw new Exception(string.Format("권한이 없는 사용자입니다."));
+                                }
                             }
                             else
                             {

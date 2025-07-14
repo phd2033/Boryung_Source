@@ -434,7 +434,13 @@ namespace Board
 
                                 foreach (var outdata in BR_BRS_SEL_COMMONCODE_CMCODE.OUTDATAs)
                                 {
-                                    if(outdata.CMCDNAME != null) temp.CMCDNAME = outdata.CMCDNAME;
+                                    if (outdata.CMCDNAME != null)
+                                    {
+                                        if(temp.CMCODE == outdata.CMCODE)
+                                        {
+                                            temp.CMCDNAME = outdata.CMCDNAME;
+                                        }
+                                    }
                                 }
                             }
 

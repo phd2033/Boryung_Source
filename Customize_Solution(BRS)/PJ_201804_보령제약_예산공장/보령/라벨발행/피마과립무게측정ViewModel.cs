@@ -540,7 +540,153 @@ namespace 보령
                 });
             }
         }
-   
+
+        public ICommand NoRecordConfirmCommandAsync
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["NoRecordConfirmCommandAsync"].EnterAsync())
+                    {
+                        try
+                        {
+                            IsBusy = true;
+                            bool FirstNoRecord = false;
+
+                            CommandResults["NoRecordConfirmCommandAsync"] = false;
+                            CommandCanExecutes["NoRecordConfirmCommandAsync"] = false;
+                            
+                            // 전자서명
+                            iPharmAuthCommandHelper authHelper = new iPharmAuthCommandHelper();
+
+                            if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y") && _mainWnd.Phase.CurrentPhase.STATE.Equals("COMP")) // 값 수정
+                            {
+                                authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+
+                                if (await authHelper.ClickAsync(
+                                    Common.enumCertificationType.Function,
+                                    Common.enumAccessType.Create,
+                                    string.Format("기록값을 변경합니다."),
+                                    string.Format("기록값 변경"),
+                                    true,
+                                    "OM_ProductionOrder_SUI",
+                                    "", _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID, null) == false)
+                                {
+                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                }
+                            }
+                            else
+                            {
+                                authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+                                if (await authHelper.ClickAsync(
+                                    Common.enumCertificationType.Function,
+                                    Common.enumAccessType.Create,
+                                    "피마과립무게측정 UI 기록없음",
+                                    "피마과립무게측정 UI 기록없음",
+                                    true,
+                                    "OM_ProductionOrder_SUI",
+                                    "",
+                                    _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID, null) == false)
+                                {
+                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                }
+                                FirstNoRecord = true;
+                            }
+                            //XML 형식으로 저장
+                            DataSet ds = new DataSet();
+                            DataTable dt = new DataTable("DATA");
+                            ds.Tables.Add(dt);
+
+                            //2023.01.03 김호연 원료별 칭량을 하면 2개 이상의 배치가 동시에 기록되므로 EBR 확인할때 오더로 구분해야함
+                            dt.Columns.Add(new DataColumn("오더번호"));
+                            //-------------------------------------------------------------------------------------------------------
+                            dt.Columns.Add(new DataColumn("용기번호"));
+                            dt.Columns.Add(new DataColumn("저울번호"));
+                            dt.Columns.Add(new DataColumn("총무게"));
+                            dt.Columns.Add(new DataColumn("용기무게"));
+                            dt.Columns.Add(new DataColumn("내용물무게"));
+
+                            var row = dt.NewRow();
+                            row["오더번호"] = "N/A";
+                            row["용기번호"] = "N/A";
+                            row["저울번호"] = "N/A";
+                            row["총무게"] = "N/A";
+                            row["용기무게"] = "N/A";
+                            row["내용물무게"] = "N/A";
+
+                            dt.Rows.Add(row);
+
+                            var xml = BizActorRuleBase.CreateXMLStream(ds);
+                            var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
+
+                            _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
+                            _mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
+
+                            var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction);
+
+                            if (result != enumInstructionRegistErrorType.Ok)
+                            {
+                                throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
+                            }
+
+                            if (FirstNoRecord)
+                            {
+
+                                var bizrule = new BR_PHR_REG_InstructionComment();
+
+                                bizrule.IN_Comments.Add(
+                                    new BR_PHR_REG_InstructionComment.IN_Comment
+                                    {
+                                        POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                        OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                        COMMENTTYPE = "CM008",
+                                        COMMENT = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_SUI"),
+                                        INSUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI")
+                                    }
+                                    );
+                                bizrule.IN_IntructionResults.Add(
+                                    new BR_PHR_REG_InstructionComment.IN_IntructionResult
+                                    {
+                                        RECIPEISTGUID = _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
+                                        ACTIVITYID = _mainWnd.CurrentInstruction.Raw.ACTIVITYID,
+                                        IRTGUID = _mainWnd.CurrentInstruction.Raw.IRTGUID,
+                                        IRTRSTGUID = _mainWnd.CurrentInstruction.Raw.IRTRSTGUID,
+                                        IRTSEQ = (int)_mainWnd.CurrentInstruction.Raw.IRTSEQ
+                                    }
+                                    );
+
+                                await bizrule.Execute();
+                            }
+
+                            if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
+                            else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
+
+                            _mainWnd.Close();
+                            //
+                            CommandResults["NoRecordConfirmCommandAsync"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["NoRecordConfirmCommandAsync"] = false;
+                            _repeater.Start();
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["NoRecordConfirmCommandAsync"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("NoRecordConfirmCommandAsync") ?
+                        CommandCanExecutes["NoRecordConfirmCommandAsync"] : (CommandCanExecutes["NoRecordConfirmCommandAsync"] = true);
+                });
+            }
+        }
+
         public ICommand ChangeScaleCommand
         {
             get

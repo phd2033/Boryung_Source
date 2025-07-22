@@ -70,7 +70,7 @@
                         </DataTemplate>
                     </c1:DataGridTemplateColumn.CellTemplate>
                 </c1:DataGridTemplateColumn>
-                <c1:DataGridTemplateColumn Header="잔량(환입)" Width="Auto">
+                <c1:DataGridTemplateColumn Header="잔량" Width="Auto">
                     <c1:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ShopFloorUI:KeyPadType Value="{Binding REMAINQTY, Mode=TwoWay}" Height="30" MinWidth="120"/>

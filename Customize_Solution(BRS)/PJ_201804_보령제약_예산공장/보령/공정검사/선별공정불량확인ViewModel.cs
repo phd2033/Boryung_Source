@@ -24,7 +24,6 @@ namespace 보령
         public 선별공정불량확인ViewModel()
         {
             _BR_BRS_GET_AutoInspection_Reject_Ratio = new BR_BRS_GET_AutoInspection_Reject_Ratio();
-            _BR_BRS_INS_AutoInspection_Reject_Ratio = new BR_BRS_INS_AutoInspection_Reject_Ratio();
         }
         #endregion
         #region [BizRule]
@@ -36,16 +35,6 @@ namespace 보령
             {
                 _BR_BRS_GET_AutoInspection_Reject_Ratio = value;
                 OnPropertyChanged("BR_BRS_GET_AutoInspection_Reject_Ratio");
-            }
-        }
-        private BR_BRS_INS_AutoInspection_Reject_Ratio _BR_BRS_INS_AutoInspection_Reject_Ratio;
-        public BR_BRS_INS_AutoInspection_Reject_Ratio BR_BRS_INS_AutoInspection_Reject_Ratio
-        {
-            get { return _BR_BRS_INS_AutoInspection_Reject_Ratio; }
-            set
-            {
-                _BR_BRS_INS_AutoInspection_Reject_Ratio = value;
-                OnPropertyChanged("BR_BRS_INS_AutoInspection_Reject_Ratio");
             }
         }
         #endregion
@@ -130,10 +119,10 @@ namespace 보령
                         }
                     }
                 }, arg =>
-               {
-                   return CommandCanExecutes.ContainsKey("RequestCommand") ?
-                       CommandCanExecutes["RequestCommand"] : (CommandCanExecutes["RequestCommand"] = true);
-               });
+                {
+                    return CommandCanExecutes.ContainsKey("RequestCommand") ?
+                        CommandCanExecutes["RequestCommand"] : (CommandCanExecutes["RequestCommand"] = true);
+                });
             }
         }
         public ICommand ConfirmCommandAsync
@@ -219,10 +208,8 @@ namespace 보령
 
                             if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
                             else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
+                            ///
 
-                            ///
-                            await InsertTagValue();
-                            ///
                             CommandResults["ConfirmCommandAsync"] = true;
                         }
                         catch (Exception ex)
@@ -284,36 +271,6 @@ namespace 보령
 
                     await BR_BRS_GET_AutoInspection_Reject_Ratio.Execute(); ;
                 }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        private async Task InsertTagValue()
-        {
-            try
-            {
-                _BR_BRS_INS_AutoInspection_Reject_Ratio.INDATAs.Clear();
-                _BR_BRS_INS_AutoInspection_Reject_Ratio.OUTDATAs.Clear();
-
-                foreach(var item in BR_BRS_GET_AutoInspection_Reject_Ratio.OUTDATAs)
-                {
-                    _BR_BRS_INS_AutoInspection_Reject_Ratio.INDATAs.Add(new BR_BRS_INS_AutoInspection_Reject_Ratio.INDATA
-                    {
-                        POID = _mainWnd.CurrentOrder.ProductionOrderID ?? "",
-                        OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID ?? "",
-                        EQPTID = item.EQPTID ?? "",
-                        TAGTYPE = item.TAGTYPE ?? "",
-                        TAGID = item.REJTYPE ?? "",
-                        TAGVALUE = item.RESULT ?? "",
-                        TAGDESC = item.TAGDESC ?? "",
-                        INSUSER = string.IsNullOrWhiteSpace(AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI")) ? AuthRepositoryViewModel.Instance.LoginedUserID : AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI")
-                });
-                }
-
-                await _BR_BRS_INS_AutoInspection_Reject_Ratio.Execute();
             }
             catch (Exception)
             {

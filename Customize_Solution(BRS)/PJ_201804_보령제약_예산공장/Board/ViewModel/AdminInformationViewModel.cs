@@ -31,7 +31,7 @@ namespace Board
             _BR_BRS_SEL_PERSON_DEC = new BR_BRS_SEL_PERSON_DEC();
             _BR_BRS_SEL_ISUSE_YN = new BR_BRS_SEL_ISUSE_YN();
 
-    }
+        }
 
     private string _SEQ;
         public string SEQ
@@ -351,7 +351,36 @@ namespace Board
                             CommandResults["BtnUpdateCommand"] = false;
                             CommandCanExecutes["BtnUpdateCommand"] = false;
 
-                            _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.INDATAs.Clear();
+                            var authHelper = new iPharmAuthCommandHelper();
+
+                            //// 전자서명 요청
+                            //authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+
+                            //if (await authHelper.ClickAsync(
+                            //    Common.enumCertificationType.Function,
+                            //    Common.enumAccessType.Create,
+                            //    string.Format("관리자 정보 조회 속성값을 변경합니다."),
+                            //    string.Format("속성값 변경"),
+                            //    false,
+                            //    "OM_ProductionOrder_SUI",
+                            //    "", null, null) == false)
+                            //{
+                            //    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                            //}
+                            // 전자서명 요청
+                            authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "SM_SystemInfo_UI");
+
+                            if (await authHelper.ClickAsync(
+                                Common.enumCertificationType.Function,
+                                Common.enumAccessType.Create,
+                                string.Format("관리자 정보 조회 속성값을 변경합니다."),
+                                string.Format("속성값 변경"),
+                                false,
+                                "SM_SystemInfo_UI",
+                                "", null, null) == false)
+                            {
+                                throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                            }
 
                             foreach (var item in _BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs)
                             {

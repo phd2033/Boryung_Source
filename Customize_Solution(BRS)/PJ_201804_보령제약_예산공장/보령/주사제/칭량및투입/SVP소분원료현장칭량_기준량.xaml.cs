@@ -9,7 +9,6 @@ using System.ComponentModel;
 
 namespace 보령
 {
-    [ShopFloorCustomHidden]
     [Description("주사제 제조 현장에서 현장칭량 소분원료를 칭량 및 투입을 한다.")]
     public partial class SVP소분원료현장칭량_기준량 : ShopFloorCustomWindow
     {

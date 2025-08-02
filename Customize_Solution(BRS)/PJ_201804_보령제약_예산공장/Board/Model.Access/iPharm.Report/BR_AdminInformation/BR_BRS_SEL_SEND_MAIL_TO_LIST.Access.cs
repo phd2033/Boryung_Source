@@ -101,6 +101,102 @@ namespace LGCNS.iPharmMES.Common
                     }
                 }
             }
+            private string _CMCDTYPE;
+            [BizActorInputItemAttribute()]
+            public string CMCDTYPE
+            {
+                get
+                {
+                    return this._CMCDTYPE;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._CMCDTYPE = value;
+                        this.CheckIsOriginal("CMCDTYPE", value);
+                        this.OnPropertyChanged("CMCDTYPE");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _CMCODE;
+            [BizActorInputItemAttribute()]
+            public string CMCODE
+            {
+                get
+                {
+                    return this._CMCODE;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._CMCODE = value;
+                        this.CheckIsOriginal("CMCODE", value);
+                        this.OnPropertyChanged("CMCODE");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private System.Nullable<bool> _IsChecked;
+            [BizActorInputItemAttribute()]
+            public System.Nullable<bool> IsChecked
+            {
+                get
+                {
+                    return this._IsChecked;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._IsChecked = value;
+                        this.CheckIsOriginal("IsChecked", value);
+                        this.OnPropertyChanged("IsChecked");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
         }
         public sealed partial class OUTDATACollection : BufferedObservableCollection<OUTDATA>
         {

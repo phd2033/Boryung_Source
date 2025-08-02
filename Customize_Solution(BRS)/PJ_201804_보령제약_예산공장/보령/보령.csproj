@@ -1056,6 +1056,10 @@
     <Compile Include="주사제\설비상태\세척장비시간입력Popup.xaml.cs">
       <DependentUpon>세척장비시간입력Popup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="주사제\수율계산\SVP사후멸균수율.xaml.cs">
+      <DependentUpon>SVP사후멸균수율.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="주사제\수율계산\SVP사후멸균수율ViewModel.cs" />
     <Compile Include="주사제\수율계산\SVP사후멸균제품검사공정수율.xaml.cs">
       <DependentUpon>SVP사후멸균제품검사공정수율.xaml</DependentUpon>
     </Compile>
@@ -1849,6 +1853,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="주사제\설비상태\세척장비시간입력Popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="주사제\수율계산\SVP사후멸균수율.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

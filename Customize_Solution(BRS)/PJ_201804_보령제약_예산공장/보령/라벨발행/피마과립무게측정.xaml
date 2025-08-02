@@ -13,7 +13,7 @@
            xmlns:localctrl="clr-namespace:보령.UserControls"
            mc:Ignorable="d"
            Width="900" Height="Auto" Loaded="Main_Loaded"
-           Title="피마과립무게측정" x:Name="Main">
+           Title="피마과립무게측정" x:Name="Main" FontFamily="Portable User Interface">
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
         <local:피마과립무게측정ViewModel x:Name="ViewModel"/>
     </ShopFloorUI:ShopFloorCustomWindow.Resources>
@@ -81,9 +81,10 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button Margin="5,0" x:Name="btnChangeScale" Width="100" Height="30" Content="{Binding W[CUIChangeScaleButtonText], Source={StaticResource R}, FallbackValue=저울변경}" Command="{Binding ChangeScaleCommand}"/>
-                    <Button Margin="5,0" Name="btnComfirm" Width="100" Height="30" Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource R}, FallbackValue=기록}" Command="{Binding ComfirmCommandAsync}"/>
-                    <Button Margin="5,0" Name="btnClose" Width="100" Height="30" Content="{Binding W[CUICloseButtonText], Source={StaticResource R}, FallbackValue=닫기}" Click="btnClose_Click" />
+                    <Button Margin="5,0" x:Name="btnChangeScale" Width="100" Height="30" Content="{Binding W[CUIChangeScaleButtonText], Source={StaticResource ViewModel}, FallbackValue=저울변경}" Command="{Binding ChangeScaleCommand}"/>
+                    <Button Margin="5,0" Name="btnComfirm" Width="100" Height="30" Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource ViewModel}, FallbackValue=기록}" Command="{Binding ComfirmCommandAsync}"/>
+                    <Button Margin="5,0" Name="btnNoRecordConfirm" Width="100" Height="30" Content="{Binding W[CUIDefaultDataWriteToEBRButtonText], Source={StaticResource ViewModel}, FallbackValue=기록없음}" Command="{Binding NoRecordConfirmCommandAsync}"/>
+                    <Button Margin="5,0" Name="btnClose" Width="100" Height="30" Content="{Binding W[CUICloseButtonText], Source={StaticResource ViewModel}, FallbackValue=닫기}" Click="btnClose_Click" />
                 </StackPanel>
             </Grid>
         </Grid>

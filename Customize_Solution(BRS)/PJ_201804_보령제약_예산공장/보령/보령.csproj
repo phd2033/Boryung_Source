@@ -179,6 +179,7 @@
     <Compile Include="Model.Access\간섭상황\BR_BRS_SEL_INTERFER_SITUATION.Access.cs" />
     <Compile Include="Model.Access\간섭상황\BR_BRS_SEL_INTERFER_SITUATION_SUM.Access.cs" />
     <Compile Include="Model.Access\간섭상황\BR_BRS_UPD_INTERFER_SITUATION_NOTUSE.Access.cs" />
+    <Compile Include="Model.Access\공정검사\BR_BRS_INS_AutoInspection_Reject_Ratio.Access.cs" />
     <Compile Include="Model.Access\공정검사\BR_BRS_SEL_ProductionOrderTestSpecification_STANDARD.Access.cs" />
     <Compile Include="Model.Access\무균공정\BR_BRS_REG_SVP_ASEPTIC_PROCESS.Access.cs" />
     <Compile Include="Model.Access\BR_BRS_REG_UDT_BRS_SVP_REJECT_INFO.Access.cs" />
@@ -1055,6 +1056,14 @@
     <Compile Include="주사제\설비상태\세척장비시간입력Popup.xaml.cs">
       <DependentUpon>세척장비시간입력Popup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="주사제\수율계산\SVP사후멸균제품검사공정수율.xaml.cs">
+      <DependentUpon>SVP사후멸균제품검사공정수율.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="주사제\수율계산\SVP사후멸균제품검사공정수율ViewModel.cs" />
+    <Compile Include="주사제\수율계산\SVP자동이물검사수율.xaml.cs">
+      <DependentUpon>SVP자동이물검사수율.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="주사제\수율계산\SVP자동이물검사수율ViewModel.cs" />
     <Compile Include="주사제\자재정산\popup\SVP자재환입저울스캔팝업.xaml.cs">
       <DependentUpon>SVP자재환입저울스캔팝업.xaml</DependentUpon>
     </Compile>
@@ -1840,6 +1849,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="주사제\설비상태\세척장비시간입력Popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="주사제\수율계산\SVP사후멸균제품검사공정수율.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="주사제\수율계산\SVP자동이물검사수율.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

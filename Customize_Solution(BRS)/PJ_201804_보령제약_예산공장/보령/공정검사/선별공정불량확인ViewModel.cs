@@ -119,10 +119,10 @@ namespace 보령
                         }
                     }
                 }, arg =>
-               {
-                   return CommandCanExecutes.ContainsKey("RequestCommand") ?
-                       CommandCanExecutes["RequestCommand"] : (CommandCanExecutes["RequestCommand"] = true);
-               });
+                {
+                    return CommandCanExecutes.ContainsKey("RequestCommand") ?
+                        CommandCanExecutes["RequestCommand"] : (CommandCanExecutes["RequestCommand"] = true);
+                });
             }
         }
         public ICommand ConfirmCommandAsync

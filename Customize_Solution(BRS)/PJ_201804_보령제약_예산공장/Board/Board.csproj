@@ -177,10 +177,19 @@
     <Compile Include="Model.Access\iPharm.Report\BR.WorkTimeReport\BR_PHR_RPT_Employee_WorkTime.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR.WorkTimeReport\BR_PHR_RPT_Employee_WorkTime_by_EmpNo.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR.WorkTimeReport\BR_PHR_RPT_Equipment_WorkTime.Access.cs" />
+    <Compile Include="Model.Access\iPharm.Report\BR_AdminInformation\BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.Access.cs" />
+    <Compile Include="Model.Access\iPharm.Report\BR_AdminInformation\BR_BRS_SEL_COMMONCODE_CMCDTYPE.Access.cs" />
+    <Compile Include="Model.Access\iPharm.Report\BR_AdminInformation\BR_BRS_SEL_COMMONCODE_CMCODE.Access.cs" />
+    <Compile Include="Model.Access\iPharm.Report\BR_AdminInformation\BR_BRS_SEL_ISUSE_YN.Access.cs" />
+    <Compile Include="Model.Access\iPharm.Report\BR_AdminInformation\BR_BRS_SEL_PERSON_DEC.Access.cs" />
+    <Compile Include="Model.Access\iPharm.Report\BR_AdminInformation\BR_BRS_SEL_SEND_MAIL_TO_LIST.Access.cs" />
+    <Compile Include="Model.Access\iPharm.Report\BR_AutoInspectionRejectInfo\BR_BRS_SEL_AUTO_INSPECTION.Access.cs" />
+    <Compile Include="Model.Access\iPharm.Report\BR_AutoInspectionRejectInfo\BR_BRS_SEL_AUTO_INSPECTION_REJECT_INFO.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR_MaterialReport\BR_BRS_SEL_MaterialPickingInfoList.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR_SVP_RejectInfo\BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.Access.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\BoardSettingPopupViewModel.cs" />
+    <Compile Include="ViewModel\AdminInformationViewModel.cs" />
     <Compile Include="ViewModel\CleanningSettingViewModel.cs" />
     <Compile Include="ViewModel\DetailSearch\FacilitiesOperationStatusViewModel.cs" />
     <Compile Include="ViewModel\DetailSearch\IPCTestResultViewModel.cs" />
@@ -195,6 +204,7 @@
     <Compile Include="ViewModel\DetailSearch\PerformanceByWorkshopViewModel.cs" />
     <Compile Include="ViewModel\Original\BoardSettingPopupViewModel.cs" />
     <Compile Include="ViewModel\Original\MainPageViewModel.cs" />
+    <Compile Include="ViewModel\AutoInspectionRejectInfoViewModel.cs" />
     <Compile Include="ViewModel\SVP_RejectInfoViewModel.cs" />
     <Compile Include="ViewModel\TstRequestConfirmViewModel.cs" />
     <Compile Include="View\BoardMain.xaml.cs">
@@ -202,6 +212,9 @@
     </Compile>
     <Compile Include="View\BoardSettingPopup.xaml.cs">
       <DependentUpon>BoardSettingPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AdminInformation.xaml.cs">
+      <DependentUpon>AdminInformation.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CleanningSetting.xaml.cs">
       <DependentUpon>CleanningSetting.xaml</DependentUpon>
@@ -272,6 +285,9 @@
     <Compile Include="View\IPCCPPRsltView.xaml.cs">
       <DependentUpon>IPCCPPRsltView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\AutoInspectionRejectInfo.xaml.cs">
+      <DependentUpon>AutoInspectionRejectInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SVP_RejectInfo.xaml.cs">
       <DependentUpon>SVP_RejectInfo.xaml</DependentUpon>
     </Compile>
@@ -287,6 +303,10 @@
     <Page Include="View\BoardSettingPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AdminInformation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\CleanningSetting.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -377,6 +397,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\IPCCPPRsltView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\AutoInspectionRejectInfo.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

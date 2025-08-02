@@ -131,7 +131,7 @@
                             <c1:DataGridTextColumn Header="{Binding W[CUIUOM], Source={StaticResource VM}, FallbackValue='단위'}" Width="50"
                                                    Binding="{Binding NOTATION}"/>
                             <c1:DataGridTextColumn Header="{Binding W[CUISourceContainerQuantity], Source={StaticResource VM}, FallbackValue='재고'}"
-                                                   Binding="{Binding MSUBLOTQTY}"/>
+                                                   Binding="{Binding REMAINQTY}"/>
                             <c1:DataGridTextColumn Header="{Binding W[CUIUsedQuantity], Source={StaticResource VM}, FallbackValue='사용량'}"
                                                    Binding="{Binding UsedWeight}"/>
                         </c1:C1DataGrid.Columns>
@@ -141,7 +141,7 @@
                     <c1:C1DataGrid x:Name="dgDispenseHistory" Grid.Row="3" RowHeight="30" ScrollBarStyle="{StaticResource gdScroll}"
                                    AutoGenerateColumns="False" HeadersVisibility="Column" SelectionMode="SingleRow"
                                    CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False"
-                                   ItemsSource="{Binding BR_BRS_SEL_ReDispensing_Charging.OUTDATAs}">
+                                   ItemsSource="{Binding BR_BRS_SEL_ReDispensing_Charging.OUTDATAs}" FontFamily="Portable User Interface">
                         <c1:C1DataGrid.Columns>
                             <c1:DataGridTextColumn Header="{Binding W[CUIMaterialLotID], Source={StaticResource VM}, FallbackValue='시험번호'}"
                                                    Binding="{Binding MLOTID}"/>

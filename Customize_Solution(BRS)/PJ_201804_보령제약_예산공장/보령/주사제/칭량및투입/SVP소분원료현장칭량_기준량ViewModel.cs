@@ -510,10 +510,13 @@ namespace 보령
                                 else if (num > 1)
                                 {
                                     AllocationbtnEnable = true;
+
                                     SelectAllocationInfoCommandAsync.Execute(null);
                                 }
                                 else
                                 {
+                                    AllocationbtnEnable = false;
+
                                     _DspStartDttm = await AuthRepositoryViewModel.GetDBDateTimeNow();
                                     _ShowInfo = BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.OUTDATAs;
 
@@ -735,6 +738,7 @@ namespace 보령
                                     _DisepenQty.Value += usedweight;
                                     _UsedSourceContainers.Add(curSelectedSourceContainer);
                                     TarebtnEnable = false;
+                                    OnPropertyChanged("ShowInfo");
                                 }
                                 else
                                 {
@@ -754,7 +758,7 @@ namespace 보령
                                         curSelectedSourceContainer.IsSelected = false;
                                         curSelectedSourceContainer = null;
                                     }
-                                    OnPropertyChanged("ShowInfo");
+
                                     _DispatcherTimer.Start();
 
                                     return;

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using 보령.UserControls;
+using LGCNS.iPharmMES.Recipe.Common;
 
 namespace 보령
 {
@@ -357,7 +358,8 @@ namespace 보령
 
                         ///
                         IsBusy = true;
-                        
+                        bool FirstNoRecord = false;
+
                         var authHelper = new iPharmAuthCommandHelper();
                         if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y") && _mainWnd.Phase.CurrentPhase.STATE.Equals("COMP")) // 값 수정
                         {
@@ -378,19 +380,21 @@ namespace 보령
                         }
                         else
                         {
-                            authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+                            // 전자서명 요청
+                            authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
 
                             if (await authHelper.ClickAsync(
                                 Common.enumCertificationType.Function,
                                 Common.enumAccessType.Create,
-                                string.Format("원료의약품라벨발행"),
-                                string.Format("원료의약품라벨발행"),
-                                false,
+                                string.Format("원료의약품라벨발행 UI 기록없음"),
+                                string.Format("원료의약품라벨발행 UI 기록없음"),
+                                true,
                                 "OM_ProductionOrder_SUI",
-                                _mainWnd.CurrentOrderInfo.EquipmentID, _mainWnd.CurrentOrderInfo.RecipeID, null) == false)
+                                "", _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID, null) == false)
                             {
                                 throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                             }
+                            FirstNoRecord = true;
                         }
 
                         DataSet ds = new DataSet();
@@ -423,6 +427,35 @@ namespace 보령
                         if (result != enumInstructionRegistErrorType.Ok)
                         {
                             throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
+                        }
+
+                        if (FirstNoRecord)
+                        {
+
+                            var bizrule = new BR_PHR_REG_InstructionComment();
+
+                            bizrule.IN_Comments.Add(
+                                new BR_PHR_REG_InstructionComment.IN_Comment
+                                {
+                                    POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                    OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                    COMMENTTYPE = "CM008",
+                                    COMMENT = AuthRepositoryViewModel.GetCommentByFunctionCode("OM_ProductionOrder_SUI"),
+                                    INSUSER = AuthRepositoryViewModel.GetUserIDByFunctionCode("OM_ProductionOrder_SUI")
+                                }
+                                );
+                            bizrule.IN_IntructionResults.Add(
+                                new BR_PHR_REG_InstructionComment.IN_IntructionResult
+                                {
+                                    RECIPEISTGUID = _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID,
+                                    ACTIVITYID = _mainWnd.CurrentInstruction.Raw.ACTIVITYID,
+                                    IRTGUID = _mainWnd.CurrentInstruction.Raw.IRTGUID,
+                                    IRTRSTGUID = _mainWnd.CurrentInstruction.Raw.IRTRSTGUID,
+                                    IRTSEQ = (int)_mainWnd.CurrentInstruction.Raw.IRTSEQ
+                                }
+                                );
+
+                            await bizrule.Execute();
                         }
 
                         if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;

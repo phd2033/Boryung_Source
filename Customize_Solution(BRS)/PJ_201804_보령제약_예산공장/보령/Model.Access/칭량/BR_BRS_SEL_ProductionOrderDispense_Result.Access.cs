@@ -1,8 +1,8 @@
-﻿﻿using LGCNS.iPharmMES.Common;
+﻿using LGCNS.iPharmMES.Common;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace LGCNS.iPharmMES.Common
+namespace 보령
 {
 
     /// <summary>
@@ -705,10 +705,43 @@ namespace LGCNS.iPharmMES.Common
                     }
                 }
             }
+            private string _EXPIRYDTTM;
+            [BizActorOutputItemAttribute()]
+            public string EXPIRYDTTM
+            {
+                get
+                {
+                    return this._EXPIRYDTTM;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._EXPIRYDTTM = value;
+                        this.CheckIsOriginal("EXPIRYDTTM", value);
+                        this.OnPropertyChanged("EXPIRYDTTM");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
         }
         public BR_BRS_SEL_ProductionOrderDispense_Result()
         {
             RuleName = "BR_BRS_SEL_ProductionOrderDispense_Result";
+            BizName = "BR_BRS_SEL_ProductionOrderDispense_Result";
             _INDATAs = new INDATACollection();
             _OUTDATAs = new OUTDATACollection();
         }

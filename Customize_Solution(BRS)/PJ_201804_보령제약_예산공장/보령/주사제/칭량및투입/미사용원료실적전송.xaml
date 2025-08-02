@@ -85,7 +85,7 @@
                 <c1:DataGridTextColumn Header="{Binding W[CUIMTCode], Source={StaticResource VM}, FallbackValue='자재코드'}" Binding="{Binding MTRLID}" HeaderStyle="{StaticResource HeaderStyle}" Width="50*"/>
                 <c1:DataGridTextColumn Header="{Binding W[CUIMTName], Source={StaticResource VM}, FallbackValue='자재명'}" Binding="{Binding MTRLNAME}" HeaderStyle="{StaticResource HeaderStyle}" Width="50*"/>
                 <c1:DataGridTextColumn Header="{Binding W[CUIATTENTIONNOTE], Source={StaticResource VM}, FallbackValue='성분'}" Binding="{Binding ATTENTIONNOTE}" HeaderStyle="{StaticResource HeaderStyle}" Width="50*"/>
-                <c1:DataGridTextColumn Header="{Binding W[CUITestNo], Source={StaticResource VM}, FallbackValue='원료시험번호'}" Binding="{Binding MLOTID}" HorizontalAlignment="Center" HeaderStyle="{StaticResource HeaderStyle}" Width="50*"/>
+                <c1:DataGridTextColumn Header="{Binding W[CUITestNo], Source={StaticResource VM}, FallbackValue='원료시험번호'}" Binding="{Binding INSPECTIONNO}" HorizontalAlignment="Center" HeaderStyle="{StaticResource HeaderStyle}" Width="50*"/>
             </c1:C1DataGrid.Columns>
         </c1:C1DataGrid>
 

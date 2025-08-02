@@ -65,13 +65,13 @@ namespace 보령
                 NotifyPropertyChanged();
             }
         }
-        string _MLOTID;
-        public string MLOTID
+        string _INSPECTIONNO;
+        public string INSPECTIONNO
         {
-            get { return _MLOTID; }
+            get { return _INSPECTIONNO; }
             set
             {
-                _MLOTID = value;
+                _INSPECTIONNO = value;
                 NotifyPropertyChanged();
             }
         }
@@ -158,10 +158,10 @@ namespace 보령
                             {
                                 foreach (var item in _BR_BRS_SEL_ProductionOrderOutput_LastSoluction_NosDsp.OUTDATAs)
                                 {
-                                    MLOTID = item.INSPECTIONNO;
                                     MTRLID = item.MTRLID;
                                     MTRLNAME = item.MTRLNAME;
                                     ATTENTIONNOTE = item.ATTENTIONNOTE;
+                                    INSPECTIONNO = item.INSPECTIONNO;
                                 }
                             }
                             CommandResults["LoadedCommand"] = true;
@@ -258,9 +258,11 @@ namespace 보령
                                     OnMessage("미사용 원료가 존재하지 않습니다.");
                                 }
 
-                                var ds = new DataSet();
-                                var dt = new DataTable();
+                             
+                                DataSet ds = new DataSet();
+                                DataTable dt = new DataTable("DATA");
                                 ds.Tables.Add(dt);
+
                                 dt.Columns.Add(new DataColumn("자재코드"));
                                 dt.Columns.Add(new DataColumn("자재명"));
                                 dt.Columns.Add(new DataColumn("성분"));
@@ -268,11 +270,11 @@ namespace 보령
 
                                 foreach (var item in BR_BRS_SEL_ProductionOrderOutput_LastSoluction_NosDsp.OUTDATAs)
                                 {
-                                    var row = dt.NewRow();
-                                    row["자재코드"] = item.MTRLID;
-                                    row["자재명"] = item.MTRLNAME;
-                                    row["성분"] = item.ATTENTIONNOTE;
-                                    row["원료시험번호"] = item.INSPECTIONNO;
+                                    DataRow row = dt.NewRow();
+                                    row["자재코드"] = item.MTRLID ?? "";
+                                    row["자재명"] = item.MTRLNAME ?? "";
+                                    row["성분"] = item.ATTENTIONNOTE ?? "";
+                                    row["원료시험번호"] = item.INSPECTIONNO ?? "";
                                     dt.Rows.Add(row);
                                 }
 

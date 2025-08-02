@@ -51,7 +51,7 @@
                         <c1:DataGridTextColumn  Header="오더번호" Width="*" Binding="{Binding Path=POID}" IsReadOnly="True" HorizontalAlignment="Center"  HeaderStyle="{StaticResource HeaderStyle}"/>
                         <c1:DataGridTextColumn  Header="원료코드" Width="*" Binding="{Binding Path=MTRLID}" IsReadOnly="True" HorizontalAlignment="Center"  HeaderStyle="{StaticResource HeaderStyle}"/>
                         <c1:DataGridTextColumn  Header="원료명" Width="3*" Binding="{Binding Path=MTRLNAME}" IsReadOnly="True" HorizontalAlignment="Center"  HeaderStyle="{StaticResource HeaderStyle}"/>
-                        <c1:DataGridTextColumn  Header="규격" Width="*" Binding="{Binding Path=STANDARD}" IsReadOnly="True" HorizontalAlignment="Center"  HeaderStyle="{StaticResource HeaderStyle}"/>
+                        <c1:DataGridTextColumn  Header="유효기한" Width="*" Binding="{Binding Path=EXPIRYDTTM}" IsReadOnly="True" HorizontalAlignment="Center"  HeaderStyle="{StaticResource HeaderStyle}"/>
                         <c1:DataGridTextColumn  Header="하한" Width="*" Binding="{Binding Path=LOWER}" IsReadOnly="True" HorizontalAlignment="Center"  HeaderStyle="{StaticResource HeaderStyle}"/>
                         <c1:DataGridTextColumn  Header="기준" Width="*" Binding="{Binding Path=TARGET}" IsReadOnly="True" HorizontalAlignment="Center"  HeaderStyle="{StaticResource HeaderStyle}"/>
                         <c1:DataGridTextColumn  Header="상한" Width="*" Binding="{Binding Path=UPPER}" IsReadOnly="True" HorizontalAlignment="Center"  HeaderStyle="{StaticResource HeaderStyle}"/>

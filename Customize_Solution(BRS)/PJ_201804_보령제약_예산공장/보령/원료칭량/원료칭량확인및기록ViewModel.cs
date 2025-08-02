@@ -150,7 +150,7 @@ namespace 보령
 
                             await _BR_BRS_SEL_ProductionOrderDispense_Result.Execute();
 
-                            if(_BR_BRS_SEL_ProductionOrderDispense_Result.OUTDATAs.Count > 0)
+                            if (_BR_BRS_SEL_ProductionOrderDispense_Result.OUTDATAs.Count > 0)
                             {
                                 await SetXMLDataTable();
                             }
@@ -171,10 +171,10 @@ namespace 보령
                         }
                     }
                 }, arg =>
-               {
-                   return CommandCanExecutes.ContainsKey("SerachWeighingResultCommandAsync") ?
-                       CommandCanExecutes["SerachWeighingResultCommandAsync"] : (CommandCanExecutes["SerachWeighingResultCommandAsync"] = true);
-               });
+                {
+                    return CommandCanExecutes.ContainsKey("SerachWeighingResultCommandAsync") ?
+                        CommandCanExecutes["SerachWeighingResultCommandAsync"] : (CommandCanExecutes["SerachWeighingResultCommandAsync"] = true);
+                });
             }
         }
 
@@ -236,7 +236,8 @@ namespace 보령
                                 //-------------------------------------------------------------------------------------------------------
                                 dt.Columns.Add(new DataColumn("원료코드"));
                                 dt.Columns.Add(new DataColumn("원료명"));
-                                dt.Columns.Add(new DataColumn("규격"));
+                                //dt.Columns.Add(new DataColumn("규격"));
+                                dt.Columns.Add(new DataColumn("유효기한"));
                                 dt.Columns.Add(new DataColumn("하한"));
                                 dt.Columns.Add(new DataColumn("기준"));
                                 dt.Columns.Add(new DataColumn("상한"));
@@ -310,7 +311,8 @@ namespace 보령
                 //-------------------------------------------------------------------------------------------------------
                 dt.Columns.Add(new DataColumn("원료코드"));
                 dt.Columns.Add(new DataColumn("원료명"));
-                dt.Columns.Add(new DataColumn("규격"));
+                //dt.Columns.Add(new DataColumn("규격"));
+                dt.Columns.Add(new DataColumn("유효기한"));
                 dt.Columns.Add(new DataColumn("하한"));
                 dt.Columns.Add(new DataColumn("기준"));
                 dt.Columns.Add(new DataColumn("상한"));
@@ -331,7 +333,8 @@ namespace 보령
                     //-------------------------------------------------------------------------------------------------------
                     row["원료코드"] = item.MTRLID != null ? item.MTRLID.ToString() : "";
                     row["원료명"] = item.MTRLNAME != null ? item.MTRLNAME.ToString() : "";
-                    row["규격"] = item.STANDARD != null ? item.STANDARD.ToString() : "";
+                    //row["규격"] = item.STANDARD != null ? item.STANDARD.ToString() : "";
+                    row["유효기한"] = item.EXPIRYDTTM != null ? item.EXPIRYDTTM.ToString() : "";
                     row["하한"] = item.LOWER != null ? item.LOWER.ToString() : "";
                     row["기준"] = item.TARGET != null ? item.TARGET.ToString() : "";
                     row["상한"] = item.UPPER != null ? item.UPPER.ToString() : "";
@@ -353,7 +356,7 @@ namespace 보령
                     if (item.PoId == _mainWnd.CurrentOrder.ProductionOrderID)
                         delRow = item;
                 }
-                if(delRow != null)
+                if (delRow != null)
                     _XMLDataSet.Remove(delRow);
 
                 _XMLDataSet.Add(new CampaignOrderXML

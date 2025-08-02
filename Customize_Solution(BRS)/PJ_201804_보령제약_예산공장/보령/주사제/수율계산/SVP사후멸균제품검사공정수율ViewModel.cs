@@ -264,23 +264,22 @@ namespace 보령
                                     throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                 }
                             }
-
-                            var outputValues = InstructionModel.GetResultReceiver(_mainWnd.CurrentInstruction, _mainWnd.Instructions);
-
-                            authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_Yield");
-
-                            if (await authHelper.ClickAsync(
-                                Common.enumCertificationType.Function,
-                                Common.enumAccessType.Create,
-                                "SVP사후멸균제품검사공정수율 수율 기록",
-                                "SVP사후멸균제품검사공정수율 수율 기록",
-                                false,
-                                "OM_ProductionOrder_Yield",
-                                "", null, null) == false)
+                            else
                             {
-                                throw new Exception(string.Format("서명이 완료되지 않았습니다."));
-                            }
+                                authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_Yield");
 
+                                if (await authHelper.ClickAsync(
+                                    Common.enumCertificationType.Function,
+                                    Common.enumAccessType.Create,
+                                    "SVP사후멸균제품검사공정수율 수율 기록",
+                                    "SVP사후멸균제품검사공정수율 수율 기록",
+                                    false,
+                                    "OM_ProductionOrder_Yield",
+                                    "", null, null) == false)
+                                {
+                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                }
+                            }
                             // 수율기록
                             _BR_BRS_REG_ProductionOrderDetailYield.INDATAs.Clear();
                             _BR_BRS_REG_ProductionOrderDetailYield.INDATAs.Add(new BR_BRS_REG_ProductionOrderDetailYield.INDATA
@@ -302,6 +301,8 @@ namespace 보령
 
                                 _mainWnd.CurrentInstruction.Raw.ACTVAL = Result_SUM.ToString();
                                 _mainWnd.CurrentInstruction.Raw.NOTE = imageToByteArray();
+
+                                var outputValues = InstructionModel.GetResultReceiver(_mainWnd.CurrentInstruction, _mainWnd.Instructions);
 
                                 var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction, false, false, true);
                                 if (result != enumInstructionRegistErrorType.Ok)

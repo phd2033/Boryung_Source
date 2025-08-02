@@ -15,15 +15,15 @@ using C1.Silverlight.Imaging;
 
 namespace 보령
 {
-    public class SVP자동이물검사수율ViewModel : ViewModelBase
+    public class SVP사후멸균수율ViewModel : ViewModelBase
     {
         #region Properties
-        public SVP자동이물검사수율ViewModel()
+        public SVP사후멸균수율ViewModel()
         {
             _BR_BRS_REG_ProductionOrderDetailYield = new BR_BRS_REG_ProductionOrderDetailYield();
         }
 
-        SVP자동이물검사수율 _mainWnd;
+        SVP사후멸균수율 _mainWnd;
 
         private string _result_IN;
         public string Result_IN
@@ -85,9 +85,9 @@ namespace 보령
                             if (arg != null)
                             {
                                 IsBusy = true;
-                                _mainWnd = arg as SVP자동이물검사수율;
+                                _mainWnd = arg as SVP사후멸균수율;
                             }
-                            
+
                             CommandResults["LoadedCommandAsync"] = true;
                         }
                         catch (Exception ex)
@@ -150,8 +150,8 @@ namespace 보령
                             if (await authHelper.ClickAsync(
                                 Common.enumCertificationType.Function,
                                 Common.enumAccessType.Create,
-                                string.Format("SVP자동이물검사공정 UI 기록없음"),
-                                string.Format("SVP자동이물검사공정 UI 기록없음"),
+                                string.Format("SVP사후멸균수율 UI 기록없음"),
+                                string.Format("SVP사후멸균수율 UI 기록없음"),
                                 true,
                                 "OM_ProductionOrder_SUI",
                                 "", _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID, null) == false)
@@ -263,15 +263,16 @@ namespace 보령
                                 {
                                     throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                 }
-                            }else
+                            }
+                            else
                             {
                                 authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_Yield");
 
                                 if (await authHelper.ClickAsync(
                                     Common.enumCertificationType.Function,
                                     Common.enumAccessType.Create,
-                                    "SVP자동이물검사수율 수율 기록",
-                                    "SVP자동이물검사수율 수율 기록",
+                                    "SVP사후멸균수율 수율 기록",
+                                    "SVP사후멸균수율 수율 기록",
                                     false,
                                     "OM_ProductionOrder_Yield",
                                     "", null, null) == false)

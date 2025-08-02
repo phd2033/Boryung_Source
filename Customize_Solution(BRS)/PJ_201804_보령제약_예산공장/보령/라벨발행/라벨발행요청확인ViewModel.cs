@@ -119,65 +119,65 @@ namespace 보령
             {
                 return new AsyncCommandBase(async arg =>
                 {
-                using (await AwaitableLocks["LoadedCommandAsync"].EnterAsync())
-                {
-                    try
+                    using (await AwaitableLocks["LoadedCommandAsync"].EnterAsync())
                     {
-                        IsBusy = true;
-
-                        CommandResults["LoadedCommandAsync"] = false;
-                        CommandCanExecutes["LoadedCommandAsync"] = false;
-
-                        if (arg != null && arg is 라벨발행요청확인)
+                        try
                         {
-                            _mainWnd = arg as 라벨발행요청확인;
-                            _inputValues = InstructionModel.GetParameterSender(_mainWnd.CurrentInstruction, _mainWnd.Instructions);
+                            IsBusy = true;
 
-                            if (_inputValues.Count > 0)
+                            CommandResults["LoadedCommandAsync"] = false;
+                            CommandCanExecutes["LoadedCommandAsync"] = false;
+
+                            if (arg != null && arg is 라벨발행요청확인)
                             {
-                                // 2025.05.21 박희돈 YES/NO 기록시 실제 값은 ON/OFF로 저장되어 둘다 보도록 함.
-                                if (_inputValues[0].Raw.ACTVAL.ToUpper().Equals("YES") || _inputValues[0].Raw.ACTVAL.ToUpper().Equals("ON"))
+                                _mainWnd = arg as 라벨발행요청확인;
+                                _inputValues = InstructionModel.GetParameterSender(_mainWnd.CurrentInstruction, _mainWnd.Instructions);
+
+                                if (_inputValues.Count > 0)
                                 {
-                                    IsComfirm = true;
-                                    IsNoRecode = false;
+                                    // 2025.05.21 박희돈 YES/NO 기록시 실제 값은 ON/OFF로 저장되어 둘다 보도록 함.
+                                    if (_inputValues[0].Raw.ACTVAL.ToUpper().Equals("YES") || _inputValues[0].Raw.ACTVAL.ToUpper().Equals("ON"))
+                                    {
+                                        IsComfirm = true;
+                                        IsNoRecode = false;
+                                    }
+                                    else
+                                    {
+                                        IsComfirm = false;
+                                        IsNoRecode = true;
+                                    }
+                                }
+
+                                if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y")
+                                    && _mainWnd.CurrentInstruction.PhaseState.Equals("COMP")
+                                    && _mainWnd.CurrentInstruction.Raw.NOTE != null)
+                                {
+                                    var bytearray = _mainWnd.CurrentInstruction.Raw.NOTE;
+                                    string xml = Encoding.UTF8.GetString(bytearray, 0, bytearray.Length);
+                                    DataSet ds = new DataSet();
+                                    ds.ReadXmlFromString(xml);
+
+                                    if (ds.Tables.Count == 1 && ds.Tables[0].TableName == "DATA")
+                                    {
+                                        foreach (DataRow row in ds.Tables[0].Rows)
+                                        {
+                                            _UserContain.Add(new UserContainer.OUTDATA
+                                            {
+                                                USERID = row["확인자ID"] != null ? row["확인자ID"].ToString() : "",
+                                                USERNAME = row["확인자명"] != null ? row["확인자명"].ToString() : "",
+                                                RowEditSec = "INS"
+                                            });
+                                        }
+                                        OnPropertyChanged("UserList");
+                                    }
                                 }
                                 else
                                 {
-                                    IsComfirm = false;
-                                    IsNoRecode = true;
-                                }
-                            }
-
-                            if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y")
-                                && _mainWnd.CurrentInstruction.PhaseState.Equals("COMP")
-                                && _mainWnd.CurrentInstruction.Raw.NOTE != null)
-                            {
-                                var bytearray = _mainWnd.CurrentInstruction.Raw.NOTE;
-                                string xml = Encoding.UTF8.GetString(bytearray, 0, bytearray.Length);
-                                DataSet ds = new DataSet();
-                                ds.ReadXmlFromString(xml);
-
-                                if (ds.Tables.Count == 1 && ds.Tables[0].TableName == "DATA")
-                                {
-                                    foreach (DataRow row in ds.Tables[0].Rows)
+                                    _UserContain.Add(new UserContainer.OUTDATA
                                     {
-                                        _UserContain.Add(new UserContainer.OUTDATA
-                                        {
-                                            USERID = row["확인자ID"] != null ? row["확인자ID"].ToString() : "",
-                                            USERNAME = row["확인자명"] != null ? row["확인자명"].ToString() : "",
-                                            RowEditSec = "INS"
-                                        });
-                                    }
-                                    OnPropertyChanged("UserList");
-                                }
-                            }
-                            else
-                            {
-                                _UserContain.Add(new UserContainer.OUTDATA
-                                {
-                                    USERID = AuthRepositoryViewModel.Instance.LoginedUserID,
-                                    USERNAME = AuthRepositoryViewModel.Instance.LoginedUserName,
-                                    RowEditSec = "INS"
+                                        USERID = AuthRepositoryViewModel.Instance.LoginedUserID,
+                                        USERNAME = AuthRepositoryViewModel.Instance.LoginedUserName,
+                                        RowEditSec = "INS"
                                     });
                                 }
                             }
@@ -227,7 +227,8 @@ namespace 보령
                             {
                                 USERID = AuthRepositoryViewModel.Instance.LoginedUserID,
                                 CMCDTYPE = "BRS_LABEL_APPR",
-                                CMCODE = "QA_LABEL_APPROVE"
+                                CMCODE = "QA_LABEL_APPROVE",
+                                IsChecked = false
                             });
 
                             //XML 생성. 비즈룰 INDATA생성
@@ -256,7 +257,7 @@ namespace 보령
                             {
                                 throw new Exception(string.Format("권한이 없는 사용자입니다."));
                             }
-                            
+
                             var authHelper = new iPharmAuthCommandHelper();
                             if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN == "Y" && _mainWnd.CurrentInstruction.PhaseState.Equals("COMP"))
                             {
@@ -274,7 +275,7 @@ namespace 보령
                                     throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                 }
                             }
-                            
+
                             var xml = BizActorRuleBase.CreateXMLStream(ds);
                             var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
 

@@ -147,8 +147,7 @@ namespace 보령
                             _mainWnd = arg as 원료의약품라벨발행;
                             btnRecordEnable = false;
                             VesselId = "";
-
-                            ////add
+                            
                             //히스토리 이력 불러와서 UI에 보여주기
                             _BR_BRS_SEL_DrugSubstance_LABEL_HISTORY.INDATAs.Clear();
                             _BR_BRS_SEL_DrugSubstance_LABEL_HISTORY.OUTDATAs.Clear();
@@ -171,11 +170,8 @@ namespace 보령
                             });
 
                             if (await _BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance.Execute() == false) throw _BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance.Exception;
-
-
-                            ///addadd 현재 생성된 반제품에 라벨 수를 구하는 BizRule 필요 group by 해서 라벨 발행 수가 > 1 보다 큰지 작은지로 판단
-                            ///_BR_BRS_SEL_DrugSubstance_LABEL_HISTORY.OUTDATAs.Count > 1 현재 이걸로는 비교 불가능
-
+                            
+                            ///_BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance BizRule 통해 발행 횟수 확인. 0보다 크면 발행한 이력 있음.
                             if (_BR_BRS_SEL_ProductionOrderOutputSubLot_DrugSubstance.OUTDATAs.Count > 0)
                             {
                                 if (_mainWnd.CurrentInstruction.Raw.ACTVAL == _mainWnd.TableTypeName && _mainWnd.CurrentInstruction.Raw.NOTE != null)
@@ -358,7 +354,7 @@ namespace 보령
 
                         ///
                         IsBusy = true;
-                        bool FirstNoRecord = false;
+                        bool FirstNoRecord = false; //2025.08.05 김도연 처음 기록없음 버튼을 통해 지시문을 기록할 경우 코멘트가 남도록 하는 Flag
 
                         var authHelper = new iPharmAuthCommandHelper();
                         if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y") && _mainWnd.Phase.CurrentPhase.STATE.Equals("COMP")) // 값 수정
@@ -429,6 +425,7 @@ namespace 보령
                             throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
                         }
 
+                        //2025.08.05 김도연 처음 기록없음 버튼을 통해 지시문을 기록할 경우 코멘트가 남도록 함
                         if (FirstNoRecord)
                         {
 
@@ -495,7 +492,7 @@ namespace 보령
                         ///
                         IsBusy = true;
 
-                        ///addadd 현재 생성된 반제품 수랑 구하는 BizRule이랑 IBCLIST에 있는 거랑 갯수 비교
+                        ///현재 생성된 반제품 수랑 구하는 BizRule이랑 IBCLIST에 있는 거랑 갯수 비교
                         ///만약 적거나 많으면 에러메세지 return 
                         ///동일하면 라벨 발행 진행
                         if (_IBCList.Count > 0)
@@ -550,7 +547,6 @@ namespace 보령
                                 }
                             }
                             
-                            ////add
                             // 라벨 출력하는 BizRule 돌리고 라벨 출력
                             // 히스토리 다시 불러와서 지시문에 기록
                             _BR_BRS_REG_PRINT_DrugSubstanceLabel.INDATAs.Clear();

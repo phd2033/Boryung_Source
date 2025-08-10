@@ -122,7 +122,7 @@ namespace 보령
 
                         ///
                         IsBusy = true;
-                        bool FirstNoRecord = false;
+                        bool FirstNoRecord = false; //2025.08.05 김도연 처음 기록없음 버튼을 통해 지시문을 기록할 경우 코멘트가 남도록 하는 Flag
 
                         var authHelper = new iPharmAuthCommandHelper();
                         if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y") && _mainWnd.Phase.CurrentPhase.STATE.Equals("COMP")) // 값 수정
@@ -176,6 +176,7 @@ namespace 보령
                             throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
                         }
 
+                        //2025.08.05 김도연 처음 기록없음 버튼을 통해 지시문을 기록할 경우 코멘트가 남도록 함
                         if (FirstNoRecord)
                         {
                             var bizrule = new BR_PHR_REG_InstructionComment();

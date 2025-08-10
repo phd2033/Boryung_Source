@@ -13,7 +13,7 @@
     xmlns:icommon="clr-namespace:LGCNS.iPharmMES.Common;assembly=LGCNS.iPharmMES.Common"    
     x:Name="Main"
     mc:Ignorable="d"
-    Title="SVP사후멸균수율"
+    Title="SVP 사후멸균 수율"
     Height="400" Width="750" Foreground="#FF464545" FontFamily="Malgun Gothic" FontSize="14" FontWeight="Bold">
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
         <local:SVP사후멸균수율ViewModel x:Key="viewModel"/>

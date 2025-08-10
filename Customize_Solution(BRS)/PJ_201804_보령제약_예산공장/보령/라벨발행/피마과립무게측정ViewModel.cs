@@ -552,7 +552,7 @@ namespace 보령
                         try
                         {
                             IsBusy = true;
-                            bool FirstNoRecord = false;
+                            bool FirstNoRecord = false; //2025.08.05 김도연 처음 기록없음 버튼을 통해 지시문을 기록할 경우 코멘트가 남도록 하는 Flag
 
                             CommandResults["NoRecordConfirmCommandAsync"] = false;
                             CommandCanExecutes["NoRecordConfirmCommandAsync"] = false;
@@ -630,6 +630,7 @@ namespace 보령
                                 throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
                             }
 
+                            //2025.08.05 김도연 처음 기록없음 버튼을 통해 지시문을 기록할 경우 코멘트가 남도록 
                             if (FirstNoRecord)
                             {
 

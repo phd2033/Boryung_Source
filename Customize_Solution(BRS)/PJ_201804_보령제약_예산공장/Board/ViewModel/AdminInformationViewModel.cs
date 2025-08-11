@@ -26,8 +26,7 @@ namespace Board
         {
             _BR_BRS_SEL_SEND_MAIL_TO_LIST = new BR_BRS_SEL_SEND_MAIL_TO_LIST();
             _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST = new BR_BRS_REG_UDT_SEND_MAIL_TO_LIST();
-            _BR_BRS_SEL_COMMONCODE_CMCODE = new BR_BRS_SEL_COMMONCODE_CMCODE();
-            _BR_BRS_SEL_COMMONCODE_CMCDTYPE = new BR_BRS_SEL_COMMONCODE_CMCDTYPE();
+            _BR_PHR_SEL_CommonCode = new BR_PHR_SEL_CommonCode();
             _BR_BRS_SEL_PERSON_DEC = new BR_BRS_SEL_PERSON_DEC();
             _BR_BRS_SEL_ISUSE_YN = new BR_BRS_SEL_ISUSE_YN();
 
@@ -97,6 +96,17 @@ namespace Board
             }
         }
 
+        private string _IUSE;
+        public string IUSE
+        {
+            get { return _IUSE; }
+            set
+            {
+                _IUSE = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private bool _IsChecked;
         public bool IsChecked
         {
@@ -123,14 +133,14 @@ namespace Board
             }
         }
 
-        private BR_BRS_SEL_COMMONCODE_CMCODE _BR_BRS_SEL_COMMONCODE_CMCODE;
-        public BR_BRS_SEL_COMMONCODE_CMCODE BR_BRS_SEL_COMMONCODE_CMCODE
+        private BR_PHR_SEL_CommonCode _BR_PHR_SEL_CommonCode;
+        public BR_PHR_SEL_CommonCode BR_PHR_SEL_CommonCode
         {
-            get { return _BR_BRS_SEL_COMMONCODE_CMCODE; }
+            get { return _BR_PHR_SEL_CommonCode; }
             set
             {
-                _BR_BRS_SEL_COMMONCODE_CMCODE = value;
-                OnPropertyChanged("BR_BRS_SEL_COMMONCODE_CMCODE");
+                _BR_PHR_SEL_CommonCode = value;
+                OnPropertyChanged("BR_PHR_SEL_CommonCode");
             }
         }
 
@@ -142,17 +152,6 @@ namespace Board
             {
                 _BR_BRS_SEL_ISUSE_YN = value;
                 OnPropertyChanged("BR_BRS_SEL_ISUSE_YN");
-            }
-        }
-
-        private BR_BRS_SEL_COMMONCODE_CMCDTYPE _BR_BRS_SEL_COMMONCODE_CMCDTYPE;
-        public BR_BRS_SEL_COMMONCODE_CMCDTYPE BR_BRS_SEL_COMMONCODE_CMCDTYPE
-        {
-            get { return _BR_BRS_SEL_COMMONCODE_CMCDTYPE; }
-            set
-            {
-                _BR_BRS_SEL_COMMONCODE_CMCDTYPE = value;
-                OnPropertyChanged("BR_BRS_SEL_COMMONCODE_CMCDTYPE");
             }
         }
 
@@ -198,15 +197,19 @@ namespace Board
 
                             _mainWnd = arg as AdminInformation;
 
-                            _BR_BRS_SEL_COMMONCODE_CMCDTYPE.INDATAs.Clear();
-                            _BR_BRS_SEL_COMMONCODE_CMCDTYPE.OUTDATAs.Clear();
-
                             _BR_BRS_SEL_ISUSE_YN.INDATAs.Clear();
                             _BR_BRS_SEL_ISUSE_YN.OUTDATAs.Clear();
 
-                            await _BR_BRS_SEL_ISUSE_YN.Execute();
+                            _BR_PHR_SEL_CommonCode.INDATAs.Clear();
+                            _BR_PHR_SEL_CommonCode.OUTDATAs.Clear();
 
-                            await _BR_BRS_SEL_COMMONCODE_CMCDTYPE.Execute();
+                            _BR_PHR_SEL_CommonCode.INDATAs.Add(new BR_PHR_SEL_CommonCode.INDATA()
+                            {
+                                CMCDTYPE = "BRS_ADMIN_INFO"
+                            });
+                            await _BR_PHR_SEL_CommonCode.Execute();
+
+                            await _BR_BRS_SEL_ISUSE_YN.Execute();
 
                             CommandResults["LoadedCommand"] = true;
 
@@ -307,7 +310,7 @@ namespace Board
                             _BR_BRS_SEL_SEND_MAIL_TO_LIST.INDATAs.Add(new BR_BRS_SEL_SEND_MAIL_TO_LIST.INDATA()
                             {
                                 USERID = string.IsNullOrWhiteSpace(USERID) ? null : USERID,
-                                IsChecked = IsChecked                                                             
+                                IUSE = IsChecked ? "" : "Y"
                             });
 
                             await _BR_BRS_SEL_SEND_MAIL_TO_LIST.Execute();
@@ -348,48 +351,20 @@ namespace Board
                         {
                             IsBusy = true;
 
+                            var checkFlag = false;
+
                             CommandResults["BtnUpdateCommand"] = false;
                             CommandCanExecutes["BtnUpdateCommand"] = false;
 
                             var authHelper = new iPharmAuthCommandHelper();
 
-                            //// 전자서명 요청
-                            //authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
-
-                            //if (await authHelper.ClickAsync(
-                            //    Common.enumCertificationType.Function,
-                            //    Common.enumAccessType.Create,
-                            //    string.Format("관리자 정보 조회 속성값을 변경합니다."),
-                            //    string.Format("속성값 변경"),
-                            //    false,
-                            //    "OM_ProductionOrder_SUI",
-                            //    "", null, null) == false)
-                            //{
-                            //    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
-                            //}
-                            // 전자서명 요청
-                            authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "SM_SystemInfo_UI");
-
-                            if (await authHelper.ClickAsync(
-                                Common.enumCertificationType.Function,
-                                Common.enumAccessType.Create,
-                                string.Format("관리자 정보 조회 속성값을 변경합니다."),
-                                string.Format("속성값 변경"),
-                                false,
-                                "SM_SystemInfo_UI",
-                                "", null, null) == false)
-                            {
-                                throw new Exception(string.Format("서명이 완료되지 않았습니다."));
-                            }
-
                             foreach (var item in _BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs)
                             {
                                 if (item.CHK == "Y" && item != null)
                                 {
+                                    checkFlag = true;
                                     _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.INDATAs.Add(new BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.INDATA
                                     {
-                                        //SEQ = Convert.ToInt32(item.RowIndex) + 1,
-                                        //SEQ = item.SEQ,
                                         CMCDTYPE = item.CMCDTYPE,
                                         CMCODE = item.CMCODE,
                                         CMCDNAME = item.CMCDNAME,
@@ -400,7 +375,24 @@ namespace Board
                                     });
                                 }
                             }
-                            await _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.Execute();
+                            if (checkFlag)
+                            {
+                                authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "SM_SystemInfo_UI");
+
+                                if (await authHelper.ClickAsync(
+                                    Common.enumCertificationType.Function,
+                                    Common.enumAccessType.Create,
+                                    string.Format("관리자 정보 조회 속성값을 변경합니다."),
+                                    string.Format("속성값 변경"),
+                                    false,
+                                    "SM_SystemInfo_UI",
+                                    "", null, null) == false)
+                                {
+                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                }
+
+                                await _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.Execute();
+                            }
 
                             CommandResults["BtnUpdateCommand"] = true;
 
@@ -488,35 +480,15 @@ namespace Board
                             CommandCanExecutes["ComboFieldDataChangedCommand"] = false;
 
                             IsBusy = true;
-
-                            _BR_BRS_SEL_COMMONCODE_CMCODE.INDATAs.Clear();
-                            _BR_BRS_SEL_COMMONCODE_CMCODE.OUTDATAs.Clear();
-
+                         
                             var temp = _mainWnd.AdminInformationGrid.SelectedItem as BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATA;
                             var filter = _mainWnd.AdminInformationGrid.CurrentColumn;
 
                             if (temp != null && filter != null && !string.IsNullOrWhiteSpace(filter.FilterMemberPath))
                             {
-                                if(filter.FilterMemberPath == "CMCDTYPE_NAMEFIELD")
+                                if (_BR_PHR_SEL_CommonCode.OUTDATAs != null && _BR_PHR_SEL_CommonCode.OUTDATAs.Count > 0)
                                 {
-                                    _BR_BRS_SEL_COMMONCODE_CMCODE.INDATAs.Add(new BR_BRS_SEL_COMMONCODE_CMCODE.INDATA()
-                                    {
-                                        CMCDTYPE = temp.CMCDTYPE
-                                    });
-                                    await _BR_BRS_SEL_COMMONCODE_CMCODE.Execute();
-                                }
-                                else if (filter.FilterMemberPath == "CMCODE_NAMEFIELD")
-                                {
-                                    _BR_BRS_SEL_COMMONCODE_CMCODE.INDATAs.Add(new BR_BRS_SEL_COMMONCODE_CMCODE.INDATA()
-                                    {
-                                        CMCODE = temp.CMCODE
-                                    });
-                                    await _BR_BRS_SEL_COMMONCODE_CMCODE.Execute();   
-                                }
-
-                                if (_BR_BRS_SEL_COMMONCODE_CMCODE.OUTDATAs != null && _BR_BRS_SEL_COMMONCODE_CMCODE.OUTDATAs.Count > 0)
-                                {
-                                    foreach (var outdata in _BR_BRS_SEL_COMMONCODE_CMCODE.OUTDATAs)
+                                    foreach (var outdata in _BR_PHR_SEL_CommonCode.OUTDATAs)
                                     {
                                         if (outdata?.CMCDNAME != null && outdata.CMCODE == temp.CMCODE)
                                         {
@@ -569,9 +541,6 @@ namespace Board
 
                             IsBusy = true;
 
-                            _BR_BRS_SEL_COMMONCODE_CMCODE.INDATAs.Clear();
-                            _BR_BRS_SEL_COMMONCODE_CMCODE.OUTDATAs.Clear();
-
                             _BR_BRS_SEL_PERSON_DEC.INDATAs.Clear();
                             _BR_BRS_SEL_PERSON_DEC.OUTDATAs.Clear();
 
@@ -587,10 +556,18 @@ namespace Board
                                     {
                                         USERID = temp.USERID
                                     });
+
                                     await _BR_BRS_SEL_PERSON_DEC.Execute();
+
+                                    if (_BR_BRS_SEL_PERSON_DEC.OUTDATAs.Count == 0)
+                                    {
+                                        temp.USERID = "";
+                                        temp.USERNAME = "";
+                                        temp.USERMAIL = "";
+                                    };
                                 }
 
-                                foreach (var outdata in BR_BRS_SEL_COMMONCODE_CMCODE.OUTDATAs)
+                                foreach (var outdata in BR_PHR_SEL_CommonCode.OUTDATAs)
                                 {
                                     if (outdata.CMCDNAME != null)
                                     {
@@ -653,8 +630,8 @@ namespace Board
 
                             IsBusy = true;
 
-                            _BR_BRS_SEL_COMMONCODE_CMCODE.INDATAs.Clear();
-                            _BR_BRS_SEL_COMMONCODE_CMCODE.OUTDATAs.Clear();
+                            _BR_PHR_SEL_CommonCode.INDATAs.Clear();
+                            _BR_PHR_SEL_CommonCode.OUTDATAs.Clear();
 
                             _BR_BRS_SEL_PERSON_DEC.INDATAs.Clear();
                             _BR_BRS_SEL_PERSON_DEC.OUTDATAs.Clear();
@@ -674,7 +651,7 @@ namespace Board
                                     await _BR_BRS_SEL_PERSON_DEC.Execute();
                                 }
 
-                                foreach (var outdata in BR_BRS_SEL_COMMONCODE_CMCODE.OUTDATAs)
+                                foreach (var outdata in BR_PHR_SEL_CommonCode.OUTDATAs)
                                 {
                                     if (outdata.CMCDNAME != null)
                                     {
@@ -741,14 +718,15 @@ namespace Board
                             if (temp != null)
                             {
                                 temp.CHK = "Y";
+                                temp.CMCDTYPE = "BRS_ADMIN_INFO";
                                 temp.CMCDNAME = "(자동 입력)";
                                 temp.USERNAME = "(자동 입력)";
                                 temp.USERMAIL = "(자동 입력)";
 
+                                _mainWnd.AdminInformationGrid.Columns[3].IsReadOnly = true;
                                 _mainWnd.AdminInformationGrid.Columns[5].IsReadOnly = true;
                                 _mainWnd.AdminInformationGrid.Columns[7].IsReadOnly = true;
                                 _mainWnd.AdminInformationGrid.Columns[8].IsReadOnly = true;
-
                             }
 
 

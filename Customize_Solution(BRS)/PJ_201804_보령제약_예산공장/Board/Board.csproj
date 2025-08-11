@@ -178,8 +178,6 @@
     <Compile Include="Model.Access\iPharm.Report\BR.WorkTimeReport\BR_PHR_RPT_Employee_WorkTime_by_EmpNo.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR.WorkTimeReport\BR_PHR_RPT_Equipment_WorkTime.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR_AdminInformation\BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.Access.cs" />
-    <Compile Include="Model.Access\iPharm.Report\BR_AdminInformation\BR_BRS_SEL_COMMONCODE_CMCDTYPE.Access.cs" />
-    <Compile Include="Model.Access\iPharm.Report\BR_AdminInformation\BR_BRS_SEL_COMMONCODE_CMCODE.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR_AdminInformation\BR_BRS_SEL_ISUSE_YN.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR_AdminInformation\BR_BRS_SEL_PERSON_DEC.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR_AdminInformation\BR_BRS_SEL_SEND_MAIL_TO_LIST.Access.cs" />

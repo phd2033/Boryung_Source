@@ -165,13 +165,13 @@ namespace LGCNS.iPharmMES.Common
                     }
                 }
             }
-            private System.Nullable<bool> _IsChecked;
+            private string _IUSE;
             [BizActorInputItemAttribute()]
-            public System.Nullable<bool> IsChecked
+            public string IUSE
             {
                 get
                 {
-                    return this._IsChecked;
+                    return this._IUSE;
                 }
                 set
                 {
@@ -180,9 +180,9 @@ namespace LGCNS.iPharmMES.Common
                     }
                     else
                     {
-                        this._IsChecked = value;
-                        this.CheckIsOriginal("IsChecked", value);
-                        this.OnPropertyChanged("IsChecked");
+                        this._IUSE = value;
+                        this.CheckIsOriginal("IUSE", value);
+                        this.OnPropertyChanged("IUSE");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())

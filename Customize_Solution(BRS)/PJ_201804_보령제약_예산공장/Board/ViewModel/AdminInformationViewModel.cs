@@ -238,6 +238,9 @@ namespace Board
             }
         }
 
+        /// <summary>
+        /// 2025.08.12 조영호 사용하지 않는 데이터 포함 조회를 위한 기능 
+        /// </summary>
         public ICommand IsCheckedCommand
         {
             get
@@ -468,6 +471,9 @@ namespace Board
                 });
             }
         }
+        /// <summary>
+        /// 2025.08.12 조영호 코드 콤보박스 선택 시 코드명 자동 입력 기능
+        /// </summary>
         public ICommand ComboFieldDataChangedCommand
         {
             get
@@ -528,6 +534,9 @@ namespace Board
                 });
             }
         }
+        /// <summary>
+        /// 2025.08.12 조영호 사번 입력 시 이름, 메일 주소 자동 입력 기능
+        /// </summary>
         public ICommand CommittingRowEditCommand
         {
             get
@@ -564,8 +573,8 @@ namespace Board
                                     if (_BR_BRS_SEL_PERSON_DEC.OUTDATAs.Count == 0)
                                     {
                                         temp.USERID = "";
-                                        temp.USERNAME = "";
-                                        temp.USERMAIL = "";
+                                        temp.USERNAME = "(자동 입력)";
+                                        temp.USERMAIL = "(자동 입력)";
                                     };
                                 }
 
@@ -616,91 +625,9 @@ namespace Board
                 });
             }
         }
-
-        public ICommand CheckFieldDataChangedCommand
-        {
-            get
-            {
-                return new AsyncCommandBase(async arg =>
-                {
-                    using (await AwaitableLocks["CommittingRowEditCommand"].EnterAsync())
-                    {
-                        try
-                        {
-                            CommandResults["CommittingRowEditCommand"] = false;
-                            CommandCanExecutes["CommittingRowEditCommand"] = false;
-
-                            IsBusy = true;
-
-                            _BR_PHR_SEL_CommonCode.INDATAs.Clear();
-                            _BR_PHR_SEL_CommonCode.OUTDATAs.Clear();
-
-                            _BR_BRS_SEL_PERSON_DEC.INDATAs.Clear();
-                            _BR_BRS_SEL_PERSON_DEC.OUTDATAs.Clear();
-
-
-                            var temp = _mainWnd.AdminInformationGrid.SelectedItem as BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATA;
-                            var filter = _mainWnd.AdminInformationGrid.CurrentColumn;
-
-                            if (temp != null)
-                            {
-                                if (filter.FilterMemberPath == "USERID")
-                                {
-                                    _BR_BRS_SEL_PERSON_DEC.INDATAs.Add(new BR_BRS_SEL_PERSON_DEC.INDATA()
-                                    {
-                                        USERID = temp.USERID
-                                    });
-                                    await _BR_BRS_SEL_PERSON_DEC.Execute();
-                                }
-
-                                foreach (var outdata in BR_PHR_SEL_CommonCode.OUTDATAs)
-                                {
-                                    if (outdata.CMCDNAME != null)
-                                    {
-                                        if (temp.CMCODE == outdata.CMCODE)
-                                        {
-                                            temp.CMCDNAME = outdata.CMCDNAME;
-                                        }
-                                    }
-                                }
-
-                                foreach (var outdata in BR_BRS_SEL_PERSON_DEC.OUTDATAs)
-                                {
-                                    if (outdata.USERNAME != null && outdata.USERMAIL != null)
-                                    {
-                                        temp.USERNAME = outdata.USERNAME;
-                                        temp.USERMAIL = outdata.USERMAIL;
-
-                                        _mainWnd.AdminInformationGrid.Columns[7].IsReadOnly = true;
-                                        _mainWnd.AdminInformationGrid.Columns[8].IsReadOnly = true;
-                                    }
-                                }
-                            }
-
-                            IsBusy = false;
-
-                            CommandResults["CommittingRowEditCommand"] = true;
-                        }
-                        catch (Exception ex)
-                        {
-                            CommandResults["CommittingRowEditCommand"] = false;
-                            OnException(ex.Message, ex);
-                        }
-                        finally
-                        {
-                            CommandCanExecutes["CommittingRowEditCommand"] = true;
-
-                            IsBusy = false;
-                        }
-                    }
-                }, arg =>
-                {
-                    return CommandCanExecutes.ContainsKey("CommittingRowEditCommand") ?
-                        CommandCanExecutes["CommittingRowEditCommand"] : (CommandCanExecutes["CommittingRowEditCommand"] = true);
-                });
-            }
-        }
-
+        /// <summary>
+        /// 2025.08.12 조영호 행 추가 기능
+        /// </summary>
         public ICommand RowAddCommand
         {
             get

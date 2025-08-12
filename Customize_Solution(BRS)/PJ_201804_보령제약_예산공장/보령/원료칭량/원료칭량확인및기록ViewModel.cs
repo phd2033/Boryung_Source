@@ -236,6 +236,7 @@ namespace 보령
                                 //-------------------------------------------------------------------------------------------------------
                                 dt.Columns.Add(new DataColumn("원료코드"));
                                 dt.Columns.Add(new DataColumn("원료명"));
+                                //2025.08.12 조영호 규격 제외하고 원료 유효기한 표시
                                 //dt.Columns.Add(new DataColumn("규격"));
                                 dt.Columns.Add(new DataColumn("유효기한"));
                                 dt.Columns.Add(new DataColumn("하한"));
@@ -311,6 +312,7 @@ namespace 보령
                 //-------------------------------------------------------------------------------------------------------
                 dt.Columns.Add(new DataColumn("원료코드"));
                 dt.Columns.Add(new DataColumn("원료명"));
+                //2025.08.12 조영호 규격 제외하고 원료 유효기한 표시
                 //dt.Columns.Add(new DataColumn("규격"));
                 dt.Columns.Add(new DataColumn("유효기한"));
                 dt.Columns.Add(new DataColumn("하한"));
@@ -333,6 +335,7 @@ namespace 보령
                     //-------------------------------------------------------------------------------------------------------
                     row["원료코드"] = item.MTRLID != null ? item.MTRLID.ToString() : "";
                     row["원료명"] = item.MTRLNAME != null ? item.MTRLNAME.ToString() : "";
+                    //2025.08.12 조영호 규격 제외하고 원료 유효기한 표시
                     //row["규격"] = item.STANDARD != null ? item.STANDARD.ToString() : "";
                     row["유효기한"] = item.EXPIRYDTTM != null ? item.EXPIRYDTTM.ToString() : "";
                     row["하한"] = item.LOWER != null ? item.LOWER.ToString() : "";

@@ -356,6 +356,8 @@ namespace Board
                             CommandResults["BtnUpdateCommand"] = false;
                             CommandCanExecutes["BtnUpdateCommand"] = false;
 
+                            _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.INDATAs.Clear();
+
                             var authHelper = new iPharmAuthCommandHelper();
 
                             foreach (var item in _BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs)

@@ -10,7 +10,7 @@
            xmlns:local="clr-namespace:보령"
            xmlns:localctrl="clr-namespace:보령.UserControls" 
            x:Name="Main" Height="400" Width="900"                                    
-           Title="최종조제">
+           Title="최종조제_V2">
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
         <local:최종조제V2ViewModel x:Key="viewModel"/>
         <Style TargetType="TextBlock">

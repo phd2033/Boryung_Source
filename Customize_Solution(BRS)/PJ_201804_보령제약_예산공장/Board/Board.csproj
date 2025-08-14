@@ -192,6 +192,7 @@
     <Compile Include="ViewModel\DetailSearch\FacilitiesOperationStatusViewModel.cs" />
     <Compile Include="ViewModel\DetailSearch\IPCTestResultViewModel.cs" />
     <Compile Include="ViewModel\DetailSearch\ManufacturingProcessStatusViewModel.cs" />
+    <Compile Include="ViewModel\DetailSearch\TnTOutputInfoListViewModel.cs" />
     <Compile Include="ViewModel\DetailSearch\MaterialPickingInfoListViewModel.cs" />
     <Compile Include="ViewModel\IPCCPPRsltViewViewModel.cs" />
     <Compile Include="ViewModel\Mockup_classes.cs" />
@@ -231,6 +232,9 @@
     </Compile>
     <Compile Include="View\DetailSearch\ManufacturingProgressView.xaml.cs">
       <DependentUpon>ManufacturingProgressView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DetailSearch\TnTOutputInfoList.xaml.cs">
+      <DependentUpon>TnTOutputInfoList.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DetailSearch\MaterialPickingInfoList.xaml.cs">
       <DependentUpon>MaterialPickingInfoList.xaml</DependentUpon>
@@ -329,6 +333,10 @@
     <Page Include="View\DetailSearch\ManufacturingProgressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DetailSearch\TnTOutputInfoList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\DetailSearch\MaterialPickingInfoList.xaml">
       <SubType>Designer</SubType>

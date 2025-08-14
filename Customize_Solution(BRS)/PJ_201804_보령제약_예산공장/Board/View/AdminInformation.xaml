@@ -136,9 +136,6 @@
                         <i:EventTrigger EventName="CommittingRowEdit">
                             <i:InvokeCommandAction Command="{Binding CommittingRowEditCommand}"/>
                         </i:EventTrigger>
-                        <i:EventTrigger EventName="CheckFieldDataChanged">
-                            <i:InvokeCommandAction Command="{Binding CheckFieldDataChangedCommand}"/>
-                        </i:EventTrigger> 
                     </i:Interaction.Triggers>
                     <ControlsLib:CNSDataGrid.DataColumns>
                         <ControlsLib:DataColumn DataField="CHK" HeadName="" HeaderWidth="30"   ColumnType="CheckBox" HorizontalAlignment="Center" Excel="False" ColumnVisibility="Collapsed" ReadOnly="True"

@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace LGCNS.iPharmMES.Common
+namespace 보령
 {
 
     /// <summary>
@@ -211,6 +211,38 @@ namespace LGCNS.iPharmMES.Common
                         this._EQSJUSER = value;
                         this.CheckIsOriginal("EQSJUSER", value);
                         this.OnPropertyChanged("EQSJUSER");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _DHT;
+            [BizActorOutputItemAttribute()]
+            public string DHT
+            {
+                get
+                {
+                    return this._DHT;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._DHT = value;
+                        this.CheckIsOriginal("DHT", value);
+                        this.OnPropertyChanged("DHT");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())

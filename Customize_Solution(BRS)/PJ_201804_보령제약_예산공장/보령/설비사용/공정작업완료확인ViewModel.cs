@@ -22,18 +22,18 @@ namespace 보령
 
         public 공정작업완료확인ViewModel()
         {
-            _BR_BRS_SEL_ProductOrder_JOB_HIST_DHT = new BR_BRS_SEL_ProductOrder_JOB_HIST_DHT();
+            _BR_BRS_SEL_ProductOrder_JOB_HIST = new BR_BRS_SEL_ProductOrder_JOB_HIST();
         }
         #endregion
         #region [BizRule]
         // 현재 오더, 공정에서 기록한 JOB 이력을 조회.
-        private BR_BRS_SEL_ProductOrder_JOB_HIST_DHT _BR_BRS_SEL_ProductOrder_JOB_HIST_DHT;
-        public BR_BRS_SEL_ProductOrder_JOB_HIST_DHT BR_BRS_SEL_ProductOrder_JOB_HIST_DHT
+        private BR_BRS_SEL_ProductOrder_JOB_HIST _BR_BRS_SEL_ProductOrder_JOB_HIST;
+        public BR_BRS_SEL_ProductOrder_JOB_HIST BR_BRS_SEL_ProductOrder_JOB_HIST
         {
-            get { return _BR_BRS_SEL_ProductOrder_JOB_HIST_DHT; }
+            get { return _BR_BRS_SEL_ProductOrder_JOB_HIST; }
             set
             {
-                _BR_BRS_SEL_ProductOrder_JOB_HIST_DHT = value;
+                _BR_BRS_SEL_ProductOrder_JOB_HIST = value;
                 NotifyPropertyChanged();
             }
         }
@@ -58,17 +58,17 @@ namespace 보령
                             {
                                 _mainWnd = arg as 공정작업완료확인;
 
-                                _BR_BRS_SEL_ProductOrder_JOB_HIST_DHT.INDATAs.Clear();
-                                _BR_BRS_SEL_ProductOrder_JOB_HIST_DHT.OUTDATAs.Clear();
+                                _BR_BRS_SEL_ProductOrder_JOB_HIST.INDATAs.Clear();
+                                _BR_BRS_SEL_ProductOrder_JOB_HIST.OUTDATAs.Clear();
 
-                                _BR_BRS_SEL_ProductOrder_JOB_HIST_DHT.INDATAs.Add(new BR_BRS_SEL_ProductOrder_JOB_HIST_DHT.INDATA
+                                _BR_BRS_SEL_ProductOrder_JOB_HIST.INDATAs.Add(new BR_BRS_SEL_ProductOrder_JOB_HIST.INDATA
                                 {
                                     POID = _mainWnd.CurrentOrder.ProductionOrderID,
                                     OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID
                                 });
 
-                                if (await BR_BRS_SEL_ProductOrder_JOB_HIST_DHT.Execute() == false)
-                                    throw BR_BRS_SEL_ProductOrder_JOB_HIST_DHT.Exception;
+                                if (await BR_BRS_SEL_ProductOrder_JOB_HIST.Execute() == false)
+                                    throw BR_BRS_SEL_ProductOrder_JOB_HIST.Exception;
                             }
 
                             IsBusy = false;
@@ -148,16 +148,16 @@ namespace 보령
                             //string userid = AuthRepositoryViewModel.GetUserIDByFunctionCode("EM_BRS_EquipmentAction_PROCEND");
                             //userid = !string.IsNullOrWhiteSpace(userid) ? userid : AuthRepositoryViewModel.Instance.LoginedUserID;
 
-                            _BR_BRS_SEL_ProductOrder_JOB_HIST_DHT.INDATAs.Clear();
+                            _BR_BRS_SEL_ProductOrder_JOB_HIST.INDATAs.Clear();
 
-                            foreach (var item in _BR_BRS_SEL_ProductOrder_JOB_HIST_DHT.OUTDATAs)
+                            foreach (var item in _BR_BRS_SEL_ProductOrder_JOB_HIST.OUTDATAs)
                             {
                                 var row = dt.NewRow();
 
                                 row["항목"] = item.EQSJUSER ?? "";
-                                row["DHT"] = item.DHT ?? "";
-                                row["시작시간"] = item.EQSJSTDTTM ?? "";
-                                row["종료시간"] = item.EQSJEDDTTM ?? "";
+                                row["DHT"] = item.DHT;
+                                row["시작시간"] = item.EQSJSTDTTM != null ? Convert.ToDateTime(item.EQSJSTDTTM).ToString("yyyy-MM-dd HH:mm") : "N/A";
+                                row["종료시간"] = item.EQSJEDDTTM != null ? Convert.ToDateTime(item.EQSJEDDTTM).ToString("yyyy-MM-dd HH:mm") : "N/A";
                                 row["TackTime"] = item.TACKTIME ?? "";
 
                                 dt.Rows.Add(row);

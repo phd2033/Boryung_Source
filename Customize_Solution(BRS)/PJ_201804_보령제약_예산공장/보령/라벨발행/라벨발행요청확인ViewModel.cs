@@ -136,7 +136,7 @@ namespace 보령
                                 if (_inputValues.Count > 0)
                                 {
                                     // 2025.05.21 박희돈 YES/NO 기록시 실제 값은 ON/OFF로 저장되어 둘다 보도록 함.
-                                    if (_inputValues[0].Raw.ACTVAL.ToUpper().Equals("YES") || _inputValues[0].Raw.ACTVAL.ToUpper().Equals("ON"))
+                                    if (_inputValues[0].Raw.ACTVAL != null && ("YES".Equals(String.IsNullOrWhiteSpace(_inputValues[0].Raw.ACTVAL.ToUpper())) || "ON".Equals(String.IsNullOrWhiteSpace(_inputValues[0].Raw.ACTVAL.ToUpper()))))
                                     {
                                         IsComfirm = true;
                                         IsNoRecode = false;
@@ -226,9 +226,9 @@ namespace 보령
                             _BR_BRS_SEL_SEND_MAIL_TO_LIST.INDATAs.Add(new BR_BRS_SEL_SEND_MAIL_TO_LIST.INDATA
                             {
                                 USERID = AuthRepositoryViewModel.Instance.LoginedUserID,
-                                CMCDTYPE = "BRS_LABEL_APPR",
+                                CMCDTYPE = "BRS_ADMIN_INFO",
                                 CMCODE = "QA_LABEL_APPROVE",
-                                IsChecked = false
+                                IUSE = "Y"
                             });
 
                             //XML 생성. 비즈룰 INDATA생성

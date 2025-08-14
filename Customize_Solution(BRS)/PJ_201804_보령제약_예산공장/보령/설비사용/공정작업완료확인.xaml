@@ -32,12 +32,12 @@
             <Grid Grid.Row="0" x:Name="MainSection">
                 <c1:C1DataGrid x:Name="MainDataGrid" HeadersVisibility="Column" SelectionMode="SingleRow"
                                AutoGenerateColumns="False" CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False" CanUserResizeRows="False"
-                               ItemsSource="{Binding BR_BRS_SEL_ProductOrder_JOB_HIST_DHT.OUTDATAs}">
+                               ItemsSource="{Binding BR_BRS_SEL_ProductOrder_JOB_HIST.OUTDATAs}">
                     <c1:C1DataGrid.Columns>
                         <c1:DataGridTextColumn Header="항목" Binding="{Binding Path=EQSJUSER}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center" Width="1*"/>
                         <c1:DataGridTextColumn Header="DHT" Binding="{Binding Path=DHT}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center" Width="2*"/>
-                        <c1:DataGridTextColumn Header="작업시작시간" Binding="{Binding Path=EQSJSTDTTM}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center" Width="2*"/>
-                        <c1:DataGridTextColumn Header="작업종료시간" Binding="{Binding Path=EQSJEDDTTM}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center" Width="2*"/>
+                        <c1:DataGridTextColumn Header="작업시작시간" Binding="{Binding Path=EQSJSTDTTM, StringFormat='yyyy-MM-dd HH:mm'}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center" Width="2*"/>
+                        <c1:DataGridTextColumn Header="작업종료시간" Binding="{Binding Path=EQSJEDDTTM, StringFormat='yyyy-MM-dd HH:mm'}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center" Width="2*"/>
                         <c1:DataGridTextColumn Header="Tack Time" Binding="{Binding Path=TACKTIME}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center" Width="1*"/>
                     </c1:C1DataGrid.Columns>
                 </c1:C1DataGrid>

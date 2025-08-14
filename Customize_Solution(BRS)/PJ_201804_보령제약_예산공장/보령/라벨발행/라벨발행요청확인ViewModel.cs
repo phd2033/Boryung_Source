@@ -136,7 +136,7 @@ namespace 보령
                                 if (_inputValues.Count > 0)
                                 {
                                     // 2025.05.21 박희돈 YES/NO 기록시 실제 값은 ON/OFF로 저장되어 둘다 보도록 함.
-                                    if (_inputValues[0].Raw.ACTVAL != null && ("YES".Equals(String.IsNullOrWhiteSpace(_inputValues[0].Raw.ACTVAL.ToUpper())) || "ON".Equals(String.IsNullOrWhiteSpace(_inputValues[0].Raw.ACTVAL.ToUpper()))))
+                                    if (_inputValues[0].Raw.ACTVAL != null && (_inputValues[0].Raw.ACTVAL.ToUpper().Equals("YES") || _inputValues[0].Raw.ACTVAL.ToUpper().Equals("ON")))
                                     {
                                         IsComfirm = true;
                                         IsNoRecode = false;

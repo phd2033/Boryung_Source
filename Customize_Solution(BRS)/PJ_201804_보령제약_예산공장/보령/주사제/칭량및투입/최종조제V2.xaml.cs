@@ -14,7 +14,8 @@ using System.ComponentModel;
 
 namespace 보령
 {
-    [Description("주사용수를 투입하여 최종 조제액 조제")]
+    [ShopFloorCustomHidden]
+    //[Description("주사용수를 투입하여 최종 조제액 조제")]
     public partial class 최종조제V2 : ShopFloorCustomWindow
     {
         public 최종조제V2()

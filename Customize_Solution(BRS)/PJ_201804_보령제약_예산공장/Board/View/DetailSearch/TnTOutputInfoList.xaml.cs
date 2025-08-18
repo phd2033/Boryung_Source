@@ -10,9 +10,9 @@ using System.Windows.Controls;
 
 namespace Board
 {
-    public partial class MaterialPickingInfoList : UserControl
+    public partial class TnTOutputInfoList : UserControl
     {
-        public MaterialPickingInfoList()
+        public TnTOutputInfoList()
         {
             InitializeComponent();
         }

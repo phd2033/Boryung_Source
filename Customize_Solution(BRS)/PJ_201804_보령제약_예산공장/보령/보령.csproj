@@ -919,6 +919,10 @@
       <DependentUpon>검사장비청소점검.xaml</DependentUpon>
     </Compile>
     <Compile Include="장비청소\검사장비청소점검ViewModel.cs" />
+    <Compile Include="장비청소\생산설비청소점검및사용시작ViewModel.cs" />
+    <Compile Include="장비청소\생산설비청소점검및사용시작.xaml.cs">
+      <DependentUpon>생산설비청소점검및사용시작.xaml</DependentUpon>
+    </Compile>
     <Compile Include="장비청소\설비청소시작.cs" />
     <Compile Include="장비청소\설비청소종료.cs" />
     <Compile Include="장비청소\생산설비청소점검.xaml.cs">
@@ -1720,6 +1724,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="장비청소\검사장비청소점검.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="장비청소\생산설비청소점검및사용시작.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

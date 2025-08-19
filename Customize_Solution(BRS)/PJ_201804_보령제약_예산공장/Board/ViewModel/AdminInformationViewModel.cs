@@ -24,8 +24,8 @@ namespace Board
 
         public AdminInformationViewModel()
         {
-            _BR_BRS_SEL_SEND_MAIL_TO_LIST = new BR_BRS_SEL_SEND_MAIL_TO_LIST();
-            _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST = new BR_BRS_REG_UDT_SEND_MAIL_TO_LIST();
+            _BR_BRS_SEL_AdminInformation_LIST = new BR_BRS_SEL_AdminInformation_LIST();
+            BR_BRS_REG_UDT_AdminInformation_LIST = new BR_BRS_REG_UDT_AdminInformation_LIST();  
             _BR_PHR_SEL_CommonCode = new BR_PHR_SEL_CommonCode();
             _BR_BRS_SEL_PERSON_DEC = new BR_BRS_SEL_PERSON_DEC();
             _BR_BRS_SEL_ISUSE_YN = new BR_BRS_SEL_ISUSE_YN();
@@ -122,14 +122,14 @@ namespace Board
 
         #region [BizRule]
 
-        private BR_BRS_SEL_SEND_MAIL_TO_LIST _BR_BRS_SEL_SEND_MAIL_TO_LIST;
-        public BR_BRS_SEL_SEND_MAIL_TO_LIST BR_BRS_SEL_SEND_MAIL_TO_LIST
+        private BR_BRS_SEL_AdminInformation_LIST _BR_BRS_SEL_AdminInformation_LIST;
+        public BR_BRS_SEL_AdminInformation_LIST BR_BRS_SEL_AdminInformation_LIST
         {
-            get { return _BR_BRS_SEL_SEND_MAIL_TO_LIST; }
+            get { return _BR_BRS_SEL_AdminInformation_LIST; }
             set
             {
-                _BR_BRS_SEL_SEND_MAIL_TO_LIST = value;
-                OnPropertyChanged("BR_BRS_SEL_SEND_MAIL_TO_LIST");
+                _BR_BRS_SEL_AdminInformation_LIST = value;
+                OnPropertyChanged("BR_BRS_SEL_AdminInformation_LIST");
             }
         }
 
@@ -155,14 +155,14 @@ namespace Board
             }
         }
 
-        private BR_BRS_REG_UDT_SEND_MAIL_TO_LIST _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST;
-        public BR_BRS_REG_UDT_SEND_MAIL_TO_LIST BR_BRS_REG_UDT_SEND_MAIL_TO_LIST
+        private BR_BRS_REG_UDT_AdminInformation_LIST _BR_BRS_REG_UDT_AdminInformation_LIST;
+        public BR_BRS_REG_UDT_AdminInformation_LIST BR_BRS_REG_UDT_AdminInformation_LIST
         {
-            get { return _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST; }
+            get { return _BR_BRS_REG_UDT_AdminInformation_LIST; }
             set
             {
-                _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST = value;
-                OnPropertyChanged("BR_BRS_REG_UDT_SEND_MAIL_TO_LIST");
+                _BR_BRS_REG_UDT_AdminInformation_LIST = value;
+                OnPropertyChanged("BR_BRS_REG_UDT_AdminInformation_LIST");
             }
         }
 
@@ -307,16 +307,16 @@ namespace Board
                             CommandResults["SearchCommand"] = false;
                             CommandCanExecutes["SearchCommand"] = false;
 
-                            _BR_BRS_SEL_SEND_MAIL_TO_LIST.INDATAs.Clear();
-                            _BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs.Clear();
+                            _BR_BRS_SEL_AdminInformation_LIST.INDATAs.Clear();
+                            _BR_BRS_SEL_AdminInformation_LIST.OUTDATAs.Clear();
 
-                            _BR_BRS_SEL_SEND_MAIL_TO_LIST.INDATAs.Add(new BR_BRS_SEL_SEND_MAIL_TO_LIST.INDATA()
+                            _BR_BRS_SEL_AdminInformation_LIST.INDATAs.Add(new BR_BRS_SEL_AdminInformation_LIST.INDATA()
                             {
                                 USERID = string.IsNullOrWhiteSpace(USERID) ? null : USERID,
                                 IUSE = IsChecked ? "" : "Y"
                             });
 
-                            await _BR_BRS_SEL_SEND_MAIL_TO_LIST.Execute();
+                            await _BR_BRS_SEL_AdminInformation_LIST.Execute();
 
                             CommandResults["SearchCommand"] = true;
                         }
@@ -359,16 +359,16 @@ namespace Board
                             CommandResults["BtnUpdateCommand"] = false;
                             CommandCanExecutes["BtnUpdateCommand"] = false;
 
-                            _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.INDATAs.Clear();
+                            _BR_BRS_REG_UDT_AdminInformation_LIST.INDATAs.Clear();
 
                             var authHelper = new iPharmAuthCommandHelper();
 
-                            foreach (var item in _BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs)
+                            foreach (var item in _BR_BRS_SEL_AdminInformation_LIST.OUTDATAs)
                             {
                                 if (item.CHK == "Y" && item != null)
                                 {
                                     checkFlag = true;
-                                    _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.INDATAs.Add(new BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.INDATA
+                                    _BR_BRS_REG_UDT_AdminInformation_LIST.INDATAs.Add(new BR_BRS_REG_UDT_AdminInformation_LIST.INDATA
                                     {
                                         CMCDTYPE = item.CMCDTYPE,
                                         CMCODE = item.CMCODE,
@@ -396,7 +396,7 @@ namespace Board
                                     throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                 }
 
-                                await _BR_BRS_REG_UDT_SEND_MAIL_TO_LIST.Execute();
+                                await _BR_BRS_REG_UDT_AdminInformation_LIST.Execute();
                             }
 
                             CommandResults["BtnUpdateCommand"] = true;
@@ -441,7 +441,7 @@ namespace Board
 
                             IsBusy = true;
 
-                            var temp = _mainWnd.AdminInformationGrid.SelectedItem as BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATA;
+                            var temp = _mainWnd.AdminInformationGrid.SelectedItem as BR_BRS_SEL_AdminInformation_LIST.OUTDATA;
                             if (temp != null)
                             {
                                 temp.CHK = "Y";
@@ -489,7 +489,7 @@ namespace Board
 
                             IsBusy = true;
                          
-                            var temp = _mainWnd.AdminInformationGrid.SelectedItem as BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATA;
+                            var temp = _mainWnd.AdminInformationGrid.SelectedItem as BR_BRS_SEL_AdminInformation_LIST.OUTDATA;
                             var filter = _mainWnd.AdminInformationGrid.CurrentColumn;
 
                             if (temp != null && filter != null && !string.IsNullOrWhiteSpace(filter.FilterMemberPath))
@@ -556,7 +556,7 @@ namespace Board
                             _BR_BRS_SEL_PERSON_DEC.OUTDATAs.Clear();
 
 
-                            var temp = _mainWnd.AdminInformationGrid.SelectedItem as BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATA;
+                            var temp = _mainWnd.AdminInformationGrid.SelectedItem as BR_BRS_SEL_AdminInformation_LIST.OUTDATA;
                             var filter = _mainWnd.AdminInformationGrid.CurrentColumn;
 
                             if (temp != null)
@@ -643,7 +643,7 @@ namespace Board
 
                             IsBusy = true;
 
-                            var temp = _mainWnd.AdminInformationGrid.SelectedItem as BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATA;
+                            var temp = _mainWnd.AdminInformationGrid.SelectedItem as BR_BRS_SEL_AdminInformation_LIST.OUTDATA;
                             if (temp != null)
                             {
                                 temp.CHK = "Y";
@@ -651,6 +651,7 @@ namespace Board
                                 temp.CMCDNAME = "(자동 입력)";
                                 temp.USERNAME = "(자동 입력)";
                                 temp.USERMAIL = "(자동 입력)";
+                                temp.ISUSE = "Y";
 
                                 _mainWnd.AdminInformationGrid.Columns[3].IsReadOnly = true;
                                 _mainWnd.AdminInformationGrid.Columns[5].IsReadOnly = true;

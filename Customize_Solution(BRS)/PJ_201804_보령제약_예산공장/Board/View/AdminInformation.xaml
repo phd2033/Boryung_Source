@@ -116,7 +116,7 @@
             <ControlsLib:MainPanel_Top.Contents>
                 <ControlsLib:CNSDataGrid  x:Name="AdminInformationGrid" IsRowNumber="True" Width="Auto" HeaderRowCount="2"
                             IsRowAdd="True" IsRowDelete="True" IsEditMode="True" IsEditSection="True"
-                            ItemsSource="{Binding Path=BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs, Mode=OneWay}" Margin="0" BorderThickness="0" ColumnRefresh="True">
+                            ItemsSource="{Binding Path=BR_BRS_SEL_AdminInformation_LIST.OUTDATAs, Mode=OneWay}" Margin="0" BorderThickness="0" ColumnRefresh="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="RowAdd_Click">
                             <i:InvokeCommandAction Command="{Binding RowAddCommand}"/>

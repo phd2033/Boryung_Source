@@ -51,6 +51,8 @@ namespace 보령
                         {
                             CommandResults["LoadedCommandAsync"] = false;
                             CommandCanExecutes["LoadedCommandAsync"] = false;
+                            
+                            OnMessage("DHT 기간 내 설비 및 작업장 청소 실시하시오.");
 
                             ///
                             if (arg == null || !(arg is 공정작업완료확인)) return;
@@ -163,7 +165,6 @@ namespace 보령
                                 dt.Rows.Add(row);
                             }
 
-
                             var xml = BizActorRuleBase.CreateXMLStream(ds);
                             var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
 
@@ -181,9 +182,6 @@ namespace 보령
 
                             IsBusy = false;
                             ///
-
-                            OnMessage("DHT 기간 내 설비 및 작업장 청소 실시하시오.");
-
                             CommandResults["ConfirmCommandAsync"] = true;
                         }
                         catch (Exception ex)

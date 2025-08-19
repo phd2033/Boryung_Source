@@ -26,7 +26,7 @@ namespace 보령
         {
             _UserContain = new UserContainer.OUTDATACollection();
             _BR_PHR_SEL_PERSON = new BR_PHR_SEL_PERSON();
-            _BR_BRS_SEL_SEND_MAIL_TO_LIST = new BR_BRS_SEL_SEND_MAIL_TO_LIST();
+            _BR_BRS_SEL_AdminInformation_LIST = new BR_BRS_SEL_AdminInformation_LIST();
         }
 
         private 라벨발행요청확인 _mainWnd;
@@ -99,14 +99,14 @@ namespace 보령
             }
         }
 
-        BR_BRS_SEL_SEND_MAIL_TO_LIST _BR_BRS_SEL_SEND_MAIL_TO_LIST;
-        public BR_BRS_SEL_SEND_MAIL_TO_LIST BR_BRS_SEL_SEND_MAIL_TO_LIST
+        BR_BRS_SEL_AdminInformation_LIST _BR_BRS_SEL_AdminInformation_LIST;
+        public BR_BRS_SEL_AdminInformation_LIST BR_BRS_SEL_AdminInformation_LIST
         {
-            get { return _BR_BRS_SEL_SEND_MAIL_TO_LIST; }
+            get { return _BR_BRS_SEL_AdminInformation_LIST; }
             set
             {
-                _BR_BRS_SEL_SEND_MAIL_TO_LIST = value;
-                OnPropertyChanged("BR_BRS_SEL_SEND_MAIL_TO_LIST");
+                _BR_BRS_SEL_AdminInformation_LIST = value;
+                OnPropertyChanged("BR_BRS_SEL_AdminInformation_LIST");
             }
         }
 
@@ -221,9 +221,9 @@ namespace 보령
                             CommandCanExecutes["ConfirmCommandAsync"] = false;
 
 
-                            _BR_BRS_SEL_SEND_MAIL_TO_LIST.INDATAs.Clear();
-                            _BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs.Clear();
-                            _BR_BRS_SEL_SEND_MAIL_TO_LIST.INDATAs.Add(new BR_BRS_SEL_SEND_MAIL_TO_LIST.INDATA
+                            _BR_BRS_SEL_AdminInformation_LIST.INDATAs.Clear();
+                            _BR_BRS_SEL_AdminInformation_LIST.OUTDATAs.Clear();
+                            _BR_BRS_SEL_AdminInformation_LIST.INDATAs.Add(new BR_BRS_SEL_AdminInformation_LIST.INDATA
                             {
                                 USERID = AuthRepositoryViewModel.Instance.LoginedUserID,
                                 CMCDTYPE = "BRS_ADMIN_INFO",
@@ -236,9 +236,9 @@ namespace 보령
                             DataTable dt = new DataTable("DATA");
                             ds.Tables.Add(dt);
 
-                            if (await _BR_BRS_SEL_SEND_MAIL_TO_LIST.Execute() && _BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs.Count > 0)
+                            if (await _BR_BRS_SEL_AdminInformation_LIST.Execute() && _BR_BRS_SEL_AdminInformation_LIST.OUTDATAs.Count > 0)
                             {
-                                if("Y".Equals(_BR_BRS_SEL_SEND_MAIL_TO_LIST.OUTDATAs[0].ISUSE))
+                                if("Y".Equals(_BR_BRS_SEL_AdminInformation_LIST.OUTDATAs[0].ISUSE))
                                 {
                                     dt.Columns.Add(new DataColumn("확인자ID"));
                                     dt.Columns.Add(new DataColumn("확인자명"));

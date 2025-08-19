@@ -15,6 +15,7 @@ using System.ComponentModel;
 
 namespace 보령
 {
+    [ShopFloorCustomHidden]
     public partial class 생산설비청소점검및사용시작 : ShopFloorCustomWindow
     {
         [Description("생산설비청소점검및사용시작")]

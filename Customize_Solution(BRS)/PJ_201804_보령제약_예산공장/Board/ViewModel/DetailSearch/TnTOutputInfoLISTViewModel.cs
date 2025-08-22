@@ -54,24 +54,24 @@ namespace Board
             }
         }
 
-        private string _MATERIALBARCODE;
-        public string MATERIALBARCODE
+        private string _POID;
+        public string POID
         {
-            get { return _MATERIALBARCODE; }
+            get { return _POID; }
             set
             {
-                _MATERIALBARCODE = value;
+                _POID = value;
                 NotifyPropertyChanged();
             }
         }
 
-        private string _MTRLNAME;
-        public string MTRLNAME
+        private string _PALLETID;
+        public string PALLETID
         {
-            get { return _MTRLNAME; }
+            get { return _PALLETID; }
             set
             {
-                _MTRLNAME = value;
+                _PALLETID = value;
                 NotifyPropertyChanged();
             }
         }
@@ -80,13 +80,13 @@ namespace Board
 
         #region Data
 
-        private BR_BRS_SEL_MaterialPickingInfoList _BR_BRS_SEL_MaterialPickingInfoList;
-        public BR_BRS_SEL_MaterialPickingInfoList BR_BRS_SEL_MaterialPickingInfoList
+        private BR_BRS_SEL_TnTOutputInfoList _BR_BRS_SEL_TnTOutputInfoList;
+        public BR_BRS_SEL_TnTOutputInfoList BR_BRS_SEL_TnTOutputInfoList
         {
-            get { return _BR_BRS_SEL_MaterialPickingInfoList; }
+            get { return _BR_BRS_SEL_TnTOutputInfoList; }
             set
             {
-                _BR_BRS_SEL_MaterialPickingInfoList = value;
+                _BR_BRS_SEL_TnTOutputInfoList = value;
                 NotifyPropertyChanged();
             }
         }
@@ -132,7 +132,7 @@ namespace Board
 
                             BR_PHR_GET_DEFAULT_DATE.INDATAs.Add(new LGCNS.iPharmMES.Common.BR_PHR_GET_DEFAULT_DATE.INDATA()
                             {
-                                PROGRAMID = "자재Picking정보"
+                                PROGRAMID = "TnT실적정보"
                             });
 
                             if (!await BR_PHR_GET_DEFAULT_DATE.Execute()) throw new Exception();
@@ -184,19 +184,19 @@ namespace Board
 
                             ///
 
-                            BR_BRS_SEL_MaterialPickingInfoList.INDATAs.Clear();
-                            BR_BRS_SEL_MaterialPickingInfoList.OUTDATAs.Clear();
+                            BR_BRS_SEL_TnTOutputInfoList.INDATAs.Clear();
+                            BR_BRS_SEL_TnTOutputInfoList.OUTDATAs.Clear();
 
-                            BR_BRS_SEL_MaterialPickingInfoList.INDATAs.Add(new BR_BRS_SEL_MaterialPickingInfoList.INDATA()
+                            BR_BRS_SEL_TnTOutputInfoList.INDATAs.Add(new BR_BRS_SEL_TnTOutputInfoList.INDATA()
                             {
+                                POID = POID,
+                                BATCHNO = BATCHNO,
+                                PALLETID = PALLETID,
                                 FROMDATE = PeriodSTDTTM,
                                 TODATE = PeriodEDDTTM,
-                                BATCHNO = BATCHNO,
-                                MATERIALBARCODE = MATERIALBARCODE,
-                                MTRLNAME = MTRLNAME
                             });
 
-                            if (!await BR_BRS_SEL_MaterialPickingInfoList.Execute()) throw new Exception();
+                            if (!await BR_BRS_SEL_TnTOutputInfoList.Execute()) throw new Exception();
                             ///
 
                             CommandResults["BtnSearchCommand"] = true;
@@ -272,7 +272,7 @@ namespace Board
 
         public TnTOutputInfoListViewModel()
         {
-            _BR_BRS_SEL_MaterialPickingInfoList = new BR_BRS_SEL_MaterialPickingInfoList();
+            _BR_BRS_SEL_TnTOutputInfoList = new BR_BRS_SEL_TnTOutputInfoList();
             _BR_PHR_GET_DEFAULT_DATE = new BR_PHR_GET_DEFAULT_DATE();
         }
     }

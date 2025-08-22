@@ -91,11 +91,11 @@
                                                        SelectedDateTo="{Binding Path=PeriodEDDTTM, Mode=TwoWay}"/>
                     </StackPanel>
                     <sdk:Label Grid.Column="5" Content="오더번호" Style="{StaticResource lblStyle}"/>
-                    <TextBox Grid.Column="7" Text="{Binding MATERIALBARCODE, Mode=TwoWay}" Style="{StaticResource txtStyle}"/>
+                    <TextBox Grid.Column="7" Text="{Binding POID, Mode=TwoWay}" Style="{StaticResource txtStyle}"/>
                     <sdk:Label Grid.Column="9" Content="배치번호" Style="{StaticResource lblStyle}"/>
-                    <TextBox Grid.Column="11" Text="{Binding MTRLNAME, Mode=TwoWay}" Style="{StaticResource txtStyle}"/>
+                    <TextBox Grid.Column="11" Text="{Binding BATCHNO, Mode=TwoWay}" Style="{StaticResource txtStyle}"/>
                     <sdk:Label Grid.Column="13" Content="용기번호" Style="{StaticResource lblStyle}"/>
-                    <TextBox Grid.Column="15" Text="{Binding BATCHNO, Mode=TwoWay}" Style="{StaticResource txtStyle}"/>
+                    <TextBox Grid.Column="15" Text="{Binding PALLETID, Mode=TwoWay}" Style="{StaticResource txtStyle}"/>
                     <Button Grid.Column="17" Content="검색" Width="80" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -127,22 +127,19 @@
                                        SelectionMode="SingleRow"
                                        CanUserAddRows="False"
                                        CanUserSort="True"
-                                       ItemsSource="{Binding Path=BR_BRS_SEL_MaterialPickingInfoList.OUTDATAs, Mode=OneWay}">
+                                       ItemsSource="{Binding Path=BR_BRS_SEL_TnTOutputInfoList.OUTDATAs, Mode=OneWay}">
                             <c1:C1DataGrid.Columns>
                                 <c1:DataGridTextColumn SortMemberPath="POID" Header="오더번호" Binding="{Binding POID}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="BATCHNO" Header="배치번호" Binding="{Binding BATCHNO}" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="PRODUCTID" Header="제품코드" Binding="{Binding PRODUCTID}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="PRODUCTNAME" Header="제품명" Binding="{Binding PRODUCTNAME}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="MTRLID" Header="자재코드" Binding="{Binding MTRLID}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="MTRLNAME" Header="자재명" Binding="{Binding MTRLNAME}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="QCT_NO_SEQ" Header="팩 번호" Binding="{Binding QCT_NO_SEQ}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="INSPECTIONNO" Header="시험번호" Binding="{Binding INSPECTIONNO}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="PICKING_RESV_QTY" Header="Picking 수량" Binding="{Binding PICKING_RESV_QTY}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="PICKINGDTTM" Header="PICKING 시간" Binding="{Binding PICKINGDTTM}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="PRODUCTQTY" Header="소분 수량" Binding="{Binding PRODUCTQTY}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="OTHERINQTY" Header="기타입고 수량" Binding="{Binding OTHERINQTY}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="SCRAPQTY" Header="페기 수량" Binding="{Binding SCRAPQTY}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="DISPENSEDTTM" Header="소분 시간" Binding="{Binding DISPENSEDTTM}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="MTRLID" Header="제품코드" Binding="{Binding MTRLID}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="MTRLNAME" Header="제품명" Binding="{Binding MTRLNAME}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="PBARCODE" Header="파마코드" Binding="{Binding PBARCODE}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="PALLETID" Header="용기번호" Binding="{Binding PALLETID}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="OUTPUTQTY" Header="실적수량" Binding="{Binding OUTPUTQTY}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="SAMPLEQTY" Header="샘플수량" Binding="{Binding SAMPLEQTY}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="TRANS_DATE" Header="전송날짜" Binding="{Binding TRANS_DATE}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="IS_LASTPALLET" Header="마지막 팔레트 여부" Binding="{Binding IS_LASTPALLET}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="INSDTTM" Header="작업날짜" Binding="{Binding INSDTTM}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                             </c1:C1DataGrid.Columns>
                         </c1:C1DataGrid>
 

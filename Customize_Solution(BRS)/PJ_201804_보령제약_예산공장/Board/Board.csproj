@@ -173,6 +173,7 @@
     <Compile Include="Model.Access\iPharm.Report\BR.ProductionOrderReport\BR_PHR_RPT_ProductionOrder_Result_by_ProdRoom.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR.ProductionOrderReport\BR_PHR_RPT_ProductionOrder_Status.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR.ProductionOrderReport\BR_PHR_RPT_ProductionOrder_WorkTime.Access.cs" />
+    <Compile Include="Model.Access\iPharm.Report\BR.SAP_R_ProductionOrderInfo\BR_BRS_SEL_SAP_R_ProductionOrderInfo.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR.WorkTimeReport\BR_PHR_GET_PROD_DEPT.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR.WorkTimeReport\BR_PHR_RPT_Employee_WorkTime.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR.WorkTimeReport\BR_PHR_RPT_Employee_WorkTime_by_EmpNo.Access.cs" />
@@ -192,6 +193,7 @@
     <Compile Include="ViewModel\CleanningSettingViewModel.cs" />
     <Compile Include="ViewModel\DetailSearch\FacilitiesOperationStatusViewModel.cs" />
     <Compile Include="ViewModel\DetailSearch\IPCTestResultViewModel.cs" />
+    <Compile Include="ViewModel\DetailSearch\ProductionOrderInfoViewModel.cs" />
     <Compile Include="ViewModel\DetailSearch\ManufacturingProcessStatusViewModel.cs" />
     <Compile Include="ViewModel\DetailSearch\MaterialPickingInfoListViewModel.cs" />
     <Compile Include="ViewModel\IPCCPPRsltViewViewModel.cs" />
@@ -223,6 +225,9 @@
     </Compile>
     <Compile Include="View\DetailSearch\IPCTestResultView.xaml.cs">
       <DependentUpon>IPCTestResultView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DetailSearch\ProductionOrderInfo.xaml.cs">
+      <DependentUpon>ProductionOrderInfo.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DetailSearch\ManufacturingPerformanceView.xaml.cs">
       <DependentUpon>ManufacturingPerformanceView.xaml</DependentUpon>
@@ -318,6 +323,10 @@
     <Page Include="View\DetailSearch\IPCTestResultView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DetailSearch\ProductionOrderInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\DetailSearch\ManufacturingPerformanceView.xaml">
       <SubType>Designer</SubType>

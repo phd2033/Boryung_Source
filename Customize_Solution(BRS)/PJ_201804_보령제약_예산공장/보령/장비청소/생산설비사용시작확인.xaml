@@ -10,7 +10,7 @@
            xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
            xmlns:local="clr-namespace:보령"
            mc:Ignorable="d"
-           Width="600" Height="500" x:Name="Main"
+           Width="700" Height="300" x:Name="Main"
            Title="생산설비사용시작확인">
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
         <local:생산설비사용시작확인ViewModel x:Key="ViewModel"/>
@@ -33,11 +33,11 @@
                 <c1:C1DataGrid x:Name="MainDataGrid" HeadersVisibility="Column" SelectionMode="SingleRow"
                                AutoGenerateColumns="False" CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False" CanUserResizeRows="False"
                                MouseLeftButtonUp="MainDataGrid_MouseLeftButtonUp"
-                               ItemsSource="{Binding BR_BRS_SEL_EquipmentStatus_PROC_OPSG.OUTDATAs}">
+                               ItemsSource="{Binding BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM.OUTDATAs}">
                     <c1:C1DataGrid.Columns>
-                        <c1:DataGridCheckBoxColumn Header="선택" Binding="{Binding Path=SELFLAG}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center" Width="0.5*"/>
-                        <c1:DataGridTextColumn Header="설비코드" Binding="{Binding Path=EQPTID}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center" Width="2*"/>
-                        <c1:DataGridTextColumn Header="설비명" Binding="{Binding Path=EQPTNAME}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center" Width="2*"/>
+                        <c1:DataGridTextColumn Header="설비코드" Binding="{Binding Path=EQPTID}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center" Width="1*"/>
+                        <c1:DataGridTextColumn Header="설비명" Binding="{Binding Path=EQPTNAME}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center" Width="3.5*"/>
+                        <c1:DataGridTextColumn Header="생산시작" Binding="{Binding Path=EQSTONDTTM}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center" Width="2*"/>
                     </c1:C1DataGrid.Columns>
                 </c1:C1DataGrid>
             </Grid>
@@ -46,12 +46,10 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="100"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="1" x:Name="btnConfirm" Margin="5" Content="기록" Command="{Binding ConfirmCommandAsync}"/>
-                <Button Grid.Column="2" x:Name="NoRecord" Margin="5" Content="기록없음" Command="{Binding NoRecordConfirmCommand}"/>
-                <Button Grid.Column="3" x:Name="btnCancel" Margin="5" Content="취소" Click="btnCancel_Click"/>
+                <Button Grid.Column="2" x:Name="btnCancel" Margin="5" Content="취소" Click="btnCancel_Click"/>
             </Grid>
         </Grid>
     </toolkit:BusyIndicator>

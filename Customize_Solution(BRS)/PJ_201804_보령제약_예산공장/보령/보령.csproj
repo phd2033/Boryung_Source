@@ -152,8 +152,8 @@
     <Compile Include="Model.Access\BR_BRS_REG_ProductionOrderOutput_Scale_Weight_Multi_Fima.Access.cs" />
     <Compile Include="Model.Access\BR_BRS_SEL_AdminInformation_LIST.Access.cs" />
     <Compile Include="Model.Access\BR_BRS_SEL_DrugSubstance_LABEL_HISTORY.Access.cs" />
+    <Compile Include="Model.Access\BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM.Access.cs" />
     <Compile Include="Model.Access\BR_BRS_SEL_ProductionOrderBOM_CheckDuplicate.Access.cs" />
-    <Compile Include="Model.Access\BR_BRS_SEL_ProductOrder_JOB_HIST_DHT.Access.cs" />
     <Compile Include="Model.Access\BR_BRS_SEL_ReDispensing_Charging.Access.cs" />
     <Compile Include="Model.Access\BR_BRS_SEL_SEND_MAIL_TO_LIST.Access.cs" />
     <Compile Include="Model.Access\BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_STERILE.Access.cs" />

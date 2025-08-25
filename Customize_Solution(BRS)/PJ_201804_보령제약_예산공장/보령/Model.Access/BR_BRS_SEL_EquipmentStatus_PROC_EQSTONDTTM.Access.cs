@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace 보령
 {
-
+    
     /// <summary>
-    /// summary of BR_BRS_SEL_ProductOrder_JOB_HIST_DHT
+    /// summary of BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM
     /// </summary>
-    public partial class BR_BRS_SEL_ProductOrder_JOB_HIST_DHT : BizActorRuleBase
+    public partial class BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM : BizActorRuleBase
     {
         public sealed partial class INDATACollection : BufferedObservableCollection<INDATA>
         {
@@ -22,7 +22,7 @@ namespace 보령
                 return this._INDATAs;
             }
         }
-        [BizActorInputSetDefineAttribute(Order = "0")]
+        [BizActorInputSetDefineAttribute(Order="0")]
         [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
         public partial class INDATA : BizActorDataSetBase
         {
@@ -133,6 +133,38 @@ namespace 보령
                     }
                 }
             }
+            private string _EQPTID;
+            [BizActorInputItemAttribute()]
+            public string EQPTID
+            {
+                get
+                {
+                    return this._EQPTID;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._EQPTID = value;
+                        this.CheckIsOriginal("EQPTID", value);
+                        this.OnPropertyChanged("EQPTID");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
         }
         public sealed partial class OUTDATACollection : BufferedObservableCollection<OUTDATA>
         {
@@ -146,7 +178,7 @@ namespace 보령
                 return this._OUTDATAs;
             }
         }
-        [BizActorOutputSetDefineAttribute(Order = "0")]
+        [BizActorOutputSetDefineAttribute(Order="0")]
         [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
         public partial class OUTDATA : BizActorDataSetBase
         {
@@ -193,102 +225,6 @@ namespace 보령
                     this.OnPropertyChanged("RowEditSec");
                 }
             }
-            private string _EQSJUSER;
-            [BizActorOutputItemAttribute()]
-            public string EQSJUSER
-            {
-                get
-                {
-                    return this._EQSJUSER;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                    {
-                    }
-                    else
-                    {
-                        this._EQSJUSER = value;
-                        this.CheckIsOriginal("EQSJUSER", value);
-                        this.OnPropertyChanged("EQSJUSER");
-                        if (RowLoadedFlag)
-                        {
-                            if (this.CheckIsOriginalRow())
-                            {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
-                            }
-                        }
-                    }
-                }
-            }
-            private string _EQSJSTDTTM;
-            [BizActorOutputItemAttribute()]
-            public string EQSJSTDTTM
-            {
-                get
-                {
-                    return this._EQSJSTDTTM;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                    {
-                    }
-                    else
-                    {
-                        this._EQSJSTDTTM = value;
-                        this.CheckIsOriginal("EQSJSTDTTM", value);
-                        this.OnPropertyChanged("EQSJSTDTTM");
-                        if (RowLoadedFlag)
-                        {
-                            if (this.CheckIsOriginalRow())
-                            {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
-                            }
-                        }
-                    }
-                }
-            }
-            private string _EQSJEDDTTM;
-            [BizActorOutputItemAttribute()]
-            public string EQSJEDDTTM
-            {
-                get
-                {
-                    return this._EQSJEDDTTM;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                    {
-                    }
-                    else
-                    {
-                        this._EQSJEDDTTM = value;
-                        this.CheckIsOriginal("EQSJEDDTTM", value);
-                        this.OnPropertyChanged("EQSJEDDTTM");
-                        if (RowLoadedFlag)
-                        {
-                            if (this.CheckIsOriginalRow())
-                            {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
-                            }
-                        }
-                    }
-                }
-            }
             private string _EQPTID;
             [BizActorOutputItemAttribute()]
             public string EQPTID
@@ -321,13 +257,13 @@ namespace 보령
                     }
                 }
             }
-            private string _TACKTIME;
+            private string _EQPTNAME;
             [BizActorOutputItemAttribute()]
-            public string TACKTIME
+            public string EQPTNAME
             {
                 get
                 {
-                    return this._TACKTIME;
+                    return this._EQPTNAME;
                 }
                 set
                 {
@@ -336,9 +272,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._TACKTIME = value;
-                        this.CheckIsOriginal("TACKTIME", value);
-                        this.OnPropertyChanged("TACKTIME");
+                        this._EQPTNAME = value;
+                        this.CheckIsOriginal("EQPTNAME", value);
+                        this.OnPropertyChanged("EQPTNAME");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -353,13 +289,13 @@ namespace 보령
                     }
                 }
             }
-            private string _DHT;
+            private string _OPSGGUID;
             [BizActorOutputItemAttribute()]
-            public string DHT
+            public string OPSGGUID
             {
                 get
                 {
-                    return this._DHT;
+                    return this._OPSGGUID;
                 }
                 set
                 {
@@ -368,9 +304,105 @@ namespace 보령
                     }
                     else
                     {
-                        this._DHT = value;
-                        this.CheckIsOriginal("DHT", value);
-                        this.OnPropertyChanged("DHT");
+                        this._OPSGGUID = value;
+                        this.CheckIsOriginal("OPSGGUID", value);
+                        this.OnPropertyChanged("OPSGGUID");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _OPSGNAME;
+            [BizActorOutputItemAttribute()]
+            public string OPSGNAME
+            {
+                get
+                {
+                    return this._OPSGNAME;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._OPSGNAME = value;
+                        this.CheckIsOriginal("OPSGNAME", value);
+                        this.OnPropertyChanged("OPSGNAME");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _EQSTONDTTM;
+            [BizActorOutputItemAttribute()]
+            public string EQSTONDTTM
+            {
+                get
+                {
+                    return this._EQSTONDTTM;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._EQSTONDTTM = value;
+                        this.CheckIsOriginal("EQSTONDTTM", value);
+                        this.OnPropertyChanged("EQSTONDTTM");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _EQSTOFFDTTM;
+            [BizActorOutputItemAttribute()]
+            public string EQSTOFFDTTM
+            {
+                get
+                {
+                    return this._EQSTOFFDTTM;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._EQSTOFFDTTM = value;
+                        this.CheckIsOriginal("EQSTOFFDTTM", value);
+                        this.OnPropertyChanged("EQSTOFFDTTM");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -386,10 +418,10 @@ namespace 보령
                 }
             }
         }
-        public BR_BRS_SEL_ProductOrder_JOB_HIST_DHT()
+        public BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM()
         {
-            RuleName = "BR_BRS_SEL_ProductOrder_JOB_HIST_DHT";
-            BizName = "BR_BRS_SEL_ProductOrder_JOB_HIST";
+            RuleName = "BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM";
+            BizName = "BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM";
             _INDATAs = new INDATACollection();
             _OUTDATAs = new OUTDATACollection();
         }

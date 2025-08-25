@@ -91,6 +91,17 @@ namespace Board
             }
         }
 
+        private BR_BRS_SEL_TnTWorkOrderComplete _BR_BRS_SEL_TnTWorkOrderComplete;
+        public BR_BRS_SEL_TnTWorkOrderComplete BR_BRS_SEL_TnTWorkOrderComplete
+        {
+            get { return _BR_BRS_SEL_TnTWorkOrderComplete; }
+            set
+            {
+                _BR_BRS_SEL_TnTWorkOrderComplete = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private BR_PHR_GET_DEFAULT_DATE _BR_PHR_GET_DEFAULT_DATE;
         public BR_PHR_GET_DEFAULT_DATE BR_PHR_GET_DEFAULT_DATE
         {
@@ -221,6 +232,58 @@ namespace Board
             }
         }
 
+        public ICommand SelectionChangedCommand
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["SelectionChangedCommand"].EnterAsync())
+                    {
+                        try
+                        {
+                            IsBusy = true;
+
+                            CommandResults["SelectionChangedCommand"] = false;
+                            CommandCanExecutes["SelectionChangedCommand"] = false;
+
+                            ///
+                            if (arg == null || !(arg is BR_BRS_SEL_TnTOutputInfoList.OUTDATA))
+                                return;
+                            var rowdata = arg as BR_BRS_SEL_TnTOutputInfoList.OUTDATA;
+
+                            BR_BRS_SEL_TnTWorkOrderComplete.INDATAs.Clear();
+                            BR_BRS_SEL_TnTWorkOrderComplete.OUTDATAs.Clear();
+                            BR_BRS_SEL_TnTWorkOrderComplete.INDATAs.Add(new BR_BRS_SEL_TnTWorkOrderComplete.INDATA()
+                            {
+                                POID = rowdata.POID
+                            });
+
+                            if (!await BR_BRS_SEL_TnTWorkOrderComplete.Execute()) throw new Exception();
+                            ///
+
+                            CommandResults["SelectionChangedCommand"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["SelectionChangedCommand"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["SelectionChangedCommand"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("SelectionChangedCommand") ?
+                        CommandCanExecutes["SelectionChangedCommand"] : (CommandCanExecutes["SelectionChangedCommand"] = true);
+                });
+            }
+        }
+
         public ICommand ClickExportExcelCommand
         {
             get
@@ -243,7 +306,9 @@ namespace Board
                             {
                                 book.Sheets.Add();
                                 C1.Silverlight.Excel.XLSheet Firsheet = book.Sheets[0];
+                                C1.Silverlight.Excel.XLSheet Secondsheet = book.Sheets[1];
                                 customExcel.InitHeaderExcel(book, Firsheet, _mainWnd.dgProductionOrder);
+                                customExcel.InitHeaderExcel(book, Secondsheet, _mainWnd.dgDetail);
                             });
                             ///
 
@@ -273,6 +338,7 @@ namespace Board
         public TnTOutputInfoListViewModel()
         {
             _BR_BRS_SEL_TnTOutputInfoList = new BR_BRS_SEL_TnTOutputInfoList();
+            _BR_BRS_SEL_TnTWorkOrderComplete = new BR_BRS_SEL_TnTWorkOrderComplete();
             _BR_PHR_GET_DEFAULT_DATE = new BR_PHR_GET_DEFAULT_DATE();
         }
     }

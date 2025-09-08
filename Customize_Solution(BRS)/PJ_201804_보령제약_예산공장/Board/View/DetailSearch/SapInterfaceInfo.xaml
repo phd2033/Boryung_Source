@@ -1,4 +1,4 @@
-﻿<UserControl    x:Class="Board.ProductionOrderInfo"
+﻿<UserControl    x:Class="Board.SapInterfaceInfoView"
                 xmlns:local="clr-namespace:Board" 
                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -44,7 +44,7 @@
                 <Setter Property="FontSize" Value="12"/>
                 <Setter Property="Margin" Value="2 0 2 0"/>
             </Style>
-            <local:ProductionOrderInfoViewModel x:Key="ViewModel"/>
+            <local:SapInterfaceInfoViewModel x:Key="ViewModel"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -86,14 +86,11 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="5" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="5" />
                     </Grid.ColumnDefinitions>
-                    <ComboBox Grid.Column="1" Width="150" SelectedValue="{Binding SelectedMode,Mode=TwoWay}" SelectedValuePath="Tag">
-                        <ComboBoxItem Content="SAP 오더 정보" Tag="SAP_Order"/>
-                        <ComboBoxItem Content="SAP 라우터 정보" Tag="SAP_Route"/>
-                        <ComboBoxItem Content="TnT 실적 정보" Tag="TnT"/>
-                        <ComboBoxItem Content="WMS 피킹 정보" Tag="WMS"/>
-                    </ComboBox>
+                    
                     <sdk:Label Grid.Column="3" Content="계획시작일자" Style="{StaticResource lblStyle}"/>
                     <StackPanel Grid.Column="5" Orientation="Horizontal" Width="210">
                         <Ctrl:iPharmMESFromToCalendar SelectedDateFrom="{Binding Path=PeriodSTDTTM, Mode=TwoWay}"
@@ -107,7 +104,7 @@
                     <TextBox Grid.Column="17"  Text="{Binding MTRLID, Mode=TwoWay}" Style="{StaticResource txtStyle}"/>
                     <sdk:Label Grid.Column="19" Content="제품명" Style="{StaticResource lblStyle}"/>
                     <TextBox Grid.Column="21" Text="{Binding MTRLNAME, Mode=TwoWay}" Style="{StaticResource txtStyle}"/>
-                    <Button Grid.Column="22" Content="검색" Width="80" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                    <Button Grid.Column="23" Content="검색" Width="80" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding Path=BtnSearchCommand}"/>
@@ -140,7 +137,6 @@
                                        SelectionMode="SingleRow"
                                        CanUserAddRows="False"
                                        CanUserSort="True"
-                                       Visibility="{Binding sapOrder}"
                                        ItemsSource="{Binding Path=BR_BRS_SEL_SAP_R_ProductionOrderInfo.OUTDATAs, Mode=OneWay}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
@@ -166,7 +162,6 @@
                                        HeadersVisibility="Column"
                                        CanUserAddRows="False"
                                        CanUserSort="True"
-                                       Visibility="{Binding sapOrder}"
                                        ItemsSource="{Binding Path=BR_BRS_SEL_SAP_R_ProductionOrderDetail.OUTDATAs, Mode=OneWay}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
@@ -193,7 +188,6 @@
                                        HeadersVisibility="Column"
                                        CanUserAddRows="False"
                                        CanUserSort="True"
-                                       Visibility="{Binding sapOrder}"
                                        ItemsSource="{Binding Path=BR_PHR_RPT_ProductionOrderDetail_Result.OUTDATAs, Mode=OneWay}">
                             <c1:C1DataGrid.Columns>
                                 <c1:DataGridTextColumn SortMemberPath="OPSGNAME" Header="공정명" Binding="{Binding OPSGNAME}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
@@ -209,6 +203,19 @@
                                 <c1:DataGridTextColumn SortMemberPath="ACTYIELD" Header="수율" Binding="{Binding ACTYIELD}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                             </c1:C1DataGrid.Columns>
                         </c1:C1DataGrid>
+
+                        <!--<Button Grid.Row="5" Grid.Column="1" Width="60" Height="30" HorizontalAlignment="Right" Cursor="Hand" Visibility="Visible">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Image Source="../../Images/Excel.png"/>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <icommon:EventToCommandAction Command="{Binding ClickExportExcelCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>-->
                     </Grid>
                 </Grid>
             </ControlsLib:MainPanel_Top.Contents>

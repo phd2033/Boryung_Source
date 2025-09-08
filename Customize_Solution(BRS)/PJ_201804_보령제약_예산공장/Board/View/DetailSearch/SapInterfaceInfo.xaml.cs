@@ -7,13 +7,12 @@ using C1.Silverlight.Data;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
-using System.ComponentModel;
 
 namespace Board
 {
-    public partial class ProductionOrderInfo : UserControl
+    public partial class SapInterfaceInfoView : UserControl
     {
-        public ProductionOrderInfo()
+        public SapInterfaceInfoView()
         {
             InitializeComponent();
         }

@@ -14,64 +14,9 @@ using System.Windows.Shapes;
 
 namespace Board
 {
-    public class ProductionOrderInfoViewModel : ViewModelBase
+    public class SapInterfaceInfoViewModel : ViewModelBase
     {
         #region property
-
-        private string _SelectedMode;
-        public string SelectedMode
-        {
-            get { return _SelectedMode; }
-            set
-            {
-                _SelectedMode = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private Visibility _sapOrder = Visibility.Collapsed;
-        public Visibility sapOrder
-        {
-            get { return _sapOrder; }
-            set
-            {
-                _sapOrder = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private Visibility _sapRoute = Visibility.Collapsed;
-        public Visibility sapRoute
-        {
-            get { return _sapRoute; }
-            set
-            {
-                _sapRoute = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private Visibility _tnt = Visibility.Collapsed;
-        public Visibility tnt
-        {
-            get { return _tnt; }
-            set
-            {
-                _tnt = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private Visibility _wms = Visibility.Collapsed;
-        public Visibility wms
-        {
-            get { return _wms; }
-            set
-            {
-                _wms = value;
-                NotifyPropertyChanged();
-            }
-        }
 
         private ProductionOrderInfo _mainWnd;
 
@@ -241,7 +186,7 @@ namespace Board
 
                             BR_PHR_GET_DEFAULT_DATE.INDATAs.Add(new BR_PHR_GET_DEFAULT_DATE.INDATA()
                             {
-                                PROGRAMID = "인터페이스정보조회"
+                                PROGRAMID = "오더및라우터정보조회"
                             });
 
                             if (!await BR_PHR_GET_DEFAULT_DATE.Execute()) throw new Exception();
@@ -292,16 +237,7 @@ namespace Board
                             CommandResults["BtnSearchCommand"] = false;
                             CommandCanExecutes["BtnSearchCommand"] = false;
 
-                            sapOrder = Visibility.Collapsed;
-
-                            if (string.IsNullOrEmpty(SelectedMode))
-                            {
-                                throw new Exception("I/F 시스템 정보가 올바르지않습니다.");
-                            }
-                            else if (SelectedMode.Equals("SAP_Order"))
-                            {
-                                sapOrder = Visibility.Visible;
-                            }
+                            ///
 
                             BR_BRS_SEL_SAP_R_ProductionOrderInfo.INDATAs.Clear();
                             BR_BRS_SEL_SAP_R_ProductionOrderInfo.OUTDATAs.Clear();
@@ -392,9 +328,59 @@ namespace Board
                 });
             }
         }
+
+        //public ICommand ClickExportExcelCommand
+        //{
+        //    get
+        //    {
+        //        return new AsyncCommandBase(async arg =>
+        //        {
+        //            using (await AwaitableLocks["ClickExportExcelCommand"].EnterAsync())
+        //            {
+        //                try
+        //                {
+        //                    IsBusy = true;
+
+        //                    CommandResults["ClickExportExcelCommand"] = false;
+        //                    CommandCanExecutes["ClickExportExcelCommand"] = false;
+
+        //                    ///
+        //                    Custom_C1ExportExcel customExcel = new Custom_C1ExportExcel();
+        //                    customExcel.SaveBook(book =>
+        //                    {
+        //                        book.Sheets.Add();
+        //                        C1.Silverlight.Excel.XLSheet Firsheet = book.Sheets[0];
+        //                        C1.Silverlight.Excel.XLSheet Secsheet = book.Sheets[1];
+        //                        customExcel.InitHeaderExcel(book, Firsheet, _mainWnd.dgProductionOrder);
+        //                        customExcel.InitHeaderExcel(book, Secsheet, _mainWnd.dgDetail);
+        //                    });
+        //                    ///
+
+        //                    CommandResults["ClickExportExcelCommand"] = true;
+        //                }
+        //                catch (Exception ex)
+        //                {
+        //                    CommandResults["ClickExportExcelCommand"] = false;
+        //                    OnException(ex.Message, ex);
+        //                }
+        //                finally
+        //                {
+        //                    CommandCanExecutes["ClickExportExcelCommand"] = true;
+
+        //                    IsBusy = false;
+        //                }
+        //            }
+        //        }, arg =>
+        //        {
+        //            return CommandCanExecutes.ContainsKey("ClickExportExcelCommand") ?
+        //                CommandCanExecutes["ClickExportExcelCommand"] : (CommandCanExecutes["ClickExportExcelCommand"] = true);
+        //        });
+        //    }
+        //}
+
         #endregion
 
-        public ProductionOrderInfoViewModel()
+        public SapInterfaceInfoViewModel()
         {
             _BR_PHR_GET_DEFAULT_DATE = new BR_PHR_GET_DEFAULT_DATE();
             _BR_BRS_SEL_SAP_R_ProductionOrderInfo = new BR_BRS_SEL_SAP_R_ProductionOrderInfo();

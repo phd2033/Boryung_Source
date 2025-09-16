@@ -94,6 +94,7 @@
                         <ComboBoxItem Content="SAP 라우터 정보" Tag="SAP_Route"/>
                         <ComboBoxItem Content="TnT 실적 정보" Tag="TnT"/>
                         <ComboBoxItem Content="WMS 용기 입고 정보" Tag="WMS"/>
+                        <ComboBoxItem Content="LIMS 시험 의뢰 결과" Tag="LIMS"/>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <i:InvokeCommandAction Command="{Binding ComboFieldDataChangedCommand}"/>
@@ -182,7 +183,7 @@
                             <ColumnDefinition Width="150" />
                             <ColumnDefinition Width="10" />
                         </Grid.ColumnDefinitions>
-                        <sdk:Label Grid.Column="0" Content="계획시작일자" Style="{StaticResource lblStyle}"/>
+                        <sdk:Label Grid.Column="0" Content="날짜" Style="{StaticResource lblStyle}"/>
                         <StackPanel Grid.Column="2" Orientation="Horizontal" Width="210">
                             <Ctrl:iPharmMESFromToCalendar SelectedDateFrom="{Binding Path=PeriodSTDTTM, Mode=TwoWay}"
                                                        SelectedDateTo="{Binding Path=PeriodEDDTTM, Mode=TwoWay}"/>
@@ -206,6 +207,46 @@
                         <TextBox Grid.Column="2" Text="{Binding LD_CTN_NO, Mode=TwoWay}"/>
                     </Grid>
 
+                    <Grid Grid.Column="3" Grid.ColumnSpan="18" VerticalAlignment="Center"  Margin="0 5 0 0" Grid.Row="0" Visibility="{Binding lims}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="150" />
+                        </Grid.ColumnDefinitions>
+                        <sdk:Label Grid.Column="0" Content="날짜" Style="{StaticResource lblStyle}"/>
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" Width="210">
+                            <Ctrl:iPharmMESFromToCalendar SelectedDateFrom="{Binding Path=PeriodSTDTTM, Mode=TwoWay}"
+                                                       SelectedDateTo="{Binding Path=PeriodEDDTTM, Mode=TwoWay}"/>
+                        </StackPanel>
+                        <sdk:Label Grid.Column="4" Content="공정" Style="{StaticResource lblStyle}"/>
+                        <ComboBox Grid.Column="6" x:Name="cmbProcessSegment" Width="140"
+                              ItemsSource="{Binding Path=BR_PHR_SEL_ProcessSegment.OUTDATAs}" 
+                              DisplayMemberPath="PCSGNAME" SelectedValuePath="PCSGNAME"
+                              SelectedValue="{Binding OPSGNAME, Mode=TwoWay}" />
+                        <sdk:Label Grid.Column="8" Content="제품코드"/>
+                        <TextBox Grid.Column="10" Text="{Binding MTRLID, Mode=TwoWay}"/>
+                        <sdk:Label Grid.Column="12" Content="제품명"/>
+                        <TextBox Grid.Column="14" Text="{Binding MTRLNAME, Mode=TwoWay}"/>
+                        <sdk:Label Grid.Column="16" Content="배치번호"/>
+                        <TextBox Grid.Column="18" Text="{Binding BATCHNO, Mode=TwoWay}"/>
+                    </Grid>
+
                     <Button Grid.Column="46" Content="검색" Width="80" HorizontalAlignment="Right" VerticalAlignment="Stretch" >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -217,7 +258,8 @@
             </ControlsLib:MainPanel_Top.Search>
             <ControlsLib:MainPanel_Top.Contents>
                 <Grid>
-                    <Grid>
+                    <!--오더 정보 조회-->
+                    <Grid Visibility="{Binding sapOrder}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="5" />
                             <ColumnDefinition Width="*" />
@@ -239,14 +281,13 @@
                             <RowDefinition Height="5" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="1" Grid.Column="1" Text="오더 정보" FontWeight="Bold" FontSize="14" Visibility="{Binding sapOrder}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="오더 정보" FontWeight="Bold" FontSize="14"/>
                         <c1:C1DataGrid Grid.Row="3" Grid.Column="1" x:Name="dgSapOrder"
                                        AutoGenerateColumns="False"
                                        HeadersVisibility="Column"
                                        SelectionMode="SingleRow"
                                        CanUserAddRows="False"
                                        CanUserSort="True"
-                                       Visibility="{Binding sapOrder}"
                                        ItemsSource="{Binding Path=BR_BRS_SEL_INTERFACE_INFO.OUTDATA_SAP_ORDERs, Mode=OneWay}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
@@ -267,13 +308,12 @@
                                 <c1:DataGridTextColumn SortMemberPath="PLNAL" Header="PLNAL" Binding="{Binding PLNAL}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                             </c1:C1DataGrid.Columns>
                         </c1:C1DataGrid>
-                        <TextBlock Grid.Row="5" Grid.Column="1" Text="오더 상세 정보" FontWeight="Bold" FontSize="14" Visibility="{Binding sapOrder}"/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="오더 상세 정보" FontWeight="Bold" FontSize="14"/>
                         <c1:C1DataGrid Grid.Row="7" Grid.Column="1" x:Name="dgSapOrderDetail"
                                        AutoGenerateColumns="False"
                                        HeadersVisibility="Column"
                                        CanUserAddRows="False"
                                        CanUserSort="True"
-                                       Visibility="{Binding sapOrder}"
                                        ItemsSource="{Binding Path=BR_BRS_SEL_INTERFACE_DETAIL_INFO.OUTDATA_SAP_ORDERs, Mode=OneWay}">
                             <c1:C1DataGrid.Columns>
                                 <c1:DataGridTextColumn SortMemberPath="OPSGNAME" Header="오더번호" Binding="{Binding AUFNR}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
@@ -288,13 +328,12 @@
                                 <c1:DataGridTextColumn SortMemberPath="INSDTTM" Header="날짜" Binding="{Binding INSDTTM}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                             </c1:C1DataGrid.Columns>
                         </c1:C1DataGrid>
-                        <TextBlock Grid.Row="9" Grid.Column="1" Text="오더 BOM 정보" FontWeight="Bold" FontSize="14" Visibility="{Binding sapOrder}"/>
+                        <TextBlock Grid.Row="9" Grid.Column="1" Text="오더 BOM 정보" FontWeight="Bold" FontSize="14"/>
                         <c1:C1DataGrid Grid.Row="11" Grid.Column="1" x:Name="dgSapOrdrBom"
                                        AutoGenerateColumns="False"
                                        HeadersVisibility="Column"
                                        CanUserAddRows="False"
                                        CanUserSort="True"
-                                       Visibility="{Binding sapOrder}"
                                        ItemsSource="{Binding Path=BR_BRS_SEL_INTERFACE_DETAIL_INFO.OUTDATA_SAP_ORDER_BOMs, Mode=OneWay}">
                             <c1:C1DataGrid.Columns>
                                 <c1:DataGridTextColumn SortMemberPath="AUFNR" Header="오더번호" Binding="{Binding AUFNR}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
@@ -311,15 +350,37 @@
                                 <c1:DataGridTextColumn SortMemberPath="INSDTTM" Header="날짜" Binding="{Binding INSDTTM}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                             </c1:C1DataGrid.Columns>
                         </c1:C1DataGrid>
-
-                        <TextBlock Grid.Row="1" Grid.Column="1" Text="라우트 정보" FontWeight="Bold" FontSize="14" Visibility="{Binding sapRoute}"/>
+                    </Grid>
+                    <!--라우터 정보 조회-->
+                    <Grid Visibility="{Binding sapRoute}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="5" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="라우트 정보" FontWeight="Bold" FontSize="14"/>
                         <c1:C1DataGrid Grid.Row="3" Grid.Column="1" x:Name="dgSapRoute"
                                        AutoGenerateColumns="False"
                                        HeadersVisibility="Column"
                                        SelectionMode="SingleRow"
                                        CanUserAddRows="False"
                                        CanUserSort="True"
-                                       Visibility="{Binding sapRoute}"
                                        ItemsSource="{Binding Path=BR_BRS_SEL_INTERFACE_INFO.OUTDATA_SAP_Routes, Mode=OneWay}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
@@ -342,13 +403,12 @@
                                 <c1:DataGridTextColumn SortMemberPath="INSDTTM" Header="날짜" Binding="{Binding INSDTTM}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                             </c1:C1DataGrid.Columns>
                         </c1:C1DataGrid>
-                        <TextBlock Grid.Row="5" Grid.Column="1" Text="라우트 공정 정보" FontWeight="Bold" FontSize="14" Visibility="{Binding sapRoute}"/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="라우트 공정 정보" FontWeight="Bold" FontSize="14"/>
                         <c1:C1DataGrid Grid.Row="7" Grid.Column="1" x:Name="dgSapRouteDetail"
                                        AutoGenerateColumns="False"
                                        HeadersVisibility="Column"
                                        CanUserAddRows="False"
                                        CanUserSort="True"
-                                       Visibility="{Binding sapRoute}"
                                        ItemsSource="{Binding Path=BR_BRS_SEL_INTERFACE_DETAIL_INFO.OUTDATA_SAP_ROUTEs, Mode=OneWay}">
                             <c1:C1DataGrid.Columns>
                                 <c1:DataGridTextColumn SortMemberPath="WERKS" Header="플랜트" Binding="{Binding WERKS}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
@@ -364,13 +424,12 @@
                                 <c1:DataGridTextColumn SortMemberPath="INSDTTM" Header="날짜" Binding="{Binding INSDTTM}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                             </c1:C1DataGrid.Columns>
                         </c1:C1DataGrid>
-                        <TextBlock Grid.Row="9" Grid.Column="1" Text="라우트 BOM 정보" FontWeight="Bold" FontSize="14" Visibility="{Binding sapRoute}"/>
+                        <TextBlock Grid.Row="9" Grid.Column="1" Text="라우트 BOM 정보" FontWeight="Bold" FontSize="14"/>
                         <c1:C1DataGrid Grid.Row="11" Grid.Column="1" x:Name="dgSapRouteBom"
                                        AutoGenerateColumns="False"
                                        HeadersVisibility="Column"
                                        CanUserAddRows="False"
                                        CanUserSort="True"
-                                       Visibility="{Binding sapRoute}"
                                        ItemsSource="{Binding Path=BR_BRS_SEL_INTERFACE_DETAIL_INFO.OUTDATA_SAP_ROUTE_BOMs, Mode=OneWay}">
                             <c1:C1DataGrid.Columns>
                                 <c1:DataGridTextColumn SortMemberPath="WERKS" Header="플랜트" Binding="{Binding WERKS}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
@@ -386,15 +445,34 @@
                                 <c1:DataGridTextColumn SortMemberPath="INSDTTM" Header="날짜" Binding="{Binding INSDTTM}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                             </c1:C1DataGrid.Columns>
                         </c1:C1DataGrid>
-
-                        <TextBlock Grid.Row="1" Grid.Column="1" Name="TEST" Text="실적 정보" FontWeight="Bold" FontSize="14" Visibility="{Binding tnt}"/>
+                    </Grid>
+                    <!--TnT 실적 조회-->
+                    <Grid Visibility="{Binding tnt}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="5" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="5" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Name="TEST" Text="실적 정보" FontWeight="Bold" FontSize="14"/>
                         <c1:C1DataGrid Grid.Row="3" Grid.Column="1" x:Name="dgTnt"
                                        AutoGenerateColumns="False"
                                        HeadersVisibility="Column"
                                        SelectionMode="SingleRow"
                                        CanUserAddRows="False"
                                        CanUserSort="True"
-                                       Visibility="{Binding tnt}"
                                        ItemsSource="{Binding Path=BR_BRS_SEL_INTERFACE_INFO.OUTDATA_TNTs, Mode=OneWay}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
@@ -416,13 +494,12 @@
                             </c1:C1DataGrid.Columns>
                         </c1:C1DataGrid>
 
-                        <TextBlock Grid.Row="5" Grid.Column="1" Text="최종 실적 정보" FontWeight="Bold" FontSize="14" Visibility="{Binding tnt}"/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="최종 실적 정보" FontWeight="Bold" FontSize="14"/>
                         <c1:C1DataGrid Grid.Row="7" Grid.Column="1" x:Name="dgTntLast" Tag="TEST"
                                        AutoGenerateColumns="False"
                                        HeadersVisibility="Column"
                                        CanUserAddRows="False"
                                        CanUserSort="True"
-                                       Visibility="{Binding tnt}"
                                        ItemsSource="{Binding Path=BR_BRS_SEL_INTERFACE_DETAIL_INFO.OUTDATA_TNTs, Mode=OneWay}">
                             <c1:C1DataGrid.Columns>
                                 <c1:DataGridTextColumn SortMemberPath="POID" Header="오더번호" Binding="{Binding POID}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
@@ -438,14 +515,29 @@
                                 <c1:DataGridTextColumn SortMemberPath="TRANS_DATE" Header="전송일자" Binding="{Binding TRANS_DATE}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                             </c1:C1DataGrid.Columns>
                         </c1:C1DataGrid>
-
-                        <TextBlock Grid.Row="1" Grid.Column="1" Text="WMS 용기 입고 정보" FontWeight="Bold" FontSize="14" Visibility="{Binding wms}"/>
+                    </Grid>
+                    <!--WMS 용기 입고 정보 조회-->
+                    <Grid Visibility="{Binding wms}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="5" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="5" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="WMS 용기 입고 정보" FontWeight="Bold" FontSize="14"/>
                         <c1:C1DataGrid Grid.Row="3" Grid.Column="1" x:Name="dgWms" Tag="TEST"
                                        AutoGenerateColumns="False"
                                        HeadersVisibility="Column"
                                        CanUserAddRows="False"
                                        CanUserSort="True"
-                                       Visibility="{Binding wms}"
                                        ItemsSource="{Binding Path=BR_BRS_SEL_INTERFACE_INFO.OUTDATA_WMSs, Mode=OneWay}">
                             <c1:C1DataGrid.Columns>
                                 <c1:DataGridTextColumn SortMemberPath="AREA" Header="저장위치" Binding="{Binding AREA}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
@@ -465,6 +557,42 @@
                                 <c1:DataGridTextColumn SortMemberPath="QCT_CHK_YON" Header="성적체크여부" Binding="{Binding QCT_CHK_YON}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="INV_STA" Header="세척상태" Binding="{Binding INV_STA}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="CLEANEXPIREDTTM" Header="세척유효일시" Binding="{Binding CLEANEXPIREDTTM}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                            </c1:C1DataGrid.Columns>
+                        </c1:C1DataGrid>
+                    </Grid>
+                    <!--시험 의뢰 결과 조회-->
+                    <Grid Visibility="{Binding lims}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="5" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="5" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="LIMS 시험 의뢰 결과" FontWeight="Bold" FontSize="14"/>
+                        <c1:C1DataGrid Grid.Row="3" Grid.Column="1" x:Name="dgLims" Tag="TEST"
+                                       AutoGenerateColumns="False"
+                                       HeadersVisibility="Column"
+                                       CanUserAddRows="False"
+                                       CanUserSort="True"
+                                       ItemsSource="{Binding Path=BR_BRS_SEL_INTERFACE_INFO.OUTDATA_LIMSs, Mode=OneWay}">
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn SortMemberPath="POID" Header="오더번호" Binding="{Binding Path=POID}" HorizontalAlignment="Center" MinWidth="60" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="MTRLNAME" Header="제품명" Binding="{Binding Path=MTRLNAME}" HorizontalAlignment="Center" MinWidth="60" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="ITEM_TYPE" Header="품목 유형" Binding="{Binding Path=ITEM_TYPE}" HorizontalAlignment="Center" MinWidth="60" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="BATCHNO" Header="제조번호" Binding="{Binding Path=BATCHNO}" HorizontalAlignment="Center" MinWidth="60" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="PROCESSSEGMENTID" Header="공정" Binding="{Binding Path=PROCESSSEGMENTID}" HorizontalAlignment="Center" MinWidth="60" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="TST_REQ_NO" Header="의뢰 번호" Binding="{Binding Path=TST_REQ_NO}" HorizontalAlignment="Center" MinWidth="60" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="INSDTTM" Header="의뢰 일시" Binding="{Binding Path=INSDTTM}" HorizontalAlignment="Center" MinWidth="60" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="UD_TYPE" Header="적합여부" Binding="{Binding Path=UD_TYPE}" HorizontalAlignment="Center" MinWidth="60" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="UD_TIME" Header="적합일시" Binding="{Binding Path=UD_TIME}" HorizontalAlignment="Center" MinWidth="60" HeaderStyle="{StaticResource colHeader}"/>
                             </c1:C1DataGrid.Columns>
                         </c1:C1DataGrid>
                     </Grid>

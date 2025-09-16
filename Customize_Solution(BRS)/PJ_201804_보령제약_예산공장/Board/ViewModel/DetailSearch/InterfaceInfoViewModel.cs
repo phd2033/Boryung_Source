@@ -73,6 +73,17 @@ namespace Board
             }
         }
 
+        private Visibility _lims = Visibility.Collapsed;
+        public Visibility lims
+        {
+            get { return _lims; }
+            set
+            {
+                _lims = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private InterfaceInfo _mainWnd;
 
         private DateTime _PeriodSTDTTM;
@@ -184,20 +195,20 @@ namespace Board
                 NotifyPropertyChanged();
             }
         }
-        #endregion
 
-        #region Data
-
-        private BR_PHR_GET_DEFAULT_DATE _BR_PHR_GET_DEFAULT_DATE;
-        public BR_PHR_GET_DEFAULT_DATE BR_PHR_GET_DEFAULT_DATE
+        private string _OPSGNAME;
+        public string OPSGNAME
         {
-            get { return _BR_PHR_GET_DEFAULT_DATE; }
+            get { return _OPSGNAME; }
             set
             {
-                _BR_PHR_GET_DEFAULT_DATE = value;
+                _OPSGNAME = value;
                 NotifyPropertyChanged();
             }
         }
+        #endregion
+
+        #region Data
 
         private BR_BRS_SEL_INTERFACE_INFO _BR_BRS_SEL_INTERFACE_INFO;
         public BR_BRS_SEL_INTERFACE_INFO BR_BRS_SEL_INTERFACE_INFO
@@ -217,6 +228,17 @@ namespace Board
             set
             {
                 _BR_BRS_SEL_INTERFACE_DETAIL_INFO = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private BR_PHR_SEL_ProcessSegment _BR_PHR_SEL_ProcessSegment;
+        public BR_PHR_SEL_ProcessSegment BR_PHR_SEL_ProcessSegment
+        {
+            get { return _BR_PHR_SEL_ProcessSegment; }
+            set
+            {
+                _BR_PHR_SEL_ProcessSegment = value;
                 NotifyPropertyChanged();
             }
         }
@@ -242,30 +264,22 @@ namespace Board
                             CommandCanExecutes["LoadedCommand"] = false;
 
                             sapOrder = Visibility.Visible;
-                            ///
 
                             if (arg == null || !(arg is InterfaceInfo))
                                 return;
                             _mainWnd = arg as InterfaceInfo;
 
-                            BR_PHR_GET_DEFAULT_DATE.INDATAs.Clear();
-                            BR_PHR_GET_DEFAULT_DATE.OUTDATAs.Clear();
+                            PeriodEDDTTM = await AuthRepositoryViewModel.GetDBDateTimeNow();
+                            PeriodSTDTTM = PeriodEDDTTM.AddDays(-1);
 
-                            BR_PHR_GET_DEFAULT_DATE.INDATAs.Add(new BR_PHR_GET_DEFAULT_DATE.INDATA()
+                            _BR_PHR_SEL_ProcessSegment.INDATAs.Clear();
+                            _BR_PHR_SEL_ProcessSegment.OUTDATAs.Clear();
+
+                            _BR_PHR_SEL_ProcessSegment.INDATAs.Add(new BR_PHR_SEL_ProcessSegment.INDATA()
                             {
-                                PROGRAMID = "인터페이스정보조회"
+                                ISUSE = "Y"
                             });
-
-                            if (!await BR_PHR_GET_DEFAULT_DATE.Execute()) throw new Exception();
-
-                            PeriodSTDTTM = DateTime.Parse(BR_PHR_GET_DEFAULT_DATE.OUTDATAs[0].FROMDATE.Substring(0, 4) + "-" +
-                                                          BR_PHR_GET_DEFAULT_DATE.OUTDATAs[0].FROMDATE.Substring(4, 2) + "-" +
-                                                          BR_PHR_GET_DEFAULT_DATE.OUTDATAs[0].FROMDATE.Substring(6, 2));
-                            PeriodEDDTTM = DateTime.Parse(BR_PHR_GET_DEFAULT_DATE.OUTDATAs[0].TODATE.Substring(0, 4) + "-" +
-                                                          BR_PHR_GET_DEFAULT_DATE.OUTDATAs[0].TODATE.Substring(4, 2) + "-" +
-                                                          BR_PHR_GET_DEFAULT_DATE.OUTDATAs[0].TODATE.Substring(6, 2));
-
-                            ///
+                            if (!await _BR_PHR_SEL_ProcessSegment.Execute()) throw new Exception();
 
                             CommandResults["LoadedCommand"] = true;
                         }
@@ -308,6 +322,7 @@ namespace Board
                             sapRoute = Visibility.Collapsed;
                             tnt = Visibility.Collapsed;
                             wms = Visibility.Collapsed;
+                            lims = Visibility.Collapsed;
 
                             if (string.IsNullOrEmpty(SelectedMode))
                             {
@@ -329,27 +344,33 @@ namespace Board
                             {
                                 wms = Visibility.Visible;
                             }
-                            
+                            else if (SelectedMode.Equals("LIMS"))
+                            {
+                                lims = Visibility.Visible;
+                            }
 
-                            BR_BRS_SEL_INTERFACE_INFO.INDATAs.Clear();
-                            BR_BRS_SEL_INTERFACE_INFO.OUTDATA_SAP_ORDERs.Clear();
-                            BR_BRS_SEL_INTERFACE_INFO.OUTDATA_SAP_Routes.Clear();
-                            BR_BRS_SEL_INTERFACE_INFO.OUTDATA_TNTs.Clear();
-                            BR_BRS_SEL_INTERFACE_INFO.OUTDATA_WMSs.Clear();
 
-                            BR_BRS_SEL_INTERFACE_INFO.INDATAs.Add(new BR_BRS_SEL_INTERFACE_INFO.INDATA()
+                            _BR_BRS_SEL_INTERFACE_INFO.INDATAs.Clear();
+                            _BR_BRS_SEL_INTERFACE_INFO.OUTDATA_SAP_ORDERs.Clear();
+                            _BR_BRS_SEL_INTERFACE_INFO.OUTDATA_SAP_Routes.Clear();
+                            _BR_BRS_SEL_INTERFACE_INFO.OUTDATA_TNTs.Clear();
+                            _BR_BRS_SEL_INTERFACE_INFO.OUTDATA_WMSs.Clear();
+
+                            _BR_BRS_SEL_INTERFACE_INFO.INDATAs.Add(new BR_BRS_SEL_INTERFACE_INFO.INDATA()
                             {   
                                 GUBUN = SelectedMode,
                                 FROMDATE = PeriodSTDTTM,
                                 TODATE = PeriodEDDTTM,
-                                POID = POID,
-                                BATCHNO = BATCHNO,
-                                PALLETID = PALLETID,
-                                LD_CTN_NO = LD_CTN_NO != "" ? LD_CTN_NO : null
+                                POID = POID != "" ? POID : null,
+                                MTRLID = MTRLID != "" ? MTRLID : null,
+                                MTRLNAME = MTRLNAME != "" ? MTRLNAME : null,
+                                BATCHNO = BATCHNO != "" ? BATCHNO : null,
+                                PALLETID = PALLETID != "" ? PALLETID : null,
+                                LD_CTN_NO = LD_CTN_NO != "" ? LD_CTN_NO : null,
+                                OPSGNAME = OPSGNAME != "" ? OPSGNAME : null
                             });
 
-                            if (!await BR_BRS_SEL_INTERFACE_INFO.Execute()) throw new Exception();
-                            ///
+                            await _BR_BRS_SEL_INTERFACE_INFO.Execute();
 
                             CommandResults["BtnSearchCommand"] = true;
                         }
@@ -472,6 +493,7 @@ namespace Board
                             sapRoute = Visibility.Collapsed;
                             tnt = Visibility.Collapsed;
                             wms = Visibility.Collapsed;
+                            lims = Visibility.Collapsed;
 
                             if (SelectedMode.Equals("SAP_Order"))
                             {
@@ -489,7 +511,10 @@ namespace Board
                             {
                                 wms = Visibility.Visible;
                             }
-
+                            else if (SelectedMode.Equals("LIMS"))
+                            {
+                                lims = Visibility.Visible;
+                            }
 
                             IsBusy = false;
 
@@ -518,9 +543,9 @@ namespace Board
 
         public InterfaceInfoViewModel()
         {
-            _BR_PHR_GET_DEFAULT_DATE = new BR_PHR_GET_DEFAULT_DATE();
             _BR_BRS_SEL_INTERFACE_INFO = new BR_BRS_SEL_INTERFACE_INFO();
             _BR_BRS_SEL_INTERFACE_DETAIL_INFO = new BR_BRS_SEL_INTERFACE_DETAIL_INFO();
+            _BR_PHR_SEL_ProcessSegment = new BR_PHR_SEL_ProcessSegment();
 
             ISFERT = true;
         }

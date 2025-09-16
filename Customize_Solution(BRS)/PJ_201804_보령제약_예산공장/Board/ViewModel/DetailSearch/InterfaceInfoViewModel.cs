@@ -163,6 +163,27 @@ namespace Board
             }
         }
 
+        private string _PALLETID;
+        public string PALLETID
+        {
+            get { return _PALLETID; }
+            set
+            {
+                _PALLETID = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _LD_CTN_NO;
+        public string LD_CTN_NO
+        {
+            get { return _LD_CTN_NO; }
+            set
+            {
+                _LD_CTN_NO = value;
+                NotifyPropertyChanged();
+            }
+        }
         #endregion
 
         #region Data
@@ -178,61 +199,28 @@ namespace Board
             }
         }
 
-        private BR_BRS_SEL_SAP_R_ProductionOrderInfo _BR_BRS_SEL_SAP_R_ProductionOrderInfo;
-        public BR_BRS_SEL_SAP_R_ProductionOrderInfo BR_BRS_SEL_SAP_R_ProductionOrderInfo
+        private BR_BRS_SEL_INTERFACE_INFO _BR_BRS_SEL_INTERFACE_INFO;
+        public BR_BRS_SEL_INTERFACE_INFO BR_BRS_SEL_INTERFACE_INFO
         {
-            get { return _BR_BRS_SEL_SAP_R_ProductionOrderInfo; }
+            get { return _BR_BRS_SEL_INTERFACE_INFO; }
             set
             {
-                _BR_BRS_SEL_SAP_R_ProductionOrderInfo = value;
+                _BR_BRS_SEL_INTERFACE_INFO = value;
                 NotifyPropertyChanged();
             }
         }
 
-        private BR_BRS_SEL_SAP_R_ProductionOrderDetail _BR_BRS_SEL_SAP_R_ProductionOrderDetail;
-        public BR_BRS_SEL_SAP_R_ProductionOrderDetail BR_BRS_SEL_SAP_R_ProductionOrderDetail
+        private BR_BRS_SEL_INTERFACE_DETAIL_INFO _BR_BRS_SEL_INTERFACE_DETAIL_INFO;
+        public BR_BRS_SEL_INTERFACE_DETAIL_INFO BR_BRS_SEL_INTERFACE_DETAIL_INFO
         {
-            get { return _BR_BRS_SEL_SAP_R_ProductionOrderDetail; }
+            get { return _BR_BRS_SEL_INTERFACE_DETAIL_INFO; }
             set
             {
-                _BR_BRS_SEL_SAP_R_ProductionOrderDetail = value;
+                _BR_BRS_SEL_INTERFACE_DETAIL_INFO = value;
                 NotifyPropertyChanged();
             }
         }
 
-        //private BR_BRS_SEL_TnTOutputInfoList _BR_BRS_SEL_TnTOutputInfoList;
-        //public BR_BRS_SEL_TnTOutputInfoList BR_BRS_SEL_TnTOutputInfoList
-        //{
-        //    get { return _BR_BRS_SEL_TnTOutputInfoList; }
-        //    set
-        //    {
-        //        _BR_BRS_SEL_TnTOutputInfoList = value;
-        //        NotifyPropertyChanged();
-        //    }
-        //}
-
-        //private BR_BRS_SEL_TnTWorkOrderComplete _BR_BRS_SEL_TnTWorkOrderComplete;
-        //public BR_BRS_SEL_TnTWorkOrderComplete BR_BRS_SEL_TnTWorkOrderComplete
-        //{
-        //    get { return _BR_BRS_SEL_TnTWorkOrderComplete; }
-        //    set
-        //    {
-        //        _BR_BRS_SEL_TnTWorkOrderComplete = value;
-        //        NotifyPropertyChanged();
-        //    }
-        //}
-
-
-        private BR_PHR_RPT_ProductionOrderDetail_Result _BR_PHR_RPT_ProductionOrderDetail_Result;
-        public BR_PHR_RPT_ProductionOrderDetail_Result BR_PHR_RPT_ProductionOrderDetail_Result
-        {
-            get { return _BR_PHR_RPT_ProductionOrderDetail_Result; }
-            set
-            {
-                _BR_PHR_RPT_ProductionOrderDetail_Result = value;
-                NotifyPropertyChanged();
-            }
-        }
 
         #endregion
 
@@ -253,6 +241,7 @@ namespace Board
                             CommandResults["LoadedCommand"] = false;
                             CommandCanExecutes["LoadedCommand"] = false;
 
+                            sapOrder = Visibility.Visible;
                             ///
 
                             if (arg == null || !(arg is InterfaceInfo))
@@ -311,11 +300,14 @@ namespace Board
                         try
                         {
                             IsBusy = true;
-
+                            
                             CommandResults["BtnSearchCommand"] = false;
                             CommandCanExecutes["BtnSearchCommand"] = false;
 
                             sapOrder = Visibility.Collapsed;
+                            sapRoute = Visibility.Collapsed;
+                            tnt = Visibility.Collapsed;
+                            wms = Visibility.Collapsed;
 
                             if (string.IsNullOrEmpty(SelectedMode))
                             {
@@ -325,25 +317,38 @@ namespace Board
                             {
                                 sapOrder = Visibility.Visible;
                             }
+                            else if (SelectedMode.Equals("SAP_Route"))
+                            {
+                                sapRoute = Visibility.Visible;
+                            }
                             else if (SelectedMode.Equals("TnT"))
                             {
                                 tnt = Visibility.Visible;
                             }
+                            else if (SelectedMode.Equals("WMS"))
+                            {
+                                wms = Visibility.Visible;
+                            }
+                            
 
-                            BR_BRS_SEL_SAP_R_ProductionOrderInfo.INDATAs.Clear();
-                            BR_BRS_SEL_SAP_R_ProductionOrderInfo.OUTDATAs.Clear();
+                            BR_BRS_SEL_INTERFACE_INFO.INDATAs.Clear();
+                            BR_BRS_SEL_INTERFACE_INFO.OUTDATA_SAP_ORDERs.Clear();
+                            BR_BRS_SEL_INTERFACE_INFO.OUTDATA_SAP_Routes.Clear();
+                            BR_BRS_SEL_INTERFACE_INFO.OUTDATA_TNTs.Clear();
+                            BR_BRS_SEL_INTERFACE_INFO.OUTDATA_WMSs.Clear();
 
-                            BR_BRS_SEL_SAP_R_ProductionOrderInfo.INDATAs.Add(new BR_BRS_SEL_SAP_R_ProductionOrderInfo.INDATA()
-                            {                               
+                            BR_BRS_SEL_INTERFACE_INFO.INDATAs.Add(new BR_BRS_SEL_INTERFACE_INFO.INDATA()
+                            {   
+                                GUBUN = SelectedMode,
                                 FROMDATE = PeriodSTDTTM,
                                 TODATE = PeriodEDDTTM,
                                 POID = POID,
                                 BATCHNO = BATCHNO,
-                                MTRLID = MTRLID,
-                                MTRLNAME = MTRLNAME
+                                PALLETID = PALLETID,
+                                LD_CTN_NO = LD_CTN_NO != "" ? LD_CTN_NO : null
                             });
 
-                            if (!await BR_BRS_SEL_SAP_R_ProductionOrderInfo.Execute()) throw new Exception();
+                            if (!await BR_BRS_SEL_INTERFACE_INFO.Execute()) throw new Exception();
                             ///
 
                             CommandResults["BtnSearchCommand"] = true;
@@ -383,20 +388,48 @@ namespace Board
                             CommandResults["SelectionChangedCommand"] = false;
                             CommandCanExecutes["SelectionChangedCommand"] = false;
 
-                            ///
-                            if (arg == null || !(arg is BR_BRS_SEL_SAP_R_ProductionOrderInfo.OUTDATA))
-                                return;
-                            var rowdata = arg as BR_BRS_SEL_SAP_R_ProductionOrderInfo.OUTDATA;
-
-                            BR_BRS_SEL_SAP_R_ProductionOrderDetail.INDATAs.Clear();
-                            BR_BRS_SEL_SAP_R_ProductionOrderDetail.OUTDATAs.Clear();
-                            BR_BRS_SEL_SAP_R_ProductionOrderDetail.INDATAs.Add(new BR_BRS_SEL_SAP_R_ProductionOrderDetail.INDATA()
+                            if (arg == null) return;
+                        
+                            if (arg is BR_BRS_SEL_INTERFACE_INFO.OUTDATA_SAP_ORDER)
                             {
-                                POID = rowdata.AUFNR
-                            });
+                                var rowdata = arg as BR_BRS_SEL_INTERFACE_INFO.OUTDATA_SAP_ORDER;
 
-                            if (!await BR_BRS_SEL_SAP_R_ProductionOrderDetail.Execute()) throw new Exception();
-                            ///
+                                BR_BRS_SEL_INTERFACE_DETAIL_INFO.INDATAs.Clear();
+
+                                BR_BRS_SEL_INTERFACE_DETAIL_INFO.INDATAs.Add(new BR_BRS_SEL_INTERFACE_DETAIL_INFO.INDATA()
+                                {
+                                    POID = rowdata.AUFNR,
+                                    GUBUN = SelectedMode
+                                });
+                            }
+                            else if (arg is BR_BRS_SEL_INTERFACE_INFO.OUTDATA_TNT)
+                            {
+                                var rowdata = arg as BR_BRS_SEL_INTERFACE_INFO.OUTDATA_TNT;
+
+                                BR_BRS_SEL_INTERFACE_DETAIL_INFO.INDATAs.Clear();
+
+                                BR_BRS_SEL_INTERFACE_DETAIL_INFO.INDATAs.Add(new BR_BRS_SEL_INTERFACE_DETAIL_INFO.INDATA()
+                                {
+                                    POID = rowdata.POID,
+                                    GUBUN = SelectedMode
+                                });
+                            }
+                            else if (arg is BR_BRS_SEL_INTERFACE_INFO.OUTDATA_SAP_Route)
+                            {
+                                var rowdata = arg as BR_BRS_SEL_INTERFACE_INFO.OUTDATA_SAP_Route;
+
+                                BR_BRS_SEL_INTERFACE_DETAIL_INFO.INDATAs.Clear();
+
+                                BR_BRS_SEL_INTERFACE_DETAIL_INFO.INDATAs.Add(new BR_BRS_SEL_INTERFACE_DETAIL_INFO.INDATA()
+                                {
+                                    MATNR = rowdata.MATNR,
+                                    PLNAL = rowdata.PLNAL,
+                                    PLNNR = rowdata.PLNNR,
+                                    GUBUN = SelectedMode
+                                });
+                            }
+
+                            if (!await BR_BRS_SEL_INTERFACE_DETAIL_INFO.Execute()) throw new Exception();
 
                             CommandResults["SelectionChangedCommand"] = true;
                         }
@@ -419,16 +452,75 @@ namespace Board
                 });
             }
         }
+
+        public ICommand ComboFieldDataChangedCommand
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["ComboFieldDataChangedCommand"].EnterAsync())
+                    {
+                        try
+                        {
+                            CommandResults["ComboFieldDataChangedCommand"] = false;
+                            CommandCanExecutes["ComboFieldDataChangedCommand"] = false;
+
+                            IsBusy = true;
+
+                            sapOrder = Visibility.Collapsed;
+                            sapRoute = Visibility.Collapsed;
+                            tnt = Visibility.Collapsed;
+                            wms = Visibility.Collapsed;
+
+                            if (SelectedMode.Equals("SAP_Order"))
+                            {
+                                sapOrder = Visibility.Visible;
+                            }
+                            else if (SelectedMode.Equals("SAP_Route"))
+                            {
+                                sapRoute = Visibility.Visible;
+                            }
+                            else if (SelectedMode.Equals("TnT"))
+                            {
+                                tnt = Visibility.Visible;
+                            }
+                            else if (SelectedMode.Equals("WMS"))
+                            {
+                                wms = Visibility.Visible;
+                            }
+
+
+                            IsBusy = false;
+
+                            CommandResults["ComboFieldDataChangedCommand"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["ComboFieldDataChangedCommand"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["ComboFieldDataChangedCommand"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("ComboFieldDataChangedCommand") ?
+                        CommandCanExecutes["ComboFieldDataChangedCommand"] : (CommandCanExecutes["ComboFieldDataChangedCommand"] = true);
+                });
+            }
+        }
         #endregion
 
         public InterfaceInfoViewModel()
         {
             _BR_PHR_GET_DEFAULT_DATE = new BR_PHR_GET_DEFAULT_DATE();
-            _BR_BRS_SEL_SAP_R_ProductionOrderInfo = new BR_BRS_SEL_SAP_R_ProductionOrderInfo();
-            _BR_PHR_RPT_ProductionOrderDetail_Result = new BR_PHR_RPT_ProductionOrderDetail_Result();
-            _BR_BRS_SEL_SAP_R_ProductionOrderDetail = new BR_BRS_SEL_SAP_R_ProductionOrderDetail();
-            //_BR_BRS_SEL_TnTOutputInfoList = new BR_BRS_SEL_TnTOutputInfoList();
-            //_BR_BRS_SEL_TnTWorkOrderComplete = new BR_BRS_SEL_TnTWorkOrderComplete();
+            _BR_BRS_SEL_INTERFACE_INFO = new BR_BRS_SEL_INTERFACE_INFO();
+            _BR_BRS_SEL_INTERFACE_DETAIL_INFO = new BR_BRS_SEL_INTERFACE_DETAIL_INFO();
 
             ISFERT = true;
         }

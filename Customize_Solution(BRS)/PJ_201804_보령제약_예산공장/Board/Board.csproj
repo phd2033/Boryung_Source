@@ -186,9 +186,10 @@
     <Compile Include="Model.Access\iPharm.Report\BR_AdminInformation\BR_BRS_SEL_SEND_MAIL_TO_LIST.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR_AutoInspectionRejectInfo\BR_BRS_SEL_AUTO_INSPECTION.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR_AutoInspectionRejectInfo\BR_BRS_SEL_AUTO_INSPECTION_REJECT_INFO.Access.cs" />
+    <Compile Include="Model.Access\iPharm.Report\BR_Interface\BR_BRS_SEL_INTERFACE_DETAIL_INFO.Access.cs" />
+    <Compile Include="Model.Access\iPharm.Report\BR_Interface\BR_BRS_SEL_INTERFACE_INFO.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR_MaterialReport\BR_BRS_SEL_MaterialPickingInfoList.Access.cs" />
     <Compile Include="ViewModel\DetailSearch\SapInterfaceInfoViewModel.cs" />
-    <Compile Include="View\BR_SVP_RejectInfo\BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR_SVP_RejectInfo\BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR_TnTOutputInfo\BR_BRS_SEL_TnTOutputInfoList.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR_TnTOutputInfo\BR_BRS_SEL_TnTWorkOrderComplete.Access.cs" />
@@ -198,7 +199,7 @@
     <Compile Include="ViewModel\CleanningSettingViewModel.cs" />
     <Compile Include="ViewModel\DetailSearch\FacilitiesOperationStatusViewModel.cs" />
     <Compile Include="ViewModel\DetailSearch\IPCTestResultViewModel.cs" />
-    <Compile Include="ViewModel\DetailSearch\ProductionOrderInfoViewModel.cs" />
+    <Compile Include="ViewModel\DetailSearch\InterfaceInfoViewModel.cs" />
     <Compile Include="ViewModel\DetailSearch\ManufacturingProcessStatusViewModel.cs" />
     <Compile Include="ViewModel\DetailSearch\TnTOutputInfoListViewModel.cs" />
     <Compile Include="ViewModel\DetailSearch\MaterialPickingInfoListViewModel.cs" />
@@ -235,8 +236,8 @@
     <Compile Include="View\DetailSearch\SapInterfaceInfo.xaml.cs">
       <DependentUpon>SapInterfaceInfo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DetailSearch\ProductionOrderInfo.xaml.cs">
-      <DependentUpon>ProductionOrderInfo.xaml</DependentUpon>
+    <Compile Include="View\DetailSearch\InterfaceInfo.xaml.cs">
+      <DependentUpon>InterfaceInfo.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DetailSearch\ManufacturingPerformanceView.xaml.cs">
       <DependentUpon>ManufacturingPerformanceView.xaml</DependentUpon>
@@ -340,7 +341,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\DetailSearch\ProductionOrderInfo.xaml">
+    <Page Include="View\DetailSearch\InterfaceInfo.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

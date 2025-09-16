@@ -18,7 +18,7 @@ namespace Board
     {
         #region property
 
-        private ProductionOrderInfo _mainWnd;
+        private InterfaceInfo _mainWnd;
 
         private DateTime _PeriodSTDTTM;
         public DateTime PeriodSTDTTM
@@ -177,9 +177,9 @@ namespace Board
 
                             ///
 
-                            if (arg == null || !(arg is ProductionOrderInfo))
+                            if (arg == null || !(arg is InterfaceInfo))
                                 return;
-                            _mainWnd = arg as ProductionOrderInfo;
+                            _mainWnd = arg as InterfaceInfo;
 
                             BR_PHR_GET_DEFAULT_DATE.INDATAs.Clear();
                             BR_PHR_GET_DEFAULT_DATE.OUTDATAs.Clear();

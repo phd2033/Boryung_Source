@@ -303,7 +303,7 @@ namespace 보령
                             else
                             {
                                 //OnMessage("미사용 원료 정보가 존재하지 않습니다.");
-                                if (await OnMessageAsync("미사용 원료 정보가 없습니다. 기록을 진행하시겠습니까?", true))
+                                if (await OnMessageAsync("미사용 원료가 없습니다. 기록을 진행하시겠습니까?", true))
                                 {
                                     //XML 형식으로 저장
                                     var ds = new DataSet();

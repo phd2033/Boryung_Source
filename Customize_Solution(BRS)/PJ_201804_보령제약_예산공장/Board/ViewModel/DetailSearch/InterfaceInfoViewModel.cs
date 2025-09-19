@@ -270,7 +270,7 @@ namespace Board
                             _mainWnd = arg as InterfaceInfo;
 
                             PeriodEDDTTM = await AuthRepositoryViewModel.GetDBDateTimeNow();
-                            PeriodSTDTTM = PeriodEDDTTM.AddDays(-1);
+                            PeriodSTDTTM = PeriodEDDTTM.AddDays(-7);
 
                             _BR_PHR_SEL_ProcessSegment.INDATAs.Clear();
                             _BR_PHR_SEL_ProcessSegment.OUTDATAs.Clear();

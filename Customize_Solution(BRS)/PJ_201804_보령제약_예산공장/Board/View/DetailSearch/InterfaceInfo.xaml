@@ -420,7 +420,7 @@
                                 <c1:DataGridTextColumn SortMemberPath="LTXA1" Header="공정명" Binding="{Binding LTXA1}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="STATUS" Header="상태" Binding="{Binding STATUS}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="IF_RSLT_CODE" Header="결과" Binding="{Binding IF_RSLT_CODE}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="IF_RSLT_MSG" Header="비고" Binding="{Binding IF_RSLT_CODE}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="IF_RSLT_MSG" Header="비고" Binding="{Binding IF_RSLT_MSG}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="INSDTTM" Header="날짜" Binding="{Binding INSDTTM}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                             </c1:C1DataGrid.Columns>
                         </c1:C1DataGrid>

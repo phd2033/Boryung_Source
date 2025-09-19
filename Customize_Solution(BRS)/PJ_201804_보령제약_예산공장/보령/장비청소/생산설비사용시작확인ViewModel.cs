@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using LGCNS.iPharmMES.Common;
 using C1.Silverlight.Data;
 using ShopFloorUI;
 using System.Collections.Generic;
-using System.Text;
 
 namespace 보령
 {
@@ -25,11 +16,10 @@ namespace 보령
         public 생산설비사용시작확인ViewModel()
         {
             _BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM = new BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM();
-            _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION = new BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION();
         }
         #endregion
         #region [BizRule]
-        // 현재 오더, 공정에서 사용중인 설비목록 조회
+        
         private BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM _BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM;
         public BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM
         {
@@ -37,17 +27,6 @@ namespace 보령
             set
             {
                 _BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM = value;
-                NotifyPropertyChanged();
-            }
-        }
-        // 설비의 생산완료 및 JOB 종료
-        private BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION;
-        public BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION
-        {  
-            get { return _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION; }
-            set
-            {
-                _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION = value;
                 NotifyPropertyChanged();
             }
         }
@@ -65,45 +44,23 @@ namespace 보령
                         {
                             CommandResults["LoadedCommandAsync"] = false;
                             CommandCanExecutes["LoadedCommandAsync"] = false;
-
-                            ///
+                            
                             if (arg == null || !(arg is 생산설비사용시작확인)) return;
                             else
                             {
                                 _mainWnd = arg as 생산설비사용시작확인;
-
-                                _inputValues = InstructionModel.GetParameterSender(_mainWnd.CurrentInstruction, _mainWnd.Instructions);
-
+                               
                                 _BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM.INDATAs.Clear();
                                 _BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM.OUTDATAs.Clear();
-
-                                if (_inputValues.Count > 0)
+                                
+                                _BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM.INDATAs.Add(new BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM.INDATA
                                 {
-                                    if (_inputValues[0].Raw.NOTE != null)
-                                    {
-                                        DataSet ds = new DataSet();
-                                        DataTable dt = new DataTable();
-                                        var bytearray = _inputValues[0].Raw.NOTE;
-                                        string xml = System.Text.Encoding.UTF8.GetString(bytearray, 0, bytearray.Length);
-
-                                        ds.ReadXmlFromString(xml);
-                                        dt = ds.Tables["DATA"];
-
-                                        foreach (var row in dt.Rows)
-                                        {
-                                            _BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM.INDATAs.Add(new BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM.INDATA
-                                            {
-                                                POID = _mainWnd.CurrentOrder.ProductionOrderID,
-                                                OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
-                                                EQPTID = row["장비번호"].ToString()
-                                            });
-                                        }
-                                    }
-                                }
-                                   
+                                    POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                    OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID
+                                });
+                                
                                 if (await BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM.Execute() == false)
                                     throw BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM.Exception;
-                                
                             }
                             IsBusy = false;
                             CommandResults["LoadedCommandAsync"] = true;
@@ -138,8 +95,7 @@ namespace 보령
                         {
                             CommandResults["ConfirmCommandAsync"] = false;
                             CommandCanExecutes["ConfirmCommandAsync"] = false;
-
-                            ///
+                            
                             IsBusy = true;
 
                             // 전자서명(기록값 변경)
@@ -199,7 +155,6 @@ namespace 보령
 
                             IsBusy = false;
                             ///
-
                             CommandResults["ConfirmCommandAsync"] = true;
                         }
                         catch (Exception ex)

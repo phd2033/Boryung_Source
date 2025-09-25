@@ -13,7 +13,7 @@ using System.ComponentModel;
 
 namespace 보령
 {
-    [ShopFloorCustomHidden]
+    //[ShopFloorCustomHidden]
     [Description("BMS에서 용수 실시간 정보를 가져온다.")]
     public partial class 용수실시간데이터 : ShopFloorCustomWindow
     {

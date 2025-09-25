@@ -247,6 +247,14 @@
                         <TextBox Grid.Column="18" Text="{Binding BATCHNO, Mode=TwoWay}"/>
                     </Grid>
 
+                    <Button Grid.Column="21" Content="의뢰취소" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,0,0,0" Width="80" Height="24" Visibility="Collapsed" >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding Path=BtnApprovalCancelCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
                     <Button Grid.Column="46" Content="검색" Width="80" HorizontalAlignment="Right" VerticalAlignment="Stretch" >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">

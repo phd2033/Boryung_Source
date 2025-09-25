@@ -242,7 +242,28 @@ namespace Board
                 NotifyPropertyChanged();
             }
         }
+        // 시험의뢰 적합여부 확인
+        private BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM;
+        public BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM
+        {
+            get { return _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM; }
+            set
+            {
+                _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM = value;
+                OnPropertyChanged("BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM");
+            }
+        }
 
+        private BR_BRS_INS_TST_APPROVAL_CANCELL _BR_BRS_INS_TST_APPROVAL_CANCELL;
+        public BR_BRS_INS_TST_APPROVAL_CANCELL BR_BRS_INS_TST_APPROVAL_CANCELL
+        {
+            get { return _BR_BRS_INS_TST_APPROVAL_CANCELL; }
+            set
+            {
+                _BR_BRS_INS_TST_APPROVAL_CANCELL = value;
+                OnPropertyChanged("BR_BRS_INS_TST_APPROVAL_CANCELL");
+            }
+        }
 
         #endregion
 
@@ -536,6 +557,84 @@ namespace Board
                 {
                     return CommandCanExecutes.ContainsKey("ComboFieldDataChangedCommand") ?
                         CommandCanExecutes["ComboFieldDataChangedCommand"] : (CommandCanExecutes["ComboFieldDataChangedCommand"] = true);
+                });
+            }
+        }
+
+        public ICommand BtnApprovalCancelCommand
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["ApprovalCancelCommand"].EnterAsync())
+                    {
+                        try
+                        {
+                            IsBusy = true;
+
+                            CommandResults["ApprovalCancelCommand"] = false;
+                            CommandCanExecutes["ApprovalCancelCommand"] = false;
+
+                            var temp = _mainWnd.dgLims.SelectedItem as BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM.OUTDATA;
+
+                            if (temp == null)
+                            {
+                                OnMessage("승인 취소할 시험의뢰를 선택해주세요");
+                            }
+                            else
+                            {
+                                if (temp.UD_TYPE == "승인전")
+                                {
+                                    _BR_BRS_INS_TST_APPROVAL_CANCELL.INDATAs.Clear();
+
+                                    _BR_BRS_INS_TST_APPROVAL_CANCELL.INDATAs.Add(new BR_BRS_INS_TST_APPROVAL_CANCELL.INDATA()
+                                    {
+                                        POID = temp.POID,
+                                        ITEM_TYPE = temp.ITEM_TYPE,
+                                        TST_REQ_NO = temp.TST_REQ_NO
+                                    });
+
+                                    await _BR_BRS_INS_TST_APPROVAL_CANCELL.Execute();
+
+                                    OnMessage("시험의뢰 취소 완료");
+
+                                    _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM.INDATAs.Clear();
+                                    _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM.OUTDATAs.Clear();
+
+                                    _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM.INDATAs.Add(new BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM.INDATA()
+                                    {
+                                        FROMDATE = PeriodSTDTTM,
+                                        TODATE = PeriodEDDTTM
+                                    });
+
+                                    await _BR_BRS_SEL_TST_REQUEST_NUMBER_CONFIRM.Execute();
+                                }
+                                else
+                                {
+                                    OnMessage("승인전 시험의뢰가 아닙니다");
+                                }
+                            }
+
+
+                            CommandResults["ApprovalCancelCommand"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["ApprovalCancelCommand"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["ApprovalCancelCommand"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("ApprovalCancelCommand") ?
+                        CommandCanExecutes["ApprovalCancelCommand"] : (CommandCanExecutes["ApprovalCancelCommand"] = true);
                 });
             }
         }

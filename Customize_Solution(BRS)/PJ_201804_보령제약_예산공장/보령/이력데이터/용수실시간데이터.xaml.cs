@@ -189,25 +189,25 @@ namespace 보령
                     }
                 }
 
+                foreach (var item in outputValues)
+                {
+                    var result = await this.Phase.RegistInstructionValue(item);
+                    if (result != enumInstructionRegistErrorType.Ok)
+                    {
+                        throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", item.Raw.IRTGUID, result));
+                    }
+                }
+
                 var xml = BizActorRuleBase.CreateXMLStream(ds);
                 var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
 
                 this.CurrentInstruction.Raw.ACTVAL = "TABLE,용수실시간데이터";
                 this.CurrentInstruction.Raw.NOTE = bytesArray;
 
-                var result = await this.Phase.RegistInstructionValue(this.CurrentInstruction);
-                if (result != enumInstructionRegistErrorType.Ok)
+                var result2 = await this.Phase.RegistInstructionValue(this.CurrentInstruction);
+                if (result2 != enumInstructionRegistErrorType.Ok)
                 {
-                    throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", CurrentInstruction.Raw.IRTGUID, result));
-                }
-
-                foreach (var item in outputValues)
-                {
-                    result = await this.Phase.RegistInstructionValue(item);
-                    if (result != enumInstructionRegistErrorType.Ok)
-                    {
-                        throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", item.Raw.IRTGUID, result));
-                    }
+                    throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", CurrentInstruction.Raw.IRTGUID, result2));
                 }
 
                 this.busyIndicator.IsBusy = false;

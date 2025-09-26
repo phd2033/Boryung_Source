@@ -110,9 +110,6 @@ namespace 보령
                             CommandCanExecutes["ConfirmCommandAsync"] = false;
 
                             ///
-                            IsBusy = true;
-
-
                             var authHelper = new iPharmAuthCommandHelper();
 
                             if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y") && _mainWnd.Phase.CurrentPhase.STATE.Equals("COMP")) // 값 수정
@@ -164,6 +161,8 @@ namespace 보령
 
                                 dt.Rows.Add(row);
                             }
+
+                            IsBusy = true;
 
                             var xml = BizActorRuleBase.CreateXMLStream(ds);
                             var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);

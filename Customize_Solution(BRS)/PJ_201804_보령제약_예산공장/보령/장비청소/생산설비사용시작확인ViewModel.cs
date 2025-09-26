@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using LGCNS.iPharmMES.Common;
 using C1.Silverlight.Data;
 using ShopFloorUI;
 using System.Collections.Generic;
-using System.Text;
 
 namespace 보령
 {
@@ -24,30 +15,18 @@ namespace 보령
 
         public 생산설비사용시작확인ViewModel()
         {
-            _BR_BRS_SEL_EquipmentStatus_PROC_OPSG = new BR_BRS_SEL_EquipmentStatus_PROC_OPSG();
-            _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION = new BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION();
+            _BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM = new BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM();
         }
         #endregion
         #region [BizRule]
-        // 현재 오더, 공정에서 사용중인 설비목록 조회
-        private BR_BRS_SEL_EquipmentStatus_PROC_OPSG _BR_BRS_SEL_EquipmentStatus_PROC_OPSG;
-        public BR_BRS_SEL_EquipmentStatus_PROC_OPSG BR_BRS_SEL_EquipmentStatus_PROC_OPSG
+        
+        private BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM _BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM;
+        public BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM
         {
-            get { return _BR_BRS_SEL_EquipmentStatus_PROC_OPSG; }
+            get { return _BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM; }
             set
             {
-                _BR_BRS_SEL_EquipmentStatus_PROC_OPSG = value;
-                NotifyPropertyChanged();
-            }
-        }
-        // 설비의 생산완료 및 JOB 종료
-        private BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION;
-        public BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION
-        {  
-            get { return _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION; }
-            set
-            {
-                _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION = value;
+                _BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM = value;
                 NotifyPropertyChanged();
             }
         }
@@ -65,63 +44,23 @@ namespace 보령
                         {
                             CommandResults["LoadedCommandAsync"] = false;
                             CommandCanExecutes["LoadedCommandAsync"] = false;
-
-                            ///
+                            
                             if (arg == null || !(arg is 생산설비사용시작확인)) return;
                             else
                             {
                                 _mainWnd = arg as 생산설비사용시작확인;
-
-                                _inputValues = InstructionModel.GetParameterSender(_mainWnd.CurrentInstruction, _mainWnd.Instructions);
-
-                                _BR_BRS_SEL_EquipmentStatus_PROC_OPSG.INDATAs.Clear();
-                                _BR_BRS_SEL_EquipmentStatus_PROC_OPSG.OUTDATAs.Clear();
-
-                                if (_inputValues.Count > 0)
+                               
+                                _BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM.INDATAs.Clear();
+                                _BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM.OUTDATAs.Clear();
+                                
+                                _BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM.INDATAs.Add(new BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM.INDATA
                                 {
-                                    foreach (InstructionModel input in _inputValues)
-                                    {
-                                        /* 2022.01.05 김호연 n/a 소문자도 청소점검 화면 안보이게 변경
-                                           화면에 보이지 않는 장비들이 있어 Actval 값이 Null인 데이터가 있음. 
-                                           Actval 값이 Null이면 ToUpper() 함수 사용시 NullException 에러가 나기 때문에 
-                                           item.Raw.ACTVAL == null인경우엔 기존 로직을 수행하고 null이 아닌경우에 item.Raw.ACTVAL.ToUpper() 조건 수행하도록 로직 수정 */
-                                        if (input.Raw.ACTVAL == null)
-                                        {
-                                            if (input.Raw.ACTVAL != "N/A")
-                                            {
-                                                _BR_BRS_SEL_EquipmentStatus_PROC_OPSG.INDATAs.Add(new BR_BRS_SEL_EquipmentStatus_PROC_OPSG.INDATA
-                                                {
-                                                    //LANGID = "ko-KR",
-                                                    //ROOMNO = AuthRepositoryViewModel.Instance.RoomID,
-                                                    //POID = _mainWnd.CurrentOrder.ProductionOrderID,
-                                                    //BATCHNO = _mainWnd.CurrentOrder.BatchNo,
-                                                    //EQPTID = input.Raw.EQPTID,
-                                                    //OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
-                                                    //ACTVAL = input.Raw.ACTVAL
-                                                });
-                                            }
-                                        }
-                                        else
-                                        {
-                                            if (input.Raw.ACTVAL.ToUpper() != "N/A")
-                                            {
-                                                _BR_BRS_SEL_EquipmentStatus_PROC_OPSG.INDATAs.Add(new BR_BRS_SEL_EquipmentStatus_PROC_OPSG.INDATA
-                                                {
-                                                    //LANGID = "ko-KR",
-                                                    //ROOMNO = AuthRepositoryViewModel.Instance.RoomID,
-                                                    //POID = _mainWnd.CurrentOrder.ProductionOrderID,
-                                                    //BATCHNO = _mainWnd.CurrentOrder.BatchNo,
-                                                    //EQPTID = input.Raw.EQPTID,
-                                                    //OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
-                                                    //ACTVAL = input.Raw.ACTVAL
-                                                });
-                                            }
-                                        }
-
-                                    }
-                                    if (await BR_BRS_SEL_EquipmentStatus_PROC_OPSG.Execute() == false)
-                                        throw BR_BRS_SEL_EquipmentStatus_PROC_OPSG.Exception;
-                                }
+                                    POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                    OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID
+                                });
+                                
+                                if (await BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM.Execute() == false)
+                                    throw BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM.Exception;
                             }
                             IsBusy = false;
                             CommandResults["LoadedCommandAsync"] = true;
@@ -156,8 +95,7 @@ namespace 보령
                         {
                             CommandResults["ConfirmCommandAsync"] = false;
                             CommandCanExecutes["ConfirmCommandAsync"] = false;
-
-                            ///
+                            
                             IsBusy = true;
 
                             // 전자서명(기록값 변경)
@@ -179,22 +117,7 @@ namespace 보령
                                     throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                 }
                             }
-
-                            // 조회내용 기록
-                            authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "EM_BRS_EquipmentAction_PROCEND");
-
-                            if (await authHelper.ClickAsync(
-                                Common.enumCertificationType.Function,
-                                Common.enumAccessType.Create,
-                                "생산설비사용시작확인",
-                                "생산설비사용시작확인",
-                                false,
-                                "EM_BRS_EquipmentAction_PROCEND",
-                                "", null, null) == false)
-                            {
-                                throw new Exception(string.Format("서명이 완료되지 않았습니다."));
-                            }
-
+                            
                             // XML 변환
                             var ds = new DataSet();
                             var dt = new DataTable("DATA");
@@ -202,91 +125,24 @@ namespace 보령
 
                             dt.Columns.Add(new DataColumn("설비코드"));
                             dt.Columns.Add(new DataColumn("설비명"));
-
-                            // XML 기록 및 설비사용종료 비즈룰 호출
-                            string userid = AuthRepositoryViewModel.GetUserIDByFunctionCode("EM_BRS_EquipmentAction_PROCEND");
-                            userid = !string.IsNullOrWhiteSpace(userid) ? userid : AuthRepositoryViewModel.Instance.LoginedUserID;
-
-                            _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION.INDATAs.Clear();
-                            _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION.PARAMDATAs.Clear();
-
-                            string eqptList = string.Empty;
+                            dt.Columns.Add(new DataColumn("생산시작"));
                             
-                            foreach (var item in _BR_BRS_SEL_EquipmentStatus_PROC_OPSG.OUTDATAs)
+                            foreach (var item in _BR_BRS_SEL_EquipmentStatus_PROC_EQSTONDTTM.OUTDATAs)
                             {
-                                if (item.SELFLAG)
-                                {
-                                    _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION.INDATAs.Add(new BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION.INDATA
-                                    {
-                                        LANGID = AuthRepositoryViewModel.Instance.LangID,
-                                        USER = userid,
-                                        EQPTID = item.EQPTID,
-                                        ROOMNO = AuthRepositoryViewModel.Instance.RoomID
-                                    });
+                                var row = dt.NewRow();
 
-                                    var row = dt.NewRow();
+                                row["설비코드"] = item.EQPTID ?? "";
+                                row["설비명"] = item.EQPTNAME ?? "";
+                                row["생산시작"] = item.EQSTONDTTM ?? "";
 
-                                    row["설비코드"] = item.EQPTID ?? "";
-                                    row["설비명"] = item.EQPTNAME ?? "";
-
-                                    dt.Rows.Add(row);
-
-                                    if(string.IsNullOrEmpty(eqptList))
-                                    {
-                                        eqptList = row["설비코드"].ToString();
-                                    }
-                                    else
-                                    {
-
-                                        eqptList = eqptList + ',' + row["설비코드"].ToString();
-                                    }
-                                }
-                            }
-
-                            if (!await OnMessageAsync(eqptList + " 설비를 종료 하시겠습니까?", true))
-                            {
-                                IsBusy = false;
-                                return;
-                            }
-                            
-                            bool BRExecuteFlag = false; // 설비사용종료 비즈룰이 실행된 경우 true
-                            if (_BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION.INDATAs.Count > 0)
-                            {
-                                if (await _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION.Execute() == true)
-                                    BRExecuteFlag = true;
-                                else
-                                    throw _BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_MULTI_SELECTION.Exception;
-                            }
-
-                            // 김진수 매니저 요청. 설비들 각각 종료하는 시간이 다름. 지시문이 기록되어 있으면 지시문 기록 정보에 추가로 기록 가능하도록 변경 요청
-                            // 변경실행 대기 중으로 미반영 중
-                            // CR-24-0009 변경으로 로직 변경함.
-                            // 현재 페이즈가 완료 상태이고 기록이 있는 경우 XML기록 결과를 보여줌
-                            if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y") && _mainWnd.CurrentInstruction.Raw.NOTE != null)
-                            {
-                                var bytearray = _mainWnd.CurrentInstruction.Raw.NOTE;
-                                string loadXml = Encoding.UTF8.GetString(bytearray, 0, bytearray.Length);
-                                DataSet dsLoad = new DataSet();
-                                dsLoad.ReadXmlFromString(loadXml);
-
-                                if (dsLoad.Tables.Count == 1 && dsLoad.Tables[0].TableName == "DATA")
-                                {
-                                    foreach (DataRow loadRow in dsLoad.Tables[0].Rows)
-                                    {
-                                        var row = dt.NewRow();
-                                        row["설비코드"] = loadRow["설비코드"];
-                                        row["설비명"] = loadRow["설비명"];
-
-                                        dt.Rows.Add(row);
-                                    }
-                                }
+                                dt.Rows.Add(row);
                             }
 
                             var xml = BizActorRuleBase.CreateXMLStream(ds);
                             var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
 
-                            _mainWnd.CurrentInstruction.Raw.ACTVAL = BRExecuteFlag ? _mainWnd.TableTypeName : "종료한 설비가 없습니다.";
-                            _mainWnd.CurrentInstruction.Raw.NOTE = BRExecuteFlag ? bytesArray : null;
+                            _mainWnd.CurrentInstruction.Raw.ACTVAL = "TABLE,생산설비사용시작확인";
+                            _mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
 
                             var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction, true);
                             if (result != enumInstructionRegistErrorType.Ok)
@@ -299,7 +155,6 @@ namespace 보령
 
                             IsBusy = false;
                             ///
-
                             CommandResults["ConfirmCommandAsync"] = true;
                         }
                         catch (Exception ex)
@@ -317,97 +172,6 @@ namespace 보령
                 {
                     return CommandCanExecutes.ContainsKey("ConfirmCommandAsync") ?
                         CommandCanExecutes["ConfirmCommandAsync"] : (CommandCanExecutes["ConfirmCommandAsync"] = true);
-                });
-            }
-        }
-
-        public ICommand NoRecordConfirmCommand
-        {
-            get
-            {
-                return new AsyncCommandBase(async arg =>
-                {
-                    using (await AwaitableLocks["NoRecordConfirmCommand"].EnterAsync())
-                    {
-                        try
-                        {
-                            IsBusy = true;
-
-                            CommandResults["NoRecordConfirmCommand"] = false;
-                            CommandCanExecutes["NoRecordConfirmCommand"] = false;
-
-                            // 전자서명
-                            iPharmAuthCommandHelper authHelper = new iPharmAuthCommandHelper();
-
-                            if (_mainWnd.CurrentInstruction.Raw.INSERTEDYN.Equals("Y") && _mainWnd.Phase.CurrentPhase.STATE.Equals("COMP")) // 값 수정
-                            {
-                                authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
-
-                                if (await authHelper.ClickAsync(
-                                    Common.enumCertificationType.Function,
-                                    Common.enumAccessType.Create,
-                                    string.Format("기록값을 변경합니다."),
-                                    string.Format("기록값 변경"),
-                                    true,
-                                    "OM_ProductionOrder_SUI",
-                                    "", _mainWnd.CurrentInstruction.Raw.RECIPEISTGUID, null) == false)
-                                {
-                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
-                                }
-                            }
-
-
-                            var ds = new DataSet();
-                            var dt = new DataTable("DATA");
-                            ds.Tables.Add(dt);
-                            dt.Columns.Add(new DataColumn("선택"));
-                            dt.Columns.Add(new DataColumn("설비코드"));
-                            dt.Columns.Add(new DataColumn("설비명"));
-
-
-                            var row = dt.NewRow();
-                            row["선택"] = "N/A";
-                            row["설비코드"] = "N/A";
-                            row["설비명"] = "N/A";
-                            dt.Rows.Add(row);
-
-                            var xml = BizActorRuleBase.CreateXMLStream(ds);
-                            var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
-
-                            _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
-                            _mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
-
-                            var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction);
-
-                            if (result != enumInstructionRegistErrorType.Ok)
-                            {
-                                throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
-                            }
-
-                            if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
-                            else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
-
-                            _mainWnd.Close();
-
-                            //
-                            CommandResults["NoRecordConfirmCommand"] = true;
-                        }
-                        catch (Exception ex)
-                        {
-                            CommandResults["NoRecordConfirmCommand"] = false;
-                            OnException(ex.Message, ex);
-                        }
-                        finally
-                        {
-                            CommandCanExecutes["NoRecordConfirmCommand"] = true;
-
-                            IsBusy = false;
-                        }
-                    }
-                }, arg =>
-                {
-                    return CommandCanExecutes.ContainsKey("NoRecordConfirmCommand") ?
-                        CommandCanExecutes["NoRecordConfirmCommand"] : (CommandCanExecutes["NoRecordConfirmCommand"] = true);
                 });
             }
         }

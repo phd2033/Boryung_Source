@@ -509,80 +509,80 @@ namespace 보령
 
                                     }
 
-                                    await BR_BRS_UPD_EquipmentAction_ShopFloor_PROCSTRT_PROCEQPT.Execute();
-                                }
-
-
-                                // XML 변환
-                                var ds = new DataSet();
-                                var dt = new DataTable("DATA");
-                                ds.Tables.Add(dt);
-                                //2021.08.24 박희돈 EBR작업으로 인한 설비명 -> 장비 명, 설비코드 -> 장비 번호 로 변경.
-                                dt.Columns.Add(new DataColumn("장비번호"));
-                                dt.Columns.Add(new DataColumn("장비명"));
-                                dt.Columns.Add(new DataColumn("이전제품명"));
-                                dt.Columns.Add(new DataColumn("이전제조번호"));
-                                dt.Columns.Add(new DataColumn("일일점검기록"));
-                                dt.Columns.Add(new DataColumn("적격성평가상태"));
-                                dt.Columns.Add(new DataColumn("청소상태"));
-                                dt.Columns.Add(new DataColumn("청소완료일시"));
-                                dt.Columns.Add(new DataColumn("청소유효일시"));
-                                dt.Columns.Add(new DataColumn("SOP문서번호"));
-                                dt.Columns.Add(new DataColumn("룸장비여부"));
-
-                                foreach (var item in BR_BRS_SEL_EquipmentStatus_PROCEQPT.OUTDATAs)
-                                {
-                                    var row = dt.NewRow();
-                                    //2021.08.24 박희돈 EBR작업으로 인한 설비명 -> 장비 명, 설비코드 -> 장비 번호 로 변경.
-                                    row["장비번호"] = item.EQPTID != null ? item.EQPTID : "";
-                                    row["장비명"] = item.EQPTNAME != null ? item.EQPTNAME : "";
-                                    row["이전제품명"] = item.MTRLNAME != null ? item.MTRLNAME : "";
-                                    row["이전제조번호"] = item.BATCHNO != null ? item.BATCHNO : "";
-                                    row["일일점검기록"] = item.PERIODCHKSTATUS != null ? item.PERIODCHKSTATUS : "";
-                                    row["적격성평가상태"] = item.QUALIFICATIONSTATUS != null ? item.QUALIFICATIONSTATUS : "";
-                                    row["청소상태"] = item.STATUS != null ? item.STATUS : "";
-                                    row["청소완료일시"] = item.CLEANDTTM != null ? item.CLEANDTTM : "";
-                                    row["청소유효일시"] = item.EXPIREDTTM != null ? item.EXPIREDTTM : "";
-                                    row["SOP문서번호"] = item.SOPDOC ?? "";
-
-                                    //2022.06.13 박희돈 룸에 포함되지 않은 설비에 대한 구분자 추가.(생산설비사용시작에서 사용하기 위해)
-                                    foreach (InstructionModel Inst in refInst)
+                                    if (await BR_BRS_UPD_EquipmentAction_ShopFloor_PROCSTRT_PROCEQPT.Execute() == true)
                                     {
-                                        if (item.EQPTID != null && Inst.Raw.ACTVAL != null)
+                                        // XML 변환
+                                        var ds = new DataSet();
+                                        var dt = new DataTable("DATA");
+                                        ds.Tables.Add(dt);
+                                        //2021.08.24 박희돈 EBR작업으로 인한 설비명 -> 장비 명, 설비코드 -> 장비 번호 로 변경.
+                                        dt.Columns.Add(new DataColumn("장비번호"));
+                                        dt.Columns.Add(new DataColumn("장비명"));
+                                        dt.Columns.Add(new DataColumn("이전제품명"));
+                                        dt.Columns.Add(new DataColumn("이전제조번호"));
+                                        dt.Columns.Add(new DataColumn("일일점검기록"));
+                                        dt.Columns.Add(new DataColumn("적격성평가상태"));
+                                        dt.Columns.Add(new DataColumn("청소상태"));
+                                        dt.Columns.Add(new DataColumn("청소완료일시"));
+                                        dt.Columns.Add(new DataColumn("청소유효일시"));
+                                        dt.Columns.Add(new DataColumn("SOP문서번호"));
+                                        dt.Columns.Add(new DataColumn("룸장비여부"));
+
+                                        foreach (var item in BR_BRS_SEL_EquipmentStatus_PROCEQPT.OUTDATAs)
                                         {
-                                            if (item.EQPTID.ToString().ToUpper().Equals(Inst.Raw.ACTVAL.ToString().ToUpper()))
+                                            var row = dt.NewRow();
+                                            //2021.08.24 박희돈 EBR작업으로 인한 설비명 -> 장비 명, 설비코드 -> 장비 번호 로 변경.
+                                            row["장비번호"] = item.EQPTID != null ? item.EQPTID : "";
+                                            row["장비명"] = item.EQPTNAME != null ? item.EQPTNAME : "";
+                                            row["이전제품명"] = item.MTRLNAME != null ? item.MTRLNAME : "";
+                                            row["이전제조번호"] = item.BATCHNO != null ? item.BATCHNO : "";
+                                            row["일일점검기록"] = item.PERIODCHKSTATUS != null ? item.PERIODCHKSTATUS : "";
+                                            row["적격성평가상태"] = item.QUALIFICATIONSTATUS != null ? item.QUALIFICATIONSTATUS : "";
+                                            row["청소상태"] = item.STATUS != null ? item.STATUS : "";
+                                            row["청소완료일시"] = item.CLEANDTTM != null ? item.CLEANDTTM : "";
+                                            row["청소유효일시"] = item.EXPIREDTTM != null ? item.EXPIREDTTM : "";
+                                            row["SOP문서번호"] = item.SOPDOC ?? "";
+
+                                            //2022.06.13 박희돈 룸에 포함되지 않은 설비에 대한 구분자 추가.(생산설비사용시작에서 사용하기 위해)
+                                            foreach (InstructionModel Inst in refInst)
                                             {
-                                                row["룸장비여부"] = "N";
-                                                break;
+                                                if (item.EQPTID != null && Inst.Raw.ACTVAL != null)
+                                                {
+                                                    if (item.EQPTID.ToString().ToUpper().Equals(Inst.Raw.ACTVAL.ToString().ToUpper()))
+                                                    {
+                                                        row["룸장비여부"] = "N";
+                                                        break;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    row["룸장비여부"] = "Y";
+                                                }
                                             }
+
+                                            dt.Rows.Add(row);
                                         }
-                                        else
+
+                                        var xml = BizActorRuleBase.CreateXMLStream(ds);
+                                        var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
+
+                                        _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
+                                        _mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
+
+                                        var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction, true);
+                                        if (result != enumInstructionRegistErrorType.Ok)
                                         {
-                                            row["룸장비여부"] = "Y";
+                                            throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
                                         }
+
+                                        if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
+                                        else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
                                     }
 
-                                    dt.Rows.Add(row);
                                 }
-
-                                var xml = BizActorRuleBase.CreateXMLStream(ds);
-                                var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
-
-                                _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
-                                _mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
-
-                                var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction, true);
-                                if (result != enumInstructionRegistErrorType.Ok)
-                                {
-                                    throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
-                                }
-
-                                if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
-                                else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
                             }
 
                             IsBusy = false;
-                            ///
 
                             CommandResults["ConfirmCommandAsync"] = true;
                         }

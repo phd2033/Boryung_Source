@@ -302,7 +302,43 @@ namespace 보령
                             }
                             else
                             {
-                                OnMessage("미사용 원료 정보가 존재하지 않습니다.");
+                                //OnMessage("미사용 원료 정보가 존재하지 않습니다.");
+                                if (await OnMessageAsync("미사용 원료가 없습니다. 기록을 진행하시겠습니까?", true))
+                                {
+                                    //XML 형식으로 저장
+                                    var ds = new DataSet();
+                                    var dt = new DataTable("DATA");
+                                    ds.Tables.Add(dt);
+                                    dt.Columns.Add(new DataColumn("자재코드"));
+                                    dt.Columns.Add(new DataColumn("자재명"));
+                                    dt.Columns.Add(new DataColumn("성분"));
+                                    dt.Columns.Add(new DataColumn("원료시험번호"));
+
+                                    var row = dt.NewRow();
+                                    row["자재코드"] = "N/A";
+                                    row["자재명"] = "N/A";
+                                    row["성분"] = "N/A";
+                                    row["원료시험번호"] = "N/A";
+                                    dt.Rows.Add(row);
+
+                                    var xml = BizActorRuleBase.CreateXMLStream(ds);
+                                    var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
+
+                                    _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
+                                    _mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
+
+                                    var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction, true);
+                                    if (result != enumInstructionRegistErrorType.Ok)
+                                    {
+                                        throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
+                                    }
+
+                                    _mainWnd.Close();
+                                }
+                                else
+                                {
+                                    throw new Exception("취소했습니다.");
+                                }
                             }
                            
 

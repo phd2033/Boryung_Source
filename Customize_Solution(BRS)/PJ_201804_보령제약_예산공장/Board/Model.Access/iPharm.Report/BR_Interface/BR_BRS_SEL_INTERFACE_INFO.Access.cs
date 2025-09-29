@@ -861,6 +861,70 @@ namespace LGCNS.iPharmMES.Common
                     this.OnPropertyChanged("RowEditSec");
                 }
             }
+            private string _IF_NO;
+            [BizActorOutputItemAttribute()]
+            public string IF_NO
+            {
+                get
+                {
+                    return this._IF_NO;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._IF_NO = value;
+                        this.CheckIsOriginal("IF_NO", value);
+                        this.OnPropertyChanged("IF_NO");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _SEQ;
+            [BizActorOutputItemAttribute()]
+            public string SEQ
+            {
+                get
+                {
+                    return this._SEQ;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._SEQ = value;
+                        this.CheckIsOriginal("SEQ", value);
+                        this.OnPropertyChanged("SEQ");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
             private string _PSMNG;
             [BizActorOutputItemAttribute()]
             public string PSMNG
@@ -1053,38 +1117,6 @@ namespace LGCNS.iPharmMES.Common
                     }
                 }
             }
-            private string _WERKS;
-            [BizActorOutputItemAttribute()]
-            public string WERKS
-            {
-                get
-                {
-                    return this._WERKS;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                    {
-                    }
-                    else
-                    {
-                        this._WERKS = value;
-                        this.CheckIsOriginal("WERKS", value);
-                        this.OnPropertyChanged("WERKS");
-                        if (RowLoadedFlag)
-                        {
-                            if (this.CheckIsOriginalRow())
-                            {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
-                            }
-                        }
-                    }
-                }
-            }
             private string _MEINS;
             [BizActorOutputItemAttribute()]
             public string MEINS
@@ -1181,6 +1213,166 @@ namespace LGCNS.iPharmMES.Common
                     }
                 }
             }
+            private string _VFDAT;
+            [BizActorOutputItemAttribute()]
+            public string VFDAT
+            {
+                get
+                {
+                    return this._VFDAT;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._VFDAT = value;
+                        this.CheckIsOriginal("VFDAT", value);
+                        this.OnPropertyChanged("VFDAT");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _HSDAT;
+            [BizActorOutputItemAttribute()]
+            public string HSDAT
+            {
+                get
+                {
+                    return this._HSDAT;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._HSDAT = value;
+                        this.CheckIsOriginal("HSDAT", value);
+                        this.OnPropertyChanged("HSDAT");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _ZVALI;
+            [BizActorOutputItemAttribute()]
+            public string ZVALI
+            {
+                get
+                {
+                    return this._ZVALI;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._ZVALI = value;
+                        this.CheckIsOriginal("ZVALI", value);
+                        this.OnPropertyChanged("ZVALI");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _DDTEXT;
+            [BizActorOutputItemAttribute()]
+            public string DDTEXT
+            {
+                get
+                {
+                    return this._DDTEXT;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._DDTEXT = value;
+                        this.CheckIsOriginal("DDTEXT", value);
+                        this.OnPropertyChanged("DDTEXT");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _MTATVAL1;
+            [BizActorOutputItemAttribute()]
+            public string MTATVAL1
+            {
+                get
+                {
+                    return this._MTATVAL1;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._MTATVAL1 = value;
+                        this.CheckIsOriginal("MTATVAL1", value);
+                        this.OnPropertyChanged("MTATVAL1");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
         }
         public sealed partial class OUTDATA_SAP_RouteCollection : BufferedObservableCollection<OUTDATA_SAP_Route>
         {
@@ -1239,6 +1431,70 @@ namespace LGCNS.iPharmMES.Common
                 {
                     this._RowEditSec = value;
                     this.OnPropertyChanged("RowEditSec");
+                }
+            }
+            private string _IF_NO;
+            [BizActorOutputItemAttribute()]
+            public string IF_NO
+            {
+                get
+                {
+                    return this._IF_NO;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._IF_NO = value;
+                        this.CheckIsOriginal("IF_NO", value);
+                        this.OnPropertyChanged("IF_NO");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _SEQ;
+            [BizActorOutputItemAttribute()]
+            public string SEQ
+            {
+                get
+                {
+                    return this._SEQ;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._SEQ = value;
+                        this.CheckIsOriginal("SEQ", value);
+                        this.OnPropertyChanged("SEQ");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
                 }
             }
             private string _WERKS;

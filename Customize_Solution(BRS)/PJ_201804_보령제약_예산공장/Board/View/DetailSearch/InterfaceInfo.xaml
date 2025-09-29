@@ -304,16 +304,22 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn SortMemberPath="IF_NO" Header="IF_NO" Binding="{Binding IF_NO}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="SEQ" Header="SEQ" Binding="{Binding SEQ}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="AUFNR" Header="오더번호" Binding="{Binding AUFNR}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="CHARG" Header="배치번호" Binding="{Binding CHARG}" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="ZCHARG" Header="수탁사 제조번호" Binding="{Binding ZCHARG}" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="WERKS" Header="플랜트" Binding="{Binding WERKS}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="MATNR" Header="제품코드" Binding="{Binding MATNR}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="KTEXT" Header="제품명" Binding="{Binding KTEXT}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="PSMNG" Header="오더수량" Binding="{Binding PSMNG}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="MEINS" Header="기본단위" Binding="{Binding MEINS}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="PLNNR" Header="PLNNR" Binding="{Binding PLNNR}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="PLNAL" Header="PLNAL" Binding="{Binding PLNAL}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="VFDAT" Header="VFDAT" Binding="{Binding VFDAT}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="HSDAT" Header="HSDAT" Binding="{Binding HSDAT}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="ZVALI" Header="ZVALI" Binding="{Binding ZVALI}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="DDTEXT" Header="DDTEXT" Binding="{Binding DDTEXT}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="MTATVAL1" Header="유효기한" Binding="{Binding MTATVAL1}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                             </c1:C1DataGrid.Columns>
                         </c1:C1DataGrid>
                         <TextBlock Grid.Row="5" Grid.Column="1" Text="오더 상세 정보" FontWeight="Bold" FontSize="14"/>
@@ -324,11 +330,12 @@
                                        CanUserSort="True"
                                        ItemsSource="{Binding Path=BR_BRS_SEL_INTERFACE_DETAIL_INFO.OUTDATA_SAP_ORDERs, Mode=OneWay}">
                             <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn SortMemberPath="IF_NO" Header="IF_NO" Binding="{Binding IF_NO}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="SEQ" Header="SEQ" Binding="{Binding SEQ}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="OPSGNAME" Header="오더번호" Binding="{Binding AUFNR}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="WERKS" Header="플랜트" Binding="{Binding WERKS}" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="VORNR" Header="공정순서" Binding="{Binding VORNR}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="LTXA1" Header="공정" Binding="{Binding LTXA1}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="ARBPL" Header="작업장" Binding="{Binding ARBPL}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="BEARZ" Header="인원공수(분)" Binding="{Binding BEARZ}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="ERDAT" Header="생성일" Binding="{Binding ERDAT}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="ERZET" Header="생성시간" Binding="{Binding ERZET}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="STATUS" Header="상태" Binding="{Binding STATUS}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
@@ -344,13 +351,14 @@
                                        CanUserSort="True"
                                        ItemsSource="{Binding Path=BR_BRS_SEL_INTERFACE_DETAIL_INFO.OUTDATA_SAP_ORDER_BOMs, Mode=OneWay}">
                             <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn SortMemberPath="IF_NO" Header="IF_NO" Binding="{Binding IF_NO}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="SEQ" Header="SEQ" Binding="{Binding SEQ}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="AUFNR" Header="오더번호" Binding="{Binding AUFNR}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="RSNUM" Header="예약번호" Binding="{Binding RSNUM}" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="RSPOS" Header="예약품목번호" Binding="{Binding RSPOS}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="POSNR" Header="품목번호" Binding="{Binding POSNR}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="MATNR" Header="BOM노드" Binding="{Binding MATNR}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="STLKN" Header="BOM카운터" Binding="{Binding STLKN}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="WERKS" Header="플랜트" Binding="{Binding WERKS}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="MEINS" Header="기본단위" Binding="{Binding MEINS}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="MENGE_S" Header="투입량" Binding="{Binding MENGE_S}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="VORNR" Header="공정순서" Binding="{Binding VORNR}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
@@ -397,7 +405,8 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <c1:C1DataGrid.Columns>
-                                <c1:DataGridTextColumn SortMemberPath="WERKS" Header="플랜트" Binding="{Binding WERKS}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="IF_NO" Header="IF_NO" Binding="{Binding IF_NO}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="SEQ" Header="SEQ" Binding="{Binding SEQ}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="MATNR" Header="자재코드" Binding="{Binding MATNR}" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="PLNNR" Header="라우트 코드" Binding="{Binding PLNNR}" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="PLNAL" Header="그룹 카운터" Binding="{Binding PLNAL}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
@@ -419,7 +428,8 @@
                                        CanUserSort="True"
                                        ItemsSource="{Binding Path=BR_BRS_SEL_INTERFACE_DETAIL_INFO.OUTDATA_SAP_ROUTEs, Mode=OneWay}">
                             <c1:C1DataGrid.Columns>
-                                <c1:DataGridTextColumn SortMemberPath="WERKS" Header="플랜트" Binding="{Binding WERKS}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="IF_NO" Header="IF_NO" Binding="{Binding IF_NO}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="SEQ" Header="SEQ" Binding="{Binding SEQ}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="VORNR" Header="공정순서" Binding="{Binding VORNR}" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="PLNNR" Header="라우트코드" Binding="{Binding PLNNR}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="MATNR" Header="자재코드" Binding="{Binding MATNR}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
@@ -440,7 +450,8 @@
                                        CanUserSort="True"
                                        ItemsSource="{Binding Path=BR_BRS_SEL_INTERFACE_DETAIL_INFO.OUTDATA_SAP_ROUTE_BOMs, Mode=OneWay}">
                             <c1:C1DataGrid.Columns>
-                                <c1:DataGridTextColumn SortMemberPath="WERKS" Header="플랜트" Binding="{Binding WERKS}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="IF_NO" Header="IF_NO" Binding="{Binding IF_NO}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="SEQ" Header="SEQ" Binding="{Binding SEQ}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="VORNR" Header="공정순서" Binding="{Binding VORNR}" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="PLNNR" Header="라우트코드" Binding="{Binding PLNNR}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="PLNAL" Header="그룹카운터" Binding="{Binding PLNAL}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
@@ -489,6 +500,8 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn SortMemberPath="IF_NO" Header="IF_NO" Binding="{Binding IF_NO}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="SEQ" Header="SEQ" Binding="{Binding SEQ}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="POID" Header="오더번호" Binding="{Binding POID}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="BATCHNO" Header="배치번호" Binding="{Binding BATCHNO}" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="MTRLID" Header="제품코드" Binding="{Binding MTRLID}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
@@ -510,6 +523,8 @@
                                        CanUserSort="True"
                                        ItemsSource="{Binding Path=BR_BRS_SEL_INTERFACE_DETAIL_INFO.OUTDATA_TNTs, Mode=OneWay}">
                             <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn SortMemberPath="IF_NO" Header="IF_NO" Binding="{Binding IF_NO}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="SEQ" Header="SEQ" Binding="{Binding SEQ}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="POID" Header="오더번호" Binding="{Binding POID}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="OUTPUTQTY" Header="최종 실적수량" Binding="{Binding OUTPUTQTY}" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="SAMPLEQTY" Header="최종 샘플 수량" Binding="{Binding SAMPLEQTY}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>

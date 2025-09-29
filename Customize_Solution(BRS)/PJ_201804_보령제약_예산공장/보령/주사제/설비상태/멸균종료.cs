@@ -58,6 +58,11 @@ namespace 보령
 
             foreach (var item in inputValues)
             {
+                // 2025.09.29 박희돈 NA 또는 N/A일 경우 사용시작 제외
+                if (!string.IsNullOrWhiteSpace(item.Raw.ACTVAL) && (item.Raw.ACTVAL.ToUpper() == "NA" || item.Raw.ACTVAL.ToUpper() == "N/A"))
+                {
+                    continue;
+                }
 
                 bizRule.INDATAs.Add(new BR_BRS_UPD_EquipmentAction_ShopFloor_PROCEND_STERILE.INDATA()
                 {

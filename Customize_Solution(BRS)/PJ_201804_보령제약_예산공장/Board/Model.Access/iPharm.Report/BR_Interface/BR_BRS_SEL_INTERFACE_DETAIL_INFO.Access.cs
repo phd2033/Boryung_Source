@@ -289,6 +289,70 @@ namespace LGCNS.iPharmMES.Common
                     this.OnPropertyChanged("RowEditSec");
                 }
             }
+            private string _IF_NO;
+            [BizActorOutputItemAttribute()]
+            public string IF_NO
+            {
+                get
+                {
+                    return this._IF_NO;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._IF_NO = value;
+                        this.CheckIsOriginal("IF_NO", value);
+                        this.OnPropertyChanged("IF_NO");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
+            private string _SEQ;
+            [BizActorOutputItemAttribute()]
+            public string SEQ
+            {
+                get
+                {
+                    return this._SEQ;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._SEQ = value;
+                        this.CheckIsOriginal("SEQ", value);
+                        this.OnPropertyChanged("SEQ");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
             private string _POID;
             [BizActorOutputItemAttribute()]
             public string POID

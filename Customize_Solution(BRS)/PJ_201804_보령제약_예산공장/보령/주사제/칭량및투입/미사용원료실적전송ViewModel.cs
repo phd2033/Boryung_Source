@@ -333,7 +333,11 @@ namespace 보령
                                         throw new Exception(string.Format("값 등록 실패, ID={0}, 사유={1}", _mainWnd.CurrentInstruction.Raw.IRTGUID, result));
                                     }
 
+                                    if (_mainWnd.Dispatcher.CheckAccess()) _mainWnd.DialogResult = true;
+                                    else _mainWnd.Dispatcher.BeginInvoke(() => _mainWnd.DialogResult = true);
+
                                     _mainWnd.Close();
+                                    //CommandResults["ConfirmCommand"] = true;
                                 }
                                 else
                                 {

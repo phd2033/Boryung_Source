@@ -464,6 +464,7 @@ namespace Board
 
                                 BR_BRS_SEL_INTERFACE_DETAIL_INFO.INDATAs.Add(new BR_BRS_SEL_INTERFACE_DETAIL_INFO.INDATA()
                                 {
+                                    IF_NO = rowdata.IF_NO,
                                     MATNR = rowdata.MATNR,
                                     PLNAL = rowdata.PLNAL,
                                     PLNNR = rowdata.PLNNR,

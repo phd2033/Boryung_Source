@@ -511,7 +511,7 @@
                                 <c1:DataGridTextColumn SortMemberPath="BATCHNO" Header="배치번호" Binding="{Binding BATCHNO}" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="MTRLID" Header="제품코드" Binding="{Binding MTRLID}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="MTRLNAME" Header="제품명" Binding="{Binding MTRLNAME}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="PBARCODE" Header="파마코드" Binding="{Binding PBARCODE}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="PBARCODE" Header="팔레트바코드" Binding="{Binding PBARCODE}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="PALLETID" Header="용기번호" Binding="{Binding PALLETID}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="OUTPUTQTY" Header="실적수량" Binding="{Binding OUTPUTQTY}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="TRANS_DATE" Header="전송날짜" Binding="{Binding TRANS_DATE}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>

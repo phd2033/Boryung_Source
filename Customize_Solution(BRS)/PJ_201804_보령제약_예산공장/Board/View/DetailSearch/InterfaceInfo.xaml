@@ -202,9 +202,22 @@
                             <ColumnDefinition Width="10" />
                             <ColumnDefinition Width="150" />
                             <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="10" />
                         </Grid.ColumnDefinitions>
                         <sdk:Label Grid.Column="0" Content="용기번호"/>
                         <TextBox Grid.Column="2" Text="{Binding LD_CTN_NO, Mode=TwoWay}"/>
+                        <sdk:Label Grid.Column="4" Content="용기타입" Style="{StaticResource lblStyle}"/>
+                        <ComboBox Grid.Column="6" Width="150" x:Name="VesselType" SelectedValue="{Binding VesselType,Mode=TwoWay}" SelectedValuePath="Tag">
+                            <ComboBoxItem Content="IBC0100" Tag="IBC0100"/>
+                            <ComboBoxItem Content="IBC0200" Tag="IBC0200"/>
+                            <ComboBoxItem Content="IBC0400" Tag="IBC0400"/>
+                            <ComboBoxItem Content="IBC0600" Tag="IBC0600"/>
+                            <ComboBoxItem Content="IBC1200" Tag="IBC1200"/>
+                            <ComboBoxItem Content="Pallet" Tag="Pallet"/>
+                        </ComboBox>
                     </Grid>
 
                     <Grid Grid.Column="3" Grid.ColumnSpan="18" VerticalAlignment="Center"  Margin="0 5 0 0" Grid.Row="0" Visibility="{Binding lims}">
@@ -313,12 +326,11 @@
                                 <c1:DataGridTextColumn SortMemberPath="KTEXT" Header="제품명" Binding="{Binding KTEXT}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="PSMNG" Header="오더수량" Binding="{Binding PSMNG}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="MEINS" Header="기본단위" Binding="{Binding MEINS}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="PLNNR" Header="PLNNR" Binding="{Binding PLNNR}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="PLNAL" Header="PLNAL" Binding="{Binding PLNAL}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="VFDAT" Header="VFDAT" Binding="{Binding VFDAT}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="HSDAT" Header="HSDAT" Binding="{Binding HSDAT}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="ZVALI" Header="ZVALI" Binding="{Binding ZVALI}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="DDTEXT" Header="DDTEXT" Binding="{Binding DDTEXT}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="PLNNR" Header="라우트코드" Binding="{Binding PLNNR}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="PLNAL" Header="그룹카운터" Binding="{Binding PLNAL}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="VFDAT" Header="만기일" Binding="{Binding VFDAT}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="HSDAT" Header="제조일" Binding="{Binding HSDAT}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="DDTEXT" Width="150" Header="오더유형" Binding="{Binding DDTEXT}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="MTATVAL1" Header="유효기한" Binding="{Binding MTATVAL1}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                             </c1:C1DataGrid.Columns>
                         </c1:C1DataGrid>
@@ -366,6 +378,18 @@
                                 <c1:DataGridTextColumn SortMemberPath="INSDTTM" Header="날짜" Binding="{Binding INSDTTM}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                             </c1:C1DataGrid.Columns>
                         </c1:C1DataGrid>
+                        <Button Grid.Row="13" Grid.Column="1" Width="60" Height="30" HorizontalAlignment="Right" Cursor="Hand" Visibility="Visible">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Image Source="../../Images/Excel.png"/>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <icommon:EventToCommandAction Command="{Binding ClickExportExcelCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
                     </Grid>
                     <!--라우터 정보 조회-->
                     <Grid Visibility="{Binding sapRoute}">
@@ -408,8 +432,8 @@
                                 <c1:DataGridTextColumn SortMemberPath="IF_NO" Header="IF_NO" Binding="{Binding IF_NO}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="SEQ" Header="SEQ" Binding="{Binding SEQ}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="MATNR" Header="자재코드" Binding="{Binding MATNR}" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="PLNNR" Header="라우트 코드" Binding="{Binding PLNNR}" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
-                                <c1:DataGridTextColumn SortMemberPath="PLNAL" Header="그룹 카운터" Binding="{Binding PLNAL}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="PLNNR" Header="라우트코드" Binding="{Binding PLNNR}" IsReadOnly="True"  HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="PLNAL" Header="그룹카운터" Binding="{Binding PLNAL}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="KTEXT" Header="라우트명" Binding="{Binding KTEXT}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="BMSCH" Header="생산수량" Binding="{Binding BMSCH}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="PLNME" Header="단위" Binding="{Binding PLNME}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
@@ -469,6 +493,18 @@
                                 <c1:DataGridTextColumn SortMemberPath="INSDTTM" Header="날짜" Binding="{Binding INSDTTM}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                             </c1:C1DataGrid.Columns>
                         </c1:C1DataGrid>
+                        <Button Grid.Row="13" Grid.Column="1" Width="60" Height="30" HorizontalAlignment="Right" Cursor="Hand" Visibility="Visible">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Image Source="../../Images/Excel.png"/>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <icommon:EventToCommandAction Command="{Binding ClickExportExcelCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
                     </Grid>
                     <!--TnT 실적 조회-->
                     <Grid Visibility="{Binding tnt}">
@@ -490,7 +526,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="5" />
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="1" Grid.Column="1" Name="TEST" Text="실적 정보" FontWeight="Bold" FontSize="14"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="실적 정보" FontWeight="Bold" FontSize="14"/>
                         <c1:C1DataGrid Grid.Row="3" Grid.Column="1" x:Name="dgTnt"
                                        AutoGenerateColumns="False"
                                        HeadersVisibility="Column"
@@ -543,6 +579,18 @@
                                 <c1:DataGridTextColumn SortMemberPath="TRANS_DATE" Header="전송일자" Binding="{Binding TRANS_DATE}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                             </c1:C1DataGrid.Columns>
                         </c1:C1DataGrid>
+                        <Button Grid.Row="9" Grid.Column="1" Width="60" Height="30" HorizontalAlignment="Right" Cursor="Hand" Visibility="Visible">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Image Source="../../Images/Excel.png"/>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <icommon:EventToCommandAction Command="{Binding ClickExportExcelCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
                     </Grid>
                     <!--WMS 용기 입고 정보 조회-->
                     <Grid Visibility="{Binding wms}">
@@ -587,6 +635,18 @@
                                 <c1:DataGridTextColumn SortMemberPath="CLEANEXPIREDTTM" Header="세척유효일시" Binding="{Binding CLEANEXPIREDTTM}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}"/>
                             </c1:C1DataGrid.Columns>
                         </c1:C1DataGrid>
+                        <Button Grid.Row="5" Grid.Column="1" Width="60" Height="30" HorizontalAlignment="Right" Cursor="Hand" Visibility="Visible">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Image Source="../../Images/Excel.png"/>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <icommon:EventToCommandAction Command="{Binding ClickExportExcelCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
                     </Grid>
                     <!--시험 의뢰 결과 조회-->
                     <Grid Visibility="{Binding lims}">
@@ -623,6 +683,18 @@
                                 <c1:DataGridTextColumn SortMemberPath="UD_TIME" Header="적합일시" Binding="{Binding Path=UD_TIME}" HorizontalAlignment="Center" MinWidth="60" HeaderStyle="{StaticResource colHeader}"/>
                             </c1:C1DataGrid.Columns>
                         </c1:C1DataGrid>
+                        <Button Grid.Row="5" Grid.Column="1" Width="60" Height="30" HorizontalAlignment="Right" Cursor="Hand" Visibility="Visible">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Image Source="../../Images/Excel.png"/>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <icommon:EventToCommandAction Command="{Binding ClickExportExcelCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
                     </Grid>
                 </Grid>
             </ControlsLib:MainPanel_Top.Contents>

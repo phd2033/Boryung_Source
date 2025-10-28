@@ -389,6 +389,38 @@ namespace LGCNS.iPharmMES.Common
                     }
                 }
             }
+            private string _LD_CTN_TYP;
+            [BizActorInputItemAttribute()]
+            public string LD_CTN_TYP
+            {
+                get
+                {
+                    return this._LD_CTN_TYP;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._LD_CTN_TYP = value;
+                        this.CheckIsOriginal("LD_CTN_TYP", value);
+                        this.OnPropertyChanged("LD_CTN_TYP");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
         }
         public sealed partial class OUTDATA_TNTCollection : BufferedObservableCollection<OUTDATA_TNT>
         {

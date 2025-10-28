@@ -261,6 +261,38 @@ namespace LGCNS.iPharmMES.Common
                     }
                 }
             }
+            private string _SEQ;
+            [BizActorInputItemAttribute()]
+            public string SEQ
+            {
+                get
+                {
+                    return this._SEQ;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._SEQ = value;
+                        this.CheckIsOriginal("SEQ", value);
+                        this.OnPropertyChanged("SEQ");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
         }
         public sealed partial class OUTDATA_TNTCollection : BufferedObservableCollection<OUTDATA_TNT>
         {

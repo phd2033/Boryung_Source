@@ -29,6 +29,16 @@ namespace Board
             }
         }
 
+        private string _VesselType;
+        public string VesselType
+        {
+            get { return _VesselType; }
+            set
+            {
+                _VesselType = value;
+                NotifyPropertyChanged();
+            }
+        }
         private Visibility _sapOrder = Visibility.Collapsed;
         public Visibility sapOrder
         {
@@ -388,7 +398,8 @@ namespace Board
                                 BATCHNO = BATCHNO != "" ? BATCHNO : null,
                                 PALLETID = PALLETID != "" ? PALLETID : null,
                                 LD_CTN_NO = LD_CTN_NO != "" ? LD_CTN_NO : null,
-                                OPSGNAME = OPSGNAME != "" ? OPSGNAME : null
+                                OPSGNAME = OPSGNAME != "" ? OPSGNAME : null,
+                                LD_CTN_TYP = VesselType
                             });
 
                             await _BR_BRS_SEL_INTERFACE_INFO.Execute();
@@ -441,7 +452,8 @@ namespace Board
                                 BR_BRS_SEL_INTERFACE_DETAIL_INFO.INDATAs.Add(new BR_BRS_SEL_INTERFACE_DETAIL_INFO.INDATA()
                                 {
                                     POID = rowdata.AUFNR,
-                                    GUBUN = SelectedMode
+                                    GUBUN = SelectedMode,
+                                    SEQ = rowdata.SEQ
                                 });
                             }
                             else if (arg is BR_BRS_SEL_INTERFACE_INFO.OUTDATA_TNT)
@@ -468,7 +480,8 @@ namespace Board
                                     MATNR = rowdata.MATNR,
                                     PLNAL = rowdata.PLNAL,
                                     PLNNR = rowdata.PLNNR,
-                                    GUBUN = SelectedMode
+                                    GUBUN = SelectedMode,
+                                    SEQ = rowdata.SEQ
                                 });
                             }
 
@@ -636,6 +649,119 @@ namespace Board
                 {
                     return CommandCanExecutes.ContainsKey("ApprovalCancelCommand") ?
                         CommandCanExecutes["ApprovalCancelCommand"] : (CommandCanExecutes["ApprovalCancelCommand"] = true);
+                });
+            }
+        }
+
+        public ICommand ClickExportExcelCommand
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["ClickExportExcelCommand"].EnterAsync())
+                    {
+                        try
+                        {
+                            IsBusy = true;
+
+                            CommandResults["ClickExportExcelCommand"] = false;
+                            CommandCanExecutes["ClickExportExcelCommand"] = false;
+
+                            ///
+                            Custom_C1ExportExcel customExcel = new Custom_C1ExportExcel();
+
+                            if (SelectedMode.Equals("SAP_Order"))
+                            {
+                                customExcel.SaveBook(book =>
+                                {
+                                    C1.Silverlight.Excel.XLSheet sheet = book.Sheets[0];
+                                    sheet.Name = "오더 정보";
+                                    customExcel.InitHeaderExcel(book, sheet, _mainWnd.dgSapOrder);
+
+                                    C1.Silverlight.Excel.XLSheet sheet2 = book.Sheets.Add();
+                                    sheet2.Name = "오더 상세 정보";
+                                    customExcel.InitHeaderExcel(book, sheet2, _mainWnd.dgSapOrderDetail);
+
+                                    C1.Silverlight.Excel.XLSheet sheet3 = book.Sheets.Add();
+                                    sheet3.Name = "오더 BOM 정보";
+                                    customExcel.InitHeaderExcel(book, sheet3, _mainWnd.dgSapOrdrBom);
+                                });
+                            }
+                            else if (SelectedMode.Equals("SAP_Route"))
+                            {
+                                customExcel.SaveBook(book =>
+                                {
+                                    C1.Silverlight.Excel.XLSheet sheet = book.Sheets[0];
+                                    sheet.Name = "라우트 정보";
+                                    customExcel.InitHeaderExcel(book, sheet, _mainWnd.dgSapRoute);
+
+                                    C1.Silverlight.Excel.XLSheet sheet2 = book.Sheets.Add();
+                                    sheet2.Name = "라우트 공정 정보";
+                                    customExcel.InitHeaderExcel(book, sheet2, _mainWnd.dgSapRouteDetail);
+
+                                    C1.Silverlight.Excel.XLSheet sheet3 = book.Sheets.Add();
+                                    sheet3.Name = "라우트 BOM 정보";
+                                    customExcel.InitHeaderExcel(book, sheet3, _mainWnd.dgSapRouteBom);
+                                });
+                            }
+                            else if (SelectedMode.Equals("TnT"))
+                            {
+                                customExcel.SaveBook(book =>
+                                {
+                                    C1.Silverlight.Excel.XLSheet sheet = book.Sheets[0];
+                                    sheet.Name = "실적 정보";
+                                    customExcel.InitHeaderExcel(book, sheet, _mainWnd.dgTnt);
+
+                                    C1.Silverlight.Excel.XLSheet sheet2 = book.Sheets.Add();
+                                    sheet2.Name = "최종 실적 정보";
+                                    customExcel.InitHeaderExcel(book, sheet2, _mainWnd.dgTntLast);
+                                });
+                            }
+                            else if (SelectedMode.Equals("WMS"))
+                            {
+                                customExcel.SaveBook(book =>
+                                {
+                                    C1.Silverlight.Excel.XLSheet sheet = book.Sheets[0];
+                                    sheet.Name = "WMS 용기 입고 정보";
+                                    customExcel.InitHeaderExcel(book, sheet, _mainWnd.dgWms);
+                                });
+                            }
+                            else if (SelectedMode.Equals("LIMS"))
+                            {
+                                customExcel.SaveBook(book =>
+                                {
+                                    C1.Silverlight.Excel.XLSheet sheet = book.Sheets[0];
+                                    sheet.Name = "LIMS 시험 의뢰 결과";
+                                    customExcel.InitHeaderExcel(book, sheet, _mainWnd.dgLims);
+                                });
+                            }
+
+                            //customExcel.SaveBook(book =>
+                            //{
+                            //    C1.Silverlight.Excel.XLSheet sheet = book.Sheets[0];
+                            //    customExcel.InitHeaderExcel(book, sheet, _mainWnd.dgLims);
+                            //});
+                            /////
+
+                            CommandResults["ClickExportExcelCommand"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["ClickExportExcelCommand"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["ClickExportExcelCommand"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("ClickExportExcelCommand") ?
+                        CommandCanExecutes["ClickExportExcelCommand"] : (CommandCanExecutes["ClickExportExcelCommand"] = true);
                 });
             }
         }

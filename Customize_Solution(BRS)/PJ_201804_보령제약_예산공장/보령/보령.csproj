@@ -313,6 +313,7 @@
     <Compile Include="Model.Access\칭량\BR_BRS_SEL_AreaWeighing_SourceContainer.Access.cs" />
     <Compile Include="Model.Access\칭량\BR_BRS_SEL_Charging_Solvent_History.Access.cs" />
     <Compile Include="Model.Access\칭량\BR_BRS_SEL_Charging_Split_Dispence_History.Access.cs" />
+    <Compile Include="Model.Access\칭량\BR_BRS_SEL_DispensingExpireState.Access.cs" />
     <Compile Include="Model.Access\칭량\BR_BRS_SEL_POAllocation_AreaWeighing_CHG_STD.Access.cs" />
     <Compile Include="Model.Access\칭량\BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing.Access.cs" />
     <Compile Include="Model.Access\칭량\BR_BRS_SEL_ProductionOrderAllocation_AreaWeighing_STD.Access.cs" />
@@ -1187,6 +1188,10 @@
       <DependentUpon>칭량원료Pallet적재.xaml</DependentUpon>
     </Compile>
     <Compile Include="칭량\칭량원료Pallet적재ViewModel.cs" />
+    <Compile Include="칭량\칭량원료보관기간확인.xaml.cs">
+      <DependentUpon>칭량원료보관기간확인.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="칭량\칭량원료보관기간확인ViewModel.cs" />
     <Compile Include="칭량\평균질량측정_2ViewModel.cs" />
     <Compile Include="칭량\평균질량측정_2.xaml.cs">
       <DependentUpon>평균질량측정_2.xaml</DependentUpon>
@@ -2007,6 +2012,10 @@
     <Page Include="칭량\칭량원료Pallet적재.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="칭량\칭량원료보관기간확인.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="칭량\평균질량측정_2.xaml">
       <Generator>MSBuild:Compile</Generator>

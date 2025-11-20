@@ -180,7 +180,7 @@ namespace 보령
                                 {
                                     if (CheckItem[0].MSUBLOTID.Equals(item.MSUBLOTID))
                                     {
-                                        if (ParentVM.FilteredComponents.Where(o => o.CHECK == "투입대기" && o.MSUBLOTID != CheckItem[0].MSUBLOTID).Count() > 0)//중복 팩을 제외한 팩이 전부 투입 완료 되었는지 확인
+                                        if (ParentVM.FilteredComponents.Where(o => (o.CHECK == "투입대기" || o.CHECK == "투입가능") && o.MSUBLOTID != CheckItem[0].MSUBLOTID).Count() > 0)//중복 팩을 제외한 팩이 전부 투입 완료 되었는지 확인
                                         {
                                             Message = "원료 바코드 : " + CheckItem[0].MSUBLOTBCD + "\n해당 팩은 마지막으로 투입 부탁드립니다.";
                                             return false;

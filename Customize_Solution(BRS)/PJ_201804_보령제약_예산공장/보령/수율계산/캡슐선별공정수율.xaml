@@ -14,7 +14,7 @@
     x:Name="Main"
     mc:Ignorable="d"
     Title="캡슐선별공정수율"
-    Height="400" Width="750" Foreground="#FF464545" FontFamily="Malgun Gothic" FontSize="14" FontWeight="Bold">
+    Height="370" Width="750" Foreground="#FF464545" FontFamily="Malgun Gothic" FontSize="14" FontWeight="Bold">
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
         <local:캡슐선별공정수율ViewModel x:Key="viewModel"/>
         <Style x:Key="LabelStyle" TargetType="sdk:Label">
@@ -51,16 +51,16 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="10"/>
-                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="15"/>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="15"/>
-                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="40"/>
                     <RowDefinition Height="15"/>
                     <RowDefinition Height="35"/>
                     <RowDefinition Height="15"/>
                     <RowDefinition Height="35"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="20"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="85"/>
@@ -78,8 +78,8 @@
                 <Line Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="2"  Stroke="Black" Stretch="Fill" StrokeThickness="1" X1="0" Y1="0" X2="1" Y2="0" ></Line>
                 <sdk:Label  Grid.Column="5" Grid.Row="1" Grid.RowSpan="3" Content="×" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <sdk:Label  Grid.Column="6" Grid.Row="1" Grid.RowSpan="3" Content="100" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <sdk:Label  Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2" Content="선별 완료 무게(g)  ÷ ( 캡슐충전 평균질량(mg/C) x 1,000 )" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
-                <sdk:Label  Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="2" Content="캡슐충전 양품수량 (C)" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <sdk:Label  Grid.Column="3" Grid.Row="1" Content="선별 양품수량(C) - QC sampling 수량(C) - 공정 중 샘플링 수량(C)" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" Margin="10,0,8,5" Width="504" Grid.ColumnSpan="2" />
+                <sdk:Label  Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="2" Content="인수량 (C)" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Top"/>
 
 
 

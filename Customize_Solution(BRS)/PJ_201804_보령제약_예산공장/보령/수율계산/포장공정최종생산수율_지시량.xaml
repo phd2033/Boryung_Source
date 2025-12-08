@@ -54,11 +54,13 @@
                         <ColumnDefinition Width="100"/>
                     </Grid.ColumnDefinitions>
                     <sdk:Label Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Content="최종 생산 수율 계산식" HorizontalAlignment="Right"/>
-                    <sdk:Label Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Content=" = "/>
-                    <sdk:Label Grid.Row="0" Grid.Column="2" Content="T (실 생산량)"/>
+                    <sdk:Label Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Content=" = " Margin="7,0,6,0"/>
+                    <sdk:Label Grid.Row="0" Grid.Column="2" Content="(실 생산량)" Margin="71,0,38.94,0"/>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="92,16,150,14" Width="30" TextAlignment="Right"/>
                     <Line Grid.Row="1" Grid.Column="2" Stroke="Black" Stretch="Fill" StrokeThickness="1" X2="1"/>
-                    <sdk:Label Grid.Row="2" Grid.Column="2" Content="T (이론량 (포장지시수량))"/>
-                    <sdk:Label Grid.Row="0" Grid.Column="3" Grid.RowSpan="3" Content=" X 100" HorizontalAlignment="Left"/>
+                    <sdk:Label Grid.Row="2" Grid.Column="2" Content="(이론량 (포장지시수량))" Margin="39,0,5.94,0"/>
+                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="60,15,182,15" Width="30" TextAlignment="Right"/>
+                    <sdk:Label Grid.Row="0" Grid.Column="7" Grid.RowSpan="3" Content=" X 100" HorizontalAlignment="Left"/>
                 </Grid>
                 <Grid Grid.Row="1" Name="InputValueGrid">
                     <Grid.RowDefinitions>

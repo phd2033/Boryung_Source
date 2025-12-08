@@ -141,6 +141,7 @@
     <Reference Include="System.Windows.Controls.Data.Toolkit">
       <HintPath>..\..\Reference Assemblies\System.Windows.Controls.Data.Toolkit.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Controls.Input, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Controls.Input.Toolkit">
       <HintPath>..\..\Reference Assemblies\System.Windows.Controls.Input.Toolkit.dll</HintPath>
     </Reference>
@@ -162,6 +163,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model.Access\iPharm.Report\BR.Campain\BR_BRS_REG_SIMPLE_CLEAN_GROUP.Access.cs" />
+    <Compile Include="Model.Access\iPharm.Report\BR.Campain\BR_BRS_SEL_OperationDefinition_MaterialList.Access.cs" />
+    <Compile Include="Model.Access\iPharm.Report\BR.Campain\BR_BRS_SEL_SIMPLE_CLEAN_EQPT.Access.cs" />
+    <Compile Include="Model.Access\iPharm.Report\BR.Campain\BR_BRS_SEL_SIMPLE_CLEAN_GROUP.Access.cs" />
+    <Compile Include="Model.Access\iPharm.Report\BR.Campain\BR_BRS_SEL_SIMPLE_CLEAN_ROUTE.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR.Performance\BR_BRS_INS_TST_APPROVAL_CANCELL.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR.Performance\BR_BRS_REG_UDT_OperationProcessSegmentReady.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR.Performance\BR_BRS_SEL_CleanningSettingList.Access.cs" />
@@ -189,6 +195,11 @@
     <Compile Include="Model.Access\iPharm.Report\BR_Interface\BR_BRS_SEL_INTERFACE_DETAIL_INFO.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR_Interface\BR_BRS_SEL_INTERFACE_INFO.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR_MaterialReport\BR_BRS_SEL_MaterialPickingInfoList.Access.cs" />
+    <Compile Include="UserControls\SelectRoutePopup.xaml.cs">
+      <DependentUpon>SelectRoutePopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SelectRoutePopupViewModel.cs" />
+    <Compile Include="ViewModel\DetailSearch\OperationEquipmentCampainViewModel.cs" />
     <Compile Include="ViewModel\DetailSearch\SapInterfaceInfoViewModel.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR_SVP_RejectInfo\BR_BRS_SEL_UDT_BRS_SVP_REJECT_INFO.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR_TnTOutputInfo\BR_BRS_SEL_TnTOutputInfoList.Access.cs" />
@@ -232,6 +243,9 @@
     </Compile>
     <Compile Include="View\DetailSearch\IPCTestResultView.xaml.cs">
       <DependentUpon>IPCTestResultView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DetailSearch\OperationEquipmentCampain.xaml.cs">
+      <DependentUpon>OperationEquipmentCampain.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DetailSearch\SapInterfaceInfo.xaml.cs">
       <DependentUpon>SapInterfaceInfo.xaml</DependentUpon>
@@ -313,6 +327,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="UserControls\SelectRoutePopup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\BoardMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -336,6 +354,10 @@
     <Page Include="View\DetailSearch\IPCTestResultView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DetailSearch\OperationEquipmentCampain.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\DetailSearch\SapInterfaceInfo.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -454,6 +476,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Save.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />

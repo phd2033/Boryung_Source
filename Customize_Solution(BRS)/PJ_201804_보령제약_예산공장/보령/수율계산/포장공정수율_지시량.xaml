@@ -55,9 +55,11 @@
                     </Grid.ColumnDefinitions>
                     <sdk:Label Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Content="공정 수율 계산식" HorizontalAlignment="Right"/>
                     <sdk:Label Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Content=" = "/>
-                    <sdk:Label Grid.Row="0" Grid.Column="2" Content="T (실 생산량)"/>
+                    <sdk:Label Grid.Row="0" Grid.Column="2" Content="(실 생산량)" Margin="116,0,98,0"/>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="81,16,161,14" TextAlignment="Right"/>
                     <Line Grid.Row="1" Grid.Column="2" Stroke="Black" Stretch="Fill" StrokeThickness="1" X2="1"/>
-                    <sdk:Label Grid.Row="2" Grid.Column="2" Content="T (지시량)"/>
+                    <sdk:Label Grid.Row="2" Grid.Column="2" Content="(지시량)" Margin="124,0,105,0"/>
+                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="89,15,153,15" TextAlignment="Right"/>
                     <sdk:Label Grid.Row="0" Grid.Column="3" Grid.RowSpan="3" Content=" X 100" HorizontalAlignment="Left"/>
                 </Grid>
                 <Grid Grid.Row="1" Name="InputValueGrid">

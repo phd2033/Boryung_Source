@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace LGCNS.iPharmMES.Common
+namespace 보령
 {
-    
+
     /// <summary>
     /// summary of BR_BRS_SEL_Yield_Calculation_Weight_Packing_INPUT
     /// </summary>
@@ -22,7 +22,7 @@ namespace LGCNS.iPharmMES.Common
                 return this._INDATAs;
             }
         }
-        [BizActorInputSetDefineAttribute(Order="0")]
+        [BizActorInputSetDefineAttribute(Order = "0")]
         [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
         public partial class INDATA : BizActorDataSetBase
         {
@@ -274,7 +274,7 @@ namespace LGCNS.iPharmMES.Common
                 return this._OUTDATAs;
             }
         }
-        [BizActorOutputSetDefineAttribute(Order="0")]
+        [BizActorOutputSetDefineAttribute(Order = "0")]
         [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
         public partial class OUTDATA : BizActorDataSetBase
         {
@@ -417,10 +417,43 @@ namespace LGCNS.iPharmMES.Common
                     }
                 }
             }
+            private string _PACK_UNIT;
+            [BizActorOutputItemAttribute()]
+            public string PACK_UNIT
+            {
+                get
+                {
+                    return this._PACK_UNIT;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._PACK_UNIT = value;
+                        this.CheckIsOriginal("PACK_UNIT", value);
+                        this.OnPropertyChanged("PACK_UNIT");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
         }
         public BR_BRS_SEL_Yield_Calculation_Weight_Packing_INPUT()
         {
             RuleName = "BR_BRS_SEL_Yield_Calculation_Weight_Packing_INPUT";
+            BizName = "BR_BRS_SEL_Yield_Calculation_Weight_Packing_INPUT";
             _INDATAs = new INDATACollection();
             _OUTDATAs = new OUTDATACollection();
         }

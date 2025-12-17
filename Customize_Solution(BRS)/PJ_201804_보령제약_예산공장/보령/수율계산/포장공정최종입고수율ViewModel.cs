@@ -54,6 +54,17 @@ namespace 보령
                 NotifyPropertyChanged();
             }
         }
+
+        private string _PackUnit;
+        public string PackUnit
+        {
+            get { return _PackUnit; }
+            set
+            {
+                _PackUnit = value;
+                NotifyPropertyChanged();
+            }
+        }
         #endregion
 
         #region [BizRule]
@@ -112,6 +123,7 @@ namespace 보령
                                     InputVal1 = _BR_BRS_SEL_Yield_Calculation_Weight_Packing_INPUT.OUTDATAs[0].IN_VALUE1;
                                     InputVal2 = _BR_BRS_SEL_Yield_Calculation_Weight_Packing_INPUT.OUTDATAs[0].IN_VALUE2;
                                     OutputVal = decimal.TryParse(_BR_BRS_SEL_Yield_Calculation_Weight_Packing_INPUT.OUTDATAs[0].OUT_VALUE, out temp) ? MathExt.Round(temp, PRECISION, MidpointRounding.AwayFromZero).ToString() : "0";
+                                    PackUnit = _BR_BRS_SEL_Yield_Calculation_Weight_Packing_INPUT.OUTDATAs[0].PACK_UNIT;
                                 }
 
                             }

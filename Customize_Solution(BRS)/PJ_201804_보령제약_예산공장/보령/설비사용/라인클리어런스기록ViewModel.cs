@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
@@ -6,6 +7,8 @@ using System.Windows.Documents;
 using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
+using C1.Silverlight.Imaging;
+using System.Windows.Media.Imaging;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using LGCNS.iPharmMES.Common;
@@ -137,8 +140,8 @@ namespace 보령
                                     }
                                     else
                                     {
-                                        contentsYes = "적합";
-                                        contentsNo = "부적합";
+                                        contentsYes = "적합(Pass)";
+                                        contentsNo = "부적합(Fail)";
                                     }
 
                                     foreach (var outdata in _BR_BRS_GET_CommonCode_LineClearance.OUTDATAs)
@@ -198,14 +201,16 @@ namespace 보령
 
                             ///
                             _mainWnd.BusyIn.IsBusy = true;
+                            
+                            //2025.12.15 김도연 이미지로 기록되도록 변경
+                            Brush background = _mainWnd.PrintArea.Background;
+                            _mainWnd.PrintArea.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0xD6, 0xD4, 0xD4));
+                            _mainWnd.PrintArea.BorderThickness = new System.Windows.Thickness(1);
+                            _mainWnd.PrintArea.Background = new SolidColorBrush(Colors.White);
 
-                            // 2022.06.17 김호연 라인클리어런스 UI에서 기록하도록 변경
-                            // 기존 소스
-                            /***********************************************************************************/
-                            //if (_BR_BRS_GET_Equipment_LineClearance.OUTDATAs.Count > 0)
-                            /***********************************************************************************/
-                            // 신규 소스
-                            /***********************************************************************************/
+                            _mainWnd.CurrentInstruction.Raw.NOTE = imageToByteArray();
+                            _mainWnd.CurrentInstruction.Raw.ACTVAL = "Image attached";
+                            
                             if (_BR_BRS_GET_CommonCode_LineClearance.OUTDATAs.Count > 0)
                             /***********************************************************************************/
                             {
@@ -227,99 +232,24 @@ namespace 보령
                                     {
                                         throw new Exception(string.Format("서명이 완료되지 않았습니다."));
                                     }
-                                }
-
-                                // 조회내용 기록
-                                authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
-
-                                if (await authHelper.ClickAsync(
-                                    Common.enumCertificationType.Function,
-                                    Common.enumAccessType.Create,
-                                    "라인클리어런스기록",
-                                    "라인클리어런스기록",
-                                    false,
-                                    "OM_ProductionOrder_SUI",
-                                    "", null, null) == false)
+                                }else
                                 {
-                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                    // 조회내용 기록
+                                    authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
+
+                                    if (await authHelper.ClickAsync(
+                                        Common.enumCertificationType.Function,
+                                        Common.enumAccessType.Create,
+                                        "라인클리어런스기록",
+                                        "라인클리어런스기록",
+                                        false,
+                                        "OM_ProductionOrder_SUI",
+                                        "", null, null) == false)
+                                    {
+                                        throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                    }
                                 }
-
-                                // XML 변환
-                                var ds = new DataSet();
-                                var dt = new DataTable("DATA");
-                                ds.Tables.Add(dt);
-
-                                // 2021.08.20 박희돈 순번 ebr에 안나오도록 변경
-                                //dt.Columns.Add(new DataColumn("순번"));
-                                dt.Columns.Add(new DataColumn("점검사항"));
-                                dt.Columns.Add(new DataColumn("결과"));
-
-                                // 2022.06.17 김호연 라인클리어런스 UI에서 기록하도록 변경
-                                // 기존 소스
-                                /***********************************************************************************/
-                                //foreach (var item in _BR_BRS_GET_Equipment_LineClearance.OUTDATAs)
-                                //{
-                                //    var row = dt.NewRow();
-
-                                //    // 2021.08.20 박희돈 순번 ebr에 안나오도록 변경
-                                //    //row["순번"] = item.NO != null ? item.NO : "";
-                                //    row["점검사항"] = item.ITEMNAME != null ? item.ITEMNAME : "";
-                                //    row["결과"] = item.RESULT != null ? item.RESULT : "";
-
-                                //    dt.Rows.Add(row);
-                                //}
-                                /***********************************************************************************/
-                                // 신규 소스
-                                /***********************************************************************************/
-                                var temp = _mainWnd.MainDataGrid.ItemsSource as LINECLEARANCE.OUTDATACollection;
-
-                                foreach (var item in temp)
-                                {
-                                    var row = dt.NewRow();
-
-                                    row["점검사항"] = item.ITEMNAME != null ? item.ITEMNAME : "";
-                                    if (!item.RESULTYES && !item.RESULTNO && !item.RESULTNA)
-                                    {
-                                        _mainWnd.BusyIn.IsBusy = false;
-                                        OnMessage("결과를 모두 선택해 주세요");
-                                        return;
-                                    }
-                                    if (item.RESULTYES)
-                                    {
-                                        if("고형제".Equals(_ProdTeamId))
-                                        {
-                                            row["결과"] = "YES";
-                                        }
-                                        else
-                                        {
-                                            row["결과"] = "적합";
-                                        }
-                                    }
-                                    else if (item.RESULTNO)
-                                    {
-                                        if ("고형제".Equals(_ProdTeamId))
-                                        {
-                                            row["결과"] = "NO";
-                                        }
-                                        else
-                                        {
-                                            row["결과"] = "부적합";
-                                        }
-                                    }
-                                    else
-                                    {
-                                        row["결과"] = "N/A";
-                                    }
-                                    dt.Rows.Add(row);
-                                }
-                                /***********************************************************************************/
-
-                                var xml = BizActorRuleBase.CreateXMLStream(ds);
-                                var bytesArray = System.Text.Encoding.UTF8.GetBytes(xml);
-
-                                _mainWnd.CurrentInstruction.Raw.ACTVAL = _mainWnd.TableTypeName;
-                                _mainWnd.CurrentInstruction.Raw.NOTE = bytesArray;
-
+                                                              
                                 var result = await _mainWnd.Phase.RegistInstructionValue(_mainWnd.CurrentInstruction, true);
                                 if (result != enumInstructionRegistErrorType.Ok)
                                 {
@@ -454,6 +384,29 @@ namespace 보령
                     return CommandCanExecutes.ContainsKey("NoRecordConfirmCommandAsync") ?
                         CommandCanExecutes["NoRecordConfirmCommandAsync"] : (CommandCanExecutes["NoRecordConfirmCommandAsync"] = true);
                 });
+            }
+        }
+        #endregion
+        #region imageToByteArray
+        public byte[] imageToByteArray()
+        {
+            try
+            {
+                C1Bitmap bitmap = new C1Bitmap(new WriteableBitmap(_mainWnd.PrintArea, null));
+                System.IO.Stream stream = bitmap.GetStream(C1.Silverlight.Imaging.ImageFormat.Png, true);
+
+                int len = (int)stream.Seek(0, SeekOrigin.End);
+
+                byte[] datas = new byte[len];
+
+                stream.Seek(0, SeekOrigin.Begin);
+                stream.Read(datas, 0, datas.Length);
+
+                return datas;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
         #endregion

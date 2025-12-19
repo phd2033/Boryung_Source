@@ -513,6 +513,38 @@ namespace LGCNS.iPharmMES.Common
                     }
                 }
             }
+            private string _ODVER;
+            [BizActorOutputItemAttribute()]
+            public string ODVER
+            {
+                get
+                {
+                    return this._ODVER;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._ODVER = value;
+                        this.CheckIsOriginal("ODVER", value);
+                        this.OnPropertyChanged("ODVER");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
         }
         public BR_BRS_SEL_SIMPLE_CLEAN_ROUTE()
         {

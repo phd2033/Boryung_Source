@@ -25,6 +25,9 @@ namespace Board
 
         public string GroupName { get; set; }
         public string OdName { get; set; }
+        public string OdId { get; set; }
+        //public string OdVer { get; set; }
+        public string RouteGuid { get; set; }
         public ObservableCollection<RouteItem> Children { get; set; } = new ObservableCollection<RouteItem>();
 
     }
@@ -133,6 +136,17 @@ namespace Board
             }
         }
 
+        private string _GROUPGUID;
+        public string GROUPGUID
+        {
+            get { return _GROUPGUID; }
+            set
+            {
+                _GROUPGUID = value;
+                NotifyPropertyChanged();
+            }
+        }
+        
         private ObservableCollection<RouteItem> _groupedRoutes;
         public ObservableCollection<RouteItem> GroupedRoutes
         {
@@ -164,9 +178,11 @@ namespace Board
             }
         }
 
+        public event EventHandler RequestShowEqptPopup;
+
         #endregion
 
-        #region Data
+        #region BizRule
 
         private BR_PHR_SEL_MaterialClass_TreeView_New _BR_PHR_SEL_MaterialClass_TreeView_New;
 
@@ -214,6 +230,38 @@ namespace Board
             }
         }
 
+        private BR_BRS_REG_SIMPLE_CLEAN_ROUTE _BR_BRS_REG_SIMPLE_CLEAN_ROUTE;
+        public BR_BRS_REG_SIMPLE_CLEAN_ROUTE BR_BRS_REG_SIMPLE_CLEAN_ROUTE
+        {
+            get { return _BR_BRS_REG_SIMPLE_CLEAN_ROUTE; }
+            set
+            {
+                _BR_BRS_REG_SIMPLE_CLEAN_ROUTE = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private BR_BRS_SEL_SIMPLE_CLEAN_EQPT_CHECK _BR_BRS_SEL_SIMPLE_CLEAN_EQPT_CHECK;
+        public BR_BRS_SEL_SIMPLE_CLEAN_EQPT_CHECK BR_BRS_SEL_SIMPLE_CLEAN_EQPT_CHECK
+        {
+            get { return _BR_BRS_SEL_SIMPLE_CLEAN_EQPT_CHECK; }
+            set
+            {
+                _BR_BRS_SEL_SIMPLE_CLEAN_EQPT_CHECK = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private BR_BRS_REG_SIMPLE_CLEAN_EQPT _BR_BRS_REG_SIMPLE_CLEAN_EQPT;
+        public BR_BRS_REG_SIMPLE_CLEAN_EQPT BR_BRS_REG_SIMPLE_CLEAN_EQPT
+        {
+            get { return _BR_BRS_REG_SIMPLE_CLEAN_EQPT; }
+            set
+            {
+                _BR_BRS_REG_SIMPLE_CLEAN_EQPT = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         #endregion
 
@@ -306,12 +354,16 @@ namespace Board
                                 var groupedData = sourceData.GroupBy(item => item.GROUPNAME).Select(group => new RouteItem
                                 {
                                     GroupName = group.Key,
+                                    OdId = group.Key,
                                     OdName = group.Key,
+                                    RouteGuid = group.Key,
                                     Children = new ObservableCollection<RouteItem>(
                                     group.Select(child => new RouteItem
                                     {
                                         GroupName = child.GROUPNAME,
-                                        OdName = child.ODNAME
+                                        OdId = child.ODID,
+                                        OdName = child.ODNAME,
+                                        RouteGuid = child.ROUTEGUID,
                                     })
                                   )
                                 });
@@ -359,8 +411,8 @@ namespace Board
                                 CommandCanExecutes["GroupDetailSearchCommand"] = false;
 
                                 ///
-                                _BR_BRS_SEL_SIMPLE_CLEAN_ROUTE.INDATAs.Clear();
-                                _BR_BRS_SEL_SIMPLE_CLEAN_ROUTE.OUTDATAs.Clear();
+                                _BR_BRS_REG_SIMPLE_CLEAN_ROUTE.INDATAs.Clear();
+                                _BR_BRS_REG_SIMPLE_CLEAN_ROUTE.OUTDATAs.Clear();
 
                                 var guid = Groupeds.FirstOrDefault(item => item.GroupName == groupName);
 
@@ -378,20 +430,22 @@ namespace Board
 
                                     if (sourceData != null)
                                     {
-                                        var groupedData = sourceData
-                                            .GroupBy(item => item.GROUPNAME)
-                                            .Select(group => new RouteItem
+                                        var groupedData = sourceData.GroupBy(item => item.GROUPNAME).Select(group => new RouteItem
+                                        {
+                                            GroupName = group.Key,
+                                            OdId = group.Key,
+                                            OdName = group.Key,
+                                            RouteGuid = group.Key,
+                                            Children = new ObservableCollection<RouteItem>(
+                                            group.Select(child => new RouteItem
                                             {
-                                                GroupName = group.Key,
-                                                OdName = group.Key,
-                                                Children = new ObservableCollection<RouteItem>(
-                                                    group.Select(child => new RouteItem
-                                                    {
-                                                        GroupName = child.GROUPNAME,
-                                                        OdName = child.ODNAME
-                                                    })
-                                                )
-                                            });
+                                                GroupName = child.GROUPNAME,
+                                                OdId = child.ODID,
+                                                OdName = child.ODNAME,
+                                                RouteGuid = child.ROUTEGUID,
+                                            })
+                                          )
+                                        });
                                         this.GroupedRoutes = new ObservableCollection<RouteItem>(groupedData);
                                     }
 
@@ -449,14 +503,15 @@ namespace Board
                             CommandResults["RouteManagementCommand"] = false;
                             CommandCanExecutes["RouteManagementCommand"] = false;
 
+                            var popupViewModel = new SelectRoutePopupViewModel(groupName);
+
                             SelectRoutePopup popup = new SelectRoutePopup();
+
+                            popup.DataContext = popupViewModel;
 
                             popup.Closed += (s, e) =>
                             {
-                                if (popup.DialogResult.GetValueOrDefault())
-                                {
-
-                                }
+                                GroupDetailSearchCommand.Execute(groupName);
                             };
 
                             popup.Show();
@@ -769,6 +824,323 @@ namespace Board
                 });
             }
         }
+        public ICommand DeleteRouteCommand
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    var selectedRoute = arg as RouteItem;
+                    using (await AwaitableLocks["DeleteRouteCommand"].EnterAsync())
+                    {
+                        try
+                        {
+                            IsBusy = true;
+
+                            var authHelper = new iPharmAuthCommandHelper();
+
+                            CommandResults["DeleteRouteCommand"] = false;
+                            CommandCanExecutes["DeleteRouteCommand"] = false;
+
+                            BR_BRS_REG_SIMPLE_CLEAN_ROUTE.INDATAs.Clear();
+                            BR_BRS_REG_SIMPLE_CLEAN_ROUTE.OUTDATAs.Clear();
+
+
+                            BR_BRS_REG_SIMPLE_CLEAN_ROUTE.INDATAs.Add(new BR_BRS_REG_SIMPLE_CLEAN_ROUTE.INDATA
+                            {
+                                ROUTEGUID = selectedRoute.RouteGuid,
+                                GROUPNAME = selectedRoute.GroupName,
+                                MODE = "DEL"
+                            });
+
+                            authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "SM_SystemInfo_UI");
+
+                            if (await authHelper.ClickAsync(
+                                Common.enumCertificationType.Function,
+                                Common.enumAccessType.Create,
+                                string.Format("캠페인 라우트를 삭제합니다."),
+                                string.Format("캠페인 라우트 삭제"),
+                                false,
+                                "SM_SystemInfo_UI",
+                                "", null, null) == false)
+                            {
+                                throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                            }
+
+                            await BR_BRS_REG_SIMPLE_CLEAN_ROUTE.Execute();
+                            GroupDetailSearchCommand.Execute(selectedRoute.GroupName);
+
+                            CommandResults["DeleteRouteCommand"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["DeleteRouteCommand"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["DeleteRouteCommand"] = true;
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("DeleteRouteCommand") ?
+                        CommandCanExecutes["DeleteRouteCommand"] : (CommandCanExecutes["DeleteRouteCommand"] = true);
+                });
+            }
+        }
+        public ICommand RowEditCommand
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["RowEditCommand"].EnterAsync())
+                    {
+                        try
+                        {
+                            CommandResults["RowEditCommand"] = false;
+                            CommandCanExecutes["RowEditCommand"] = false;
+
+                            IsBusy = true;
+
+                            var temp = _mainWnd.CampainOperationEquipmentGrid.SelectedItem as BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATA;
+                            if (temp.DHT_CNT != "0" || temp.SIMPLE_CLEAN_CNT != "0" || temp.EQPTID != null)
+                            {
+                                temp.CHK = "Y";
+                            }
+
+                            var groupGuid = BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATAs.FirstOrDefault(outdat => outdat.GROUPGUID != null)?.GROUPGUID;
+
+                            BR_BRS_SEL_SIMPLE_CLEAN_EQPT_CHECK.INDATAs.Clear();
+                            BR_BRS_SEL_SIMPLE_CLEAN_EQPT_CHECK.OUTDATAs.Clear();
+
+                            if (temp.EQPTID != null && _mainWnd.CampainOperationEquipmentGrid.Columns[1].IsReadOnly == false)
+                            {
+                                BR_BRS_SEL_SIMPLE_CLEAN_EQPT_CHECK.INDATAs.Add(new BR_BRS_SEL_SIMPLE_CLEAN_EQPT_CHECK.INDATA
+                                {
+                                    EQPTID = temp.EQPTID,
+                                    GROUPGUID = groupGuid
+                                });
+
+                                await BR_BRS_SEL_SIMPLE_CLEAN_EQPT_CHECK.Execute();
+
+                                foreach (var outdata in BR_BRS_SEL_SIMPLE_CLEAN_EQPT_CHECK.OUTDATAs)
+                                {
+                                    if (outdata.EQPTNAME != null)
+                                    {
+                                        temp.GROUPGUID = groupGuid;
+                                        temp.EQPTID = temp.EQPTID.ToUpper();
+                                        temp.EQPTNAME = outdata.EQPTNAME;
+                                        temp.VERSION = "1.000000";
+                                        temp.SIMPLE_CLEAN_CNT = "0";
+                                        temp.DHT_CNT = "0";
+                                        temp.INSUSER = AuthRepositoryViewModel.Instance.LoginedUserID;
+
+                                        _mainWnd.CampainOperationEquipmentGrid.Columns[1].IsReadOnly = true;
+                                        _mainWnd.CampainOperationEquipmentGrid.Columns[2].IsReadOnly = true;
+                                    }
+                                }
+                            }
+                      
+                            IsBusy = false;
+
+                            CommandResults["RowEditCommand"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["RowEditCommand"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["RowEditCommand"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("RowEditCommand") ?
+                        CommandCanExecutes["RowEditCommand"] : (CommandCanExecutes["RowEditCommand"] = true);
+                });
+            }
+        }
+        public ICommand RowAddCommand
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["RowAddCommand"].EnterAsync())
+                    {
+                        try
+                        {
+                            CommandResults["RowAddCommand"] = false;
+                            CommandCanExecutes["RowAddCommand"] = false;
+
+                            IsBusy = true;
+
+                            var temp = _mainWnd.CampainOperationEquipmentGrid.SelectedItem as BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATA;
+                            temp.CHK = "Y";
+                            temp.ISUSE = "Y";
+                            _mainWnd.CampainOperationEquipmentGrid.Columns[2].IsReadOnly = true;
+
+                            RequestShowEqptPopup?.Invoke(this, EventArgs.Empty);
+
+                            IsBusy = false;
+
+                            CommandResults["RowAddCommand"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["RowAddCommand"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["RowAddCommand"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("RowAddCommand") ?
+                        CommandCanExecutes["RowAddCommand"] : (CommandCanExecutes["RowAddCommand"] = true);
+                });
+            }
+        }
+        public ICommand EquipmentSaveCommand
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["EquipmentSaveCommand"].EnterAsync())
+                    {
+                        try
+                        {
+                            IsBusy = true;
+
+                            var authHelper = new iPharmAuthCommandHelper();
+
+                            CommandResults["EquipmentSaveCommand"] = false;
+                            CommandCanExecutes["EquipmentSaveCommand"] = false;
+
+                            var checkFlag = false;
+
+                            string groupName = null;
+
+                            foreach (var item in BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATAs)
+                            {
+                                if (groupName == null)
+                                {
+                                    groupName = item.GROUPNAME;
+                                }
+                                if(item.CHK == "Y" && item != null)
+                                {
+                                    checkFlag = true;
+                                    BR_BRS_REG_SIMPLE_CLEAN_EQPT.INDATAs.Add(new BR_BRS_REG_SIMPLE_CLEAN_EQPT.INDATA
+                                    {   
+                                        GROUPGUID = item.GROUPGUID,
+                                        EQPTID = item.EQPTID,
+                                        EQPTNAME = item.EQPTNAME,
+                                        VERSION = item.VERSION,
+                                        SIMPLE_CLEAN_CNT = Convert.ToInt16(item.SIMPLE_CLEAN_CNT),
+                                        DHT_CNT = Convert.ToInt16(item.DHT_CNT),
+                                        INSUSER = item.INSUSER,
+                                        ISUSE = item.ISUSE,
+                                        MODE = item.RowEditSec
+                                    });
+                                }           
+                            }
+                            if (checkFlag)
+                            {
+                                authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "SM_SystemInfo_UI");
+                                if (await authHelper.ClickAsync(
+                                    Common.enumCertificationType.Function,
+                                    Common.enumAccessType.Create,
+                                    string.Format("캠페인 라우트 설비 정보를 저장합니다."),
+                                    string.Format("캠페인 라우트 설비 저장"),
+                                    false,
+                                    "SM_SystemInfo_UI",
+                                    "", null, null) == false)
+                                {
+                                    throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                                }
+                                await BR_BRS_REG_SIMPLE_CLEAN_EQPT.Execute();
+                            }
+
+                            GroupDetailSearchCommand.Execute(groupName);
+
+                            CommandResults["EquipmentSaveCommand"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["EquipmentSaveCommand"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["EquipmentSaveCommand"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("EquipmentSaveCommand") ?
+                        CommandCanExecutes["EquipmentSaveCommand"] : (CommandCanExecutes["EquipmentSaveCommand"] = true);
+                });
+            }
+        }
+        public ICommand CheckFieldDataChangedCommand
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["CheckFieldDataChangedCommand"].EnterAsync())
+                    {
+                        try
+                        {
+                            CommandResults["CheckFieldDataChangedCommand"] = false;
+                            CommandCanExecutes["CheckFieldDataChangedCommand"] = false;
+
+                            IsBusy = true;
+
+                            var temp = _mainWnd.CampainOperationEquipmentGrid.SelectedItem as BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATA;
+
+                            if(temp != null)
+                            {
+                                temp.CHK = "Y";
+                            }
+
+                            IsBusy = false;
+
+                            CommandResults["CheckFieldDataChangedCommand"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["CheckFieldDataChangedCommand"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["CheckFieldDataChangedCommand"] = true;
+
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("CheckFieldDataChangedCommand") ?
+                        CommandCanExecutes["CheckFieldDataChangedCommand"] : (CommandCanExecutes["CheckFieldDataChangedCommand"] = true);
+                });
+            }
+        }
 
 
         #endregion
@@ -782,6 +1154,9 @@ namespace Board
             _BR_BRS_SEL_SIMPLE_CLEAN_ROUTE = new BR_BRS_SEL_SIMPLE_CLEAN_ROUTE();
             _BR_BRS_SEL_SIMPLE_CLEAN_EQPT = new BR_BRS_SEL_SIMPLE_CLEAN_EQPT();
             _BR_BRS_REG_SIMPLE_CLEAN_GROUP = new BR_BRS_REG_SIMPLE_CLEAN_GROUP();
+            _BR_BRS_REG_SIMPLE_CLEAN_ROUTE = new BR_BRS_REG_SIMPLE_CLEAN_ROUTE();
+            _BR_BRS_SEL_SIMPLE_CLEAN_EQPT_CHECK = new BR_BRS_SEL_SIMPLE_CLEAN_EQPT_CHECK();
+            _BR_BRS_REG_SIMPLE_CLEAN_EQPT = new BR_BRS_REG_SIMPLE_CLEAN_EQPT();
         }
         public bool HasItemEditMode
         {

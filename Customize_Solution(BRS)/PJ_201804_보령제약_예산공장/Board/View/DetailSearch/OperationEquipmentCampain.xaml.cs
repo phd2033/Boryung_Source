@@ -12,11 +12,13 @@ using System.Windows;
 namespace Board
 {
     public partial class OperationEquipmentCampain : UserControl
+
     {
         public OperationEquipmentCampain()
         {
             InitializeComponent();
             this.DataContext = new OperationEquipmentCampainViewModel();
+
         }
         private async void Enter_KeyDown(object sender, KeyEventArgs e)
         {
@@ -77,6 +79,12 @@ namespace Board
                     MessageBox.Show("그룹 이름을 입력해주세요");
                 }
             }
+        }
+
+        private void IsCheckedCommand(object sender, EventArgs e)
+        {
+            
+                //OperationEquipmentCampainViewModel
         }
     }
 }

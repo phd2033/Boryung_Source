@@ -19,7 +19,38 @@ namespace Board.UserControls
     {
         public string MTRLNAME { get; set; } // 상위 항목 이름
         public string MTRLID { get; set; }
-        public List<BR_PHR_SEL_OperationDefinition_MaterialList_CPY.OUTDATA> OperationDefinitions { get; set; } // 하위 항목 컬렉션
+        public List<OperationItemViewModel> OperationDefinitions { get; set; } // 하위 항목 컬렉션
+    }
+
+    public class OperationItemViewModel : ViewModelBase
+    {
+        private readonly BR_PHR_SEL_OperationDefinition_MaterialList_CPY.OUTDATA _operationData;
+        private bool _isSelected;
+
+        public OperationItemViewModel(BR_PHR_SEL_OperationDefinition_MaterialList_CPY.OUTDATA data)
+        {
+            _operationData = data;
+        }
+
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                if(_isSelected != value)
+                {
+                    _isSelected = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+        public string MTODSTAT => _operationData.MTODSTAT;
+        public string ODNAME => _operationData.ODNAME;
+        public string STATCOLOR => _operationData.STATCOLOR;
+        public string ODID => _operationData.ODID;
+        public decimal VERSION => (decimal)_operationData.VERSION;
+        public string MTRLID => _operationData.MTRLID;
+        public string MTRLNAME => _operationData.MTRLNAME;
     }
 
     public class SelectRoutePopupViewModel : ViewModelBase
@@ -46,15 +77,34 @@ namespace Board.UserControls
             }
         }
 
-        private string _GroupName2;
-        public string GroupName2
+        private string _GroupName;
+        public string GroupName
         {
-            get { return _GroupName2; }
+            get { return _GroupName; }
             set
             {
-                _GroupName2 = value;
+                _GroupName = value;
                 NotifyPropertyChanged();
             }
+        }
+
+        private Boolean _IsSelected;
+        public Boolean IsSelected
+        {
+            get { return _IsSelected; }
+            set
+            {
+                _IsSelected = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public SelectRoutePopupViewModel(string groupName)
+        {
+            GroupName = groupName;
+            _BR_PHR_SEL_MaterialClass_TreeView_New = new BR_PHR_SEL_MaterialClass_TreeView_New();
+            _BR_PHR_SEL_OperationDefinition_MaterialList_CPY = new BR_PHR_SEL_OperationDefinition_MaterialList_CPY();
+            _BR_BRS_REG_SIMPLE_CLEAN_ROUTE = new BR_BRS_REG_SIMPLE_CLEAN_ROUTE();
         }
 
 
@@ -69,11 +119,11 @@ namespace Board.UserControls
             }
         }
 
-        public SelectRoutePopupViewModel()
-        {
-            _BR_PHR_SEL_MaterialClass_TreeView_New = new BR_PHR_SEL_MaterialClass_TreeView_New();
-            _BR_PHR_SEL_OperationDefinition_MaterialList_CPY = new BR_PHR_SEL_OperationDefinition_MaterialList_CPY();
-        }
+        //public SelectRoutePopupViewModel()
+        //{
+        //    _BR_PHR_SEL_MaterialClass_TreeView_New = new BR_PHR_SEL_MaterialClass_TreeView_New();
+        //    _BR_PHR_SEL_OperationDefinition_MaterialList_CPY = new BR_PHR_SEL_OperationDefinition_MaterialList_CPY();
+        //}
 
         #endregion
         #region bizrule
@@ -97,6 +147,17 @@ namespace Board.UserControls
                 NotifyPropertyChanged();
             }
         }
+        
+        private BR_BRS_REG_SIMPLE_CLEAN_ROUTE _BR_BRS_REG_SIMPLE_CLEAN_ROUTE;
+        public BR_BRS_REG_SIMPLE_CLEAN_ROUTE BR_BRS_REG_SIMPLE_CLEAN_ROUTE
+        {
+            get { return _BR_BRS_REG_SIMPLE_CLEAN_ROUTE; }
+            set
+            {
+                _BR_BRS_REG_SIMPLE_CLEAN_ROUTE = value;
+                NotifyPropertyChanged();
+            }
+        }
         #endregion
         #region command
         public ICommand LoadedCommandAsync
@@ -114,8 +175,8 @@ namespace Board.UserControls
                             CommandResults["LoadedCommandAsync"] = false;
                             CommandCanExecutes["LoadedCommandAsync"] = false;
 
-                            _BR_PHR_SEL_MaterialClass_TreeView_New.INDATAs.Clear();
-                            _BR_PHR_SEL_MaterialClass_TreeView_New.OUTDATAs.Clear();
+                            BR_PHR_SEL_MaterialClass_TreeView_New.INDATAs.Clear();
+                            BR_PHR_SEL_MaterialClass_TreeView_New.OUTDATAs.Clear();
 
                             BR_PHR_SEL_MaterialClass_TreeView_New.INDATAs.Add(new BR_PHR_SEL_MaterialClass_TreeView_New.INDATA()
                             {
@@ -168,7 +229,13 @@ namespace Board.UserControls
                                 _BR_PHR_SEL_OperationDefinition_MaterialList_CPY.INDATAs.Clear();
                                 _BR_PHR_SEL_OperationDefinition_MaterialList_CPY.OUTDATAs.Clear();
 
-                                BR_PHR_SEL_OperationDefinition_MaterialList_CPY.INDATAs.Add(new BR_PHR_SEL_OperationDefinition_MaterialList_CPY.INDATA()
+
+                            var authHelper = new iPharmAuthCommandHelper();
+
+                            BR_BRS_REG_SIMPLE_CLEAN_ROUTE.INDATAs.Clear();
+                            BR_BRS_REG_SIMPLE_CLEAN_ROUTE.OUTDATAs.Clear();
+
+                            BR_PHR_SEL_OperationDefinition_MaterialList_CPY.INDATAs.Add(new BR_PHR_SEL_OperationDefinition_MaterialList_CPY.INDATA()
                                 {
                                     FILTERTYPE_NAME = "C",
                                     MTRLNAME = _MaterialName,
@@ -187,7 +254,8 @@ namespace Board.UserControls
                                         {
                                             MTRLNAME = group.Key.MTRLNAME,
                                             MTRLID = group.Key.MTRLID,
-                                            OperationDefinitions = group.ToList()
+                                            //OperationDefinitions = group.ToList()
+                                            OperationDefinitions = group.Select(outData => new OperationItemViewModel(outData)).ToList()
                                         });
 
                                     this.GroupedMaterials = new ObservableCollection<MaterialGroupViewModel>(groupedData);
@@ -214,6 +282,85 @@ namespace Board.UserControls
                 {
                     return CommandCanExecutes.ContainsKey("SearchCommand") ?
                         CommandCanExecutes["SearchCommand"] : (CommandCanExecutes["SearchCommand"] = true);
+                });
+            }
+        }
+
+        public ICommand AddRouteCommand
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    using (await AwaitableLocks["AddRouteCommand"].EnterAsync())
+                    {
+                        try
+                        {
+                            IsBusy = true;
+
+                            CommandResults["AddRouteCommand"] = false;
+                            CommandCanExecutes["AddRouteCommand"] = false;
+
+                            var selectedOperations = GroupedMaterials.SelectMany(group => group.OperationDefinitions).Where(itemViewModel => itemViewModel.IsSelected).ToList();
+
+                            var authHelper = new iPharmAuthCommandHelper();
+
+                            BR_BRS_REG_SIMPLE_CLEAN_ROUTE.INDATAs.Clear();
+                            BR_BRS_REG_SIMPLE_CLEAN_ROUTE.OUTDATAs.Clear();
+
+                            authHelper.InitializeAsync(Common.enumCertificationType.Role, Common.enumAccessType.Create, "SM_SystemInfo_UI");
+
+                            if (await authHelper.ClickAsync(
+                                Common.enumCertificationType.Function,
+                                Common.enumAccessType.Create,
+                                string.Format("캠페인 라우트를 등록합니다."),
+                                string.Format("캠페인 라우트 등록"),
+                                false,
+                                "SM_SystemInfo_UI",
+                                "", null, null) == false)
+                            {
+                                throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                            }
+
+                            foreach (var item in selectedOperations)
+                            {
+                                BR_BRS_REG_SIMPLE_CLEAN_ROUTE.INDATAs.Add(new BR_BRS_REG_SIMPLE_CLEAN_ROUTE.INDATA
+                                {
+                                    MTRLID = item.MTRLID,
+                                    MTRLNAME = item.MTRLNAME,
+                                    MTODSTAT = item.MTODSTAT,
+                                    ODID = item.ODID,
+                                    ODNAME = item.ODNAME,
+                                    ODVER = item.VERSION,
+                                    GROUPNAME = GroupName,
+                                    INSUSER = AuthRepositoryViewModel.Instance.LoginedUserID,
+                                    MODE = "INS"
+
+                                });
+                            }
+                            await BR_BRS_REG_SIMPLE_CLEAN_ROUTE.Execute();
+                            //if (!await BR_BRS_REG_SIMPLE_CLEAN_ROUTE.Execute()) throw new Exception();
+
+                            CommandResults["AddRouteCommand"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["AddRouteCommand"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["AddRouteCommand"] = true;
+                            IsBusy = false;
+
+                        }
+                    }
+                    //}
+
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("AddRouteCommand") ?
+                        CommandCanExecutes["AddRouteCommand"] : (CommandCanExecutes["AddRouteCommand"] = true);
                 });
             }
         }

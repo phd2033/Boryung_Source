@@ -15,9 +15,10 @@
     x:Name="Main" Width="800" Height="800">
     <icommon:iPharmMESChildWindow.Resources>
         <icommon:YN2BoolConverter x:Name="YNConverter"/>
-        <local:SelectRoutePopupViewModel x:Key="VM"/>
+        <!--<local:SelectRoutePopupViewModel x:Key="VM"/>-->
     </icommon:iPharmMESChildWindow.Resources>
-    <toolkit:BusyIndicator x:Name="BusyIn" IsBusy="{Binding IsBusy}" DataContext="{Binding Source={StaticResource VM}}">
+    <toolkit:BusyIndicator x:Name="BusyIn" IsBusy="{Binding IsBusy}">
+        <!--DataContext="{Binding Source={StaticResource VM}}"-->
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="Loaded">
                 <icommon:EventToCommandAction Command="{Binding Path=LoadedCommandAsync}" CommandParameter="{Binding ElementName=Main}"/>
@@ -41,7 +42,7 @@
                     <ColumnDefinition Width="5" />
                 </Grid.ColumnDefinitions>
                 <sdk:Label Grid.Column="1" Height="15" HorizontalAlignment="Right" Name="label2" VerticalAlignment="Center" Width="Auto" Content="그룹명" Margin="0,0,0,0"/>
-                <TextBox Grid.Column="3" Width="150" Text="{Binding GroupName2, Mode=OneWay}" IsReadOnly="True"/>
+                <TextBox Grid.Column="3" Width="150" Name="groupName" Text="{Binding GroupName, Mode=OneWay}" IsReadOnly="True" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             </Grid>
             <Grid x:Name="searchPanel2" Grid.Row="1" VerticalAlignment="Center"  Margin="0 0 0 0" >
                 <Grid.ColumnDefinitions>
@@ -67,17 +68,17 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="750"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <Grid Grid.Row ="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Stretch" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="200" />
-                        <ColumnDefinition Width="600" />
+                        <ColumnDefinition Width="500" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        
+                        <RowDefinition Height="600"/>
+
                     </Grid.RowDefinitions>
-                    <sdk:TreeView Grid.Row="1" Grid.Column="0" Margin="50 15 0 0" Name="MaterialTreeView" Height="600"
+                    <sdk:TreeView Grid.Column="0" Margin="20,0,0,0" Name="MaterialTreeView" Height="600"
                                   ItemsSource="{Binding Path=BR_PHR_SEL_MaterialClass_TreeView_New.OUTDATAs}">
                         <sdk:TreeView.ItemTemplate>
                             <DataTemplate>
@@ -95,15 +96,15 @@
                         </sdk:TreeView.ItemTemplate>
                     </sdk:TreeView>
 
-                    <ScrollViewer Grid.Row="1" Grid.Column="1" Margin="10 15 0 0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Width="500" >
+                    <ScrollViewer Grid.Row="1" Grid.Column="1" Margin="10 0 0 0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                         <sdk:TreeView ItemsSource="{Binding Path=GroupedMaterials}">
                             <sdk:TreeView.Resources>
                                 <DataTemplate x:Key="OperationTemplate">
                                     <StackPanel Orientation="Horizontal">
                                         <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}"/>
                                         <TextBlock>
-                        <Run Text="{Binding MTODSTAT, StringFormat='[{0}]'}" Foreground="{Binding STATCOLOR}" FontWeight="Bold"/>
-                        <Run Text="{Binding ODNAME}"/>
+                                            <Run Text="{Binding MTODSTAT, StringFormat='[{0}]'}" Foreground="{Binding STATCOLOR}" FontWeight="Bold"/>
+                                            <Run Text="{Binding ODNAME}"/>
                                         </TextBlock>
                                     </StackPanel>
                                 </DataTemplate>
@@ -123,11 +124,17 @@
                             </sdk:TreeView.ItemTemplate>
                         </sdk:TreeView>
                     </ScrollViewer>
-                </Grid> 
+                </Grid>
 
             </Grid>
             <StackPanel x:Name="Footer" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Margin="5,0" x:Name="btnSave" Width="100" Content="추가" Click="btnSave_Click"/>
+                <Button Margin="5,0" x:Name="btnSave" Width="100" Content="추가">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding Path=AddRouteCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
                 <Button Margin="5,0" x:Name="btnCancel" Width="100" Content="취소" Click="btnCancel_Click"/>
             </StackPanel>
         </Grid>

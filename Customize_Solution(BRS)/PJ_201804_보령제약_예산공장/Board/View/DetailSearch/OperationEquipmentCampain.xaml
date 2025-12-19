@@ -7,8 +7,8 @@
                 xmlns:icommon="clr-namespace:LGCNS.iPharmMES.Common;assembly=LGCNS.iPharmMES.Common"  
                 xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                 xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
-                xmlns:ControlsLib="clr-namespace:LGCNS.EZMES.ControlsLib;assembly=LGCNS.EZMES.ControlsLib"
                 xmlns:iPharmLib="clr-namespace:LGCNS.iPharmMES.Common.UserCtl;assembly=LGCNS.iPharmMES.Common"
+                xmlns:ControlsLib="clr-namespace:LGCNS.EZMES.ControlsLib;assembly=LGCNS.EZMES.ControlsLib"
                 xmlns:Ctrl="clr-namespace:LGCNS.iPharmMES.Controls;assembly=LGCNS.iPharmMES.Controls"
                 xmlns:toolkitInput="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
                 xmlns:c1="clr-namespace:C1.Silverlight.DataGrid;assembly=C1.Silverlight.DataGrid.5"
@@ -164,13 +164,23 @@
                                             <sdk:TreeView.Resources>
                                                 <DataTemplate x:Key="RouteNameTemplate">
                                                     <StackPanel Orientation="Horizontal" Background="Transparent">
-                                                        <TextBlock Text="{Binding OdName}"/>
+                                                        <!--<TextBlock Text="{Binding OdName}">-->
+                                                        <TextBlock FontFamily="Portable User Interface">
+                                                            <Run Text="{Binding OdId, StringFormat='[{0}]' }"/>
+                                                            <Run Text="{Binding OdName}"/>
+                                                            <toolkitInput:ContextMenuService.ContextMenu>
+                                                                <toolkitInput:ContextMenu FontFamily="Portable User Interface">
+                                                                    <toolkitInput:MenuItem Header="라우트 삭제" 
+                                                                        Command="{Binding Path=DataContext.DeleteRouteCommand, ElementName=GroupTreeView}" CommandParameter="{Binding }"/>
+                                                                </toolkitInput:ContextMenu>
+                                                            </toolkitInput:ContextMenuService.ContextMenu>
+                                                        </TextBlock>
                                                     </StackPanel>
                                                 </DataTemplate>
                                                 <sdk:HierarchicalDataTemplate x:Key="RouteHeaderHierarchyTemplate"
                                                                           ItemsSource="{Binding Children}"
                                                                           ItemTemplate="{StaticResource RouteNameTemplate}">
-                                                    <TextBlock Text="{Binding GroupName}">
+                                                    <TextBlock Text="{Binding GroupName}" FontFamily="Portable User Interface">
                                                     <toolkitInput:ContextMenuService.ContextMenu>
                                                         <toolkitInput:ContextMenu>
                                                             <toolkitInput:MenuItem Header="라우트 관리" Command="{Binding Path=DataContext.RouteManagementCommand, ElementName=RouteTreeView}" CommandParameter="{Binding GroupName}">
@@ -198,63 +208,69 @@
                         </Grid>
                     </ControlsLib:MainPanel.Search>
                     <ControlsLib:MainPanel.Contents>
-                        <Grid d:LayoutOverrides="Height" x:Name="ContentGrid">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                        <Grid x:Name="CampainOperationGrid" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinWidth="400" >
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="200*"/>
-                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition Height="800" />
+                                <RowDefinition Height="50" />
                             </Grid.RowDefinitions>
-
-                            <c1:C1DataGrid x:Name="grdOperationCheck"
-                                                    Grid.Row="0" Grid.ColumnSpan="2"  Margin="5" 
-                                                    HeadersVisibility="Column" 
-                                                    AutoGenerateColumns="False"
-                                                    GridLinesVisibility="All" 
-                                                    RowBackground="White"
-                                                    RowHeaderWidth="0"
-                                                    CanUserAddRows="False"
-                                                    CanUserEditRows="False"
-                                                    CanUserRemoveRows="False" 
-                                                    CanUserReorderColumns="False" 
-                                                    CanUserToggleDetails="False" 
-                                                    ColumnHeaderStyle="{StaticResource colHeader}"
-                                                    ItemsSource="{Binding BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATAs}" 
-                                                    ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-                                                    ScrollViewer.VerticalScrollBarVisibility="Auto">
-
-                                <c1:C1DataGrid.Columns>
-                                    <c1:DataGridTextColumn Header="설비코드" Binding="{Binding EQPTID}" Width="Auto" MinWidth="100" IsReadOnly="True" HorizontalAlignment="Center" />
-                                    <c1:DataGridTextColumn Header="설비명" Binding="{Binding EQPTNAME}" Width="Auto"  MinWidth="80"  IsReadOnly="True" HorizontalAlignment="Center" />
-                                    <c1:DataGridTextColumn Header="버전" Binding="{Binding VERSION}" Width="Auto"   MinWidth="80" IsReadOnly="True"   HorizontalAlignment="Center" />
-                                    <c1:DataGridTextColumn Header="캠페인(횟수)" Binding="{Binding SIMPLE_CLEAN_CNT}" Width="Auto"  MinWidth="80" IsReadOnly="True"  HorizontalAlignment="Center" />
-                                    <c1:DataGridTextColumn Header="생산기간(일)" Binding="{Binding DHT_CNT}" Width="Auto"  MinWidth="80" IsReadOnly="True"  HorizontalAlignment="Center" />
-                                    <c1:DataGridTextColumn Header="생성자" Binding="{Binding INSUSER}" Width="Auto"  MinWidth="80" IsReadOnly="True"  HorizontalAlignment="Center" />
-                                    <c1:DataGridTextColumn Header="생성시간" Binding="{Binding INSDTTM}" Width="Auto"  MinWidth="80" IsReadOnly="True"  HorizontalAlignment="Center" />
-                                </c1:C1DataGrid.Columns>
-                            </c1:C1DataGrid>
-                            <Button Grid.Row="3" Grid.Column="1" Width="60" Height="30" HorizontalAlignment="Right" Cursor="Hand" Visibility="Visible">
-                                <Button.Template>
-                                    <ControlTemplate>
-                                        <Border Background="#FFE0E0E0" 
-                                            BorderBrush="#FF707070" 
-                                            BorderThickness="1"
-                                            CornerRadius="5">
-                                            <StackPanel Orientation="Horizontal" Margin="5">
-                                                <Image Source="../../Images/Save.png" Width="16" Height="16"/>
-                                                <TextBlock Text="Save ." Margin="3,0,0,0" VerticalAlignment="Center" Foreground="Black"/>
-                                            </StackPanel>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Button.Template>
+                            <ControlsLib:CNSDataGrid x:Name="CampainOperationEquipmentGrid" IsRowNumber="False"  Width="Auto" HeaderRowCount="2"                                              
+                            IsRowAdd="True" IsRowDelete="True" IsEditMode="True" IsEditSection="True" Grid.Row="0"
+                            ItemsSource="{Binding Path=BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATAs, Mode=OneWay}">
                                 <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <icommon:EventToCommandAction Command="{Binding ClickExportExcelCommand}"/>
+                                    <i:EventTrigger EventName="CommittedRowEdit">
+                                        <i:InvokeCommandAction Command="{Binding RowEditCommand}"/>
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="RowAdd_Click">
+                                        <i:InvokeCommandAction Command="{Binding RowAddCommand}"/>
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="CheckFieldDataChanged">
+                                        <i:InvokeCommandAction Command="{Binding CheckFieldDataChangedCommand}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-                            </Button>
+                                <ControlsLib:CNSDataGrid.DataColumns>
+                                    <ControlsLib:DataColumn DataField="CHK" HeadName="" HeaderWidth="30" ColumnType="CheckBox" HorizontalAlignment="Center" Excel="False" ColumnVisibility="Visible" ReadOnly="True"
+                                                        ItemsSource="{Binding CHK, Mode=TwoWay}"/>
+                                    <ControlsLib:DataColumn HeadName="설비코드" DataField="EQPTID" ColumnType="TextBox" ColumnVisibility="Visible" HorizontalAlignment="Center"
+                                                        ItemsSource="{Binding EQPTID, Mode=TwoWay}" HeaderWidth="100" ReadOnly="True"/>
+                                    <ControlsLib:DataColumn HeadName="설비명" DataField="EQPTNAME" ColumnType="TextBox" ColumnVisibility="Visible" HorizontalAlignment="Center"
+                                                        ItemsSource="{Binding EQPTNAME, Mode=TwoWay}" HeaderWidth="250" ReadOnly="True"/>
+                                    <ControlsLib:DataColumn HeadName="버전" DataField="VERSION" ColumnType="TextBox" ColumnVisibility="Visible" HorizontalAlignment="Center"
+                                                        ItemsSource="{Binding VERSION, Mode=TwoWay}" HeaderWidth="70" ReadOnly="True"/>
+                                    <ControlsLib:DataColumn HeadName="캠페인(횟수)" DataField="SIMPLE_CLEAN_CNT" ColumnType="Int32" ColumnVisibility="Visible" HorizontalAlignment="Center"
+                                                        ItemsSource="{Binding SIMPLE_CLEAN_CNT, Mode=TwoWay}" HeaderWidth="100" ReadOnly="False"/>
+                                    <ControlsLib:DataColumn HeadName="생산기간(일)" DataField="DHT_CNT" ColumnType="Int32" ColumnVisibility="Visible" HorizontalAlignment="Center"
+                                                        ItemsSource="{Binding DHT_CNT, Mode=TwoWay}" HeaderWidth="100" ReadOnly="False"/>
+                                    <ControlsLib:DataColumn HeadName="생성자" DataField="INSUSER" ColumnType="TextBox" ColumnVisibility="Visible" HorizontalAlignment="Center"
+                                                        ItemsSource="{Binding INSUSER, Mode=TwoWay}" HeaderWidth="100" ReadOnly="True"/>
+                                    <ControlsLib:DataColumn HeadName="생성시간" DataField="INSDTTM" ColumnType="TextBox" ColumnVisibility="Visible" HorizontalAlignment="Center"
+                                                        ItemsSource="{Binding INSDTTM, Mode=TwoWay}" HeaderWidth="200" ReadOnly="True"/>
+                                    <ControlsLib:DataColumn HeadName="사용여부" DataField="ISUSE" HeaderWidth="60"   ColumnType="CheckBox" HorizontalAlignment="Center" Excel="False" ColumnVisibility="Visible" ReadOnly="False"
+                                                        ItemsSource="{Binding ISUSE, Mode=TwoWay}" />       
+                                </ControlsLib:CNSDataGrid.DataColumns>
 
+                            </ControlsLib:CNSDataGrid>
+                            <Grid x:Name="CampainOperationSaveGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinWidth="60" Grid.Row="1">
+                                <Button Width="70" Height="20" HorizontalAlignment="Right" Cursor="Hand" Visibility="Visible" Margin="0,0,0,10">
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <Border Background="#FFE0E0E0" 
+                                                    BorderBrush="#FF707070" 
+                                                    BorderThickness="1"
+                                                    CornerRadius="5">
+                                                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                                                    <Image Source="../../Images/Save.png" Width="25" Height="16"/>
+                                                    <TextBlock Text="Save" Margin="0,0,0,0" VerticalAlignment="Center" Foreground="Black"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <icommon:EventToCommandAction Command="{Binding EquipmentSaveCommand}" CommandParameter="{Binding GroupName}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                            </Grid>
                         </Grid>
                     </ControlsLib:MainPanel.Contents>
                 </ControlsLib:MainPanel>

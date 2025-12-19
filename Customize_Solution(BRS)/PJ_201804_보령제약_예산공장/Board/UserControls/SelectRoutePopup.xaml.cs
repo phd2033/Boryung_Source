@@ -20,6 +20,15 @@ namespace Board.UserControls
             InitializeComponent();
         }
 
+        private void Enter_KeyDown(object sender, KeyEventArgs e)
+        {
+            var viewModel = this.DataContext as SelectRoutePopupViewModel;
+            if (e.Key == Key.Enter)
+            {
+                viewModel.SearchCommand.Execute(null);
+            }
+        }
+
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;

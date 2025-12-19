@@ -55,7 +55,7 @@
                     <ColumnDefinition Width="5" />
                 </Grid.ColumnDefinitions>
                 <sdk:Label Grid.Column="1" Height="15" HorizontalAlignment="Right" Name="label3" VerticalAlignment="Center" Width="Auto" Content="제품명" Margin="0,0,0,0"/>
-                <TextBox Grid.Column="3" Width="150" Text="{Binding MaterialName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Grid.Column="3" Width="150" Text="{Binding MaterialName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" KeyDown="Enter_KeyDown"/>
                 <Button Grid.Column="5" Content="검색" Width="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">

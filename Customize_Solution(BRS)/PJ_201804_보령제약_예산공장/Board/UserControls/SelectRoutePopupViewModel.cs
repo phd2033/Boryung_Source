@@ -338,8 +338,10 @@ namespace Board.UserControls
 
                                 });
                             }
-                            await BR_BRS_REG_SIMPLE_CLEAN_ROUTE.Execute();
-                            //if (!await BR_BRS_REG_SIMPLE_CLEAN_ROUTE.Execute()) throw new Exception();
+                            if (await BR_BRS_REG_SIMPLE_CLEAN_ROUTE.Execute())
+                            {
+                                MessageBox.Show("라우트가 추가되었습니다.");
+                            };
 
                             CommandResults["AddRouteCommand"] = true;
                         }

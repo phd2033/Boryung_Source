@@ -183,7 +183,7 @@
                                                     <TextBlock Text="{Binding GroupName}" FontFamily="Portable User Interface">
                                                     <toolkitInput:ContextMenuService.ContextMenu>
                                                         <toolkitInput:ContextMenu>
-                                                            <toolkitInput:MenuItem Header="라우트 관리" Command="{Binding Path=DataContext.RouteManagementCommand, ElementName=RouteTreeView}" CommandParameter="{Binding GroupName}">
+                                                            <toolkitInput:MenuItem Header="라우트 추가" Command="{Binding Path=DataContext.RouteManagementCommand, ElementName=RouteTreeView}" CommandParameter="{Binding GroupName}">
                                                             </toolkitInput:MenuItem>
                                                         </toolkitInput:ContextMenu>
                                                     </toolkitInput:ContextMenuService.ContextMenu>
@@ -223,9 +223,9 @@
                                     <i:EventTrigger EventName="RowAdd_Click">
                                         <i:InvokeCommandAction Command="{Binding RowAddCommand}"/>
                                     </i:EventTrigger>
-                                    <i:EventTrigger EventName="CheckFieldDataChanged">
+                                    <!--<i:EventTrigger EventName="CheckFieldDataChanged">
                                         <i:InvokeCommandAction Command="{Binding CheckFieldDataChangedCommand}"/>
-                                    </i:EventTrigger>
+                                    </i:EventTrigger>-->
                                 </i:Interaction.Triggers>
                                 <ControlsLib:CNSDataGrid.DataColumns>
                                     <ControlsLib:DataColumn DataField="CHK" HeadName="" HeaderWidth="30" ColumnType="CheckBox" HorizontalAlignment="Center" Excel="False" ColumnVisibility="Visible" ReadOnly="True"

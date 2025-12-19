@@ -178,6 +178,25 @@ namespace Board
             }
         }
 
+        private string _CHK;
+        public string CHK
+        {
+            get { return _CHK; }
+            set
+            {
+                _CHK = value;
+                OnPropertyChanged("CHK");
+            }
+        }
+
+        private void EqptItem_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "SIMPLE_CLEAN_CNT" || e.PropertyName == "DHT_CNT" || e.PropertyName == "ISUSE")
+            {
+                CheckFieldDataChangedLogic(sender);
+            }
+        }
+
         public event EventHandler RequestShowEqptPopup;
 
         #endregion
@@ -459,6 +478,15 @@ namespace Board
                                         });
 
                                         if (!await _BR_BRS_SEL_SIMPLE_CLEAN_EQPT.Execute()) throw new Exception();
+
+                                        if (BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATAs != null)
+                                        {
+                                            foreach (var item in BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATAs)
+                                            {
+                                                item.PropertyChanged -= EqptItem_PropertyChanged;
+                                                item.PropertyChanged += EqptItem_PropertyChanged;
+                                            }
+                                        }
                                     }
                                     else { _BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATAs.Clear(); }
                                 }
@@ -569,6 +597,15 @@ namespace Board
                                 });
 
                                 if (!await BR_BRS_SEL_SIMPLE_CLEAN_EQPT.Execute()) throw new Exception();
+
+                                if(BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATAs != null)
+                                {
+                                    foreach(var item in BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATAs)
+                                    {
+                                        item.PropertyChanged -= EqptItem_PropertyChanged;
+                                        item.PropertyChanged += EqptItem_PropertyChanged;
+                                    }
+                                }
                             }
                             else { BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATAs.Clear(); }
 
@@ -1096,52 +1133,74 @@ namespace Board
                 });
             }
         }
-        public ICommand CheckFieldDataChangedCommand
+        //public ICommand CheckFieldDataChangedCommand
+        //{
+        //    get
+        //    {
+        //        return new AsyncCommandBase(async arg =>
+        //        {
+        //            var temp2 = arg as BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATA;
+        //            using (await AwaitableLocks["CheckFieldDataChangedCommand"].EnterAsync())
+        //            {
+        //                try
+        //                {
+        //                    CommandResults["CheckFieldDataChangedCommand"] = false;
+        //                    CommandCanExecutes["CheckFieldDataChangedCommand"] = false;
+
+        //                    IsBusy = true;
+
+        //                    var grid = _mainWnd.CampainOperationEquipmentGrid;
+
+        //                    //var temp = _mainWnd.CampainOperationEquipmentGrid.SelectedItem as BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATA;
+
+        //                    var temp = arg as BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATA;
+
+
+        //                    if (temp != null)
+        //                    {
+        //                        temp.CHK = "Y";
+        //                    }
+
+        //                    IsBusy = false;
+
+        //                    CommandResults["CheckFieldDataChangedCommand"] = true;
+        //                }
+        //                catch (Exception ex)
+        //                {
+        //                    CommandResults["CheckFieldDataChangedCommand"] = false;
+        //                    OnException(ex.Message, ex);
+        //                }
+        //                finally
+        //                {
+        //                    CommandCanExecutes["CheckFieldDataChangedCommand"] = true;
+
+        //                    IsBusy = false;
+        //                }
+        //            }
+        //        }, arg =>
+        //        {
+        //            return CommandCanExecutes.ContainsKey("CheckFieldDataChangedCommand") ?
+        //                CommandCanExecutes["CheckFieldDataChangedCommand"] : (CommandCanExecutes["CheckFieldDataChangedCommand"] = true);
+        //        });
+        //    }
+        //}
+        private void CheckFieldDataChangedLogic(object changedItem)
         {
-            get
+            // 1. 변경된 아이템을 데이터 모델로 캐스팅
+            var temp = changedItem as BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATA;
+
+            if (temp != null)
             {
-                return new AsyncCommandBase(async arg =>
+                try
                 {
-                    using (await AwaitableLocks["CheckFieldDataChangedCommand"].EnterAsync())
-                    {
-                        try
-                        {
-                            CommandResults["CheckFieldDataChangedCommand"] = false;
-                            CommandCanExecutes["CheckFieldDataChangedCommand"] = false;
-
-                            IsBusy = true;
-
-                            var temp = _mainWnd.CampainOperationEquipmentGrid.SelectedItem as BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATA;
-
-                            if(temp != null)
-                            {
-                                temp.CHK = "Y";
-                            }
-
-                            IsBusy = false;
-
-                            CommandResults["CheckFieldDataChangedCommand"] = true;
-                        }
-                        catch (Exception ex)
-                        {
-                            CommandResults["CheckFieldDataChangedCommand"] = false;
-                            OnException(ex.Message, ex);
-                        }
-                        finally
-                        {
-                            CommandCanExecutes["CheckFieldDataChangedCommand"] = true;
-
-                            IsBusy = false;
-                        }
-                    }
-                }, arg =>
+                    temp.CHK = "Y";
+                }
+                catch (Exception ex)
                 {
-                    return CommandCanExecutes.ContainsKey("CheckFieldDataChangedCommand") ?
-                        CommandCanExecutes["CheckFieldDataChangedCommand"] : (CommandCanExecutes["CheckFieldDataChangedCommand"] = true);
-                });
+                    OnException(ex.Message, ex);
+                }
             }
         }
-
 
         #endregion
 

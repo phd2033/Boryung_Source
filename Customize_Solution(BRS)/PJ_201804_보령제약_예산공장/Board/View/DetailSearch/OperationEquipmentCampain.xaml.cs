@@ -81,10 +81,6 @@ namespace Board
             }
         }
 
-        private void IsCheckedCommand(object sender, EventArgs e)
-        {
-            
-                //OperationEquipmentCampainViewModel
-        }
+
     }
 }

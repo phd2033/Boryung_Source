@@ -53,11 +53,11 @@
                         <ColumnDefinition/>
                         <ColumnDefinition Width="100"/>
                     </Grid.ColumnDefinitions>
-                    <sdk:Label Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Content="{Binding W[FERTDisassembleOrderSelectionYieldFormula], Source={StaticResource R}, FallbackValue=선별 수율 계산식}" HorizontalAlignment="Right"/>
+                    <sdk:Label Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Content="{Binding W[FERTDisassembleOrderSelectionYieldFormula], Source={StaticResource ViewModel}, FallbackValue='선별 수율 계산식&#x0a;Yield Cal. Formula'}" HorizontalAlignment="Right"/>
                     <sdk:Label Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Content=" = "/>
-                    <sdk:Label Grid.Row="0" Grid.Column="2" Content="{Binding W[FERTDisassembleOrderSelectionYieldFormulaNumerator], Source={StaticResource R}, FallbackValue=선별공정 양품 수량}"/>
+                    <sdk:Label Grid.Row="0" Grid.Column="2" Content="{Binding W[FERTDisassembleOrderSelectionYieldFormulaNumerator], Source={StaticResource ViewModel}, FallbackValue='선별공정 양품 수량&#x0a;Passed Product Qty.'}"/>
                     <Line Grid.Row="1" Grid.Column="2" Stroke="Black" Stretch="Fill" StrokeThickness="1" X2="1"/>
-                    <sdk:Label Grid.Row="2" Grid.Column="2" Content="{Binding W[FERTDisassembleOrderSelectionYieldFormulaDenominator], Source={StaticResource R}, FallbackValue=계획수량 X 포장단위}"/>
+                    <sdk:Label Grid.Row="2" Grid.Column="2" Content="{Binding W[FERTDisassembleOrderSelectionYieldFormulaDenominator], Source={StaticResource ViewModel}, FallbackValue='계획수량 X 포장단위&#x0a;Planned Qty X Pack. Unit'}"/>
                     <sdk:Label Grid.Row="0" Grid.Column="3" Grid.RowSpan="3" Content=" X 100" HorizontalAlignment="Left"/>
                 </Grid>
                 <Grid Grid.Row="1" Name="InputValueGrid">
@@ -101,8 +101,8 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource R}, FallbackValue=기록}" Width="100" Height="40" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Right" Command="{Binding ConfirmCommandAsync}" CommandParameter="{Binding ElementName=Main}"/>
-            <Button Grid.Column="1" Content="{Binding W[CUICloseButtonText], Source={StaticResource R}, FallbackValue=종료}" Width="100" Height="40" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="Cancel" Click="Cancel_Click"/>
+            <Button Grid.Column="0" Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource ViewModel}, FallbackValue='기록&#x0a;Record'}" Width="100" Height="40" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Right" Command="{Binding ConfirmCommandAsync}" CommandParameter="{Binding ElementName=Main}"/>
+            <Button Grid.Column="1" Content="{Binding W[CUICloseButtonText], Source={StaticResource ViewModel}, FallbackValue='종료&#x0a;Close'}" Width="100" Height="40" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="Cancel" Click="Cancel_Click"/>
         </Grid>
     </Grid>
 </ShopFloorUI:ShopFloorCustomWindow>

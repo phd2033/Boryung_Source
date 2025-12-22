@@ -147,30 +147,30 @@ namespace 보령
                             if (IPCData.LSL.HasValue && IPCData.USL.HasValue)
                             {
                                 if (IPCData.LSL.Value <= Convert.ToDecimal(_IPCData.GetACTVAL) && Convert.ToDecimal(_IPCData.GetACTVAL) <= IPCData.USL.Value)
-                                    chk = "적합";
+                                    chk = "적합(Pass)";
                                 else
                                 {
-                                    chk = "부적합";
+                                    chk = "부적합(Fail)";
                                     OnMessage("기준값을 벗어났습니다.");
                                 }
                             }
                             else if (IPCData.LSL.HasValue)
                             {
                                 if (IPCData.LSL.Value <= Convert.ToDecimal(_IPCData.GetACTVAL))
-                                    chk = "적합";
+                                    chk = "적합(Pass)";
                                 else
                                 {
-                                    chk = "부적합";
+                                    chk = "부적합(Fail)";
                                     OnMessage("기준값을 벗어났습니다.");
                                 }
                             }
                             else if (IPCData.USL.HasValue)
                             {
                                 if (Convert.ToDecimal(_IPCData.GetACTVAL) <= IPCData.USL.Value)
-                                    chk = "적합";
+                                    chk = "적합(Pass)";
                                 else
                                 {
-                                    chk = "부적합";
+                                    chk = "부적합(Fail)";
                                     OnMessage("기준값을 벗어났습니다.");
                                 }
                             }

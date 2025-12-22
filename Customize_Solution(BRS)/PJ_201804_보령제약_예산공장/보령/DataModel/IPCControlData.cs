@@ -338,9 +338,9 @@ namespace 보령
                         if (_ACTVAL.HasValue)
                         {
                             if (_ACTVAL.GetValueOrDefault() != 0)
-                                rslt = "적합";
+                                rslt = "적합(Pass)";
                             else
-                                rslt = "부적합";
+                                rslt = "부적합(Fail)";
                         }
                         else
                             rslt = "N/A";

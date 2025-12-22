@@ -153,7 +153,7 @@
 
                 <!--<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Stretch">-->
 
-                <TextBlock Grid.Row="1" Grid.Column="0"  Text="장비번호" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 0 10 0" FontSize="14" />
+                <TextBlock Grid.Row="1" Grid.Column="0"  Text="장비번호&#x0a;EQP. no." VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 0 10 0" FontSize="14" />
                 <TextBox Grid.Row="1" Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0 0 10 0" FontSize="14" Height="35" Padding="5"
                          Text="{Binding txtEQPTID, Mode=TwoWay}"/>
 
@@ -189,7 +189,7 @@
                                  FontSize="14"
                                  DateTime="{Binding ToDt,Mode=TwoWay}" MinTimeEditorWidth="120" TimeFormat="Custom" CustomTimeFormat="HH:mm:ss" GotFocus="c1pkrToTime_GotFocus"/>
 
-                <Button Content="조회" Grid.Row="1" Grid.Column="8" Margin="10,5,10,5" Command="{Binding SearchCommandAsync}"/>
+                <Button Content="조회&#x0a;Search" Grid.Row="1" Grid.Column="8" Margin="10,5,10,5" Command="{Binding SearchCommandAsync}"/>
             </Grid>
 
             <c1:C1Chart Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="ChartMain">
@@ -242,7 +242,7 @@
 
                     <!--<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Stretch">-->
 
-                    <TextBlock Grid.Row="1" Grid.Column="0"  Text="장비번호" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 0 10 0" FontSize="14"/>
+                    <TextBlock Grid.Row="1" Grid.Column="0"  Text="장비번호&#x0a;EQP. no." VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 0 10 0" FontSize="14"/>
                     <TextBox Grid.Row="1" Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0 0 10 0" FontSize="14" Height="35" IsReadOnly="True" Padding="5"
                          Text="{Binding txtEQPTID, Mode=TwoWay}"/>
 
@@ -258,7 +258,7 @@
             <sdk:DataGrid Grid.Row="4" x:Name="dgList" AutoGenerateColumns="False"  Margin="10"    ItemsSource="{Binding Path=FilteredComponents}" >
                 <sdk:DataGrid.Columns>
                     <sdk:DataGridTextColumn Header="Tag ID" Width="3*" MaxWidth="150"  Binding="{Binding Path=TAGID}" IsReadOnly="True"/>
-                    <sdk:DataGridTextColumn Header="Tag 명" Width="3*" MaxWidth="150"  Binding="{Binding Path=TAGNAME}" IsReadOnly="True"/>
+                    <sdk:DataGridTextColumn Header="Tag 명(Tag Name)" Width="3*" MaxWidth="150"  Binding="{Binding Path=TAGNAME}" IsReadOnly="True"/>
                     <sdk:DataGridTextColumn Header="Target (Min ~ Max)" Width="2*" MaxWidth="150" Binding="{Binding Path=TARGET}" IsReadOnly="True"/>
                     <sdk:DataGridTemplateColumn Header="Min" Width="1*" MaxWidth="100" IsReadOnly="True">
                         <sdk:DataGridTemplateColumn.CellTemplate>
@@ -296,10 +296,10 @@
             </sdk:DataGrid>
 
             <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10 0 10">
-                <Button Content="기록" Width="150"
+                <Button Content="기록&#x0a;Record" Width="150"
                     Command="{Binding ConfirmCommandAsync}"/>
 
-                <Button Content="취소" Width="150" Click="Button_Click" Margin="30 0 0 0"/>
+                <Button Content="취소&#x0a;Cancel" Width="150" Click="Button_Click" Margin="30 0 0 0"/>
             </StackPanel>
 
         </Grid>

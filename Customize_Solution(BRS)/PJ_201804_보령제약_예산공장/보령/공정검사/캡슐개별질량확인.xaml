@@ -52,28 +52,29 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1.5*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
-                <sdk:Label Grid.Column="0" Grid.Row="0" Content="상한 : " IsEnabled="True" Style="{Binding Source={StaticResource LabelStyle}}" />
+                <sdk:Label Grid.Column="0" Grid.Row="0" Content="상한(MAX) : " IsEnabled="True" Style="{Binding Source={StaticResource LabelStyle}}" />
                 <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=maxStandard, Mode=TwoWay}" IsReadOnly="True" />
                 <sdk:Label Grid.Column="2" Grid.Row="0" Content="≥" Style="{Binding Source={StaticResource LabelStyle}}" />
                 <ShopFloorUI:NumericKeyPadType Grid.Column="3" Grid.Row="0" Value="{Binding Path=InputMax, Mode=TwoWay}" IsReadOnly="False" Grid.ColumnSpan="3" Format="#.#"/>
 
-                <sdk:Label Grid.Column="0" Grid.Row="1" Content="하한 : " IsEnabled="True" Style="{Binding Source={StaticResource LabelStyle}}" />
+                <sdk:Label Grid.Column="0" Grid.Row="1" Content="하한(MIN) : " IsEnabled="True" Style="{Binding Source={StaticResource LabelStyle}}" />
                 <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=minStandard, Mode=TwoWay}" IsReadOnly="True" />
                 <sdk:Label Grid.Column="2" Grid.Row="1" Content="≤" Style="{Binding Source={StaticResource LabelStyle}}" />
                 <ShopFloorUI:NumericKeyPadType  Grid.Column="3" Grid.Row="1" Value="{Binding Path=InputMin, Mode=TwoWay}" IsReadOnly="False" Grid.ColumnSpan="3" Format="#.#"/>
 
                 <Grid Grid.Row="2" x:Name="Footer" Grid.ColumnSpan="4">
-                    <StackPanel Orientation="Horizontal" Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="5" HorizontalAlignment="Center">
-                        <Button Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='기록없음'}" Margin="5,1" Width="70" Height="30" 
-                            IsEnabled="{Binding isConfirmEnable}" Command="{Binding NoRecordConfirmCommand}" />
-                        <Button Content="{Binding W[CUIDefaultDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='기록'}" Margin="5,1" Width="70" Height="30" Command="{Binding ConfirmCommandAsync}"/>
-                        <Button Content="{Binding W[CUICloseButtonText], Source={StaticResource VM}, FallbackValue='닫기'}" Margin="5,1" Width="70" Height="30" Click="btnClose_Click"/>
+                    <StackPanel Orientation="Horizontal" Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="5" HorizontalAlignment="Center" >
+                        <Button Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='기록없음&#x0a;No Record'}" Margin="5,1" Width="70" Height="40" 
+                            IsEnabled="{Binding isConfirmEnable}" Command="{Binding NoRecordConfirmCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Button Content="{Binding W[CUIDefaultDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='기록&#x0a;Record'}" Margin="5,1" Width="70" Height="40" Command="{Binding ConfirmCommandAsync}"
+                                HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Button Content="{Binding W[CUICloseButtonText], Source={StaticResource VM}, FallbackValue='닫기&#x0a;Close'}" Margin="5,1" Width="70" Height="40" Click="btnClose_Click"/>
                     </StackPanel>
                 </Grid>
             </Grid>

@@ -214,21 +214,21 @@ namespace 보령
 
                                 row["구분"] = item.TYPE ?? "";
                                 row["시각"] = item.INSDTTM != null ? item.INSDTTM.ToString("yyyy-MM-dd HH:mm:ss") : "";
-                                row["Vial1캡핑상태"] = item.VIAL1STATE == "Y" ? "적합" : "부적합";
+                                row["Vial1캡핑상태"] = item.VIAL1STATE == "Y" ? "적합(Pass)" : "부적합(Fail)";
                                 row["Vial1LeakTest"] = item.VIAL1RSLT.ToString("0.##0");
-                                row["Vial2캡핑상태"] = item.VIAL2STATE == "Y" ? "적합" : "부적합";
+                                row["Vial2캡핑상태"] = item.VIAL2STATE == "Y" ? "적합(Pass)" : "부적합(Fail)";
                                 row["Vial2LeakTest"] = item.VIAL2RSLT.ToString("0.##0");
-                                row["Vial3캡핑상태"] = item.VIAL3STATE == "Y" ? "적합" : "부적합";
+                                row["Vial3캡핑상태"] = item.VIAL3STATE == "Y" ? "적합(Pass)" : "부적합(Fail)";
                                 row["Vial3LeakTest"] = item.VIAL3RSLT.ToString("0.##0");
-                                row["Vial4캡핑상태"] = item.VIAL4STATE == "Y" ? "적합" : "부적합";
+                                row["Vial4캡핑상태"] = item.VIAL4STATE == "Y" ? "적합(Pass)" : "부적합(Fail)";
                                 row["Vial4LeakTest"] = item.VIAL4RSLT.ToString("0.##0");
-                                row["Vial5캡핑상태"] = item.VIAL5STATE == "Y" ? "적합" : "부적합";
+                                row["Vial5캡핑상태"] = item.VIAL5STATE == "Y" ? "적합(Pass)" : "부적합(Fail)";
                                 row["Vial5LeakTest"] = item.VIAL5RSLT.ToString("0.##0");
-                                row["Vial6캡핑상태"] = item.VIAL6STATE == "Y" ? "적합" : "부적합";
+                                row["Vial6캡핑상태"] = item.VIAL6STATE == "Y" ? "적합(Pass)" : "부적합(Fail)";
                                 row["Vial6LeakTest"] = item.VIAL6RSLT.ToString("0.##0");
-                                row["Vial7캡핑상태"] = item.VIAL7STATE == "Y" ? "적합" : "부적합";
+                                row["Vial7캡핑상태"] = item.VIAL7STATE == "Y" ? "적합(Pass)" : "부적합(Fail)";
                                 row["Vial7LeakTest"] = item.VIAL7RSLT.ToString("0.##0");
-                                row["Vial8캡핑상태"] = item.VIAL8STATE == "Y" ? "적합" : "부적합";
+                                row["Vial8캡핑상태"] = item.VIAL8STATE == "Y" ? "적합(Pass)" : "부적합(Fail)";
                                 row["Vial8LeakTest"] = item.VIAL8RSLT.ToString("0.##0");
 
                                 dt.Rows.Add(row);

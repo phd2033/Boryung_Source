@@ -250,7 +250,7 @@
 
                             </ControlsLib:CNSDataGrid>
                             <Grid x:Name="CampainOperationSaveGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinWidth="60" Grid.Row="1">
-                                <Button Width="70" Height="20" HorizontalAlignment="Right" Cursor="Hand" Visibility="Visible" Margin="0,0,0,10">
+                                <Button Width="70" Height="20" HorizontalAlignment="Right" Cursor="Hand" Visibility="Visible" Margin="0,0,0,30">
                                     <Button.Template>
                                         <ControlTemplate>
                                             <Border Background="#FFE0E0E0" 

@@ -22,6 +22,7 @@
         <Border x:Name="PrintArea"  Grid.Row="0" BorderBrush="#FFD6D4D4" BorderThickness="3">
             <Grid x:Name="LayoutRoot">
                 <Grid.RowDefinitions>
+                    
                     <RowDefinition/>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>

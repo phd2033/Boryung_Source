@@ -14,8 +14,14 @@
     Title="Route Management"
     x:Name="Main" Width="800" Height="800">
     <icommon:iPharmMESChildWindow.Resources>
-        <icommon:YN2BoolConverter x:Name="YNConverter"/>
-        <!--<local:SelectRoutePopupViewModel x:Key="VM"/>-->
+        <ResourceDictionary>
+            <icommon:YN2BoolConverter x:Name="YNConverter"/>
+            <!--<local:SelectRoutePopupViewModel x:Key="VM"/>-->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGCNS.iPharmMES.Common;component/GlobalResource/ResourceDictionary.xaml"/>
+                <ResourceDictionary x:Name="FilterBtnStyle" Source="/LGCNS.iPharmMES.Controls;component/Themes/iPharmMESFilterBtnStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </icommon:iPharmMESChildWindow.Resources>
     <toolkit:BusyIndicator x:Name="BusyIn" IsBusy="{Binding IsBusy}">
         <!--DataContext="{Binding Source={StaticResource VM}}"-->
@@ -51,21 +57,21 @@
                 <TextBox Grid.Column="3" Width="150" Name="groupName" Text="{Binding GroupName, Mode=OneWay}" IsReadOnly="True" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 <sdk:Label Grid.Column="5" Height="15" HorizontalAlignment="Right" Name="label4" VerticalAlignment="Center" Width="Auto" Content="제품명" Margin="0,0,0,0"/>
                 <TextBox Grid.Column="7" Width="150" Text="{Binding MaterialName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" KeyDown="Enter_KeyDown"/>
-                <Button Grid.Column="9" Content="검색" Width="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding Path=SearchCommand}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </Button>
-                <!--<Button Style="{Binding Source={StaticResource FilterBtnStyle}}" Grid.Column="9" Height="25" Width="25" HorizontalAlignment="Stretch" 
-                                         VerticalAlignment="Stretch" Margin="15 0 0 0">
+                <!--<Button Grid.Column="9" Content="검색" Width="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding Path=SearchCommand}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>-->
+                <Button Style="{Binding Source={StaticResource FilterBtnStyle}}" Grid.Column="9" Height="25" Width="25" HorizontalAlignment="Stretch" 
+                                         VerticalAlignment="Stretch" Margin="15 0 0 0">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding Path=SearchCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
             </Grid>
             <!--<Grid x:Name="searchPanel2" Grid.Row="1" VerticalAlignment="Center"  Margin="0 0 0 0" >
                 <Grid.ColumnDefinitions>

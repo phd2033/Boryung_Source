@@ -100,8 +100,8 @@
 
         <Grid Grid.Row="6" Grid.ColumnSpan="3"  HorizontalAlignment="Center">
             <StackPanel Orientation="Horizontal">
-                <Button Content="기록&#x0a;Record" Width="100"  Margin="0,5,0,5"  Command="{Binding ConfirmCommandAsync}" CommandParameter="{Binding ElementName=Main}"/>
-                <Button Content="닫기&#x0a;Close" Width="100" Click="Close_Click"  Margin="10 5 0 5"/>
+                <Button Content="  기록&#x0a;Record" Width="100"  Margin="0,5,0,5"  Command="{Binding ConfirmCommandAsync}" CommandParameter="{Binding ElementName=Main}"/>
+                <Button Content=" 닫기&#x0a;Close" Width="100" Click="Close_Click"  Margin="10 5 0 5"/>
             </StackPanel>
         </Grid>
         <Image x:Name="ScreenShot" Grid.ColumnSpan="3" Grid.Row="6" Stretch="None"/>

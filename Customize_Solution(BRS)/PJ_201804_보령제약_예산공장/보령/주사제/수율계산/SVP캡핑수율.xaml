@@ -50,9 +50,9 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="10"/>
-                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="40"/>
                         <RowDefinition Height="15"/>
-                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="40"/>
                         <RowDefinition Height="15"/>
                         <RowDefinition Height="35"/>
                         <RowDefinition Height="15"/>
@@ -62,7 +62,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="180"/>
                         <ColumnDefinition Width="15"/>
                         <ColumnDefinition Width="20"/>
                         <ColumnDefinition Width="*"/>
@@ -72,13 +72,13 @@
                         <ColumnDefinition Width="10"/>
                     </Grid.ColumnDefinitions>
                     <!--계산식-->
-                    <sdk:Label Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Content="Al-Cap 캡핑 수율 (%)" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <sdk:Label Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Content="Al-Cap 캡핑 수율 (%)&#10;Al-Cap Capping Yield (%)" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <sdk:Label Grid.Column="1" Grid.Row="2" Content="=" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <Line Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="2"  Stroke="Black" Stretch="Fill" StrokeThickness="1" X1="0" Y1="0" X2="1" Y2="0" ></Line>
                     <sdk:Label  Grid.Column="5" Grid.Row="1" Grid.RowSpan="3" Content="×" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <sdk:Label  Grid.Column="6" Grid.Row="1" Grid.RowSpan="3" Content="100" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <sdk:Label  Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2" Content="VL (Al-Cap 캡핑량)" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
-                    <sdk:Label  Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="2" Content="VL (인수량)" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <sdk:Label  Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2" Content="VL (Al-Cap 캡핑량)&#10;VL (Al-Cap Capping Quantity)" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                    <sdk:Label  Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="2" Content="VL (인수량)&#10;VL (Acquired Quantity)" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Top"/>
 
                     <!--비즈룰 계산식-->
                     <Line Grid.Column="3" Grid.Row="6"  Grid.ColumnSpan="2"   Stroke="Black" Stretch="Fill" StrokeThickness="1" X1="0" Y1="0" X2="1" Y2="0" ></Line>

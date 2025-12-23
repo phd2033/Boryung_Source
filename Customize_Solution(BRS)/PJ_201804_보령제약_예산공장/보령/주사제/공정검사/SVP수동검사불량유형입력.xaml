@@ -474,11 +474,11 @@
             </Border>
             <Grid Grid.Row="1" x:Name="Footer" Grid.ColumnSpan="2">
                 <StackPanel Orientation="Horizontal" Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="5" HorizontalAlignment="Center">
-                    <Button Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='기록없음&#x0a;No Record'}" Margin="5,1" Width="90" Height="40" 
+                    <Button Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='  기록없음&#x0a;No Record'}" Margin="5,1" Width="90" Height="40" 
                             IsEnabled="{Binding isConfirmEnable}" Command="{Binding NoRecordConfirmCommand}" />
-                    <Button Content="{Binding W[CUIDefaultDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='기록&#x0a;Record'}" Margin="5,1" Width="90" Height="40"
+                    <Button Content="{Binding W[CUIDefaultDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='  기록&#x0a;Record'}" Margin="5,1" Width="90" Height="40"
                             IsEnabled="{Binding isSaveEnable}" Command="{Binding SaveCommandAsync}"/>
-                    <Button Content="{Binding W[CUICloseButtonText], Source={StaticResource VM}, FallbackValue='닫기&#x0a;Close'}" Margin="5,1" Width="90" Height="40" Click="btnClose_Click"/>
+                    <Button Content="{Binding W[CUICloseButtonText], Source={StaticResource VM}, FallbackValue=' 닫기&#x0a;Close'}" Margin="5,1" Width="90" Height="40" Click="btnClose_Click"/>
                 </StackPanel>
             </Grid>
             <Image x:Name="ScreenShot" Grid.Row="1" Stretch="None"/>

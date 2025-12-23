@@ -55,8 +55,8 @@
                 </Grid>
             </Border>
             <Grid Grid.Row="1" x:Name="ButtonSection">
-                <Button x:Name="btnConfirm" Content="기록&#x0a;Record" Command="{Binding ConfirmCommandAsync}" Margin="340,11,528,11"/>
-                <Button x:Name="btnCancel" Content="취소&#x0a;Cancel"  Click="btnCancel_Click" Margin="528,11,340,11" RenderTransformOrigin="1.28,0.142"/>
+                <Button x:Name="btnConfirm" Content="  기록&#x0a;Record" Command="{Binding ConfirmCommandAsync}" Margin="340,11,528,11"/>
+                <Button x:Name="btnCancel" Content="  취소&#x0a;Cancel"  Click="btnCancel_Click" Margin="528,11,340,11" RenderTransformOrigin="1.28,0.142"/>
             </Grid>
         </Grid>
     </toolkit:BusyIndicator>

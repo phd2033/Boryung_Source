@@ -73,7 +73,7 @@
                     <ColumnDefinition Width="10"/>
                 </Grid.ColumnDefinitions>
 
-                <sdk:Label Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Content="수율 (%)&#x0a;Yield" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <sdk:Label Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Content="수율 (%)&#x0a;Yield (%)" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <sdk:Label Grid.Column="1" Grid.Row="2" Content="=" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <Line Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="2"  Stroke="Black" Stretch="Fill" StrokeThickness="1" X1="0" Y1="0" X2="1" Y2="0" ></Line>
                 <sdk:Label  Grid.Column="5" Grid.Row="1" Grid.RowSpan="3" Content="×" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -100,8 +100,8 @@
 
         <Grid Grid.Row="6" Grid.ColumnSpan="3"  HorizontalAlignment="Center">
             <StackPanel Orientation="Horizontal">
-                <Button Content="기록&#x0a;Record" Width="100"  Margin="0,5,0,5"  Command="{Binding ConfirmCommandAsync}" CommandParameter="{Binding ElementName=Main}"/>
-                <Button Content="닫기&#x0a;Close" Width="100" Click="Close_Click"  Margin="10 5 0 5"/>
+                <Button Content="  기록&#x0a;Record" Width="100"  Margin="0,5,0,5"  Command="{Binding ConfirmCommandAsync}" CommandParameter="{Binding ElementName=Main}"/>
+                <Button Content=" 닫기&#x0a;Close" Width="100" Click="Close_Click"  Margin="10 5 0 5"/>
             </StackPanel>
         </Grid>
         <Image x:Name="ScreenShot" Grid.ColumnSpan="3" Grid.Row="6" Stretch="None"/>

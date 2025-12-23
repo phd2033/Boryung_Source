@@ -101,7 +101,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource ViewModel}, FallbackValue='기록&#x0a;Record'}" Width="100" Height="40" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Right" Command="{Binding ConfirmCommandAsync}" CommandParameter="{Binding ElementName=Main}"/>
+            <Button Grid.Column="0" Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource ViewModel}, FallbackValue='  기록&#x0a;Record'}" Width="100" Height="40" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Right" Command="{Binding ConfirmCommandAsync}" CommandParameter="{Binding ElementName=Main}"/>
             <Button Grid.Column="1" Content="{Binding W[CUICloseButtonText], Source={StaticResource ViewModel}, FallbackValue='종료&#x0a;End'}" Width="100" Height="40" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="Cancel" Click="Cancel_Click"/>
         </Grid>
     </Grid>

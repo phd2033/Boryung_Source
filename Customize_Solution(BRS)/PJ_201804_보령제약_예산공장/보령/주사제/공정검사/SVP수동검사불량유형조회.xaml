@@ -9,7 +9,7 @@
            xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"                  
            xmlns:dataprimitives="clr-namespace:System.Windows.Controls.Primitives;assembly=System.Windows.Controls.Data"
            xmlns:local="clr-namespace:보령"
-           x:Name="Main" Width="1317" Height="650"
+           x:Name="Main" Width="1600" Height="600"
            Title="SVP수동검사불량유형조회(Browse SVP Manual Inspection Defect Type)">
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
         <local:SVP수동검사불량유형조회ViewModel x:Key="ViewModel"/>
@@ -35,64 +35,61 @@
                         </Grid.RowDefinitions>
                         <Border x:Name="PrintArea1"  Grid.Row="0" BorderBrush="#FFD6D4D4" BorderThickness="0">
                             <Grid x:Name="MainSection" Grid.Row="0" >
-                                <ezmes:CNSDataGrid Grid.Column="0" x:Name="RejectionDetail" HeaderRowCount="6" FontSize="8" Margin="0" Padding="0"
+                                <ezmes:CNSDataGrid Grid.Column="0" x:Name="RejectionDetail" HeaderRowCount="6" FontSize="8.25" Margin="0" Padding="0"
                                            IsRowAdd="False" IsRowDelete="False" IsEditMode="False" IsEditSection="True" HeadersVisibility="Column" IsRowNumber="False"
                                            ItemsSource="{Binding BR_BRS_SEL_UDT_BRS_SVP_REJECT_SUM.OUTDATAs}">
                                     <ezmes:CNSDataGrid.DataColumns>
-                                        <ezmes:DataColumn HeadName="검사자&#10;(Inspector Name)" DataField="INSUSER" ColumnType="TextBox" HeaderWidth="85"/>
-                                        <ezmes:DataColumn HeadName="검사일자&#10;(Inspecting Date)" DataField="INSPECTIONDTTM" ColumnType="Date" HeaderWidth="85"/>
-                                        <ezmes:DataColumn HeadName="검사수량(Vial)&#10;(Inspected Qunatity)" DataField="INSPECTQTY" ColumnType="Int32" HeaderWidth="100"/>
-                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|내용물&#10;(Content)|이물&#10;(Foreign Substance)|흰티&#10;(White Speck)|치명결점&#10;(Critical Defect)|1"  DataField="REJECT_NO1" ColumnType="Int32" HeaderWidth="80"/>
-                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|내용물&#10;(Content)|이물&#10;(Foreign Substance)|검은티&#10;(Black Speck)|치명결점&#10;(Critical Defect)|2" DataField="REJECT_NO2" ColumnType="Int32" HeaderWidth="80"/>
-                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|내용물&#10;(Content)|이물&#10;(Foreign Substance)|유색&#10;(Colored)|치명결점&#10;(Critical Defect)|3" DataField="REJECT_NO3" ColumnType="Int32" HeaderWidth="80"/>
-                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|내용물&#10;(Content)|이물&#10;(Foreign Substance)|금속성&#10;(Metallic)|치명결점&#10;(Critical Defect)|4" DataField="REJECT_NO4" ColumnType="Int32" HeaderWidth="80"/>
-                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|내용물&#10;(Content)|이물&#10;(Foreign Substance)|유리조각&#10;(Glass Pieces)|치명결점&#10;(Critical Defect)|5" DataField="REJECT_NO5" ColumnType="Int32" HeaderWidth="80"/>
-                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|내용물&#10;(Content)|이물&#10;(Foreign Substance)|섬유(> 1mm)&#10;(Fiber(> 1mm))|치명결점&#10;(Critical Defect)|6" DataField="REJECT_NO6" ColumnType="Int32" HeaderWidth="80"/>
-                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|내용물&#10;(Content)|이물&#10;(Foreign Substance)|섬유(≤ 1mm)&#10;(Fiber(≤ 1mm))|중결점¹&#10;(Major Defect)|7" DataField="REJECT_NO7" ColumnType="Int32" HeaderWidth="80"/>
-                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|내용물&#10;(Content)|충전량불량&#10;(Defect in Filling Quantity)|충전량불량&#10;(Defect in Filling Quantity)|중결점&#10;(Major Defect)|8" DataField="REJECT_NO8" ColumnType="Int32" HeaderWidth="120"/>
-                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|용기&#10;(Container)|바이알손상&#10;(Vial Damange)|바이알손상&#10;(Vial Damange)|치명결점&#10;(Critical Defect)|9" DataField="REJECT_NO9" ColumnType="Int32" HeaderWidth="80"/>
-                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|용기&#10;(Container)|내부오염&#10;(Inner Contamination)|내부오염&#10;(Inner Contamination)|중결점&#10;(Major Defect)|10" DataField="REJECT_NO10" ColumnType="Int32" HeaderWidth="108"/>
-                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|용기&#10;(Container)|바이알흠집&#10;(Vial Scratch)|바이알흠집&#10;(Vial Scratch)|경결점&#10;(Minor Defect)|11" DataField="REJECT_NO11" ColumnType="Int32" HeaderWidth="80"/>
-                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|용기&#10;(Container)|성형불량&#10;(Shaping Defect)|성형불량&#10;(Shaping Defect)|경결점&#10;(Minor Defect)|12" DataField="REJECT_NO12" ColumnType="Int32" HeaderWidth="85"/>
+                                        <ezmes:DataColumn HeadName="검사자&#10;(Inspector Name)" DataField="INSUSER" ColumnType="TextBox" HeaderWidth="102"/>
+                                        <ezmes:DataColumn HeadName="검사일자&#10;(Inspected Date)" DataField="INSPECTIONDTTM" ColumnType="Date" HeaderWidth="102"/>
+                                        <ezmes:DataColumn HeadName=" 검사수량(Vial)&#10;(Inspected Qty.)" DataField="INSPECTQTY" ColumnType="Int32" HeaderWidth="102"/>
+                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|내용물&#10;(Content)|이물&#10;(Foreign Substance)|흰티&#10;(White Speck)|치명결점&#10;(Critical Defect)|1"  DataField="REJECT_NO1" ColumnType="Int32" HeaderWidth="102"/>
+                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|내용물&#10;(Content)|이물&#10;(Foreign Substance)|검은티&#10;(Black Speck)|치명결점&#10;(Critical Defect)|2" DataField="REJECT_NO2" ColumnType="Int32" HeaderWidth="102"/>
+                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|내용물&#10;(Content)|이물&#10;(Foreign Substance)|유색&#10;(Colored)|치명결점&#10;(Critical Defect)|3" DataField="REJECT_NO3" ColumnType="Int32" HeaderWidth="102"/>
+                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|내용물&#10;(Content)|이물&#10;(Foreign Substance)|금속성&#10;(Metallic)|치명결점&#10;(Critical Defect)|4" DataField="REJECT_NO4" ColumnType="Int32" HeaderWidth="102"/>
+                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|내용물&#10;(Content)|이물&#10;(Foreign Substance)|유리조각&#10;(Glass Pieces)|치명결점&#10;(Critical Defect)|5" DataField="REJECT_NO5" ColumnType="Int32" HeaderWidth="102"/>
+                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|내용물&#10;(Content)|이물&#10;(Foreign Substance)|섬유(> 1mm)&#10;(Fiber(> 1mm))|치명결점&#10;(Critical Defect)|6" DataField="REJECT_NO6" ColumnType="Int32" HeaderWidth="102"/>
+                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|내용물&#10;(Content)|이물&#10;(Foreign Substance)|섬유(≤ 1mm)&#10;(Fiber(≤ 1mm))|중결점¹&#10;(Major Defect)|7" DataField="REJECT_NO7" ColumnType="Int32" HeaderWidth="102"/>
+                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|내용물&#10;(Content)|충전량불량&#10;(Defect in Filling Quantity)|충전량불량&#10;(Defect in Filling Quantity)|중결점&#10;(Major Defect)|8" DataField="REJECT_NO8" ColumnType="Int32" HeaderWidth="140"/>
+                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|용기&#10;(Container)|바이알손상&#10;(Vial Damage)|바이알손상&#10;(Vial Damage)|치명결점&#10;(Critical Defect)|9" DataField="REJECT_NO9" ColumnType="Int32" HeaderWidth="102"/>
+                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|용기&#10;(Container)|내부오염&#10;(Inner Contamination)|내부오염&#10;(Inner Contamination)|중결점&#10;(Major Defect)|10" DataField="REJECT_NO10" ColumnType="Int32" HeaderWidth="120"/>
+                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|용기&#10;(Container)|바이알흠집&#10;(Vial Scratch)|바이알흠집&#10;(Vial Scratch)|경결점&#10;(Minor Defect)|11" DataField="REJECT_NO11" ColumnType="Int32" HeaderWidth="102"/>
+                                        <ezmes:DataColumn HeadName="불량 유형 및 수량&#10;(Defect Type and Qty)|용기&#10;(Container)|성형불량&#10;(Shaping Defect)|성형불량&#10;(Shaping Defect)|경결점&#10;(Minor Defect)|12" DataField="REJECT_NO12" ColumnType="Int32" HeaderWidth="102"/>
                                     </ezmes:CNSDataGrid.DataColumns>
                                 </ezmes:CNSDataGrid>
                             </Grid>
                         </Border>
                         <Border x:Name="PrintArea2"  Grid.Row="1" BorderBrush="#FFD6D4D4" BorderThickness="0">
                             <Grid x:Name="MainSection2">
-                                <ezmes:CNSDataGrid x:Name="RejectionDetail2" HeaderRowCount="5" FontSize="7.5" Margin="0" Padding="0"
+                                <ezmes:CNSDataGrid x:Name="RejectionDetail2" HeaderRowCount="5" FontSize="8.25" Margin="0" Padding="0"
                                            IsRowAdd="False" IsRowDelete="False" IsEditMode="False" IsEditSection="False" HeadersVisibility="Column" IsRowNumber="False" 
                                            ItemsSource="{Binding BR_BRS_SEL_UDT_BRS_SVP_REJECT_SUM.OUTDATAs}">
-
-
                                     <ezmes:CNSDataGrid.DataColumns>
-                                        <ezmes:DataColumn HeadName="        검사자&#10;(Inspector Name)" DataField="INSUSER" ColumnType="TextBox" HeaderWidth="79"/>
-                                        <ezmes:DataColumn HeadName="       검사일자&#10;(Inspecting Date)" DataField="INSPECTIONDTTM" ColumnType="Date" HeaderWidth="79"/>
-                                        <ezmes:DataColumn HeadName="     검사수량(Vial)&#10;(Inspected Qunatity)" DataField="INSPECTQTY" ColumnType="Int32" HeaderWidth="91"/>
-                                        <ezmes:DataColumn HeadName="     불량 유형 및 수량&#10;(Defect Type and Qty)|  켑&#10;(Cap)|       캡씰링불량&#10;(Cap Sealing Defect)|      중결점&#10;(Major Defect)|13" DataField="REJECT_NO13" ColumnType="Int32" HeaderWidth="96"/>
-                                        <ezmes:DataColumn HeadName="     불량 유형 및 수량&#10;(Defect Type and Qty)|  켑&#10;(Cap)|     이종캡&#10;(Foreign Cap)|      중결점&#10;(Major Defect)|14" DataField="REJECT_NO14" ColumnType="Int32" HeaderWidth="71"/>
-                                        <ezmes:DataColumn HeadName="     불량 유형 및 수량&#10;(Defect Type and Qty)|  켑&#10;(Cap)|       캡외관불량&#10;(Cap Exterior Defect)|      경결점&#10;(Minor Defect)|15" DataField="REJECT_NO15" ColumnType="Int32" HeaderWidth="93"/>
-                                        <ezmes:DataColumn HeadName="     불량 유형 및 수량&#10;(Defect Type and Qty)|         고무전&#10;(Rubber Closure)|       고무전없음&#10;(No Rubber Closure)|     치명결점&#10;(Critical Defect)|16" DataField="REJECT_NO16" ColumnType="Int32" HeaderWidth="90"/>
-                                        <ezmes:DataColumn HeadName="     불량 유형 및 수량&#10;(Defect Type and Qty)|         고무전&#10;(Rubber Closure)|          이종고무전&#10;(Foreign Rubber Closure)|     치명결점&#10;(Critical Defect)|17" DataField="REJECT_NO17" ColumnType="Int32" HeaderWidth="107"/>
-                                        <ezmes:DataColumn HeadName="     불량 유형 및 수량&#10;(Defect Type and Qty)|         고무전&#10;(Rubber Closure)|                     고무전이물&#10;(Foreign substance in Rubber Closure)|      중결점&#10;(Major Defect)|18" DataField="REJECT_NO18" ColumnType="Int32" HeaderWidth="159"/>
-                                        <ezmes:DataColumn HeadName="     불량 유형 및 수량&#10;(Defect Type and Qty)|        Cake상태불량²&#10;(Defect in Cake Status)|        Cake상태불량²&#10;(Defect in Cake Status)|        Cake상태불량²&#10;(Defect in Cake Status)|19" DataField="REJECT_NO19" ColumnType="Int32" HeaderWidth="103" ReadOnly="True"/>
-                                        <ezmes:DataColumn HeadName="     불량 유형 및 수량&#10;(Defect Type and Qty)|                          바이알내부기벽/고무전약액묻음²&#10;(Inner Surface of Vial/Drug Solution Contact with Rubber Closure)|                          바이알내부기벽/고무전약액묻음²&#10;(Inner Surface of Vial/Drug Solution Contact with Rubber Closure)|                          바이알내부기벽/고무전약액묻음²&#10;(Inner Surface of Vial/Drug Solution Contact with Rubber Closure)|20" 
-                                                  DataField="REJECT_NO20" ColumnType="Int32" HeaderWidth="263" ReadOnly="True"/>
-                                        <ezmes:DataColumn HeadName="     불량 유형 및 수량&#10;(Defect Type and Qty)|     기타불량³&#10;(Other Defects)|     기타불량³&#10;(Other Defects)|     기타불량³&#10;(Other Defects)|21" DataField="REJECT_NO21" ColumnType="Int32" HeaderWidth="71" ReadOnly="True"/>
+                                        <ezmes:DataColumn HeadName="        검사자&#10;(Inspector Name)" DataField="INSUSER" ColumnType="TextBox" HeaderWidth="102"/>
+                                        <ezmes:DataColumn HeadName="       검사일자&#10;(Inspected Date)" DataField="INSPECTIONDTTM" ColumnType="Date" HeaderWidth="102"/>
+                                        <ezmes:DataColumn HeadName="   검사수량(Vial)&#10;(Inspected Qty.)" DataField="INSPECTQTY" ColumnType="Int32" HeaderWidth="102"/>
+                                        <ezmes:DataColumn HeadName="     불량 유형 및 수량&#10;(Defect Type and Qty)|  켑&#10;(Cap)|       캡씰링불량&#10;(Cap Sealing Defect)|      중결점&#10;(Major Defect)|13" DataField="REJECT_NO13" ColumnType="Int32" HeaderWidth="106"/>
+                                        <ezmes:DataColumn HeadName="     불량 유형 및 수량&#10;(Defect Type and Qty)|  켑&#10;(Cap)|     이종캡&#10;(Foreign Cap)|      중결점&#10;(Major Defect)|14" DataField="REJECT_NO14" ColumnType="Int32" HeaderWidth="106"/>
+                                        <ezmes:DataColumn HeadName="     불량 유형 및 수량&#10;(Defect Type and Qty)|  켑&#10;(Cap)|       캡외관불량&#10;(Cap Exterior Defect)|      경결점&#10;(Minor Defect)|15" DataField="REJECT_NO15" ColumnType="Int32" HeaderWidth="106"/>
+                                        <ezmes:DataColumn HeadName="     불량 유형 및 수량&#10;(Defect Type and Qty)|         고무전&#10;(Rubber Closure)|       고무전없음&#10;(No Rubber Closure)|     치명결점&#10;(Critical Defect)|16" DataField="REJECT_NO16" ColumnType="Int32" HeaderWidth="106"/>
+                                        <ezmes:DataColumn HeadName="     불량 유형 및 수량&#10;(Defect Type and Qty)|         고무전&#10;(Rubber Closure)|          이종고무전&#10;(Foreign Rubber Closure)|     치명결점&#10;(Critical Defect)|17" DataField="REJECT_NO17" ColumnType="Int32" HeaderWidth="126"/>
+                                        <ezmes:DataColumn HeadName="     불량 유형 및 수량&#10;(Defect Type and Qty)|         고무전&#10;(Rubber Closure)|                     고무전이물&#10;(Foreign substance in Rubber Closure)|      중결점&#10;(Major Defect)|18" DataField="REJECT_NO18" ColumnType="Int32" HeaderWidth="188"/>
+                                        <ezmes:DataColumn HeadName="     불량 유형 및 수량&#10;(Defect Type and Qty)|        Cake상태불량²&#10;(Defect in Cake Status)|        Cake상태불량²&#10;(Defect in Cake Status)|        Cake상태불량²&#10;(Defect in Cake Status)|19" DataField="REJECT_NO19" ColumnType="Int32" HeaderWidth="128" ReadOnly="True"/>
+                                        <ezmes:DataColumn HeadName="     불량 유형 및 수량&#10;(Defect Type and Qty)|                          바이알내부기벽/고무전약액묻음²&#10;(Inner Surface of Vial/Drug Solution Contact with Rubber Closure)|                          바이알내부기벽/고무전약액묻음²&#10;(Inner Surface of Vial/Drug Solution Contact with Rubber Closure)|                          바이알내부기벽/고무전약액묻음²&#10;(Inner Surface of Vial/Drug Solution Contact with Rubber Closure)|20" DataField="REJECT_NO20" ColumnType="Int32" HeaderWidth="308" ReadOnly="True"/>
+                                        <ezmes:DataColumn HeadName="     불량 유형 및 수량&#10;(Defect Type and Qty)|     기타불량³&#10;(Other Defects)|     기타불량³&#10;(Other Defects)|     기타불량³&#10;(Other Defects)|21" DataField="REJECT_NO21" ColumnType="Int32" HeaderWidth="106" ReadOnly="True"/>
                                     </ezmes:CNSDataGrid.DataColumns>
                                 </ezmes:CNSDataGrid>
                             </Grid>
                         </Border>
                         <Border x:Name="PrintArea3"  Grid.Row="2" BorderBrush="#FFD6D4D4" BorderThickness="3">
                             <Grid x:Name="MainSection3" Grid.Row="2">
-                                <ezmes:CNSDataGrid Grid.Row="2" Grid.Column="0" x:Name="RejectionDetail3" HeaderRowCount="1" FontSize="7.5" 
+                                <ezmes:CNSDataGrid Grid.Row="2" Grid.Column="0" x:Name="RejectionDetail3" HeaderRowCount="1" FontSize="8.25" 
                                            IsRowAdd="False" IsRowDelete="False" IsEditMode="False" IsEditSection="False" HeadersVisibility="Column" IsRowNumber="False" 
                                            ItemsSource="{Binding BR_BRS_SEL_UDT_BRS_SVP_REJECT_SUM_COMMENT.OUTDATAs}">
                                     <ezmes:CNSDataGrid.DataColumns>
-                                        <ezmes:DataColumn HeadName="        검사자&#10;(Inspector Name)"  DataField="INSUSER" ColumnType="TextBox" HeaderWidth="95"/>
-                                        <ezmes:DataColumn HeadName="       검사일자&#10;(Inspecting Date)" DataField="INSPECTIONDTTM" ColumnType="Date" HeaderWidth="85"/>
-                                        <ezmes:DataColumn HeadName="     검사수량(Vial)&#10;(Inspected Qunatity)" DataField="INSPECTQTY" ColumnType="Int32" HeaderWidth="100"/>
-                                        <ezmes:DataColumn HeadName="비고(Remarks)" DataField="COMMENTS" ColumnType="TextBox" HeaderWidth="1017" ReadOnly="True"/>
+                                        <ezmes:DataColumn HeadName="        검사자&#10;(Inspector Name)"  DataField="INSUSER" ColumnType="TextBox" HeaderWidth="102"/>
+                                        <ezmes:DataColumn HeadName="       검사일자&#10;(Inspected Date)" DataField="INSPECTIONDTTM" ColumnType="Date" HeaderWidth="102"/>
+                                        <ezmes:DataColumn HeadName="   검사수량(Vial)&#10;(Inspected Qty.)" DataField="INSPECTQTY" ColumnType="Int32" HeaderWidth="102"/>
+                                        <ezmes:DataColumn HeadName="비고(Remarks)" DataField="COMMENTS" ColumnType="TextBox" HeaderWidth="1274" ReadOnly="True"/>
                                     </ezmes:CNSDataGrid.DataColumns>
                                 </ezmes:CNSDataGrid>
                             </Grid>

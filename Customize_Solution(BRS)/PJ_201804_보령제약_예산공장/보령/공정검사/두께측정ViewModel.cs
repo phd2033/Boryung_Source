@@ -188,30 +188,30 @@ namespace 보령
                             if (_MINSTANDARD != "" && _MAXSTANDARD != "")
                             {
                                 if (Convert.ToDecimal(_MINSTANDARD) <= _MINTHICKNESS && _MAXTHICKNESS <= Convert.ToDecimal(_MAXSTANDARD))
-                                    chk = "적합";
+                                    chk = "적합(Pass)";
                                 else
                                 {
-                                    chk = "부적합";
+                                    chk = "부적합(Fail)";
                                     OnMessage("기준값을 벗어났습니다.");
                                 }                                    
                             }
                             else if (_MINSTANDARD != "")
                             {
                                 if (Convert.ToDecimal(_MINSTANDARD) <= _MINTHICKNESS)
-                                    chk = "적합";
+                                    chk = "적합(Pass)";
                                 else
                                 {
-                                    chk = "부적합";
+                                    chk = "부적합(Fail)";
                                     OnMessage("기준값을 벗어났습니다.");
                                 }
                             }
                             else if (_MAXSTANDARD != "")
                             {
                                 if (_MAXTHICKNESS <= Convert.ToDecimal(_MAXSTANDARD))
-                                    chk = "적합";
+                                    chk = "적합(Pass)";
                                 else
                                 {
-                                    chk = "부적합";
+                                    chk = "부적합(Fail)";
                                     OnMessage("기준값을 벗어났습니다.");
                                 }
                             }

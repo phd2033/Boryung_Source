@@ -288,22 +288,22 @@ namespace 보령
                             {
                                 if (curUnderVal <= curFitCount)
                                 {
-                                    curResult = "적합";
+                                    curResult = "적합(Pass)";
                                 }
                                 else
                                 {
-                                    curResult = "부적합";
+                                    curResult = "부적합(Fail)";
                                 }
                             }
                             else
                             {
                                 if (curUnderVal <= curFitCount && Convert.ToDecimal(curUpperVal) >= curFitCount)
                                 {
-                                    curResult = "적합";
+                                    curResult = "적합(Pass)";
                                 }
                                 else
                                 {
-                                    curResult = "부적합";
+                                    curResult = "부적합(Fail)";
                                 }
                             }
                             

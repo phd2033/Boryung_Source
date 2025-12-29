@@ -263,8 +263,8 @@ namespace 보령
                                 popup.btnConfirm.Click += (s, e) =>
                                 {
                                     curLoadCell.TAGVALUE = popup.txtTagValue.Content.ToString();
-                                    curLoadCell.CLEANSTATUS = "양호";
-                                    curLoadCell.ZEROSTATUS = "적합";
+                                    curLoadCell.CLEANSTATUS = "양호(Good)";
+                                    curLoadCell.ZEROSTATUS = "적합(Pass)";
 
                                     if (curLoadCell.TAGVALUE.Equals("N/A"))
                                     {
@@ -275,18 +275,18 @@ namespace 보령
                                     if (string.IsNullOrEmpty(MinVelue) || string.IsNullOrEmpty(AverVelue) || string.IsNullOrEmpty(MaxVelue))
                                     {
                                         OnMessage("기준정보 설정이 되어있지 않습니다.");
-                                        curLoadCell.DAILYCHKSTATUS = "부적합";
+                                        curLoadCell.DAILYCHKSTATUS = "부적합(Fail)";
                                     }
                                     else
                                     {
                                         //2022.12.09 박희돈 레시피 디자이너의 기준값을 사용하여 적부 판단.
                                         if (Convert.ToDecimal(MinVelue) <= Convert.ToDecimal(curLoadCell.TAGVALUE) && Convert.ToDecimal(MaxVelue) >= Convert.ToDecimal(curLoadCell.TAGVALUE))
                                         {
-                                            curLoadCell.DAILYCHKSTATUS = "적합";
+                                            curLoadCell.DAILYCHKSTATUS = "적합(Pass)";
                                         }
                                         else
                                         {
-                                            curLoadCell.DAILYCHKSTATUS = "부적합";
+                                            curLoadCell.DAILYCHKSTATUS = "부적합(Fail)";
                                         }
                                     }
                                     _mainWnd.gdDailyCheck.Refresh();

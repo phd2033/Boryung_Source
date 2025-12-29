@@ -8,7 +8,7 @@
            xmlns:ezmes="clr-namespace:LGCNS.EZMES.ControlsLib;assembly=LGCNS.EZMES.ControlsLib"
            xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
            xmlns:local="clr-namespace:보령"
-           x:Name="Main" Width="1200" Height="650"
+           x:Name="Main" Width="1210" Height="650"
            Title="SVP수동검사불량유형조회">
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
         <local:SVP수동검사불량유형조회ViewModel x:Key="ViewModel"/>
@@ -22,6 +22,7 @@
         <Border x:Name="PrintArea"  Grid.Row="0" BorderBrush="#FFD6D4D4" BorderThickness="3">
             <Grid x:Name="LayoutRoot">
                 <Grid.RowDefinitions>
+                    
                     <RowDefinition/>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
@@ -50,9 +51,9 @@
                                         <ezmes:DataColumn HeadName="불량 유형 및 수량|내용물|이물|섬유(≤ 1mm)|중결점¹|7" DataField="REJECT_NO7" ColumnType="Int32" HeaderWidth="90"/>
                                         <ezmes:DataColumn HeadName="불량 유형 및 수량|내용물|충전량불량|충전량불량|중결점|8" DataField="REJECT_NO8" ColumnType="Int32" HeaderWidth="75"/>
                                         <ezmes:DataColumn HeadName="불량 유형 및 수량|용기|바이알손상|바이알손상|치명결점|9" DataField="REJECT_NO9" ColumnType="Int32" HeaderWidth="75"/>
-                                        <ezmes:DataColumn HeadName="불량 유형 및 수량|용기|내부오염|내부오염|중결점|10" DataField="REJECT_NO10" ColumnType="Int32" HeaderWidth="70"/>
-                                        <ezmes:DataColumn HeadName="불량 유형 및 수량|용기|바이알흠집|바이알흠집|경결점|11" DataField="REJECT_NO11" ColumnType="Int32" HeaderWidth="70"/>
-                                        <ezmes:DataColumn HeadName="불량 유형 및 수량|용기|성형불량|성형불량|경결점|12" DataField="REJECT_NO12" ColumnType="Int32" HeaderWidth="70"/>
+                                        <ezmes:DataColumn HeadName="불량 유형 및 수량|용기|내부오염|내부오염|중결점|10" DataField="REJECT_NO10" ColumnType="Int32" HeaderWidth="75"/>
+                                        <ezmes:DataColumn HeadName="불량 유형 및 수량|용기|바이알흠집|바이알흠집|경결점|11" DataField="REJECT_NO11" ColumnType="Int32" HeaderWidth="73"/>
+                                        <ezmes:DataColumn HeadName="불량 유형 및 수량|용기|성형불량|성형불량|경결점|12" DataField="REJECT_NO12" ColumnType="Int32" HeaderWidth="73"/>
                                     </ezmes:CNSDataGrid.DataColumns>
                                 </ezmes:CNSDataGrid>
                             </Grid>
@@ -66,16 +67,16 @@
                                         <ezmes:DataColumn HeadName="검사자" DataField="INSUSER" ColumnType="TextBox" HeaderWidth="95"/>
                                         <ezmes:DataColumn HeadName="검사일자" DataField="INSPECTIONDTTM" ColumnType="Date" HeaderWidth="85"/>
                                         <ezmes:DataColumn HeadName="검사수량(Vial)" DataField="INSPECTQTY" ColumnType="Int32" HeaderWidth="100"/>
-                                        <ezmes:DataColumn HeadName="불량 유형 및 수량|켑|캡씰링불량|중결점|13" DataField="REJECT_NO13" ColumnType="Int32" HeaderWidth="85"/>
-                                        <ezmes:DataColumn HeadName="불량 유형 및 수량|켑|이종캡|중결점|14" DataField="REJECT_NO14" ColumnType="Int32" HeaderWidth="80"/>
-                                        <ezmes:DataColumn HeadName="불량 유형 및 수량|켑|캡외관불량|경결점|15" DataField="REJECT_NO15" ColumnType="Int32" HeaderWidth="85"/>
+                                        <ezmes:DataColumn HeadName="불량 유형 및 수량|캡|캡씰링불량|중결점|13" DataField="REJECT_NO13" ColumnType="Int32" HeaderWidth="110"/>
+                                        <ezmes:DataColumn HeadName="불량 유형 및 수량|캡|이종캡|중결점|14" DataField="REJECT_NO14" ColumnType="Int32" HeaderWidth="80"/>
+                                        <ezmes:DataColumn HeadName="불량 유형 및 수량|캡|캡외관불량|경결점|15" DataField="REJECT_NO15" ColumnType="Int32" HeaderWidth="85"/>
                                         <ezmes:DataColumn HeadName="불량 유형 및 수량|고무전|고무전없음|치명결점|16" DataField="REJECT_NO16" ColumnType="Int32" HeaderWidth="88"/>
                                         <ezmes:DataColumn HeadName="불량 유형 및 수량|고무전|이종고무전|치명결점|17" DataField="REJECT_NO17" ColumnType="Int32" HeaderWidth="88"/>
                                         <ezmes:DataColumn HeadName="불량 유형 및 수량|고무전|고무전이물|중결점|18" DataField="REJECT_NO18" ColumnType="Int32" HeaderWidth="88"/>
-                                        <ezmes:DataColumn HeadName="불량 유형 및 수량|Cake상태불량²|Cake상태불량²|Cake상태불량²|19" DataField="REJECT_NO19" ColumnType="Int32" HeaderWidth="105" ReadOnly="True"/>
+                                        <ezmes:DataColumn HeadName="불량 유형 및 수량|Cake상태불량²|Cake상태불량²|Cake상태불량²|19" DataField="REJECT_NO19" ColumnType="Int32" HeaderWidth="100" />
                                         <ezmes:DataColumn HeadName="불량 유형 및 수량|바이알내부기벽/고무전약액묻음²|바이알내부기벽/고무전약액묻음²|바이알내부기벽/고무전약액묻음²|20" 
-                                                  DataField="REJECT_NO20" ColumnType="Int32" HeaderWidth="190" ReadOnly="True"/>
-                                        <ezmes:DataColumn HeadName="불량 유형 및 수량|기타불량³|기타불량³|기타불량³|21" DataField="REJECT_NO21" ColumnType="Int32" HeaderWidth="85" ReadOnly="True"/>
+                                                  DataField="REJECT_NO20" ColumnType="Int32" HeaderWidth="180" />
+                                        <ezmes:DataColumn HeadName="불량 유형 및 수량|기타불량³|기타불량³|기타불량³|21" DataField="REJECT_NO21" ColumnType="Int32" HeaderWidth="85" />
                                     </ezmes:CNSDataGrid.DataColumns>
                                 </ezmes:CNSDataGrid>
                             </Grid>
@@ -89,7 +90,7 @@
                                         <ezmes:DataColumn HeadName="검사자" DataField="INSUSER" ColumnType="TextBox" HeaderWidth="95"/>
                                         <ezmes:DataColumn HeadName="검사일자" DataField="INSPECTIONDTTM" ColumnType="Date" HeaderWidth="85"/>
                                         <ezmes:DataColumn HeadName="검사수량(Vial)" DataField="INSPECTQTY" ColumnType="Int32" HeaderWidth="100"/>
-                                        <ezmes:DataColumn HeadName="비고" DataField="COMMENTS" ColumnType="TextBox" HeaderWidth="897" ReadOnly="True"/>
+                                        <ezmes:DataColumn HeadName="비고" DataField="COMMENTS" ColumnType="TextBox" HeaderWidth="903" ReadOnly="True"/>
                                     </ezmes:CNSDataGrid.DataColumns>
                                 </ezmes:CNSDataGrid>
                             </Grid>

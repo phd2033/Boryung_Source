@@ -367,14 +367,14 @@ namespace 보령
                                 foreach (var item in BR_BRS_SEL_EquipmentStatus_PROCEQPT.OUTDATAs)
                                 {
                                     // item.WEEKLYCHKSTATUS, item.MONTHCHKSTATUS의 값이 null일수 있음. null인 이유는 주간점검 혹은 월간점검 액션이 없기 때문.2020.11.20 phd
-                                    if ((item.WEEKLYCHKSTATUS != null && item.WEEKLYCHKSTATUS.ToString() == "부적합")
-                                    || (item.MONTHCHKSTATUS != null && item.MONTHCHKSTATUS.ToString() == "부적합"))
+                                    if ((item.WEEKLYCHKSTATUS != null && item.WEEKLYCHKSTATUS.ToString() == "부적합(Fail)")
+                                    || (item.MONTHCHKSTATUS != null && item.MONTHCHKSTATUS.ToString() == "부적합(Fail)"))
                                     {
-                                        if (item.WEEKLYCHKSTATUS != null && item.WEEKLYCHKSTATUS.ToString() == "부적합")
+                                        if (item.WEEKLYCHKSTATUS != null && item.WEEKLYCHKSTATUS.ToString() == "부적합(Fail)")
                                         {
                                             throw new Exception(string.Format("{0}설비 주간 점검을 수행하지 않았습니다.", item.EQPTID));
                                         }
-                                        if (item.MONTHCHKSTATUS != null && item.MONTHCHKSTATUS.ToString() == "부적합")
+                                        if (item.MONTHCHKSTATUS != null && item.MONTHCHKSTATUS.ToString() == "부적합(Fail)")
                                         {
                                             throw new Exception(string.Format("{0}설비 월간 점검을 수행하지 않았습니다.", item.EQPTID));
                                         }
@@ -612,7 +612,7 @@ namespace 보령
             {
                 CANRECORDFLAG = true;
 
-                var failEQPTS = BR_BRS_SEL_EquipmentStatus_PROCEQPT.OUTDATAs.FirstOrDefault(o => o.AVAILFLAG == "N" || o.VALIDFLAG == "N" || o.PERIODCHKSTATUS.Contains("부적합") || o.QUALIFICATIONSTATUS.Contains("부적합"));
+                var failEQPTS = BR_BRS_SEL_EquipmentStatus_PROCEQPT.OUTDATAs.FirstOrDefault(o => o.AVAILFLAG == "N" || o.VALIDFLAG == "N" || o.PERIODCHKSTATUS.Contains("부적합(Fail)") || o.QUALIFICATIONSTATUS.Contains("부적합(Fail)"));
 
                 if (null != failEQPTS) CANRECORDFLAG = false;
             }

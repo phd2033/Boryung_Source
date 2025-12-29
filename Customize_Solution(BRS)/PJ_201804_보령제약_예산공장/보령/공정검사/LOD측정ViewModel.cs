@@ -162,30 +162,30 @@ namespace 보령
                             if (LODIPCData.LSL.HasValue && LODIPCData.USL.HasValue)
                             {
                                 if (LODIPCData.LSL.Value <= Convert.ToDecimal(_LODIPCData.GetACTVAL) && Convert.ToDecimal(_LODIPCData.GetACTVAL) <= LODIPCData.USL.Value)
-                                    chk = "적합";
+                                    chk = "적합(Pass)";
                                 else
                                 {
-                                    chk = "부적합";
+                                    chk = "부적합(Fail)";
                                     OnMessage("기준값을 벗어났습니다.");
                                 }
                             }
                             else if (LODIPCData.LSL.HasValue)
                             {
                                 if (LODIPCData.LSL.Value <= Convert.ToDecimal(_LODIPCData.GetACTVAL))
-                                    chk = "적합";
+                                    chk = "적합(Pass)";
                                 else
                                 {
-                                    chk = "부적합";
+                                    chk = "부적합(Fail)";
                                     OnMessage("기준값을 벗어났습니다.");
                                 }
                             }
                             else if (LODIPCData.USL.HasValue)
                             {
                                 if (Convert.ToDecimal(_LODIPCData.GetACTVAL) <= LODIPCData.USL.Value)
-                                    chk = "적합";
+                                    chk = "적합(Pass)";
                                 else
                                 {
-                                    chk = "부적합";
+                                    chk = "부적합(Fail)";
                                     OnMessage("기준값을 벗어났습니다.");
                                 }
                             }

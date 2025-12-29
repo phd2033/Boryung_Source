@@ -80,26 +80,26 @@
                     </Grid.ColumnDefinitions>
                     <sdk:Label Grid.Column="1" Grid.Row="1" Content="FIT Lot No" Style="{Binding Source={StaticResource LabelStyle}}" />
                 <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding Path=curLotNo, Mode=TwoWay}"  IsEnabled="{Binding isLotNoEnable}" Grid.ColumnSpan="3" Style="{Binding Source={StaticResource TextStyle}}"/>
-                    <sdk:Label Grid.Column="1" Grid.Row="3" Content="하한" Style="{Binding Source={StaticResource LabelStyle}}" />
-                    <sdk:Label Grid.Column="3" Grid.Row="3" Content="FIT결과" Style="{Binding Source={StaticResource LabelStyle}}" />
+                    <sdk:Label Grid.Column="1" Grid.Row="3" Content="하한(MIN)" Style="{Binding Source={StaticResource LabelStyle}}" />
+                <sdk:Label Grid.Column="3" Grid.Row="3" Content="FIT결과(FIT Result)" Style="{Binding Source={StaticResource LabelStyle}}" />
                     <TextBox Grid.Column="1" Grid.Row="5" IsReadOnly="True" Text="{Binding Path=curUnderVal}" Style="{Binding Source={StaticResource TextStyle}}"/>
                     <ShopFloorUI:NumericKeyPadType Grid.Column="3" Grid.Row="5" x:Name="txtFITCount" Value="{Binding Path=curFitCount, Mode=TwoWay}"
                                                    IsEnabled="{Binding isFitCountEnable}" IsReadOnly="{Binding isFitCountEnable, Converter={StaticResource boolRevConverter}}" ValueChanged="txtFITCount_ValueChanged"/>
-                    <sdk:Label Grid.Column="5" Grid.Row="3" Content="상한" Style="{Binding Source={StaticResource LabelStyle}}" />
+                    <sdk:Label Grid.Column="5" Grid.Row="3" Content="상한(MAX)" Style="{Binding Source={StaticResource LabelStyle}}" />
                     <TextBox Grid.Column="5" Grid.Row="5" IsReadOnly="True" Text="{Binding Path=curUpperVal}" Style="{Binding Source={StaticResource TextStyle}}"/>
-                    <sdk:Label Grid.Column="1" Grid.Row="7" Content="결과" Style="{Binding Source={StaticResource LabelStyle}}" />
+                <sdk:Label Grid.Column="1" Grid.Row="7" Content="결과(Result)" Style="{Binding Source={StaticResource LabelStyle}}" />
                     <TextBox Grid.Column="3" Grid.Row="7" IsReadOnly="True" Text="{Binding Path=curResult}" Grid.ColumnSpan="3" Style="{Binding Source={StaticResource TextStyle}}"/>                
                 </Grid>
             <!--</Border>-->
             <Grid Grid.Row="2" x:Name="Footer">
                 <StackPanel Orientation="Horizontal" Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="5" HorizontalAlignment="Center">
-                    <Button Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='확인'}" Margin="5,1" Width="60" Height="30" 
+                    <Button Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='   확인&#x0a;(Check)'}" Margin="5,1" Width="60" Height="30" FontSize="9"
                             IsEnabled="{Binding isConfirmEnable}" Command="{Binding ConfirmCommandAsync}" Click="Confirm_Click"/>
-                    <Button Content="{Binding W[CUIDefaultDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='기록'}" Margin="5,1" Width="60" Height="30"
+                    <Button Content="{Binding W[CUIDefaultDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='  기록&#x0a;Record'}" Margin="5,1" Width="60" Height="30" FontSize="9"
                             IsEnabled="{Binding isSaveEnable}" Command="{Binding SaveCommandAsync}"/>
-                    <Button Content="{Binding W[CUIDefaultDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='기록없음'}" Margin="5,1" Width="60" Height="30"
+                    <Button Content="{Binding W[CUIDefaultDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='  기록없음&#x0a;No Record'}" Margin="5,1" Width="60" Height="30" FontSize="9"
                             Command="{Binding NoRecordConfirmCommand}"/>
-                    <Button Content="{Binding W[CUICloseButtonText], Source={StaticResource VM}, FallbackValue='닫기'}" Margin="5,1" Width="60" Height="30"
+                    <Button Content="{Binding W[CUICloseButtonText], Source={StaticResource VM}, FallbackValue=' 닫기&#x0a;Close'}" Margin="5,1" Width="60" Height="30" FontSize="9"
                             Click="btnClose_Click"/>
                 </StackPanel>
             </Grid>

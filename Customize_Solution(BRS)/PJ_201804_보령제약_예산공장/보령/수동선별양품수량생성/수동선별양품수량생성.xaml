@@ -59,9 +59,9 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="10"/>
-                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="40"/>
                         <RowDefinition Height="15"/>
-                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="40"/>
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="35"/>
                         <RowDefinition Height="15"/>
@@ -81,13 +81,13 @@
                         <ColumnDefinition Width="10"/>
                     </Grid.ColumnDefinitions>
 
-                    <sdk:Label Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Content="양품수량 (C &amp; T)" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <sdk:Label Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Content="양품수량 (C &amp; T)&#x0a;Good Qty (C &amp; T)" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <sdk:Label Grid.Column="1" Grid.Row="2" Content="=" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <Line Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="2"  Stroke="Black" Stretch="Fill" StrokeThickness="1" X1="0" Y1="0" X2="1" Y2="0" ></Line>
                     <sdk:Label  Grid.Column="5" Grid.Row="1" Grid.RowSpan="3" Content="×" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <sdk:Label  Grid.Column="6" Grid.Row="1" Grid.RowSpan="3" Content="1000" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <sdk:Label  Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2" Content="선별 양품 무게 (g)" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
-                    <sdk:Label  Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="2" Content="평균질량 (mg)" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <sdk:Label  Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2" Content="선별 양품 무게 (g)&#x0a;Passed Product Weight (g)" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                    <sdk:Label  Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="2" Content="평균질량 (mg)&#x0a;AVG Mass (mg);" Style="{Binding Source={StaticResource LabelStyle}}" HorizontalAlignment="Center" VerticalAlignment="Top"/>
 
                     <Line Grid.Column="3" Grid.Row="6"  Grid.ColumnSpan="2"   Stroke="Black" Stretch="Fill" StrokeThickness="1" X1="0" Y1="0" X2="1" Y2="0" ></Line>
                     <TextBox   Grid.Column="3" Grid.Row="5" Text="{Binding Result_OUTPUT, StringFormat='0.##0', Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" Margin="20,0,10,0" IsReadOnly="True" TextWrapping="Wrap" />
@@ -104,11 +104,11 @@
                 </Grid>
             </Border>
 
-            <Grid Grid.Row="6" Grid.ColumnSpan="3"  HorizontalAlignment="Center">
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="기록" Width="100"  Margin="0,5,0,5"  Command="{Binding ConfirmCommandAsync}" CommandParameter="{Binding ElementName=Main}"/>
-                    <Button Content="닫기" Width="100" Click="Close_Click"  Margin="10 5 0 5"/>
-                    <Button Content="수기입력" Width="100" Margin="10 5 0 5" Command="{Binding ModifyCommandAsync}" CommandParameter="{Binding ElementName=Main}" />
+            <Grid Grid.Row="6" Grid.ColumnSpan="3"  HorizontalAlignment="Center" >
+                <StackPanel Orientation="Horizontal" >
+                    <Button Content="  기록&#x0a;Record" Width="100"  Margin="0,5,0,5"  Command="{Binding ConfirmCommandAsync}" CommandParameter="{Binding ElementName=Main}"/>
+                    <Button Content=" 닫기&#x0a;Close" Width="100" Click="Close_Click"  Margin="10 5 0 5"/>
+                    <Button Content="      수기입력&#x0a;Manual Recording" Width="110" Margin="10 5 0 5" Command="{Binding ModifyCommandAsync}" CommandParameter="{Binding ElementName=Main}" />
                 </StackPanel>
             </Grid>
             <Image x:Name="ScreenShot" Grid.ColumnSpan="3" Grid.Row="6" Stretch="None"/>

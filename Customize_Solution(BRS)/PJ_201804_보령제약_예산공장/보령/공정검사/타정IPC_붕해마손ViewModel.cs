@@ -429,45 +429,45 @@ namespace 보령
                         if (CrumblingIPCData.LSL.HasValue && CrumblingIPCData.USL.HasValue)
                         {
                             if (CrumblingIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT1) && Convert.ToDecimal(item.RSLT1) <= CrumblingIPCData.USL.Value)
-                                item.RSLT3 = "적합";
+                                item.RSLT3 = "적합(Pass)";
                             else
-                                item.RSLT3 = "부적합";
+                                item.RSLT3 = "부적합(Fail)";
                         }
                         else if (CrumblingIPCData.LSL.HasValue)
                         {
                             if (CrumblingIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT1))
-                                item.RSLT3 = "적합";
+                                item.RSLT3 = "적합(Pass)";
                             else
-                                item.RSLT3 = "부적합";
+                                item.RSLT3 = "부적합(Fail)";
                         }
                         else if (CrumblingIPCData.USL.HasValue)
                         {
                             if (Convert.ToDecimal(item.RSLT1) <= CrumblingIPCData.USL.Value)
-                                item.RSLT3 = "적합";
+                                item.RSLT3 = "적합(Pass)";
                             else
-                                item.RSLT3 = "부적합";
+                                item.RSLT3 = "부적합(Fail)";
                         }
 
                         if (FriabilityIPCData.LSL.HasValue && FriabilityIPCData.USL.HasValue)
                         {
                             if (FriabilityIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT2) && Convert.ToDecimal(item.RSLT2) <= FriabilityIPCData.USL.Value)
-                                item.RSLT4 = "적합";
+                                item.RSLT4 = "적합(Pass)";
                             else
-                                item.RSLT4 = "부적합";
+                                item.RSLT4 = "부적합(Fail)";
                         }
                         else if (FriabilityIPCData.LSL.HasValue)
                         {
                             if (FriabilityIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT2))
-                                item.RSLT4 = "적합";
+                                item.RSLT4 = "적합(Pass)";
                             else
-                                item.RSLT4 = "부적합";
+                                item.RSLT4 = "부적합(Fail)";
                         }
                         else if (FriabilityIPCData.USL.HasValue)
                         {
                             if (Convert.ToDecimal(item.RSLT2) <= FriabilityIPCData.USL.Value)
-                                item.RSLT4 = "적합";
+                                item.RSLT4 = "적합(Pass)";
                             else
-                                item.RSLT4 = "부적합";
+                                item.RSLT4 = "부적합(Fail)";
                         }
 
                         if (rawData != null)

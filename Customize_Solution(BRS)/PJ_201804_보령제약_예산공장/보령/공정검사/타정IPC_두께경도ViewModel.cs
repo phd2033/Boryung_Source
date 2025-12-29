@@ -396,23 +396,23 @@ namespace 보령
                             if (ThicknessIPCData.LSL.HasValue && ThicknessIPCData.USL.HasValue)
                             {
                                 if (ThicknessIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT1) && Convert.ToDecimal(item.RSLT1) <= ThicknessIPCData.USL.Value)
-                                    item.RSLT3 = "적합";
+                                    item.RSLT3 = "적합(Pass)";
                                 else
-                                    item.RSLT3 = "부적합";
+                                    item.RSLT3 = "부적합(Fail)";
                             }
                             else if (ThicknessIPCData.LSL.HasValue)
                             {
                                 if (ThicknessIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT1))
-                                    item.RSLT3 = "적합";
+                                    item.RSLT3 = "적합(Pass)";
                                 else
-                                    item.RSLT3 = "부적합";
+                                    item.RSLT3 = "부적합(Fail)";
                             }
                             else if (ThicknessIPCData.USL.HasValue)
                             {
                                 if (Convert.ToDecimal(item.RSLT1) <= ThicknessIPCData.USL.Value)
-                                    item.RSLT3 = "적합";
+                                    item.RSLT3 = "적합(Pass)";
                                 else
-                                    item.RSLT3 = "부적합";
+                                    item.RSLT3 = "부적합(Fail)";
                             }
                         }
                         else
@@ -425,23 +425,23 @@ namespace 보령
                             if (LongitudeIPCData.LSL.HasValue && LongitudeIPCData.USL.HasValue)
                             {
                                 if (LongitudeIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT2) && Convert.ToDecimal(item.RSLT2) <= LongitudeIPCData.USL.Value)
-                                    item.RSLT4 = "적합";
+                                    item.RSLT4 = "적합(Pass)";
                                 else
-                                    item.RSLT4 = "부적합";
+                                    item.RSLT4 = "부적합(Fail)";
                             }
                             else if (LongitudeIPCData.LSL.HasValue)
                             {
                                 if (LongitudeIPCData.LSL.Value <= Convert.ToDecimal(item.RSLT2))
-                                    item.RSLT4 = "적합";
+                                    item.RSLT4 = "적합(Pass)";
                                 else
-                                    item.RSLT4 = "부적합";
+                                    item.RSLT4 = "부적합(Fail)";
                             }
                             else if (LongitudeIPCData.USL.HasValue)
                             {
                                 if (Convert.ToDecimal(item.RSLT2) <= LongitudeIPCData.USL.Value)
-                                    item.RSLT4 = "적합";
+                                    item.RSLT4 = "적합(Pass)";
                                 else
-                                    item.RSLT4 = "부적합";
+                                    item.RSLT4 = "부적합(Fail)";
                             }
                         }
                         else

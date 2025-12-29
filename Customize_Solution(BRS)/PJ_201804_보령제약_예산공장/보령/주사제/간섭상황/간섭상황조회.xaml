@@ -39,11 +39,11 @@
                     <sdk:DataGrid x:Name="CheckDataGrid" AutoGenerateColumns="False" CanUserReorderColumns="False"
                                    HeadersVisibility="Column" ItemsSource="{Binding ListInterfer}" Height="524" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto" FontSize="12">
                         <sdk:DataGrid.Columns>
-                            <sdk:DataGridTextColumn Header="간섭번호" Binding="{Binding SEQ}" Width="2*" IsReadOnly="True" FontSize="12"/>
-                            <sdk:DataGridTextColumn Header="간섭내용" Binding="{Binding SITUATION}" Width="13*" IsReadOnly="True" FontSize="12"/>
-                            <sdk:DataGridTextColumn Header="간섭구분" Binding="{Binding GUBUN}" Width="4*" IsReadOnly="True" FontSize="12"/>
-                            <sdk:DataGridTextColumn Header="최대 간섭횟수" Binding="{Binding CRITERIA}" Width="4*" IsReadOnly="True" FontSize="12"/>
-                            <sdk:DataGridTextColumn Header="간섭횟수" Width="4*" Binding="{Binding SUMNO}" IsReadOnly="True" FontSize="12">
+                            <sdk:DataGridTextColumn Header="간섭번호&#x0a;    No." Binding="{Binding SEQ}" Width="2*" IsReadOnly="True" FontSize="12"/>
+                            <sdk:DataGridTextColumn Header="간섭내용(Description)" Binding="{Binding SITUATION}" Width="13*" IsReadOnly="True" FontSize="12"/>
+                            <sdk:DataGridTextColumn Header="간섭구분(Category)" Binding="{Binding GUBUN}" Width="4*" IsReadOnly="True" FontSize="12"/>
+                            <sdk:DataGridTextColumn Header="최대 간섭횟수&#x0a;MAX Interference no." Binding="{Binding CRITERIA}" Width="4.1*" IsReadOnly="True" FontSize="12"/>
+                            <sdk:DataGridTextColumn Header="간섭횟수&#x0a;Interference QTY" Width="4*" Binding="{Binding SUMNO}" IsReadOnly="True" FontSize="12">
                                 <sdk:DataGridTextColumn.CellStyle>
                                     <Style TargetType="sdk:DataGridCell">
                                         <Setter Property="Background" Value="{Binding OVER_COLOR}"/>
@@ -55,8 +55,8 @@
                 </Grid>
             </Border>
             <Grid Grid.Row="1" x:Name="ButtonSection">
-                <Button x:Name="btnConfirm" Content="기록" Command="{Binding ConfirmCommandAsync}" Margin="340,11,528,11"/>
-                <Button x:Name="btnCancel" Content="취소"  Click="btnCancel_Click" Margin="528,11,340,11" RenderTransformOrigin="1.28,0.142"/>
+                <Button x:Name="btnConfirm" Content="  기록&#x0a;Record" Command="{Binding ConfirmCommandAsync}" Margin="340,11,528,11"/>
+                <Button x:Name="btnCancel" Content="  취소&#x0a;Cancel"  Click="btnCancel_Click" Margin="528,11,340,11" RenderTransformOrigin="1.28,0.142"/>
             </Grid>
         </Grid>
     </toolkit:BusyIndicator>

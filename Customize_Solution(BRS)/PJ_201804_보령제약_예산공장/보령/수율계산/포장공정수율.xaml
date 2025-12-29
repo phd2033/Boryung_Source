@@ -34,7 +34,7 @@
             <RowDefinition Height="10"/>
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
-        <Border x:Name="PrintArea" Margin="5" BorderBrush="#FFD6D4D4" BorderThickness="3">
+        <Border x:Name="PrintArea" Margin="4,5,6,5" BorderBrush="#FFD6D4D4" BorderThickness="3">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -53,13 +53,15 @@
                         <ColumnDefinition/>
                         <ColumnDefinition Width="100"/>
                     </Grid.ColumnDefinitions>
-                    <sdk:Label Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Content="공정 수율 계산식" HorizontalAlignment="Right"/>
+                    <sdk:Label Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Content="공정 수율 계산식&#x0a;Process Yield Formula" HorizontalAlignment="Right"/>
                     <sdk:Label Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Content=" = "/>
-                    <sdk:Label Grid.Row="0" Grid.Column="2" Content="(실 생산량)" Margin="116,0,98,0"/>
-                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="81,16,161,14" Width="30" TextAlignment="Right"/>
+                    <sdk:Label Grid.Row="0" Grid.Column="2" Content="(실 생산량)&#x0a;(Actual Qty)" Margin="111,0,91,0" Width="70"/>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="78,8,164,22" Width="30" TextAlignment="Right"/>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="78,25,164,5" Width="30" TextAlignment="Right"/>
                     <Line Grid.Row="1" Grid.Column="2" Stroke="Black" Stretch="Fill" StrokeThickness="1" X2="1"/>
-                    <sdk:Label Grid.Row="2" Grid.Column="2" Content="(인수량)" Margin="123,0,106,0"/>
-                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="88,15,154,15" Width="30" TextAlignment="Right"/>
+                    <sdk:Label Grid.Row="2" Grid.Column="2" Content="(인수량)&#x0a;(Order Qty)" Margin="109,0,93,0" Width="70"/>
+                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="78,7,164,23" Width="30" TextAlignment="Right"/>
+                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="78,23,164,7" Width="30" TextAlignment="Right"/>
                     <sdk:Label Grid.Row="0" Grid.Column="3" Grid.RowSpan="3" Content=" X 100" HorizontalAlignment="Left"/>
                 </Grid>
                 <Grid Grid.Row="1" Name="InputValueGrid">
@@ -98,13 +100,13 @@
                 </Grid>
             </Grid>
         </Border>
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Margin="-1,0,1,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="기록" Width="100" Height="40" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Right" Command="{Binding ConfirmCommandAsync}" CommandParameter="{Binding ElementName=Main}"/>
-            <Button Grid.Column="1" Content="취소" Width="100" Height="40" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="Cancel" Click="Cancel_Click"/>
+            <Button Grid.Column="0" Content="  기록&#x0a;Record" Width="100" Height="40" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Right" Command="{Binding ConfirmCommandAsync}" CommandParameter="{Binding ElementName=Main}"/>
+            <Button Grid.Column="1" Content="  취소&#x0a;Cancel" Width="100" Height="40" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Left" x:Name="Cancel" Click="Cancel_Click"/>
         </Grid>
     </Grid>
 </ShopFloorUI:ShopFloorCustomWindow>

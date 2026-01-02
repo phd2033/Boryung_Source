@@ -66,8 +66,24 @@ namespace Board
                             {
                                 throw new Exception();
                             }
-                            if (viewModel != null) { viewModel.LoadedCommand.Execute(null); }
-                            if (groupItem != null) { groupItem.IsEditing = false; }
+                            if (viewModel != null)
+                            {
+                                viewModel.LoadedCommand.Execute(null);
+                                viewModel.GroupedRoutes = new ObservableCollection<RouteItem>();
+
+                                if (this.RouteTreeView != null)
+                                {
+                                    this.RouteTreeView.ItemsSource = null;
+
+                                    this.RouteTreeView.ItemsSource = viewModel.GroupedRoutes;
+                                }
+                                viewModel.LoadedCommand.Execute(null);
+                            }
+                            if (groupItem != null)
+                            {
+                                groupItem.OriginalGroupName = groupName;
+                                groupItem.IsEditing = false;
+                            }
                         }
                         catch (Exception ex)
                         {

@@ -160,7 +160,7 @@
 
                                 <Grid Grid.Row ="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto">
                                     <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
-                                        <sdk:TreeView x:Name="RouteTreeView" ItemsSource="{Binding GroupedRoutes}">
+                                        <sdk:TreeView x:Name="RouteTreeView" ItemsSource="{Binding GroupedRoutes, Mode=TwoWay}">
                                             <sdk:TreeView.Resources>
                                                 <DataTemplate x:Key="RouteNameTemplate">
                                                     <StackPanel Orientation="Horizontal" Background="Transparent">
@@ -240,6 +240,8 @@
                                                         ItemsSource="{Binding SIMPLE_CLEAN_CNT, Mode=TwoWay}" HeaderWidth="100" ReadOnly="False"/>
                                     <ControlsLib:DataColumn HeadName="생산기간(일)" DataField="DHT_CNT" ColumnType="Int32" ColumnVisibility="Visible" HorizontalAlignment="Center"
                                                         ItemsSource="{Binding DHT_CNT, Mode=TwoWay}" HeaderWidth="100" ReadOnly="False"/>
+                                    <ControlsLib:DataColumn HeadName="비고" DataField="COMMENTS" ColumnType="TextBox" ColumnVisibility="Visible" HorizontalAlignment="Center"
+                                                        ItemsSource="{Binding COMMENTS, Mode=TwoWay}" HeaderWidth="300" ReadOnly="False"/>
                                     <ControlsLib:DataColumn HeadName="생성자" DataField="INSUSER" ColumnType="TextBox" ColumnVisibility="Visible" HorizontalAlignment="Center"
                                                         ItemsSource="{Binding INSUSER, Mode=TwoWay}" HeaderWidth="100" ReadOnly="True"/>
                                     <ControlsLib:DataColumn HeadName="생성시간" DataField="INSDTTM" ColumnType="TextBox" ColumnVisibility="Visible" HorizontalAlignment="Center"

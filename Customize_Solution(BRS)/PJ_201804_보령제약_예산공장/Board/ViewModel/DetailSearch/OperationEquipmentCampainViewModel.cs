@@ -43,6 +43,14 @@ namespace Board
         public string OriginalGroupName
         {
             get { return _originalGroupName; }
+            set
+            {
+                if (_originalGroupName != value)
+                {
+                        _originalGroupName = value;
+                        OnPropertyChanged("OriginalGroupName");
+                }
+            }
         }
         private string _groupName;
         public string GroupName
@@ -174,6 +182,17 @@ namespace Board
             set
             {
                 _DHT_CNT = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _COMMENTS;
+        public string COMMENTS
+        {
+            get { return _COMMENTS; }
+            set
+            {
+                _COMMENTS = value;
                 NotifyPropertyChanged();
             }
         }
@@ -1087,6 +1106,7 @@ namespace Board
                                         VERSION = item.VERSION,
                                         SIMPLE_CLEAN_CNT = Convert.ToInt16(item.SIMPLE_CLEAN_CNT),
                                         DHT_CNT = Convert.ToInt16(item.DHT_CNT),
+                                        COMMENTS = item.COMMENTS,
                                         INSUSER = item.INSUSER,
                                         ISUSE = item.ISUSE,
                                         MODE = item.RowEditSec

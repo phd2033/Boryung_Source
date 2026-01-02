@@ -229,6 +229,38 @@ namespace LGCNS.iPharmMES.Common
                     }
                 }
             }
+            private string _COMMENTS;
+            [BizActorInputItemAttribute()]
+            public string COMMENTS
+            {
+                get
+                {
+                    return this._COMMENTS;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._COMMENTS = value;
+                        this.CheckIsOriginal("COMMENTS", value);
+                        this.OnPropertyChanged("COMMENTS");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
             private string _INSUSER;
             [BizActorInputItemAttribute()]
             public string INSUSER

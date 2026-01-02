@@ -55,13 +55,13 @@
                     </Grid.ColumnDefinitions>
                     <sdk:Label Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Content="최종 생산 수율 계산식&#x0a;Final Yield Formula" HorizontalAlignment="Right"/>
                     <sdk:Label Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Content=" = "/>
-                    <sdk:Label Grid.Row="0" Grid.Column="2" Content="(실 생산량)&#x0a;(Actual Qty)" Margin="109,0,94,0" Width="69"/>
-                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="76,8,166,22" Width="30" TextAlignment="Right"/>
+                    <sdk:Label Grid.Row="0" Grid.Column="2" Content=" (실 생산량)&#x0a;(Actual Qty)" Margin="109,0,94,0" Width="69"/>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="80,8,162,22" Width="30" TextAlignment="Right"/>
                     <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="76,25,166,5" Width="30" TextAlignment="Right"/>
                     <Line Grid.Row="1" Grid.Column="2" Stroke="Black" Stretch="Fill" StrokeThickness="1" X2="1"/>
-                    <sdk:Label Grid.Row="2" Grid.Column="2" Content="(이론량 (포장지시수량))&#x0a;(Theoretical Qty(Order Qty))" Margin="70,0,40,0" Width="162"/>
-                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="40,7,202,23" Width="30" TextAlignment="Right"/>
-                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="40,23,202,7" Width="30" TextAlignment="Right"/>
+                    <sdk:Label Grid.Row="2" Grid.Column="2" Content="     (이론량 (포장지시수량))&#x0a;(Theoretical Qty(Order Qty))" Margin="70,0,40,0" Width="162"/>
+                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="56,7,186,23" Width="30" TextAlignment="Right"/>
+                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="39,23,203,7" Width="30" TextAlignment="Right"/>
                     <sdk:Label Grid.Row="0" Grid.Column="3" Grid.RowSpan="3" Content=" X 100" HorizontalAlignment="Left"/>
                 </Grid>
                 <Grid Grid.Row="1" Name="InputValueGrid">

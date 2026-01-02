@@ -53,15 +53,15 @@
                         <ColumnDefinition/>
                         <ColumnDefinition Width="100"/>
                     </Grid.ColumnDefinitions>
-                    <sdk:Label Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Content="공정 수율 계산식&#x0a;Process Yield Formula" HorizontalAlignment="Right"/>
+                    <sdk:Label Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Content="    공정 수율 계산식&#x0a;Process Yield Formula" HorizontalAlignment="Right"/>
                     <sdk:Label Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Content=" = "/>
-                    <sdk:Label Grid.Row="0" Grid.Column="2" Content="(실 생산량)&#x0a;(Actual Qty)" Margin="116,0,89,0" Width="67"/>
-                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="81,8,161,22" TextAlignment="Right"/>
+                    <sdk:Label Grid.Row="0" Grid.Column="2" Content=" (실 생산량)&#x0a;(Actual Qty)" Margin="116,0,89,0" Width="67"/>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="85,8,157,0" TextAlignment="Right" Height="17" VerticalAlignment="Top"/>
                     <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="81,25,161,5" TextAlignment="Right"/>
                     <Line Grid.Row="1" Grid.Column="2" Stroke="Black" Stretch="Fill" StrokeThickness="1" X2="1"/>
-                    <sdk:Label Grid.Row="2" Grid.Column="2" Content="(지시량)&#x0a;(Order Qty)" Margin="116,0,89,0" Width="67"/>
-                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="81,7,161,23" TextAlignment="Right"/>
-                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="81,23,161,7" TextAlignment="Right"/>
+                    <sdk:Label Grid.Row="2" Grid.Column="2" Content="   (지시량)&#x0a;(Order Qty)" Margin="116,0,89,0" Width="67"/>
+                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="93,7,149,23" TextAlignment="Right"/>
+                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding PackUnit, Mode=OneWay}" Margin="82,23,160,7" TextAlignment="Right"/>
                     <sdk:Label Grid.Row="0" Grid.Column="3" Grid.RowSpan="3" Content=" X 100" HorizontalAlignment="Left"/>
                 </Grid>
                 <Grid Grid.Row="1" Name="InputValueGrid">

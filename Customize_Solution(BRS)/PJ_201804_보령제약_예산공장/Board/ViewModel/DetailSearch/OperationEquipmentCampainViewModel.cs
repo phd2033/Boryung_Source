@@ -301,6 +301,17 @@ namespace Board
             }
         }
 
+        private BR_BRS_SEL_SIMPLE_CLEAN_EQPT_HISTORY _BR_BRS_SEL_SIMPLE_CLEAN_EQPT_HISTORY;
+        public BR_BRS_SEL_SIMPLE_CLEAN_EQPT_HISTORY BR_BRS_SEL_SIMPLE_CLEAN_EQPT_HISTORY
+        {
+            get { return _BR_BRS_SEL_SIMPLE_CLEAN_EQPT_HISTORY; }
+            set
+            {
+                _BR_BRS_SEL_SIMPLE_CLEAN_EQPT_HISTORY = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Command
@@ -1153,60 +1164,58 @@ namespace Board
                 });
             }
         }
-        //public ICommand CheckFieldDataChangedCommand
-        //{
-        //    get
-        //    {
-        //        return new AsyncCommandBase(async arg =>
-        //        {
-        //            var temp2 = arg as BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATA;
-        //            using (await AwaitableLocks["CheckFieldDataChangedCommand"].EnterAsync())
-        //            {
-        //                try
-        //                {
-        //                    CommandResults["CheckFieldDataChangedCommand"] = false;
-        //                    CommandCanExecutes["CheckFieldDataChangedCommand"] = false;
+        public ICommand ShowHistoryCommand
+        {
+            get
+            {
+                return new AsyncCommandBase(async arg =>
+                {
+                    var selectedData = arg as BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATA;
+                    if (selectedData == null) return;
+                    using (await AwaitableLocks["ShowHistoryCommand"].EnterAsync())
+                    {
+                        try
+                        {
+                            IsBusy = true;
 
-        //                    IsBusy = true;
+                            CommandResults["ShowHistoryCommand"] = false;
+                            CommandCanExecutes["ShowHistoryCommand"] = false;
 
-        //                    var grid = _mainWnd.CampainOperationEquipmentGrid;
+                            BR_BRS_SEL_SIMPLE_CLEAN_EQPT_HISTORY.INDATAs.Clear();
+                            BR_BRS_SEL_SIMPLE_CLEAN_EQPT_HISTORY.OUTDATAs.Clear();
 
-        //                    //var temp = _mainWnd.CampainOperationEquipmentGrid.SelectedItem as BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATA;
+                            BR_BRS_SEL_SIMPLE_CLEAN_EQPT_HISTORY.INDATAs.Add(new BR_BRS_SEL_SIMPLE_CLEAN_EQPT_HISTORY.INDATA
+                            {
+                                GROUPGUID = selectedData.GROUPGUID,
+                                EQPTID = selectedData.EQPTID
+                            });
 
-        //                    var temp = arg as BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATA;
+                            if (await BR_BRS_SEL_SIMPLE_CLEAN_EQPT_HISTORY.Execute())
+                            {
+                            }
 
-
-        //                    if (temp != null)
-        //                    {
-        //                        temp.CHK = "Y";
-        //                    }
-
-        //                    IsBusy = false;
-
-        //                    CommandResults["CheckFieldDataChangedCommand"] = true;
-        //                }
-        //                catch (Exception ex)
-        //                {
-        //                    CommandResults["CheckFieldDataChangedCommand"] = false;
-        //                    OnException(ex.Message, ex);
-        //                }
-        //                finally
-        //                {
-        //                    CommandCanExecutes["CheckFieldDataChangedCommand"] = true;
-
-        //                    IsBusy = false;
-        //                }
-        //            }
-        //        }, arg =>
-        //        {
-        //            return CommandCanExecutes.ContainsKey("CheckFieldDataChangedCommand") ?
-        //                CommandCanExecutes["CheckFieldDataChangedCommand"] : (CommandCanExecutes["CheckFieldDataChangedCommand"] = true);
-        //        });
-        //    }
-        //}
+                            CommandResults["ShowHistoryCommand"] = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            CommandResults["ShowHistoryCommand"] = false;
+                            OnException(ex.Message, ex);
+                        }
+                        finally
+                        {
+                            CommandCanExecutes["ShowHistoryCommand"] = true;
+                            IsBusy = false;
+                        }
+                    }
+                }, arg =>
+                {
+                    return CommandCanExecutes.ContainsKey("ShowHistoryCommand") ?
+                        CommandCanExecutes["ShowHistoryCommand"] : (CommandCanExecutes["ShowHistoryCommand"] = true);
+                });
+            }
+        }
         private void CheckFieldDataChangedLogic(object changedItem)
         {
-            // 1. 변경된 아이템을 데이터 모델로 캐스팅
             var temp = changedItem as BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATA;
 
             if (temp != null)
@@ -1236,6 +1245,7 @@ namespace Board
             _BR_BRS_REG_SIMPLE_CLEAN_ROUTE = new BR_BRS_REG_SIMPLE_CLEAN_ROUTE();
             _BR_BRS_SEL_SIMPLE_CLEAN_EQPT_CHECK = new BR_BRS_SEL_SIMPLE_CLEAN_EQPT_CHECK();
             _BR_BRS_REG_SIMPLE_CLEAN_EQPT = new BR_BRS_REG_SIMPLE_CLEAN_EQPT();
+            _BR_BRS_SEL_SIMPLE_CLEAN_EQPT_HISTORY = new BR_BRS_SEL_SIMPLE_CLEAN_EQPT_HISTORY();
         }
         public bool HasItemEditMode
         {

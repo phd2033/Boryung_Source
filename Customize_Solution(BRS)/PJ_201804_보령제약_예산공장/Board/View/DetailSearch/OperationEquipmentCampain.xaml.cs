@@ -19,6 +19,25 @@ namespace Board
             InitializeComponent();
             this.DataContext = new OperationEquipmentCampainViewModel();
 
+            this.CampainOperationEquipmentGrid.SelectionChanged += (s, e) =>
+            {
+                var selectedItem = this.CampainOperationEquipmentGrid.SelectedItem;
+
+                if (selectedItem != null)
+                {
+                    this.SlideUpAnimation.Stop();
+                    this.SlideUpAnimation.Begin();
+
+                    var vm = this.DataContext as OperationEquipmentCampainViewModel;
+
+                    if (vm != null)
+                    {
+                        vm.ShowHistoryCommand.Execute(selectedItem);
+                        this.CampainHistory.ItemsSource = null;
+                        this.CampainHistory.ItemsSource = vm.BR_BRS_SEL_SIMPLE_CLEAN_EQPT_HISTORY.OUTDATAs;
+                    }
+                }
+            };
         }
         private async void Enter_KeyDown(object sender, KeyEventArgs e)
         {
@@ -97,6 +116,11 @@ namespace Board
             }
         }
 
+        private void BtnCloseHistory_Click(object sender, RoutedEventArgs e)
+        {
+            this.SlideDownAnimation.Begin();
+            CampainOperationEquipmentGrid.SelectedItem = null;
+        }
 
     }
 }

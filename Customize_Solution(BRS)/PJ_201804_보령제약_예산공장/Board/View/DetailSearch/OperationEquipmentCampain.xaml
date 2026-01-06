@@ -19,6 +19,35 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGCNS.iPharmMES.Common;component/GlobalResource/ResourceDictionary.xaml"/>
+                <ResourceDictionary x:Name="FilterBtnStyle" Source="/LGCNS.iPharmMES.Controls;component/Themes/iPharmMESFilterBtnStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <local:OperationEquipmentCampainViewModel x:Key="ViewModel"/>
+
+            <Storyboard x:Name="SlideUpAnimation" x:Key="SlideUpAnimation">
+                <DoubleAnimation Storyboard.TargetName="HistoryGridContainer"
+                             Storyboard.TargetProperty="Height"
+                             To="300" Duration="0:0:0.3"/>
+                <DoubleAnimation Storyboard.TargetName="HistoryTransform"
+                             Storyboard.TargetProperty="Y"
+                             To="0" Duration="0:0:0.3">
+                    <DoubleAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+            </Storyboard>
+
+            <Storyboard x:Name="SlideDownAnimation" x:Key="SlideDownAnimation">
+                <DoubleAnimation Storyboard.TargetName="HistoryGridContainer" 
+                             Storyboard.TargetProperty="Height"
+                             To="0" Duration="0:0:0.3"/>
+                <DoubleAnimation Storyboard.TargetName="HistoryTransform" 
+                             Storyboard.TargetProperty="Y"
+                             To="300" Duration="0:0:0.3"/>
+            </Storyboard>
             <Style x:Key="lblStyle" TargetType="sdk:Label">
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -47,11 +76,6 @@
                 <Setter Property="FontSize" Value="12"/>
                 <Setter Property="Margin" Value="2 0 2 0"/>
             </Style>
-            <local:OperationEquipmentCampainViewModel x:Key="ViewModel"/>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/LGCNS.iPharmMES.Common;component/GlobalResource/ResourceDictionary.xaml"/>
-                <ResourceDictionary x:Name="FilterBtnStyle" Source="/LGCNS.iPharmMES.Controls;component/Themes/iPharmMESFilterBtnStyle.xaml" />
-            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -208,13 +232,14 @@
                         </Grid>
                     </ControlsLib:MainPanel.Search>
                     <ControlsLib:MainPanel.Contents>
-                        <Grid x:Name="CampainOperationGrid" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinWidth="400" >
+                        <Grid x:Name="CampainOperationGrid" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinWidth="400">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="800" />
+                                <RowDefinition Height="*" />
                                 <RowDefinition Height="50" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <ControlsLib:CNSDataGrid x:Name="CampainOperationEquipmentGrid" IsRowNumber="False"  Width="Auto" HeaderRowCount="2"                                              
-                            IsRowAdd="True" IsRowDelete="True" IsEditMode="True" IsEditSection="True" Grid.Row="0"
+                            IsRowAdd="True" IsRowDelete="True" IsEditMode="True" IsEditSection="True" Grid.Row="0" 
                             ItemsSource="{Binding Path=BR_BRS_SEL_SIMPLE_CLEAN_EQPT.OUTDATAs, Mode=OneWay}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="CommittedRowEdit">
@@ -223,6 +248,9 @@
                                     <i:EventTrigger EventName="RowAdd_Click">
                                         <i:InvokeCommandAction Command="{Binding RowAddCommand}"/>
                                     </i:EventTrigger>
+                                    <!--<i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding ShowHistoryCommand}"/>
+                                    </i:EventTrigger>-->
                                     <!--<i:EventTrigger EventName="CheckFieldDataChanged">
                                         <i:InvokeCommandAction Command="{Binding CheckFieldDataChangedCommand}"/>
                                     </i:EventTrigger>-->
@@ -272,6 +300,44 @@
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>
+                            </Grid>
+
+                            <Grid x:Name="HistoryGridContainer" Grid.Row="2" Height="0">
+                                <Grid.RenderTransform>
+                                    <TranslateTransform x:Name="HistoryTransform" Y="300"/>
+                                </Grid.RenderTransform>
+                                <Border BorderBrush="#FFADB2B5" BorderThickness="0,1,0,0">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="30"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid Grid.Row="0" Background="#FFE0E0E0">
+                                            <TextBlock Text="변경 이력 조회" VerticalAlignment="Center" Margin="10,0" FontWeight="Bold"/>
+                                            <Button Content="닫기" HorizontalAlignment="Right" Width="60" Margin="2" Click="BtnCloseHistory_Click" FontSize="10"/>
+                                        </Grid>
+                                        <c1:C1DataGrid Grid.Row="1" x:Name="CampainHistory"
+                                                       AutoGenerateColumns="False"
+                                                       HeadersVisibility="Column"
+                                                       VerticalScrollBarVisibility="Auto"
+                                                       ScrollMode="RealTime" 
+                                                       SelectionMode="SingleRow"
+                                                       CanUserAddRows="False"
+                                                       CanUserSort="True"
+                                                       ItemsSource="{Binding Path=BR_BRS_SEL_SIMPLE_CLEAN_EQPT_HISTORY.OUTDATAs, Mode=OneWay}">
+
+                                            <c1:C1DataGrid.Columns>
+                                                <c1:DataGridTextColumn Header="설비코드" Binding="{Binding EQPTID}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}" HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="버전" Binding="{Binding VERSION}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}" HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="캠페인(횟수)" Binding="{Binding SIMPLE_CLEAN_CNT}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}" HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="생산기간(일)" Binding="{Binding DHT_CNT}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}" HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="비고" Binding="{Binding COMMENTS}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}" HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="생성자"   Binding="{Binding INSUSER}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}" HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="생성시간" Binding="{Binding INSDTTM}" IsReadOnly="True" HeaderStyle="{StaticResource colHeader}" HorizontalAlignment="Center"/>
+                                            </c1:C1DataGrid.Columns>
+                                        </c1:C1DataGrid>
+                                    </Grid>
+                                </Border>
                             </Grid>
                         </Grid>
                     </ControlsLib:MainPanel.Contents>

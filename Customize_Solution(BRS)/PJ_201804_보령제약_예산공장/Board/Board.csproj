@@ -169,6 +169,7 @@
     <Compile Include="Model.Access\iPharm.Report\BR.Campain\BR_BRS_SEL_OperationDefinition_MaterialList.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR.Campain\BR_BRS_SEL_SIMPLE_CLEAN_EQPT.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR.Campain\BR_BRS_SEL_SIMPLE_CLEAN_EQPT_CHECK.Access.cs" />
+    <Compile Include="Model.Access\iPharm.Report\BR.Campain\BR_BRS_SEL_SIMPLE_CLEAN_EQPT_HISTORY.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR.Campain\BR_BRS_SEL_SIMPLE_CLEAN_GROUP.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR.Campain\BR_BRS_SEL_SIMPLE_CLEAN_ROUTE.Access.cs" />
     <Compile Include="Model.Access\iPharm.Report\BR.Performance\BR_BRS_INS_TST_APPROVAL_CANCELL.Access.cs" />

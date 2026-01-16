@@ -630,6 +630,12 @@ namespace 보령
                                 // 교정일자 및 차기 교정일자 Validation 추가. by phd 2020.11.10
                                 foreach (var item in BR_BRS_SEL_EquipmentStatus_PROCEQPT.OUTDATAs)
                                 {
+
+                                    if (item.SCALEDAILYSTATUS.Equals("부적합(Fail)"))
+                                    {
+                                        throw new Exception(string.Format("{0}설비 교정 상태를 확인해주세요.", item.EQPTID));
+                                    }
+
                                     if (string.IsNullOrWhiteSpace(item.CALIBATIONDTTM.Trim()))
                                     {
                                         throw new Exception(string.Format("{0}설비 교정일자가 존재하지 않습니다. 설비 상태를 확인해주세요.", item.EQPTID));

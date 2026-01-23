@@ -594,13 +594,25 @@ namespace 보령
                             dt.Columns.Add(new DataColumn("상태"));
                             //dt.Columns.Add(new DataColumn("투입일자"));
 
+                            string state = string.Empty;
+
                             OutputSubLotInfo.Where(o => (o.STATUS == "투입대기" || o.STATUS == "투입완료")).ToList().ForEach(x =>
                             {
                                 var row = dt.NewRow();
                                 row["OUTPUTID"] = x.OUTPUTID;
                                 row["수량"] = x.STATUS != "투입완료" ? (x.MSUBLOTQTY != null ? decimal.Parse(x.MSUBLOTQTY.ToString()).ToString("#,0.0 g") : "")
                                                                      : (x.OLDMSUBLOTQTY != null ? decimal.Parse(x.OLDMSUBLOTQTY.ToString()).ToString("#,0.0 g") : "");
-                                row["상태"] = String.IsNullOrWhiteSpace(x.STATUS) ? "" : x.STATUS;
+                                // 2026.01.16 박희돈 영문병기를 위해 로직 추가
+                                if(x.STATUS.Equals("투입완료"))
+                                {
+                                    state = "투입완료(Input completed)";
+                                }
+                                else
+                                {
+                                    state = "투입대기(Waiting for input)";
+                                }
+                                //row["상태"] = String.IsNullOrWhiteSpace(x.STATUS) ? "" : x.STATUS;
+                                row["상태"] = String.IsNullOrWhiteSpace(x.STATUS) ? "" : state;
                                 dt.Rows.Add(row);
                             });
 

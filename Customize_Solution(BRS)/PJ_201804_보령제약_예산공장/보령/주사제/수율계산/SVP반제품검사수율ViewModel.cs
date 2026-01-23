@@ -92,11 +92,12 @@ namespace 보령
                                 PRECISION = _mainWnd.CurrentInstruction.Raw.PRECISION.HasValue ? _mainWnd.CurrentInstruction.Raw.PRECISION.Value : 1;
 
                                 // 현재 공정 생산량
-                                var inputvalue = InstructionModel.GetParameterSender(_mainWnd.CurrentInstruction, _mainWnd.Instructions);
-                                if (inputvalue.Count < 1 || (inputvalue.Count > 0 && string.IsNullOrWhiteSpace(inputvalue[0].Raw.ACTVAL)))
-                                    throw new Exception("검사량이 입력되지 않았습니다.");
-                                else
-                                    Result_OUT = inputvalue[0].Raw.ACTVAL;
+                                // 2026.01.23 박희돈 MC팀에서 해당 로직 제외 요청. 주사제팀에서 오류 발생해도 무시하고 사용하여 해당 로직이 불필요 함.
+                                //var inputvalue = InstructionModel.GetParameterSender(_mainWnd.CurrentInstruction, _mainWnd.Instructions);
+                                //if (inputvalue.Count < 1 || (inputvalue.Count > 0 && string.IsNullOrWhiteSpace(inputvalue[0].Raw.ACTVAL)))
+                                //    throw new Exception("검사량이 입력되지 않았습니다.");
+                                //else
+                                //    Result_OUT = inputvalue[0].Raw.ACTVAL;
                             }
 
                             CommandResults["LoadedCommandAsync"] = true;

@@ -178,7 +178,7 @@ namespace 보령
 
                             row["기록타입"] = TargetVal ?? "";
                             row["시각"] = FromDt.ToString("yyyy-MM-dd HH:mm:ss");
-                            row["작업자"] = AuthRepositoryViewModel.Instance.LoginedUserID ?? "";
+                            row["작업자"] = AuthRepositoryViewModel.Instance.LoginedUserID + "(" + AuthRepositoryViewModel.Instance.LoginedUserName + ")" ?? "";
                             dt.Rows.Add(row);
 
                             _BR_BRS_REG_SVP_ASEPTIC_PROCESS.INDATAs.Add(new BR_BRS_REG_SVP_ASEPTIC_PROCESS.INDATA

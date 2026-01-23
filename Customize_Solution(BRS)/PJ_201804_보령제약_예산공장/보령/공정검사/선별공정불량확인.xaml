@@ -10,7 +10,7 @@
            xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
            xmlns:local="clr-namespace:보령"
            mc:Ignorable="d"
-           Width="600" Height="500" x:Name="Main"
+           Width="700" Height="700" x:Name="Main"
            Title="선별공정불량확인">
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
         <local:선별공정불량확인ViewModel x:Key="ViewModel"/>
@@ -35,12 +35,12 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" x:Name="MainSection">
                 <c1:C1DataGrid x:Name="MainDataGrid" HeadersVisibility="Column" ScrollBarStyle="{Binding Source={StaticResource gdscroll}}"
-                               AutoGenerateColumns="False" CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False"
+                               AutoGenerateColumns="False" CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False" RowHeight="Auto"
                                ItemsSource="{Binding BR_BRS_GET_AutoInspection_Reject_Ratio.OUTDATAs}">
                     <c1:C1DataGrid.Columns>
-                        <c1:DataGridTextColumn Header="설비코드" Binding="{Binding Path=EQPTID}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center" MinWidth="200"/>
-                        <c1:DataGridTextColumn Header="태그명" Binding="{Binding Path=REJTYPE}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center" MinWidth="200"/>
-                        <c1:DataGridTextColumn Header="결과" Binding="{Binding Path=RESULT}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center" MinWidth="150"/>
+                        <c1:DataGridTextColumn Header="설비코드" Binding="{Binding Path=EQPTID}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center" MinWidth="100"/>
+                        <c1:DataGridTextColumn Header="태그명" Binding="{Binding Path=REJTYPE}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Left" MinWidth="450"  xml:space="preserve" TextWrapping="Wrap" />
+                        <c1:DataGridTextColumn Header="결과" Binding="{Binding Path=RESULT}" HeaderStyle="{StaticResource HeaderStyle}" HorizontalAlignment="Center" MinWidth="100"/>
                     </c1:C1DataGrid.Columns>
                 </c1:C1DataGrid>
             </Grid>

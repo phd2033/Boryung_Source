@@ -300,6 +300,7 @@
     <Compile Include="Model.Access\장비청소\BR_BRS_SEL_EquipmentStatus_CheckCleaned_Multi.Access.cs" />
     <Compile Include="Model.Access\장비청소\BR_BRS_SEL_EquipmentStatus_PROCEQPT.Access.cs" />
     <Compile Include="Model.Access\장비청소\BR_BRS_SEL_EquipmentStatus_ROOM.Access.cs" />
+    <Compile Include="Model.Access\장비청소\BR_BRS_SEL_ProductionOrder_CAMPAIGN_BY_EQPTID.Access.cs" />
     <Compile Include="Model.Access\정제체크마스터\BR_BRS_GET_Selector_Check_Master_Edit.Access.cs" />
     <Compile Include="Model.Access\정제체크마스터\BR_BRS_REG_IPC_CHECKMASTER_MULTI.Access.cs" />
     <Compile Include="Model.Access\정제체크마스터\BR_BRS_REG_IPC_CHECKMASTER_MULTI_Edit.Access.cs" />
@@ -951,6 +952,10 @@
       <DependentUpon>장비청소팝업.xaml</DependentUpon>
     </Compile>
     <Compile Include="장비청소\장비청소팝업ViewModel.cs" />
+    <Compile Include="장비청소\캠페인생산설비조회.xaml.cs">
+      <DependentUpon>캠페인생산설비조회.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="장비청소\캠페인생산설비조회ViewModel.cs" />
     <Compile Include="저울점검\저울스캔팝업.xaml.cs">
       <DependentUpon>저울스캔팝업.xaml</DependentUpon>
     </Compile>
@@ -1766,6 +1771,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="장비청소\장비청소팝업.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="장비청소\캠페인생산설비조회.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

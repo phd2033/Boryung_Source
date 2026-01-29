@@ -310,7 +310,14 @@ namespace Board
                             {
                                 ISUSE = "Y"
                             });
-                            if (!await _BR_PHR_SEL_ProcessSegment.Execute()) throw new Exception();
+                            if (await _BR_PHR_SEL_ProcessSegment.Execute())
+                            {
+                                _BR_PHR_SEL_ProcessSegment.OUTDATAs.Insert(0, new BR_PHR_SEL_ProcessSegment.OUTDATA
+                                {
+                                    PCSGNAME = "N/A"
+                                });
+                            }
+                            else throw new Exception();
 
                             CommandResults["LoadedCommand"] = true;
                         }
@@ -398,7 +405,7 @@ namespace Board
                                 BATCHNO = BATCHNO != "" ? BATCHNO : null,
                                 PALLETID = PALLETID != "" ? PALLETID : null,
                                 LD_CTN_NO = LD_CTN_NO != "" ? LD_CTN_NO : null,
-                                OPSGNAME = OPSGNAME != "" ? OPSGNAME : null,
+                                OPSGNAME = (string.IsNullOrEmpty(OPSGNAME) || OPSGNAME == "N/A") ? null : OPSGNAME,
                                 LD_CTN_TYP = VesselType
                             });
 

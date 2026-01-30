@@ -296,8 +296,8 @@
     <Compile Include="Model.Access\이력데이터\BR_BRS_MRG_HISTORYDATA_ENDTIME.Access.cs" />
     <Compile Include="Model.Access\이력데이터\BR_BRS_MRG_HISTORYDATA_STARTTIME.Access.cs" />
     <Compile Include="Model.Access\이력데이터\BR_BRS_SEL_HISTORYDATA_TIME.Access.cs" />
-    <Compile Include="Model.Access\장비액션\BR_PHR_SEL_EquipmentActionStatusWithParameter.Access.cs" />
-    <Compile Include="Model.Access\장비액션\BR_PHR_SEL_EquipmentClassAction_IncludeStatus.Access.cs" />
+    <Compile Include="Model.Access\장비액션\BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID.Access.cs" />
+    <Compile Include="Model.Access\장비액션\BR_PHR_SEL_EquipmentClass_Parent.Access.cs" />
     <Compile Include="Model.Access\장비청소\BR_BRS_SEL_EquipmentList_CleanCheck.Access.cs" />
     <Compile Include="Model.Access\장비청소\BR_BRS_SEL_EquipmentStatus_CheckCleaned_Multi.Access.cs" />
     <Compile Include="Model.Access\장비청소\BR_BRS_SEL_EquipmentStatus_PROCEQPT.Access.cs" />
@@ -594,6 +594,10 @@
     <Compile Include="설비사용\설비액션기록.xaml.cs">
       <DependentUpon>설비액션기록.xaml</DependentUpon>
     </Compile>
+    <Compile Include="설비사용\설비액션목록.xaml.cs">
+      <DependentUpon>설비액션목록.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="설비사용\설비액션목록ViewModel.cs" />
     <Compile Include="설비사용\작업장점검사용시작.cs" />
     <Compile Include="수동선별양품수량생성\수동선별양품수량생성.xaml.cs">
       <DependentUpon>수동선별양품수량생성.xaml</DependentUpon>
@@ -1424,6 +1428,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="설비사용\설비액션기록.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="설비사용\설비액션목록.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

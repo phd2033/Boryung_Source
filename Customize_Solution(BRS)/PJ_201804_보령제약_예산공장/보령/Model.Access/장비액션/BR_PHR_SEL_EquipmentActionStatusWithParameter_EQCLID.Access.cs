@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace 보령
 {
-
+    
     /// <summary>
-    /// summary of BR_PHR_SEL_EquipmentActionStatusWithParameter
+    /// summary of BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID
     /// </summary>
-    public partial class BR_PHR_SEL_EquipmentActionStatusWithParameter : BizActorRuleBase
+    public partial class BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID : BizActorRuleBase
     {
         public sealed partial class INDATACollection : BufferedObservableCollection<INDATA>
         {
@@ -22,7 +22,7 @@ namespace 보령
                 return this._INDATAs;
             }
         }
-        [BizActorInputSetDefineAttribute(Order = "0")]
+        [BizActorInputSetDefineAttribute(Order="0")]
         [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
         public partial class INDATA : BizActorDataSetBase
         {
@@ -69,13 +69,13 @@ namespace 보령
                     this.OnPropertyChanged("RowEditSec");
                 }
             }
-            private string _EQPTID;
+            private string _EQCLID;
             [BizActorInputItemAttribute()]
-            public string EQPTID
+            public string EQCLID
             {
                 get
                 {
-                    return this._EQPTID;
+                    return this._EQCLID;
                 }
                 set
                 {
@@ -84,9 +84,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._EQPTID = value;
-                        this.CheckIsOriginal("EQPTID", value);
-                        this.OnPropertyChanged("EQPTID");
+                        this._EQCLID = value;
+                        this.CheckIsOriginal("EQCLID", value);
+                        this.OnPropertyChanged("EQCLID");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -133,38 +133,6 @@ namespace 보령
                     }
                 }
             }
-            private string _EQSTID;
-            [BizActorInputItemAttribute()]
-            public string EQSTID
-            {
-                get
-                {
-                    return this._EQSTID;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                    {
-                    }
-                    else
-                    {
-                        this._EQSTID = value;
-                        this.CheckIsOriginal("EQSTID", value);
-                        this.OnPropertyChanged("EQSTID");
-                        if (RowLoadedFlag)
-                        {
-                            if (this.CheckIsOriginalRow())
-                            {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
-                            }
-                        }
-                    }
-                }
-            }
         }
         public sealed partial class STATUS_OUTDATACollection : BufferedObservableCollection<STATUS_OUTDATA>
         {
@@ -178,7 +146,7 @@ namespace 보령
                 return this._STATUS_OUTDATAs;
             }
         }
-        [BizActorOutputSetDefineAttribute(Order = "0")]
+        [BizActorOutputSetDefineAttribute(Order="0")]
         [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
         public partial class STATUS_OUTDATA : BizActorDataSetBase
         {
@@ -750,7 +718,7 @@ namespace 보령
                 return this._PARAM_OUTDATAs;
             }
         }
-        [BizActorOutputSetDefineAttribute(Order = "1")]
+        [BizActorOutputSetDefineAttribute(Order="1")]
         [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
         public partial class PARAM_OUTDATA : BizActorDataSetBase
         {
@@ -1342,10 +1310,10 @@ namespace 보령
                 }
             }
         }
-        public BR_PHR_SEL_EquipmentActionStatusWithParameter()
+        public BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID()
         {
-            RuleName = "BR_PHR_SEL_EquipmentActionStatusWithParameter";
-            BizName = "BR_PHR_SEL_EquipmentActionStatusWithParameter";
+            RuleName = "BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID";
+            BizName = "BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID";
             _INDATAs = new INDATACollection();
             _STATUS_OUTDATAs = new STATUS_OUTDATACollection();
             _PARAM_OUTDATAs = new PARAM_OUTDATACollection();

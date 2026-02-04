@@ -63,7 +63,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Button Grid.Column="0" Width="90" Height="35" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Delete" Name="btnDelete" Margin="0,10,50,5" Command="{Binding RemoveEqptCommandAsync}"/>
-                    <Button Grid.Column="1" Width="90" Height="35" HorizontalAlignment="Right" VerticalAlignment="Center" Content="다음" Name="btndelete" Margin="0,10,172,5" Command="{Binding ConfirmCommandAsync}" Grid.ColumnSpan="2"/>
+                    <Button Grid.Column="1" Width="90" Height="35" HorizontalAlignment="Right" VerticalAlignment="Center" Content="다음" Name="btndelete" Margin="0,10,172,5" Command="{Binding ConfirmCommandAsync}" CommandParameter="{Binding}" Grid.ColumnSpan="2"/>
                     <Button Grid.Column="2" Width="90" Height="35" HorizontalAlignment="Left" VerticalAlignment="Center" Content="취소" Name="btnCancel" Margin="50,10,0,5" Click="btnCancel_Click" RenderTransformOrigin="0.469,1.019"/>
                 </Grid>
             </Grid>

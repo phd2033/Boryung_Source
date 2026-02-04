@@ -14,6 +14,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using C1.Silverlight.Data;
 using System.Text;
+using System.Collections.Generic;
+using 보령.UserControls;
 
 namespace 보령
 {
@@ -21,24 +23,25 @@ namespace 보령
     public class 설비액션기록ViewModel : ViewModelBase
     {
         #region [Property]
-        public 설비액션기록ViewModel()
+        public 설비액션기록ViewModel(ObservableCollection<설비액션목록ViewModel.EQPTInfo> data)
         {
             _BR_PHR_SEL_System_Printer = new BR_PHR_SEL_System_Printer();
             _BR_PHR_SEL_Equipment_GetInfo = new BR_PHR_SEL_Equipment_GetInfo();
             _BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus = new BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus();
             _BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID = new BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID();
             _BR_PHR_SEL_EquipmentClass_Parent = new 보령.BR_PHR_SEL_EquipmentClass_Parent();
+            _BR_PHR_SEL_EQPACOMBOList = new BR_PHR_SEL_EQPACOMBOList();
+            _BR_PHR_SEL_EquipmentClassAction_Multi = new BR_PHR_SEL_EquipmentClassAction_Multi();
 
-            _EqptList = new ObservableCollection<EqptContainer>();
+            _EqptList = new ObservableCollection<설비액션목록ViewModel.EQPTInfo>();
             _ActionList = new ObservableCollection<ActionContainer>();
-            _selectedAction = new BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus();
 
+            EqptList = data;
         }
 
         설비액션기록 _mainWnd;
    
         private BR_PHR_SEL_System_Printer.OUTDATA _selectedPrint;
-        private BR_PHR_SEL_EquipmentClassAction_Parent_ActionStatus _selectedAction;
 
         public string curPrintName
         {
@@ -62,6 +65,50 @@ namespace 보령
             }
         }
 
+        private string _ACTVAL;
+        public string ACTVAL
+        {
+            get { return _ACTVAL; }
+            set
+            {
+                _ACTVAL = value;
+                OnPropertyChanged("ACTVAL");
+            }
+        }
+
+        private DateTime? _ACTVAL_DT;
+        public DateTime? ACTVAL_DT
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(this.ACTVAL)) return null;
+                DateTime dt;
+
+                if (DateTime.TryParse(this.ACTVAL, out dt))
+                {
+                    return dt;
+                }
+
+                return null;
+            }
+            set
+            {
+                _ACTVAL_DT = value;
+
+                if (value != null && value.HasValue)
+                {
+                    this.ACTVAL = value.Value.ToString("yyyy-MM-dd HH:mm:ss");
+                }
+                else
+                {
+                    this.ACTVAL = string.Empty;
+                }
+
+                OnPropertyChanged("ACTVAL_DT");
+                OnPropertyChanged("ACTVAL");
+            }
+        }
+
         private bool _btnRecordEnable;
         public bool btnRecordEnable
         {
@@ -73,8 +120,8 @@ namespace 보령
             }
         }
         
-        private ObservableCollection<EqptContainer> _EqptList;
-        public ObservableCollection<EqptContainer> EqptList
+        private ObservableCollection<설비액션목록ViewModel.EQPTInfo> _EqptList;
+        public ObservableCollection<설비액션목록ViewModel.EQPTInfo> EqptList
         {
             get { return _EqptList; }
             set
@@ -94,6 +141,74 @@ namespace 보령
                 OnPropertyChanged("ActionList");
             }
         }
+
+        private ActionContainer _selectedAction;
+        public ActionContainer selectedAction
+        {
+            get { return _selectedAction; }
+            set
+            {
+                _selectedAction = value;
+                OnPropertyChanged("selectedAction");
+            }
+        }
+
+
+        private string _EQPATYPE;
+        public string EQPATYPE
+        {
+            get { return _EQPATYPE; }
+            set
+            {
+                _EQPATYPE = value;
+                OnPropertyChanged("EqptId");
+            }
+        }
+
+        private List<string> _LIST_DATA;
+        public List<string> LIST_DATA
+        {
+            get { return _LIST_DATA; }
+            set
+            {
+                _LIST_DATA = value;
+                OnPropertyChanged("LIST_DATA");
+            }
+        }
+
+        private string _EQPTNAME;
+        public string EQPTNAME
+        {
+            get { return _EQPTNAME; }
+            set
+            {
+                _EQPTNAME = value;
+                OnPropertyChanged("EQPTNAME");
+            }
+        }
+
+        private string _EQPTID;
+        public string EQPTID
+        {
+            get { return _EQPTID; }
+            set
+            {
+                _EQPTID = value;
+                OnPropertyChanged("EQPTID");
+            }
+        }
+
+        private string _EQACSTATE;
+        public string EQACSTATE  
+        {
+            get { return _EQACSTATE; }
+            set
+            {
+                _EQACSTATE = value;
+                OnPropertyChanged("EQACSTATE");
+            }
+        }
+
         #endregion
 
         #region [BizRule]
@@ -144,6 +259,26 @@ namespace 보령
                 _BR_PHR_SEL_EquipmentClass_Parent = value;
             }
         }
+
+        BR_PHR_SEL_EQPACOMBOList _BR_PHR_SEL_EQPACOMBOList;
+        public BR_PHR_SEL_EQPACOMBOList BR_PHR_SEL_EQPACOMBOList
+        {
+            get { return _BR_PHR_SEL_EQPACOMBOList; }
+            set
+            {
+                _BR_PHR_SEL_EQPACOMBOList = value;
+            }
+        }
+
+        BR_PHR_SEL_EquipmentClassAction_Multi _BR_PHR_SEL_EquipmentClassAction_Multi;
+        public BR_PHR_SEL_EquipmentClassAction_Multi BR_PHR_SEL_EquipmentClassAction_Multi
+        {
+            get { return _BR_PHR_SEL_EquipmentClassAction_Multi; }
+            set
+            {
+                _BR_PHR_SEL_EquipmentClassAction_Multi = value;
+            }
+        }
         #endregion
 
         #region [Command]
@@ -187,11 +322,11 @@ namespace 보령
                             _BR_PHR_SEL_EquipmentClass_Parent.INDATAs.Clear();
                             _BR_PHR_SEL_EquipmentClass_Parent.OUTDATAs.Clear();
 
-                            foreach(var item in _EqptList)
+                            foreach(var item in EqptList)
                             {
                                 _BR_PHR_SEL_EquipmentClass_Parent.INDATAs.Add(new BR_PHR_SEL_EquipmentClass_Parent.INDATA
                                 {
-                                    EQPTID = item.Eqptid
+                                    EQPTID = item.EQPTID
                                 });
                             }
 
@@ -287,17 +422,40 @@ namespace 보령
                             _BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID.STATUS_OUTDATAs.Clear();
                             _BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID.PARAM_OUTDATAs.Clear();
 
+                            _BR_PHR_SEL_EquipmentClassAction_Multi.INDATAs.Clear();
+                            _BR_PHR_SEL_EquipmentClassAction_Multi.OUTDATAs.Clear();
+
 
 
                             _BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID.INDATAs.Add(new BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID.INDATA
                             {
-                                //EQCLID = ((ActionContainer)(_mainWnd.ActionDataGrid.SelectedItem)).eq
-                                EQACID = _selectedAction.OUTDATAs[0].EQACID
+                                EQCLID = BR_PHR_SEL_EquipmentClass_Parent.OUTDATAs[0].EQCLID,
+                                EQACID = selectedAction.EqacId
                             });
+
+                            foreach (var eqpt in EqptList)
+                            {
+                                _BR_PHR_SEL_EquipmentClassAction_Multi.INDATAs.Add(new BR_PHR_SEL_EquipmentClassAction_Multi.INDATA
+                                {
+                                    LANGID = "ko-KR",
+                                    EQPTID = eqpt.EQPTID,
+                                    ISSYSACTVISIBLE = "Y",
+                                    EQACID = selectedAction.EqacId
+                                });
+                            }
 
                             await _BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID.Execute();
 
-                            OnPropertyChanged("BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID");
+                            foreach (var item in BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID.PARAM_OUTDATAs)
+                            {
+                                if (item.ISREQUIRED == "Y" && !item.EQPANAME.StartsWith("*"))
+                                {
+                                    item.EQPANAME = "*" + item.EQPANAME;
+                                }
+                            }
+
+                            await _BR_PHR_SEL_EquipmentClassAction_Multi.Execute();
+
 
                             CommandResults["ActionSelectCommand"] = true;
                         }
@@ -373,7 +531,23 @@ namespace 보령
                         CommandResults["ChangePrintCommand"] = false;
                         CommandCanExecutes["ChangePrintCommand"] = false;
 
-                        
+                        ///
+                        SelectPrinterPopup popup = new SelectPrinterPopup();
+
+                        popup.Closed += (s, e) =>
+                        {
+                            if (popup.DialogResult.GetValueOrDefault())
+                            {
+                                if (popup.SourceGrid.SelectedItem != null && popup.SourceGrid.SelectedItem is BR_PHR_SEL_System_Printer.OUTDATA)
+                                {
+                                    _selectedPrint = popup.SourceGrid.SelectedItem as BR_PHR_SEL_System_Printer.OUTDATA;
+                                    OnPropertyChanged("curPrintName");
+                                }
+                            }
+                        };
+
+                        popup.Show();
+                        ///
                         CommandResults["ChangePrintCommand"] = true;
                     }
                     catch (Exception ex)
@@ -383,8 +557,9 @@ namespace 보령
                     }
                     finally
                     {
-                        IsBusy = false;
                         CommandCanExecutes["ChangePrintCommand"] = true;
+
+                        IsBusy = false;
                     }
                 }, arg =>
                 {
@@ -392,12 +567,12 @@ namespace 보령
                         CommandCanExecutes["ChangePrintCommand"] : (CommandCanExecutes["ChangePrintCommand"] = true);
                 });
             }
-        }
+        } // 프린터 변경
 
         #endregion
 
         #region [etc]
-        
+
         public class EqptContainer : WIPContainer
         {
             private string _Eqptid;

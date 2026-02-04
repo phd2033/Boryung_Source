@@ -40,6 +40,8 @@ namespace 보령
                 var viewModel = this.LayoutRoot.DataContext as 설비액션목록ViewModel;
                 await viewModel.AddEqptGridList(txtSelEqptId.Text.ToUpper());
 
+                txtSelEqptId.Text = string.Empty;
+
                 //await (this.LayoutRoot.DataContext as 설비액션목록ViewModel).AddEqptGridList(txtSelEqptId.Text.ToUpper());
             }
         }

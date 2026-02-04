@@ -183,6 +183,7 @@ namespace 보령
             {
                 return new AsyncCommandBase(async arg =>
                 {
+                    var eqptList = arg as 설비액션목록ViewModel;
                     using (await AwaitableLocks["ConfirmCommandAsync"].EnterAsync())
                     {
                         try
@@ -201,19 +202,14 @@ namespace 보령
                                 compRequestOut.Add(item);
                             }
 
+
                             if (compRequestOut.Count > 0)
                             {
-                                var popup = new 설비액션기록
-                                {
-                                    EqptDataGrid = _mainWnd.GridRequestOutList
-                                };
+                                var popupViewModel = new 설비액션기록ViewModel(eqptList._ListRequestOut);
 
-                                if (popup.DialogResult == true)
-                                {
-                                       
-                                }
-                                else
-                                    _mainWnd.GridRequestOutList.SelectedItem = null;
+                                설비액션기록 popup = new 설비액션기록();
+
+                                popup.DataContext = popupViewModel;
 
                                 popup.Show();
                             }

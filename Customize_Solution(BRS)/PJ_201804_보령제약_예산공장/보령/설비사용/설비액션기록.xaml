@@ -13,6 +13,11 @@
            mc:Ignorable="d"
            Width="1000" Height="500" x:Name="Main"
            Title="설비액션기록">
+    <icommon:iPharmMESChildWindow.Resources>
+        <local:DataTypeToVisibilityConverter x:Key="TypeToVisConverter" />
+        <local:StateToColorConverter x:Key="StateToColorConverter" />
+    </icommon:iPharmMESChildWindow.Resources>
+  
     <toolkit:BusyIndicator x:Name="BusyIn" IsBusy="{Binding IsBusy}">
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="Loaded">
@@ -45,7 +50,7 @@
                                ItemsSource="{Binding EqptList}">
 
                     <c1:C1DataGrid.Columns>
-                        <c1:DataGridTextColumn Header="설비코드" Binding="{Binding Path=Eqptid}" HorizontalAlignment="Center" Width="1*"/>
+                        <c1:DataGridTextColumn Header="설비코드" Binding="{Binding Path=EQPTID}" HorizontalAlignment="Center" Width="1*"/>
                     </c1:C1DataGrid.Columns>
                 </c1:C1DataGrid>
 
@@ -54,7 +59,7 @@
                 <c1:C1DataGrid x:Name="ActionDataGrid" HeadersVisibility="Column" SelectionMode="SingleRow"
                                AutoGenerateColumns="False" CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="True" CanUserResizeRows="False" 
                                ScrollMode="RealTime" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"
-                               ItemsSource="{Binding ActionList}" >
+                               ItemsSource="{Binding ActionList}" SelectedItem="{Binding selectedAction, Mode=TwoWay}">
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
@@ -72,26 +77,70 @@
                 <c1:C1DataGrid x:Name="EqptStateDataGrid" HeadersVisibility="Column" SelectionMode="SingleRow"
                                AutoGenerateColumns="False" CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="True" CanUserResizeRows="False" 
                                ScrollMode="RealTime" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"
-                               ItemsSource="{Binding EqptList}">
+                               ItemsSource="{Binding BR_PHR_SEL_EquipmentClassAction_Multi.OUTDATAs}">
 
                     <c1:C1DataGrid.Columns>
 
-                        <c1:DataGridTextColumn Header="상태" Binding="{Binding Path=EqacState}" 
+                        <!--<c1:DataGridTextColumn Header="상태" Binding="{Binding Path=EQACSTATE}" 
                                                CellContentStyle="{Binding cellColoer}"
-                                               IsReadOnly="{Binding Path=IsReadOnly}" HorizontalAlignment="Center" Width="40" />
-                        <c1:DataGridTextColumn Header="설비코드" Binding="{Binding Path=Eqptid}" HorizontalAlignment="Center" Width="1*"/>
+                                               IsReadOnly="{Binding Path=IsReadOnly}" HorizontalAlignment="Center" Width="40" />-->
+                        <c1:DataGridTemplateColumn Header="상태" Width="40">
+                            <c1:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Ellipse Width="12" Height="12" 
+                                             Fill="{Binding EQACSTATE, Converter={StaticResource StateToColorConverter}}" 
+                                             Stroke="Gray" StrokeThickness="1"
+                                             HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </c1:DataGridTemplateColumn.CellTemplate>
+                        </c1:DataGridTemplateColumn>
+                        <c1:DataGridTextColumn Header="설비코드" Binding="{Binding Path=EQPTID}" HorizontalAlignment="Center" Width="1*"/>
+                        <c1:DataGridTextColumn Header="설비이름" Binding="{Binding Path=EQPTNAME}" HorizontalAlignment="Center" Width="1*"/>
                     </c1:C1DataGrid.Columns>
                 </c1:C1DataGrid>
             </Grid>
             <Grid Grid.Row="3" Grid.Column="7" x:Name="ParamSection">
                 <c1:C1DataGrid x:Name="ParamDataGrid" HeadersVisibility="Column" SelectionMode="SingleRow"
-                               AutoGenerateColumns="False" CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="True" CanUserResizeRows="False" 
+                               AutoGenerateColumns="False" CanUserAddRows="False" CanUserEditRows="True" CanUserRemoveRows="True" CanUserResizeRows="False" 
                                ScrollMode="RealTime" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"
-                               ItemsSource="{Binding BR_PHR_SEL_EquipmentActionStatusWithParameter.PARAM_OUTDATAs}">
+                               ItemsSource="{Binding BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID.PARAM_OUTDATAs}">
                     <c1:C1DataGrid.Columns>
-                        <c1:DataGridTextColumn Header="항목" Binding="{Binding Path=EQPANAME}" HorizontalAlignment="Center" Width="150"/>
-                        <c1:DataGridTextColumn Header="설명" Binding="{Binding Path=EQPADESC}" HorizontalAlignment="Center" Width="1*"/>
-                        <c1:DataGridTextColumn Header="기록값" Binding="{Binding Path=ACTVAL}" HorizontalAlignment="Center" Width="100"/>
+                        <c1:DataGridTextColumn Header="항목" Binding="{Binding Path=EQPANAME}" HorizontalAlignment="Left" Width="150" IsReadOnly="True"/>
+                        <c1:DataGridTextColumn Header="설명" Binding="{Binding Path=EQPADESC}" HorizontalAlignment="Left" Width="1*"  IsReadOnly="True"/>
+                        <c1:DataGridTextColumn Header="타입" Binding="{Binding Path=EQPATYPE}" Visibility="Collapsed"/>
+                        <c1:DataGridTemplateColumn Header="기록값" Width="100" IsReadOnly="False">
+                            <c1:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <TextBlock Text="{Binding ACTVAL}" 
+                                                   Visibility="{Binding Converter={StaticResource TypeToVisConverter}, ConverterParameter=StringOrList}"/>
+                                        <TextBlock Text="{Binding ACTVAL_DT, StringFormat='yyyy-MM-dd'}" 
+                                                   Visibility="{Binding Converter={StaticResource TypeToVisConverter}, ConverterParameter=Date}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </c1:DataGridTemplateColumn.CellTemplate>
+
+                            <c1:DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <TextBox x:Name="txtNormal" 
+                                                 Text="{Binding Path=ACTVAL, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                 Visibility="{Binding Converter={StaticResource TypeToVisConverter}, ConverterParameter=String}" />
+
+                                        <c1:C1DateTimePicker x:Name="dtpTime" 
+                                                             DateTime="{Binding Path=ACTVAL_DT, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                             DateFormat="Short" 
+                                                             EditMode="Date" 
+                                                             Visibility="{Binding Converter={StaticResource TypeToVisConverter}, ConverterParameter=Date}" />
+                                        <!--SelectedValue="{Binding ACTVAL, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
+                                        <ComboBox x:Name="cmbList" ItemsSource="{Binding LIST_DATA}"  
+                                                  SelectedItem="{Binding Path=ACTVAL, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  Visibility="{Binding Converter={StaticResource TypeToVisConverter}, ConverterParameter=List}" DropDownOpened="cmbList_DropDownOpened"/>
+
+                                    </Grid>
+                                </DataTemplate>
+                            </c1:DataGridTemplateColumn.CellEditingTemplate>
+                        </c1:DataGridTemplateColumn>
                     </c1:C1DataGrid.Columns>
                 </c1:C1DataGrid>
             </Grid>

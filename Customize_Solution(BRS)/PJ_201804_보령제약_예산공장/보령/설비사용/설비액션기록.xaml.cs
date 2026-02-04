@@ -12,16 +12,19 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using ShopFloorUI;
+using System.Windows.Data;
 
 namespace 보령
 {
     public partial class 설비액션기록 : iPharmMESChildWindow
     {
+        private 설비액션목록ViewModel eqptList;
+
         public 설비액션기록()
         {
             InitializeComponent();
         }
-        
+
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
@@ -30,6 +33,84 @@ namespace 보령
         private void LayoutRoot_Loaded(object sender, RoutedEventArgs e)
         {
             (this.LayoutRoot.DataContext as 설비액션기록ViewModel).LoadedCommandAsync.Execute(null);
+        }
+        private async void cmbList_DropDownOpened(object sender, EventArgs e)
+        {
+            var combo = sender as ComboBox;
+            if (combo == null) return;
+
+            var vm = this.DataContext as 설비액션기록ViewModel; 
+            var rowData = combo.DataContext as BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID.PARAM_OUTDATA;
+
+            if (combo.ItemsSource != null && combo.ItemsSource.Cast<object>().Any()) return;
+
+            try
+            {
+                vm.BR_PHR_SEL_EQPACOMBOList.INDATAs.Clear();
+                vm.BR_PHR_SEL_EQPACOMBOList.OUTDATAs.Clear();
+                vm.BR_PHR_SEL_EQPACOMBOList.INDATAs.Add(new BR_PHR_SEL_EQPACOMBOList.INDATA
+                {
+                    BIZRULEID = rowData.BIZRULE,
+                    LANGID = "ko-KR"
+                });
+
+                if (await vm.BR_PHR_SEL_EQPACOMBOList.Execute())
+                {
+                    var resultList = vm.BR_PHR_SEL_EQPACOMBOList.OUTDATAs
+                                       .Select(x => x.DISPLAYVALUE).ToList();
+                    combo.ItemsSource = resultList;
+                }
+
+
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+
+    }
+    public class DataTypeToVisibilityConverter : System.Windows.Data.IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            var rowData = value as BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID.PARAM_OUTDATA;
+            if (rowData == null || parameter == null) return Visibility.Collapsed;
+
+            string target = parameter.ToString();
+
+            string eqpaType = rowData.EQPATYPE != null ? rowData.EQPATYPE.ToString().Trim() : "";
+
+            if (eqpaType.Equals(target, StringComparison.OrdinalIgnoreCase))
+            {
+                return Visibility.Visible;
+            }
+
+            return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
+    public class StateToColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            string state = value as string;
+            if (state == "Y")
+            {
+                return new SolidColorBrush(Colors.Red); // Y일 때 빨간색
+            }
+            return new SolidColorBrush(Color.FromArgb(255, 211, 211, 211)); // N일 때 회색 (LightGray)
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

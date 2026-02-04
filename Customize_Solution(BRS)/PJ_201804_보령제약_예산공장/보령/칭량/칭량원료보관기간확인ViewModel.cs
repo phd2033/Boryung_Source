@@ -61,16 +61,37 @@ namespace 보령
                             if (arg != null)
                             {
                                 _mainWnd = arg as 칭량원료보관기간확인;
+                                var paramInsts = InstructionModel.GetParameterSender(_mainWnd.CurrentInstruction, _mainWnd.Instructions);
+                                decimal tempEXPRESSION;
 
                                 _BR_BRS_SEL_DispensingExpireState.INDATAs.Clear();
                                 _BR_BRS_SEL_DispensingExpireState.OUTDATAs.Clear();
-                                _BR_BRS_SEL_DispensingExpireState.INDATAs.Add(new BR_BRS_SEL_DispensingExpireState.INDATA
+                                
+                                if (paramInsts.Count > 0)
                                 {
-                                    POID = _mainWnd.CurrentOrder.ProductionOrderID,
-                                    OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID
-                                });
-
-                                await _BR_BRS_SEL_DispensingExpireState.Execute();
+                                    foreach (var instruction in paramInsts)
+                                    {
+                                        if (decimal.TryParse(instruction.Raw.EXPRESSION, out tempEXPRESSION))
+                                        {
+                                            _BR_BRS_SEL_DispensingExpireState.INDATAs.Add(new BR_BRS_SEL_DispensingExpireState.INDATA
+                                            {
+                                                POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                                OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID,
+                                                CHGSEQ = decimal.Parse(instruction.Raw.EXPRESSION),
+                                                MTRLID = instruction.Raw.BOMID
+                                            });
+                                        }
+                                    }
+                                }else
+                                {
+                                    _BR_BRS_SEL_DispensingExpireState.INDATAs.Add(new BR_BRS_SEL_DispensingExpireState.INDATA
+                                    {
+                                        POID = _mainWnd.CurrentOrder.ProductionOrderID,
+                                        OPSGGUID = _mainWnd.CurrentOrder.OrderProcessSegmentID
+                                    });
+                                }
+                               
+                                if (await _BR_BRS_SEL_DispensingExpireState.Execute() == false) return;
                             }
                             CommandResults["LoadedCommand"] = true;
                         }

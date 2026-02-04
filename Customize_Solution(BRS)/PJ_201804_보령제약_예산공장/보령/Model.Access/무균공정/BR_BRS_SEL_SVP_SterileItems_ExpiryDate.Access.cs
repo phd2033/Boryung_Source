@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace 보령
 {
-
+    
     /// <summary>
-    /// summary of BR_BRS_SEL_DispensingExpireState
+    /// summary of BR_BRS_SEL_SVP_SterileItems_ExpiryDate
     /// </summary>
-    public partial class BR_BRS_SEL_DispensingExpireState : BizActorRuleBase
+    public partial class BR_BRS_SEL_SVP_SterileItems_ExpiryDate : BizActorRuleBase
     {
         public sealed partial class INDATACollection : BufferedObservableCollection<INDATA>
         {
@@ -22,7 +22,7 @@ namespace 보령
                 return this._INDATAs;
             }
         }
-        [BizActorInputSetDefineAttribute(Order = "0")]
+        [BizActorInputSetDefineAttribute(Order="0")]
         [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
         public partial class INDATA : BizActorDataSetBase
         {
@@ -101,13 +101,13 @@ namespace 보령
                     }
                 }
             }
-            private string _OPSGGUID;
+            private string _GUBUN;
             [BizActorInputItemAttribute()]
-            public string OPSGGUID
+            public string GUBUN
             {
                 get
                 {
-                    return this._OPSGGUID;
+                    return this._GUBUN;
                 }
                 set
                 {
@@ -116,73 +116,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._OPSGGUID = value;
-                        this.CheckIsOriginal("OPSGGUID", value);
-                        this.OnPropertyChanged("OPSGGUID");
-                        if (RowLoadedFlag)
-                        {
-                            if (this.CheckIsOriginalRow())
-                            {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
-                            }
-                        }
-                    }
-                }
-            }
-            private System.Nullable<decimal> _CHGSEQ;
-            [BizActorInputItemAttribute()]
-            public System.Nullable<decimal> CHGSEQ
-            {
-                get
-                {
-                    return this._CHGSEQ;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                    {
-                    }
-                    else
-                    {
-                        this._CHGSEQ = value;
-                        this.CheckIsOriginal("CHGSEQ", value);
-                        this.OnPropertyChanged("CHGSEQ");
-                        if (RowLoadedFlag)
-                        {
-                            if (this.CheckIsOriginalRow())
-                            {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
-                            }
-                        }
-                    }
-                }
-            }
-            private string _MTRLID;
-            [BizActorInputItemAttribute()]
-            public string MTRLID
-            {
-                get
-                {
-                    return this._MTRLID;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                    {
-                    }
-                    else
-                    {
-                        this._MTRLID = value;
-                        this.CheckIsOriginal("MTRLID", value);
-                        this.OnPropertyChanged("MTRLID");
+                        this._GUBUN = value;
+                        this.CheckIsOriginal("GUBUN", value);
+                        this.OnPropertyChanged("GUBUN");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -210,7 +146,7 @@ namespace 보령
                 return this._OUTDATAs;
             }
         }
-        [BizActorOutputSetDefineAttribute(Order = "0")]
+        [BizActorOutputSetDefineAttribute(Order="0")]
         [CustomValidation(typeof(ViewModelBase), "ValidateRow")]
         public partial class OUTDATA : BizActorDataSetBase
         {
@@ -257,13 +193,13 @@ namespace 보령
                     this.OnPropertyChanged("RowEditSec");
                 }
             }
-            private string _OPSGNAME;
+            private string _ITEM;
             [BizActorOutputItemAttribute()]
-            public string OPSGNAME
+            public string ITEM
             {
                 get
                 {
-                    return this._OPSGNAME;
+                    return this._ITEM;
                 }
                 set
                 {
@@ -272,9 +208,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._OPSGNAME = value;
-                        this.CheckIsOriginal("OPSGNAME", value);
-                        this.OnPropertyChanged("OPSGNAME");
+                        this._ITEM = value;
+                        this.CheckIsOriginal("ITEM", value);
+                        this.OnPropertyChanged("ITEM");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -289,13 +225,13 @@ namespace 보령
                     }
                 }
             }
-            private string _OPSGGUID;
+            private string _ENDTIME;
             [BizActorOutputItemAttribute()]
-            public string OPSGGUID
+            public string ENDTIME
             {
                 get
                 {
-                    return this._OPSGGUID;
+                    return this._ENDTIME;
                 }
                 set
                 {
@@ -304,9 +240,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._OPSGGUID = value;
-                        this.CheckIsOriginal("OPSGGUID", value);
-                        this.OnPropertyChanged("OPSGGUID");
+                        this._ENDTIME = value;
+                        this.CheckIsOriginal("ENDTIME", value);
+                        this.OnPropertyChanged("ENDTIME");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -321,13 +257,13 @@ namespace 보령
                     }
                 }
             }
-            private string _MTRLID;
+            private string _STDTIME;
             [BizActorOutputItemAttribute()]
-            public string MTRLID
+            public string STDTIME
             {
                 get
                 {
-                    return this._MTRLID;
+                    return this._STDTIME;
                 }
                 set
                 {
@@ -336,9 +272,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._MTRLID = value;
-                        this.CheckIsOriginal("MTRLID", value);
-                        this.OnPropertyChanged("MTRLID");
+                        this._STDTIME = value;
+                        this.CheckIsOriginal("STDTIME", value);
+                        this.OnPropertyChanged("STDTIME");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -353,13 +289,13 @@ namespace 보령
                     }
                 }
             }
-            private string _MTRLNAME;
+            private string _EXPIRYDATE;
             [BizActorOutputItemAttribute()]
-            public string MTRLNAME
+            public string EXPIRYDATE
             {
                 get
                 {
-                    return this._MTRLNAME;
+                    return this._EXPIRYDATE;
                 }
                 set
                 {
@@ -368,137 +304,9 @@ namespace 보령
                     }
                     else
                     {
-                        this._MTRLNAME = value;
-                        this.CheckIsOriginal("MTRLNAME", value);
-                        this.OnPropertyChanged("MTRLNAME");
-                        if (RowLoadedFlag)
-                        {
-                            if (this.CheckIsOriginalRow())
-                            {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
-                            }
-                        }
-                    }
-                }
-            }
-            private string _STRGSTANDARD;
-            [BizActorOutputItemAttribute()]
-            public string STRGSTANDARD
-            {
-                get
-                {
-                    return this._STRGSTANDARD;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                    {
-                    }
-                    else
-                    {
-                        this._STRGSTANDARD = value;
-                        this.CheckIsOriginal("STRGSTANDARD", value);
-                        this.OnPropertyChanged("STRGSTANDARD");
-                        if (RowLoadedFlag)
-                        {
-                            if (this.CheckIsOriginalRow())
-                            {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
-                            }
-                        }
-                    }
-                }
-            }
-            private string _STRGDATE;
-            [BizActorOutputItemAttribute()]
-            public string STRGDATE
-            {
-                get
-                {
-                    return this._STRGDATE;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                    {
-                    }
-                    else
-                    {
-                        this._STRGDATE = value;
-                        this.CheckIsOriginal("STRGDATE", value);
-                        this.OnPropertyChanged("STRGDATE");
-                        if (RowLoadedFlag)
-                        {
-                            if (this.CheckIsOriginalRow())
-                            {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
-                            }
-                        }
-                    }
-                }
-            }
-            private string _DEVIATIONYN;
-            [BizActorOutputItemAttribute()]
-            public string DEVIATIONYN
-            {
-                get
-                {
-                    return this._DEVIATIONYN;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                    {
-                    }
-                    else
-                    {
-                        this._DEVIATIONYN = value;
-                        this.CheckIsOriginal("DEVIATIONYN", value);
-                        this.OnPropertyChanged("DEVIATIONYN");
-                        if (RowLoadedFlag)
-                        {
-                            if (this.CheckIsOriginalRow())
-                            {
-                                RowEditSec = "SEL";
-                            }
-                            else
-                            {
-                                RowEditSec = "UPD";
-                            }
-                        }
-                    }
-                }
-            }
-            private string _DispensingStartDate;
-            [BizActorOutputItemAttribute()]
-            public string DispensingStartDate
-            {
-                get
-                {
-                    return this._DispensingStartDate;
-                }
-                set
-                {
-                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
-                    {
-                    }
-                    else
-                    {
-                        this._DispensingStartDate = value;
-                        this.CheckIsOriginal("DispensingStartDate", value);
-                        this.OnPropertyChanged("DispensingStartDate");
+                        this._EXPIRYDATE = value;
+                        this.CheckIsOriginal("EXPIRYDATE", value);
+                        this.OnPropertyChanged("EXPIRYDATE");
                         if (RowLoadedFlag)
                         {
                             if (this.CheckIsOriginalRow())
@@ -514,10 +322,10 @@ namespace 보령
                 }
             }
         }
-        public BR_BRS_SEL_DispensingExpireState()
+        public BR_BRS_SEL_SVP_SterileItems_ExpiryDate()
         {
-            RuleName = "BR_BRS_SEL_DispensingExpireState";
-            BizName = "BR_BRS_SEL_DispensingExpireState";
+            RuleName = "BR_BRS_SEL_SVP_SterileItems_ExpiryDate";
+            BizName = "BR_BRS_SEL_SVP_SterileItems_ExpiryDate";
             _INDATAs = new INDATACollection();
             _OUTDATAs = new OUTDATACollection();
         }

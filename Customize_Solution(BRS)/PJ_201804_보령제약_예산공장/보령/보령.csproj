@@ -229,6 +229,7 @@
     <Compile Include="Model.Access\레시피확인\BR_BRS_SEL_EquipmentRecipeStepType.Access.cs" />
     <Compile Include="Model.Access\레시피확인\BR_BRS_SEL_EquipmentRecipe_TAG_ACTVAL.Access.cs" />
     <Compile Include="Model.Access\무균공정\BR_BRS_SEL_SVP_ASEPTIC_PROCESS.Access.cs" />
+    <Compile Include="Model.Access\무균공정\BR_BRS_SEL_SVP_SterileItems_ExpiryDate.Access.cs" />
     <Compile Include="Model.Access\무균공정\BR_PHR_SEL_PERSON.Access.cs" />
     <Compile Include="Model.Access\반제품\BR_BRS_CHK_ProductionOrderSubLot_Valid.Access.cs" />
     <Compile Include="Model.Access\반제품\BR_BRS_GET_VESSEL_INFO_DETAIL.Access.cs" />
@@ -1065,6 +1066,10 @@
       <DependentUpon>Shelf별적재여부확인.xaml</DependentUpon>
     </Compile>
     <Compile Include="주사제\설비상태\Shelf별적재여부확인ViewModel.cs" />
+    <Compile Include="주사제\설비상태\멸균물품유효기간확인.xaml.cs">
+      <DependentUpon>멸균물품유효기간확인.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="주사제\설비상태\멸균물품유효기간확인ViewModel.cs" />
     <Compile Include="주사제\설비상태\멸균시작.cs" />
     <Compile Include="주사제\설비상태\멸균종료.cs" />
     <Compile Include="주사제\설비상태\세척장비액션수행.xaml.cs">
@@ -1909,6 +1914,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="주사제\설비상태\로드셀점검팝업.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="주사제\설비상태\멸균물품유효기간확인.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

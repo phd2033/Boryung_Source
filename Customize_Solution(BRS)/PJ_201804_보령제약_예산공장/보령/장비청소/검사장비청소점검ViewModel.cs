@@ -633,7 +633,7 @@ namespace 보령
 
                                     if (item.SCALEDAILYSTATUS.Equals("부적합(Fail)"))
                                     {
-                                        throw new Exception(string.Format("{0}설비 교정 상태를 확인해주세요.", item.EQPTID));
+                                        throw new Exception(string.Format("{0}설비 점검 상태를 확인해주세요.", item.EQPTID));
                                     }
 
                                     if (string.IsNullOrWhiteSpace(item.CALIBATIONDTTM.Trim()))

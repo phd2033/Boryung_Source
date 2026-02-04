@@ -30,7 +30,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="4" />
+                <RowDefinition Height="25.613"/>
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="1" x:Name="MainSection">
@@ -40,18 +41,18 @@
                        RowHeight="30" AlternatingRowBackground="White" RowBackground="White"
                        ItemsSource="{Binding BR_BRS_SEL_SVP_SterileItems_ExpiryDate.OUTDATAs}">
                     <c1:C1DataGrid.Columns>
-                        <c1:DataGridTextColumn Header="항목" Width="145" Binding="{Binding Path=ITEM}" HorizontalAlignment="Center" HeaderStyle="{StaticResource HeaderStyle}"/>
-                        <c1:DataGridTextColumn Header="종료시간" Width="145" Binding="{Binding Path=ENDTIME}" HorizontalAlignment="Center" HeaderStyle="{StaticResource HeaderStyle}"/>
-                        <c1:DataGridTextColumn Header="유효시간(기준)" Width="120" Binding="{Binding Path=STDTIME}" HorizontalAlignment="Center" HeaderStyle="{StaticResource HeaderStyle}"/>
-                        <c1:DataGridTextColumn Header="유효기간" Width="120" Binding="{Binding Path=EXPIRYDATE}" HorizontalAlignment="Center" HeaderStyle="{StaticResource HeaderStyle}"/>
+                        <c1:DataGridTextColumn Header="항목" Binding="{Binding Path=ITEM}" HorizontalAlignment="Center" HeaderStyle="{StaticResource HeaderStyle}"/>
+                        <c1:DataGridTextColumn Header="종료시간" Binding="{Binding Path=ENDTIME}" HorizontalAlignment="Center" HeaderStyle="{StaticResource HeaderStyle}"/>
+                        <c1:DataGridTextColumn Header="유효시간(기준)" Binding="{Binding Path=STDTIME}" HorizontalAlignment="Center" HeaderStyle="{StaticResource HeaderStyle}"/>
+                        <c1:DataGridTextColumn Header="유효기간" Binding="{Binding Path=EXPIRYDATE}" HorizontalAlignment="Center" HeaderStyle="{StaticResource HeaderStyle}"/>
                     </c1:C1DataGrid.Columns>
                 </c1:C1DataGrid>
             </Grid>
 
-            <Grid Grid.Row="2" x:Name="Footer">
+            <Grid Grid.Row="3" x:Name="Footer" Grid.RowSpan="2">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Button x:Name="OKButton" Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='기록'}" Command="{Binding Path=ConfirmCommand}" Width="120" Height="35" Margin="10,0"/>
-                    <Button x:Name="CancelButton" Content="{Binding W[CUICloseButtonText], Source={StaticResource VM}, FallbackValue='취소'}" Click="CancelButton_Click" Width="120" Height="35" Margin="10,0"/>
+                    <Button x:Name="OKButton" Content="{Binding W[CUIDataWriteToEBRButtonText], Source={StaticResource VM}, FallbackValue='기록'}" Command="{Binding Path=ConfirmCommand}" Width="90" Height="25" Margin="10,0"/>
+                    <Button x:Name="CancelButton" Content="{Binding W[CUICloseButtonText], Source={StaticResource VM}, FallbackValue='취소'}" Click="CancelButton_Click" Width="90" Height="25" Margin="10,0"/>
                 </StackPanel>
             </Grid>
         </Grid>

@@ -56,7 +56,16 @@ namespace 보령
                     UpdateCampaignDisplay(); 
                 }
             }
-
+        }
+        private bool _btnRecordEnable;
+        public bool btnRecordEnable
+        {
+            get { return _btnRecordEnable; }
+            set
+            {
+                _btnRecordEnable = value;
+                OnPropertyChanged("btnRecordEnable");
+            }
         }
         #endregion
 
@@ -88,7 +97,7 @@ namespace 보령
                             CommandCanExecutes["LoadedCommand"] = false;
                             CommandResults["LoadedCommand"] = false;
                             IsBusy = true;
-
+                            btnRecordEnable = false;
 
                             if (arg != null)
                             {
@@ -156,6 +165,7 @@ namespace 보령
         public void UpdateCampaignDisplay()
         {
             _CampaignList.Clear();
+            btnRecordEnable = true;
             // CAMPAIGNYN 값을 기반으로 표시할 정보 결정
             if (SelectedYnValue?.ToUpper() == "Y")
             {
@@ -163,7 +173,9 @@ namespace 보령
                 {
                     _CampaignList.Add(new CampaignInfo
                     {
-                        CAMPAIGNYN = SelectedYnValue?.ToUpper(),
+                        // 2026.01.26 김도연 일반 생산 설비일 경우에는, 캠페인 생산 여부를 "N"으로 표기.
+                        // (일반 생산 설비인 경우에는 BizRule에서 캠페인 횟수와 생산일수가 "N/A"로 조회되어 이것으로 구분 가능)
+                        CAMPAIGNYN = info.CAMPAIGNCNT.ToString().Equals("N/A") & info.CAMPAIGNPERIOD.ToString().Equals("N/A") ? "N" : SelectedYnValue?.ToUpper(),
                         EQPTID = info.EQPTID.ToString(),
                         CAMPAIGNCNT = info.CAMPAIGNCNT.ToString(),
                         CAMPAIGNPERIOD = info.CAMPAIGNPERIOD.ToString(),

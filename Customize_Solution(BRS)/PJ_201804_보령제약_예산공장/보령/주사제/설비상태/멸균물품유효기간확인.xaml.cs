@@ -14,25 +14,22 @@ using System.Windows.Shapes;
 
 namespace 보령
 {
-    [ShopFloorCustomHidden]
-    public partial class 캠페인생산설비조회 : ShopFloorCustomWindow
+    public partial class 멸균물품유효기간확인 : ShopFloorCustomWindow
     {
-        public 캠페인생산설비조회()
+        public 멸균물품유효기간확인()
         {
             InitializeComponent();
-            this.DataContext = new 캠페인생산설비조회ViewModel();
         }
 
         public override string TableTypeName
         {
-            get { return "TABLE,캠페인생산설비조회"; }
+            get { return "TABLE,멸균물품유효기간확인"; }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = false;
         }
-        
     }
 }
 

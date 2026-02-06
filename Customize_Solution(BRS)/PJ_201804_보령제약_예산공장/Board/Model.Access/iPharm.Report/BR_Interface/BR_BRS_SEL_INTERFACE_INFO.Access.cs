@@ -2705,6 +2705,38 @@ namespace LGCNS.iPharmMES.Common
                     }
                 }
             }
+            private string _MTRLID;
+            [BizActorOutputItemAttribute()]
+            public string MTRLID
+            {
+                get
+                {
+                    return this._MTRLID;
+                }
+                set
+                {
+                    if ((this.IsValid(value) == LGCNS.iPharmMES.Common.Common.enumValidationLevel.Error))
+                    {
+                    }
+                    else
+                    {
+                        this._MTRLID = value;
+                        this.CheckIsOriginal("MTRLID", value);
+                        this.OnPropertyChanged("MTRLID");
+                        if (RowLoadedFlag)
+                        {
+                            if (this.CheckIsOriginalRow())
+                            {
+                                RowEditSec = "SEL";
+                            }
+                            else
+                            {
+                                RowEditSec = "UPD";
+                            }
+                        }
+                    }
+                }
+            }
             private string _MTRLNAME;
             [BizActorOutputItemAttribute()]
             public string MTRLNAME

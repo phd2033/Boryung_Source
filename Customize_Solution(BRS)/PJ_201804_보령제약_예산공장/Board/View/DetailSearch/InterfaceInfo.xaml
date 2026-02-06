@@ -673,6 +673,7 @@
                                        ItemsSource="{Binding Path=BR_BRS_SEL_INTERFACE_INFO.OUTDATA_LIMSs, Mode=OneWay}">
                             <c1:C1DataGrid.Columns>
                                 <c1:DataGridTextColumn SortMemberPath="POID" Header="오더번호" Binding="{Binding Path=POID}" HorizontalAlignment="Center" MinWidth="60" HeaderStyle="{StaticResource colHeader}"/>
+                                <c1:DataGridTextColumn SortMemberPath="MTRLID" Header="제품코드" Binding="{Binding Path=MTRLID}" HorizontalAlignment="Center" MinWidth="60" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="MTRLNAME" Header="제품명" Binding="{Binding Path=MTRLNAME}" HorizontalAlignment="Center" MinWidth="60" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="ITEM_TYPE" Header="품목 유형" Binding="{Binding Path=ITEM_TYPE}" HorizontalAlignment="Center" MinWidth="60" HeaderStyle="{StaticResource colHeader}"/>
                                 <c1:DataGridTextColumn SortMemberPath="BATCHNO" Header="제조번호" Binding="{Binding Path=BATCHNO}" HorizontalAlignment="Center" MinWidth="60" HeaderStyle="{StaticResource colHeader}"/>

@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 
 namespace 보령
 {
+    [ShopFloorCustomHidden]
     public partial class 멸균물품유효기간확인 : ShopFloorCustomWindow
     {
         public 멸균물품유효기간확인()

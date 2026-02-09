@@ -79,7 +79,7 @@ namespace 보령
                                     _BR_BRS_SEL_SVP_SterileItems_ExpiryDate.INDATAs.Add(new BR_BRS_SEL_SVP_SterileItems_ExpiryDate.INDATA
                                     {
                                         POID = _mainWnd.CurrentOrder.ProductionOrderID,
-                                        GUBUN = _mainWnd.CurrentOrder.OrderProcessSegmentID
+                                        GUBUN = targetVal
                                     });
                                 }
                                 
@@ -154,12 +154,11 @@ namespace 보령
                             dt.Columns.Add(new DataColumn("종료시간"));
                             dt.Columns.Add(new DataColumn("유효시간"));
                             dt.Columns.Add(new DataColumn("유효기간"));
-
                             
-                            var row = dt.NewRow();
-
                             foreach(var item in _BR_BRS_SEL_SVP_SterileItems_ExpiryDate.OUTDATAs)
                             {
+                                var row = dt.NewRow();
+
                                 row["항목"] = item.ITEM ?? "";
                                 row["종료시간"] = item.ENDTIME ?? "";
                                 row["유효시간"] = item.STDTIME ?? "";

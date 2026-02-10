@@ -299,7 +299,7 @@ namespace 보령
 
                             if (decimal.TryParse(item.TAGVALUE, out chk))
                             {
-                                if (item.TAGDESC == "양품 수량")
+                                if (item.TAGDESC.Contains("양품 수량"))
                                 {
                                     _totalCount += chk;
                                 }
@@ -439,7 +439,7 @@ namespace 보령
                         BR_BRS_SEL_TabletPressGoodCount.OUTDATAs.Add(new BR_BRS_SEL_TabletPressGoodCount.OUTDATA
                         {
                             EQPTID = "N/A",
-                            TAGDESC = "양품 수량",
+                            TAGDESC = "양품 수량(Accepted Qty)",
                             TAGVALUE = "0"
                         });
                     }

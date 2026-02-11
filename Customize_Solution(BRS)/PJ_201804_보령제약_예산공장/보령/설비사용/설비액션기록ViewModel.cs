@@ -32,6 +32,7 @@ namespace 보령
             _BR_PHR_SEL_EquipmentClass_Parent = new 보령.BR_PHR_SEL_EquipmentClass_Parent();
             _BR_PHR_SEL_EQPACOMBOList = new BR_PHR_SEL_EQPACOMBOList();
             _BR_PHR_SEL_EquipmentClassAction_Multi = new BR_PHR_SEL_EquipmentClassAction_Multi();
+            _BR_PHR_UPD_EquipmentAction_Multi = new BR_PHR_UPD_EquipmentAction_Multi();
 
             _EqptList = new ObservableCollection<설비액션목록ViewModel.EQPTInfo>();
             _ActionList = new ObservableCollection<ActionContainer>();
@@ -39,7 +40,7 @@ namespace 보령
             EqptList = data;
         }
 
-        설비액션기록 _mainWnd;
+        설비액션기록 _mainWnd;    
    
         private BR_PHR_SEL_System_Printer.OUTDATA _selectedPrint;
 
@@ -73,6 +74,17 @@ namespace 보령
             {
                 _ACTVAL = value;
                 OnPropertyChanged("ACTVAL");
+            }
+        }
+
+        private string _EQPAINFO;
+        public string EQPAINFO
+        {
+            get { return _EQPAINFO; }
+            set
+            {
+                _EQPAINFO = value;
+                OnPropertyChanged("EQPAINFO");
             }
         }
 
@@ -279,6 +291,18 @@ namespace 보령
                 _BR_PHR_SEL_EquipmentClassAction_Multi = value;
             }
         }
+
+
+        BR_PHR_UPD_EquipmentAction_Multi _BR_PHR_UPD_EquipmentAction_Multi;
+        public BR_PHR_UPD_EquipmentAction_Multi BR_PHR_UPD_EquipmentAction_Multi
+        {
+            get { return _BR_PHR_UPD_EquipmentAction_Multi; }
+            set
+            {
+                _BR_PHR_UPD_EquipmentAction_Multi = value;
+            }
+        }
+        
         #endregion
 
         #region [Command]
@@ -490,6 +514,26 @@ namespace 보령
                         try
                         {
                             IsBusy = true;
+
+                            _BR_PHR_UPD_EquipmentAction_Multi.INDATAs.Clear();
+                            _BR_PHR_UPD_EquipmentAction_Multi.STATUSDATAs.Clear();
+                            _BR_PHR_UPD_EquipmentAction_Multi.PARAMDATAs.Clear();
+
+
+
+
+                            foreach (var eqpt in EqptList)
+                            {
+                                foreach (var item in _BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID.STATUS_OUTDATAs)
+                                {
+                                    _BR_PHR_UPD_EquipmentAction_Multi.STATUSDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.STATUSDATA
+                                    {
+                                        
+                                    });
+                                }
+                            }
+
+
 
                             CommandResults["SelectionChangedCommand"] = false;
                             CommandCanExecutes["SelectionChangedCommand"] = false;

@@ -81,9 +81,6 @@
 
                     <c1:C1DataGrid.Columns>
 
-                        <!--<c1:DataGridTextColumn Header="상태" Binding="{Binding Path=EQACSTATE}" 
-                                               CellContentStyle="{Binding cellColoer}"
-                                               IsReadOnly="{Binding Path=IsReadOnly}" HorizontalAlignment="Center" Width="40" />-->
                         <c1:DataGridTemplateColumn Header="상태" Width="40">
                             <c1:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -111,31 +108,26 @@
                         <c1:DataGridTemplateColumn Header="기록값" Width="100" IsReadOnly="False">
                             <c1:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Grid>
-                                        <TextBlock Text="{Binding ACTVAL}" 
-                                                   Visibility="{Binding Converter={StaticResource TypeToVisConverter}, ConverterParameter=StringOrList}"/>
-                                        <TextBlock Text="{Binding ACTVAL_DT, StringFormat='yyyy-MM-dd'}" 
-                                                   Visibility="{Binding Converter={StaticResource TypeToVisConverter}, ConverterParameter=Date}"/>
-                                    </Grid>
+                                    <TextBlock Text="{Binding EQPAINFO}" VerticalAlignment="Center" FontFamily="Portable User Interface" />
                                 </DataTemplate>
                             </c1:DataGridTemplateColumn.CellTemplate>
 
                             <c1:DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
                                     <Grid>
-                                        <TextBox x:Name="txtNormal" 
-                                                 Text="{Binding Path=ACTVAL, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                 Visibility="{Binding Converter={StaticResource TypeToVisConverter}, ConverterParameter=String}" />
-
+                                        <TextBox x:Name="txtNormal"
+                                                 Text="{Binding EQPAINFO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                 Visibility="{Binding Converter={StaticResource TypeToVisConverter}, ConverterParameter=String}" FontFamily="Portable User Interface" />
                                         <c1:C1DateTimePicker x:Name="dtpTime" 
-                                                             DateTime="{Binding Path=ACTVAL_DT, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                             DateTime="{Binding ACTVAL_DT, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                              DateFormat="Short" 
+                                                             DateTimeChanged="dtpTime_DateTimeChanged"
                                                              EditMode="Date" 
-                                                             Visibility="{Binding Converter={StaticResource TypeToVisConverter}, ConverterParameter=Date}" />
-                                        <!--SelectedValue="{Binding ACTVAL, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
+                                                             Visibility="{Binding Converter={StaticResource TypeToVisConverter}, ConverterParameter=Date}" FontFamily="Portable User Interface" />
+
                                         <ComboBox x:Name="cmbList" ItemsSource="{Binding LIST_DATA}"  
-                                                  SelectedItem="{Binding Path=ACTVAL, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  Visibility="{Binding Converter={StaticResource TypeToVisConverter}, ConverterParameter=List}" DropDownOpened="cmbList_DropDownOpened"/>
+                                                  SelectedValue="{Binding ACTVAL, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="cmbList_SelectionChanged"
+                                                  Visibility="{Binding Converter={StaticResource TypeToVisConverter}, ConverterParameter=List}" DropDownOpened="cmbList_DropDownOpened" FontFamily="Portable User Interface"/>
 
                                     </Grid>
                                 </DataTemplate>

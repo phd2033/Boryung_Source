@@ -69,6 +69,30 @@ namespace 보령
             }
         }
 
+        private void cmbList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var combo = sender as ComboBox;
+            if (combo == null) return;
+
+            var rowData = combo.DataContext as BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID.PARAM_OUTDATA;
+            if (rowData == null) return;
+
+            if (combo.SelectedItem != null)
+            {
+                rowData.EQPAINFO = combo.SelectedItem.ToString();
+            }
+        }
+        private void dtpTime_DateTimeChanged(object sender, EventArgs e)
+        {
+            var dtp = sender as C1.Silverlight.DateTimeEditors.C1DateTimePicker;
+            if (dtp == null || dtp.DateTime == null) return;
+
+            var rowData = dtp.DataContext as BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID.PARAM_OUTDATA;
+            if (rowData == null) return;
+
+            rowData.EQPAINFO = dtp.DateTime.Value.ToString("yyyy-MM-dd");
+        }
+
 
     }
     public class DataTypeToVisibilityConverter : System.Windows.Data.IValueConverter
@@ -103,9 +127,9 @@ namespace 보령
             string state = value as string;
             if (state == "Y")
             {
-                return new SolidColorBrush(Colors.Red); // Y일 때 빨간색
+                return new SolidColorBrush(Color.FromArgb(255, 100, 220, 100)); 
             }
-            return new SolidColorBrush(Color.FromArgb(255, 211, 211, 211)); // N일 때 회색 (LightGray)
+            return new SolidColorBrush(Color.FromArgb(255, 211, 211, 211)); 
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

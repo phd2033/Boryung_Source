@@ -519,23 +519,68 @@ namespace 보령
                             _BR_PHR_UPD_EquipmentAction_Multi.STATUSDATAs.Clear();
                             _BR_PHR_UPD_EquipmentAction_Multi.PARAMDATAs.Clear();
 
+                            var authHelper = new iPharmAuthCommandHelper();
 
+                            authHelper.InitializeAsync(Common.enumCertificationType.Function, Common.enumAccessType.Create, "OM_ProductionOrder_SUI");
 
+                            if (await authHelper.ClickAsync(
+                                Common.enumCertificationType.Function,
+                                Common.enumAccessType.Create,
+                                "설비액션기록수행",
+                                "설비액션기록수행",
+                                false,
+                                "OM_ProductionOrder_SUI",
+                                "", null, null) == false)
+                            {
+                                throw new Exception(string.Format("서명이 완료되지 않았습니다."));
+                            }
 
                             foreach (var eqpt in EqptList)
                             {
+                                var matchingActions = _BR_PHR_SEL_EquipmentClassAction_Multi.OUTDATAs.Where(item => item.EQPTID == eqpt.EQPTID);
+
+                                foreach (var item in matchingActions)
+                                {
+                                    _BR_PHR_UPD_EquipmentAction_Multi.INDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.INDATA
+                                    {
+                                        EQPTID = eqpt.EQPTID,
+                                        LANGID = "ko-KR",
+                                        USER = AuthRepositoryViewModel.Instance.ConfirmedGuid,
+                                        EQACID = item.EQACID,
+                                    });
+                                }
+
                                 foreach (var item in _BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID.STATUS_OUTDATAs)
                                 {
                                     _BR_PHR_UPD_EquipmentAction_Multi.STATUSDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.STATUSDATA
                                     {
-                                        
+                                        EQPTID = eqpt.EQPTID,
+                                        EQACID = item.EQACID,
+                                        EQSTID = item.EQSTID
+                                    });
+                                }
+
+                                foreach(var item in _BR_PHR_SEL_EquipmentActionStatusWithParameter_EQCLID.PARAM_OUTDATAs)
+                                {
+                                    var paVal = item.EQPAINFO;
+                                    _BR_PHR_UPD_EquipmentAction_Multi.PARAMDATAs.Add(new BR_PHR_UPD_EquipmentAction_Multi.PARAMDATA
+                                    {
+                                        EQPTID = eqpt.EQPTID,
+                                        EQSTID = item.EQSTID,
+                                        EQPAID = item.EQPAID,
+                                        PAVAL = paVal
                                     });
                                 }
                             }
 
+                            if (await _BR_PHR_UPD_EquipmentAction_Multi.Execute())
+                            {
+                                OnMessage("실행 완료되었습니다.");
+                            }
 
 
-                            CommandResults["SelectionChangedCommand"] = false;
+
+                                CommandResults["SelectionChangedCommand"] = false;
                             CommandCanExecutes["SelectionChangedCommand"] = false;
 
 

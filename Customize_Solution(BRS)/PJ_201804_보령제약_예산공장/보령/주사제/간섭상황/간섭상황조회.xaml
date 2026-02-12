@@ -17,7 +17,7 @@
     xmlns:vsm="clr-namespace:System.Windows;assembly=System.Windows"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:ezmes="clr-namespace:LGCNS.EZMES.ControlsLib;assembly=LGCNS.EZMES.ControlsLib"
-    Width="1000" Height="630"
+    Width="1200" Height="700"
     Title="간섭상황조회" x:Name="Main">
     <ShopFloorUI:ShopFloorCustomWindow.Resources>
         <local:간섭상황조회ViewModel x:Name="VM"/>
@@ -30,12 +30,26 @@
         </i:Interaction.Triggers>
         <Grid x:Name="LayoutRoot">
             <Grid.RowDefinitions>
-                <RowDefinition Height="530"/>
+                <RowDefinition Height="600"/>
                 <RowDefinition Height="70"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Border x:Name="PrintArea" Grid.Row="0" BorderBrush="#FFD6D4D4" BorderThickness="1">
                 <Grid Grid.Row="0" x:Name="MainSection">
+                    <c1:C1DataGrid x:Name="MainDataGrid" HeadersVisibility="Column"
+                                   AutoGenerateColumns="False" CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False" CanUserResizeRows="False"
+                                   RowHeight="Auto" ColumnHeaderHeight="40" HorizontalAlignment="Center" 
+                                   ItemsSource="{Binding ListInterfer}" Width="1180">
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridTextColumn Header="   간섭번호&#x0a;       No." Binding="{Binding Path=SEQ}" Width="80"  IsReadOnly="True"/>
+                            <c1:DataGridTextColumn Header="                                         간섭내용(Description)" Binding="{Binding Path=SITUATION}" HorizontalAlignment="Center" Width="*" TextWrapping="Wrap"  IsReadOnly="True"/>
+                            <c1:DataGridTextColumn Header="           간섭구분(Category)" Binding="{Binding Path=GUBUN}" HorizontalAlignment="Center" Width="240" TextWrapping="Wrap" IsReadOnly="True"/>
+                            <c1:DataGridTextColumn Header="       최대 간섭횟수&#x0a; MAX Interference no." Binding="{Binding Path=CRITERIA}" HorizontalAlignment="Center" Width="140" TextWrapping="Wrap" IsReadOnly="True"/>
+                            <c1:DataGridTextColumn Header="                  간섭횟수&#x0a;            Interference QTY" Binding="{Binding Path=SUMNO}" HorizontalAlignment="Center" Width="180" />
+                        </c1:C1DataGrid.Columns>
+                    </c1:C1DataGrid>
+                </Grid>
+                <!--<Grid Grid.Row="0" x:Name="MainSection">
                     <sdk:DataGrid x:Name="CheckDataGrid" AutoGenerateColumns="False" CanUserReorderColumns="False"
                                    HeadersVisibility="Column" ItemsSource="{Binding ListInterfer}" Height="524" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto" FontSize="12">
                         <sdk:DataGrid.Columns>
@@ -52,11 +66,11 @@
                             </sdk:DataGridTextColumn>
                         </sdk:DataGrid.Columns>
                     </sdk:DataGrid>
-                </Grid>
+                </Grid>-->
             </Border>
             <Grid Grid.Row="1" x:Name="ButtonSection">
-                <Button x:Name="btnConfirm" Content="  기록&#x0a;Record" Command="{Binding ConfirmCommandAsync}" Margin="340,11,528,11"/>
-                <Button x:Name="btnCancel" Content="  취소&#x0a;Cancel"  Click="btnCancel_Click" Margin="528,11,340,11" RenderTransformOrigin="1.28,0.142"/>
+                <Button x:Name="btnConfirm" Content="  기록&#x0a;Record" Command="{Binding ConfirmCommandAsync}" Margin="438,10,608,11" />
+                <Button x:Name="btnCancel" Content="  취소&#x0a;Cancel"  Click="btnCancel_Click" Margin="646,10,400,11" />
             </Grid>
         </Grid>
     </toolkit:BusyIndicator>
